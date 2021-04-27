@@ -16,9 +16,28 @@ services:
 
     app:
         container_name: otus-php
-        image: php:7-fpm
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
         volumes:
             - ./html:/var/www/html
+        networks:
+            - otus-network
+
+    redis:
+        container_name: otus-redis
+        image: redis
+        restart: always
+        ports:
+            - "6380:6379"
+        networks:
+            - otus-network
+
+    memcached:
+        container_name: otus-memcached
+        image: memcached:latest
+        ports:
+            - "11212:11211"
         networks:
             - otus-network
 
