@@ -1,0 +1,19 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+folders:
+    - map: /media/ruslan/3609db24-2422-4b58-8cb6-3984ebe24467/htdocs/otus_php/html
+      to: /home/vagrant/code
+
+sites:
+    - map: website.local
+      to: /home/vagrant/code
+
+ports:
+    - send: 8082
+      to: 80
+    - send: 9443
+      to: 443
