@@ -1,0 +1,16 @@
+FROM php:7.4.2-fpm-alpine as base
+
+RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
+    echo /etc/apk/respositories && \
+    apk update && \
+    apk add --no-cache bash wget
+
+RUN set -ex && apk add --no-cache postgresql-dev freetype-dev libjpeg-turbo-dev libwebp-dev libpng-dev libxpm-dev libzip-dev icu-dev \
+    ffmpeg supervisor libxml2-dev oniguruma-dev $PHPIZE_DEPS \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install soap pdo pdo_pgsql bcmath mbstring gd sockets pcntl \
+    zip iconv intl xml json dom zip opcache \
+    && pecl install redis && docker-php-ext-enable redis \
+    && rm -rf /var/cache/apk/*
+
+CMD php-fpm
