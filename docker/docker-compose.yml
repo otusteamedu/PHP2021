@@ -1,0 +1,69 @@
+version: '3.9'
+
+networks:
+  default:
+
+volumes:
+  postgres-data:
+    driver: local
+
+services:
+  fpm:
+    container_name: otus_fpm
+    build:
+      context: ./local
+      dockerfile: Dockerfile_fpm
+    working_dir: /app
+    volumes:
+      - ../site:/app
+    networks:
+      - default
+    depends_on:
+      - postgres
+
+  nginx:
+    container_name: otus_nginx
+    build:
+      context: ./local
+      dockerfile: Dockerfile_nginx
+    ports:
+      - 28591:80
+    restart: always
+    networks:
+      - default
+    depends_on:
+      - fpm
+
+  postgres:
+    image: postgres
+    networks:
+      - default
+    restart: always
+    container_name: otus_db
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 9439:5432
+
+  redis:
+    container_name: otus_redis
+    image: redis:alpine
+    restart: always
+
+  memcached:
+    container_name: otus_memcached
+    image: memcached:latest
+    entrypoint:
+      - memcached
+      - -m 64
+    ports:
+      - "11211:11211"
+    expose:
+      - "11211"
+    depends_on:
+      - fpm
+
