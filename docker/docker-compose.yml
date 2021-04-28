@@ -39,7 +39,7 @@ services:
     networks:
       - default
     restart: always
-    container_name: haier_db
+    container_name: otus_db
     environment:
       POSTGRES_DB: app
       POSTGRES_USER: root
