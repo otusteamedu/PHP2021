@@ -1,0 +1,46 @@
+version: '3'
+services:
+    nginx:
+        container_name: otus-nginx
+        build:
+            context: ./docker/nginx
+            dockerfile: Dockerfile
+        ports:
+            - "8081:80"
+            - "8443:443"
+        networks:
+            - otus-network
+        restart: always
+        volumes:
+            - ./html:/var/www/html
+
+    app:
+        container_name: otus-php
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+        volumes:
+            - ./html:/var/www/html
+        networks:
+            - otus-network
+
+    redis:
+        container_name: otus-redis
+        image: redis
+        restart: always
+        ports:
+            - "6380:6379"
+        networks:
+            - otus-network
+
+    memcached:
+        container_name: otus-memcached
+        image: memcached:latest
+        ports:
+            - "11212:11211"
+        networks:
+            - otus-network
+
+networks:
+    otus-network:
+        driver: bridge
