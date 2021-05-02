@@ -1,3 +1,4 @@
 .env
 .idea/
 mysql/
+nginx/certs
