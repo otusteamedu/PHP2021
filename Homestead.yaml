@@ -1,0 +1,33 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: otus_virtual
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: /home/evgeny/Рабочий стол/Уроки OTUS/Домашние задания/PHP2021/code
+      to: /home/vagrant/code
+
+sites:
+    - map: mysite.local
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports: 
+    - send: 80
+      to: 80
+    -send: 443
+      to: 443
