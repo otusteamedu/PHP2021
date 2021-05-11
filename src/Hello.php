@@ -4,7 +4,7 @@
 
     class Hello {
 
-        public function Say() {
+        public function Say():void {
             echo "Hello";
         }
 
