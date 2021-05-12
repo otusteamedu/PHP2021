@@ -1,0 +1,20 @@
+{
+    "name": "alligro/ohw3",
+    "description": "Otus HomeWork3 package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleksii Ziukov",
+            "email": "otus@roundx.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ohw3\\": "src/"
+        }
+    }
+}
