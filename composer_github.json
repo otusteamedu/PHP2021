@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/doron-alex/Sample"
+        }
+    ],
+    "require": {
+        "adoronichev/sample": "^1.0"
+    }
+}
