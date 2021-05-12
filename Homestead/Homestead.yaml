@@ -1,0 +1,27 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+folders:
+    - map: C:\Users\ahtir\OneDrive\Desktop\hw\hw1\code
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+   - send: 80
+     to: 80
+   - send: 443
+     to: 443
