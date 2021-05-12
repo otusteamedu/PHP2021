@@ -1,0 +1,5 @@
+.idea
+/Docker/.env
+/Docker/fpm/php.ini
+/Docker/redis/data/*
+/Docker/dbdata/*
