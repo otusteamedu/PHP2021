@@ -1,0 +1,4 @@
+nginx/certs/
+mysql/
+.idea/
+.env
