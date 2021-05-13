@@ -1,0 +1,22 @@
+{
+    "name": "sharafetdinov/composer-package",
+    "description": "Демонстрационный пакет в рамках третьего домашнего задания",
+    "authors": [
+        {
+            "name": "homework3",
+            "email": "evgn.ekb@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "sharafetdinov\\Homework3\\": "src/"
+        }
+    }
+}
