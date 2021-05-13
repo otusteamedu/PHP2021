@@ -1,22 +1,14 @@
 {
-    "name": "sharafetdinov/composer-package",
-    "description": "Демонстрационный пакет в рамках третьего домашнего задания",
+    "name": "evgeny/php2021",
+    "description": "Description",
     "authors": [
         {
-            "name": "homework3",
-            "email": "evgn.ekb@gmail.com"
+            "name": "evgn",
+            "email": "evgn.ekb@culturavision.com"
         }
     ],
     "require": {
-        "php": ">=7.2.0"
-    },
-    "require-dev": {
-
-    },
-    "minimum-stability": "dev",
-    "autoload": {
-        "psr-4": {
-            "sharafetdinov\\Homework3\\": "src/"
-        }
+        "php": ">=7.2.0",
+        "sharafetdinov/composer-package-otus-hw3": "dev-main"
     }
 }
