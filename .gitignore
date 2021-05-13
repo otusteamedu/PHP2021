@@ -2,3 +2,5 @@
 .idea/
 mysql/
 nginx/certs
+data/sites/vendor/
+data/sites/composer.lock
