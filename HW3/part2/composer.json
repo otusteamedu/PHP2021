@@ -1,0 +1,15 @@
+{
+    "name": "natallia/test-my-package",
+    "description": "test requiring my newly submitted package",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Natallia Kazarynava",
+            "email": "Natallia_Kazarynava@epam.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "nkazarynava/composer-test": "dev-main"
+    }
+}
