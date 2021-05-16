@@ -1,6 +1,6 @@
 {
     "name": "evgeny/php2021",
-    "description": "Description",
+    "description": "В этом json приводится пример подключения моего пакета",
     "authors": [
         {
             "name": "evgn",
@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.3.0",
         "sharafetdinov/composer-package-otus-hw3": "dev-main"
     }
 }
