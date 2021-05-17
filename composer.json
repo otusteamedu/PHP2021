@@ -1,0 +1,16 @@
+{
+  "name": "rom4ik/otus",
+  "description": "first package",
+  "authors": [
+    {
+      "name": "Roman",
+      "email": "rom4ik.kov@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "app\\": "app/"
+    }
+  },
+  "require": {}
+}
