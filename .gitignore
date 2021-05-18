@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 nginx/certs/
 mysql/
 .idea/
 .env
 data/sites/vendor/
 data/sites/composer.lock
+=======
+.env
+.idea/
+mysql/
+nginx/certs
+>>>>>>> SGaponov/hw1
