@@ -5,9 +5,12 @@ mysql/
 .env
 data/sites/vendor/
 data/sites/composer.lock
+<<<<<<< HEAD
 =======
 .env
 .idea/
 mysql/
 nginx/certs
 >>>>>>> SGaponov/hw1
+=======
+>>>>>>> SGaponov/hw3

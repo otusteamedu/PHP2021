@@ -1,0 +1,23 @@
+{
+  "name": "sgaponov/mysite",
+  "description": "Учебный проект",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Gaponov Stanislav",
+      "email": "33uv0wsqa@relay.firefox.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "mysite\\": "mysite.local/"
+    }
+  },
+  "require": {
+    "sgaponov/hello-world": "1.0.0",
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}
