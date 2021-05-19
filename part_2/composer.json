@@ -1,0 +1,15 @@
+{
+  "name": "rom4ik/first-package",
+  "description": "My first package",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Roman",
+      "email": "rom4ik.kov@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "rom4ik_otus/composer": "dev-main"
+  }
+}
