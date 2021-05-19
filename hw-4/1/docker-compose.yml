@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./docker/dockerfiles
+      dockerfile: Dockerfile-phpfpm
+      args:
+        UID: "3000"
+    container_name: ${APP_NAME}-phpfpm
+    volumes:
+      - ./project:/var/www/html
+      - ./docker/sock:/sock
+      - ./docker/conf/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+
+  nginx:
+    build:
+      context: ./docker/dockerfiles
+      dockerfile: Dockerfile-nginx
+      args:
+        UID: "3000"
+    container_name: ${APP_NAME}-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./project:/var/www/html
+      - ./docker/sock:/sock
+      - ./docker/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/conf/default.conf:/etc/nginx/conf.d/default.conf
