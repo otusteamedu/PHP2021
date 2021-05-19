@@ -6,15 +6,10 @@ class Messages{
 
     function __construct() {
         $this->message = $_POST['message'];
-        
-        if(self::validEmptyMessage($this->message) && self::validCloseBrackets($this->message)){
-            header("HTTP/1.0 200 Bad Request");
-        }else{
-            header("HTTP/1.0 400 Bad Request"); 
-        }
+        self::validater($this->message);
     }
 
-    static function validEmptyMessage($msg){
+    static function validEmptyMessage(String $msg) : bool{
         if(strlen($msg) == 0){
             return false;
         }else{
@@ -22,18 +17,51 @@ class Messages{
         }
     }
 
-    static function validCloseBrackets($msg){
-        $br1 = substr_count($msg,'(');
-        $br2 = substr_count($msg , ')');
+    static function isBracketsBalanced (String $input) : bool {
+        $costs = [
+            '(' =>  10,
+             ')' => -10
+           ];
+           $brackets = str_split ($input);
+           $opened = [- $costs [end ($brackets)]];
+           $balance = 0;
+         
+           while (($bracket = array_pop ($brackets)) !== NULL) {
+         
+             $cost = $costs [$bracket];
+             $balance += $cost;
+         
+             if ($cost < 0)
+             
+               $opened [] = - $cost;
+               
+             else if ($cost == end ($opened))
+             
+               array_pop ($opened);
+         
+             else
+             
+               return FALSE;
+           }
+         
+           return $balance == 0;
+        
+      }
 
-        if($br1 == $br2){
-            return true;
-        }else{
-            return false;
+    static function validater(String $msg){
+        try {
+         
+            $validEmptyMessage = self::validEmptyMessage($msg);
+            $validCloseBrackets = self::isBracketsBalanced($msg);
+            
+            if(!$validEmptyMessage || !$validCloseBrackets){
+                throw new Exception('Error');
+            }            
+
+        } catch (Exception $e) {
+            header("HTTP/1.0 400 Bad Request"); 
         }
     }
-
-
 
 }
 

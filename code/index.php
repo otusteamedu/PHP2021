@@ -45,6 +45,9 @@
                 data: { 
                     message: message
                 },
+                success: function ( msg ) { 
+                   
+                },
                 statusCode: { 
                     200: function(){ 
                         $('#errorAlert').fadeOut();
