@@ -4,11 +4,11 @@
 
 ### Команды для установки пакета
 
-####composer install
+###composer install
 ```
-composer require rom4ik_otus/composer
+composer require rom4ik/first-package-composer
 ```
-####git clone
+###git clone
 ```
 git clone https://github.com/Rom4ik4/first-package.git
 ```
