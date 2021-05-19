@@ -6,29 +6,29 @@ class OpenCloseBracketsValidator extends BaseValidator
 {
     public function validate()
     {
-        $s = str_split($this->field);
-        $left_skob = [];
-        $right_skob = [];
-        foreach ($s as $key => $skob) {
-            if ($skob == "(") {
-                $left_skob[$key] = $skob;
+        $set_brackets = str_split($this->field);
+        $left_bracket = [];
+        $right_bracket = [];
+        foreach ($set_brackets as $key => $bracket) {
+            if ($bracket == "(") {
+                $left_bracket[$key] = $bracket;
             } else {
-                $right_skob[$key] = $skob;
+                $right_bracket[$key] = $bracket;
             }
         }
-        foreach ($left_skob as $key_l_s => $value_l_s) {
-            foreach ($right_skob as $key_r_s => $value_r_s) {
-                if ($key_r_s < $key_l_s) {
+        foreach ($left_bracket as $key_l_b => $value_l_b) {
+            foreach ($right_bracket as $key_r_b => $value_r_b) {
+                if ($key_r_b < $key_l_b) {
                     return false;
                 } else {
-                    unset($left_skob[$key_l_s]);
-                    unset($right_skob[$key_r_s]);
+                    unset($left_bracket[$key_l_b]);
+                    unset($right_bracket[$key_r_b]);
                     break;
                 }
             }
         }
 
-        if (empty($left_skob) && empty($right_skob)) {
+        if (empty($left_bracket) && empty($right_bracket)) {
             return true;
         }
 

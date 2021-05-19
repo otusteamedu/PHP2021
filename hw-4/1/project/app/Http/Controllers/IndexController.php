@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormRequest;
-use App\Http\Response\Response;
 
 class IndexController
 {
@@ -16,10 +15,6 @@ class IndexController
 
     public function index()
     {
-        if ($this->formRequest->rules()) {
-            (new Response())->setStatus(200);
-        } else {
-            (new Response())->setStatus(400);
-        }
+        $this->formRequest->rules();
     }
 }

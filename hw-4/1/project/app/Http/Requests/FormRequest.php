@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use App\Http\Requests\Contracts\FormRequestContract;
 use App\Http\Validators\NotNullValidator;
 use App\Http\Validators\OpenCloseBracketsValidator;
+use App\Http\Exceptions\ValidationException;
+use App\Http\Response\Response;
 
 class FormRequest implements FormRequestContract
 {
@@ -19,15 +21,16 @@ class FormRequest implements FormRequestContract
     {
         $field = $this->request->post('string');
         $field = preg_replace("/[^()]/u","", $field);
+        try {
+            if (!(new NotNullValidator($field))->validate()) {
+                throw new ValidationException();
+            }
 
-        if (!(new NotNullValidator($field))->validate()) {
-            return false;
+            if (!(new OpenCloseBracketsValidator($field))->validate()) {
+                throw new ValidationException();
+            }
+        } catch (ValidationException $e) {
+            (new Response())->setStatus(400);
         }
-
-        if (!(new OpenCloseBracketsValidator($field))->validate()) {
-            return false;
-        }
-
-        return true;
     }
 }
