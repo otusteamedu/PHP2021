@@ -1,0 +1,67 @@
+version: '3'
+
+volumes:
+  mysql_db:
+    driver: local
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    container_name: app_redis
+    ports:
+      - "6382:6379"
+    volumes:
+      - ./redis_db/redis:/data
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: app_memcached
+    ports:
+      - '11211:11211'
+    networks:
+      - app-network
+
+  db:
+    image: mariadb:10.5
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./mysql_db:/var/lib/mysql
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

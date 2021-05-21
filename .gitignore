@@ -1,1 +1,4 @@
+.env
 .idea
+mysql_db
+redis_db
