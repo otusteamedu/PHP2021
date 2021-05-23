@@ -1,0 +1,19 @@
+{
+    "name": "sharafetdinov/composer-homeworks-otus-hw4-1",
+    "description": "Домашнее задание 4 часть 1",
+    "authors": [
+        {
+            "name": "homework4",
+            "email": "evgn.ekb@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "App\\": "App/"
+        }
+    }
+}
