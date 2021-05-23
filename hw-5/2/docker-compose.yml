@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: "3000"
+    container_name: ${APP_NAME}-nginx
+    ports:
+      - ${NGINX_PORT}:80
+    depends_on:
+      - app_1
+      - app_2
+    volumes:
+      - ./project:/var/www/html
+      - ./docker/sock:/sock
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/nodes:/etc/nginx/conf.d/nodes
+
+  app_1:
+    build:
+      context: ./docker/php
+      args:
+        UID: "3000"
+        SOCKET: "app_1"
+    container_name: ${APP_NAME}-phpfpm-1
+    volumes:
+      - ./project:/var/www/html
+      - ./docker/sock:/sock
+
+  app_2:
+    build:
+      context: ./docker/php
+      args:
+        UID: "3000"
+        SOCKET: "app_2"
+    container_name: ${APP_NAME}-phpfpm-2
+    volumes:
+      - ./project:/var/www/html
+      - ./docker/sock:/sock
+
+  memchached_app_1:
+    image: memcached:latest
+    container_name: ${APP_NAME}-memcached-app-1
+    ports:
+      - "11311:11211"
+    networks:
+      - memcached-network
+
+  memchached_app_2:
+    image: memcached:latest
+    container_name: ${APP_NAME}-memcached-app-2
+    ports:
+      - "11312:11211"
+    networks:
+      - memcached-network
+
+networks:
+  memcached-network:
+    driver: bridge
