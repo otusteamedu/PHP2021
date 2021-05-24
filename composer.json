@@ -1,0 +1,5 @@
+{
+    "require": {
+        "aeg85/parentheses-validator": "^1.0"
+    }
+}
