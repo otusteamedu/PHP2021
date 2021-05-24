@@ -1,4 +1,4 @@
-<?
+<?php
 
 require_once('../vendor/autoload.php');
 
@@ -9,5 +9,5 @@ try {
     $app->run();
 }
 catch(Exception $e){
-        
+    echo $e->getMessage();
 }

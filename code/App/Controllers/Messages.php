@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace App\Controllers;
 
@@ -16,13 +16,13 @@ class Messages extends Controller
         
         $this->message = $_POST['message'];
         
-        $result = self::validator($this->message);
+        $result = $this->validator($this->message);
 
         View::renderJson(['result' => $result]);
     }
     
 
-    static function validEmptyMessage(String $msg) : bool{
+    public function validEmptyMessage(String $msg) : bool{
         if(strlen($msg) == 0){
             return false;
         }else{
@@ -30,7 +30,7 @@ class Messages extends Controller
         }
     }
 
-    static function isBracketsBalanced2($input){
+    public function isBracketsBalanced2($input){
         $input = preg_replace("/[^() ]/u","", $input);
         $repl = str_replace([")"],["(r"], $input);
         $result = preg_replace('/([\[({])(?R)*\1r/', "", $repl);
@@ -40,11 +40,11 @@ class Messages extends Controller
 
   
 
-    static function validator(String $msg){
+    public function validator(String $msg){
         try {
          
-            $validEmptyMessage = self::validEmptyMessage($msg);
-            $validCloseBrackets = self::isBracketsBalanced2($msg);
+            $validEmptyMessage = $this->validEmptyMessage($msg);
+            $validCloseBrackets = $this->isBracketsBalanced2($msg);
             
             if(!$validEmptyMessage){
                 throw new Exception('Строка не должна быть пустой');
