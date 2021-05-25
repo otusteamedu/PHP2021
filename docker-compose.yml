@@ -31,12 +31,12 @@ services:
       - app-network
 
   redis:
-    image: redis
-    container_name: app_redis
+    image: redis:latest
     ports:
-      - "6382:6379"
+      - "6379:6379"
+    container_name: redis
     volumes:
-      - ./redis_db/redis:/data
+      - ./redis_db/data:/var/lib/redis
     networks:
       - app-network
 

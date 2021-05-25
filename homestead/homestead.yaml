@@ -1,0 +1,27 @@
+---
+memory: 2048
+cpus: 4
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+  - ~/.ssh/id_rsa
+
+folders:
+  - map: ~/otus/hw1/homestead
+    to: /home/vagrant/code
+
+sites:
+  - map: application.local
+    to: /home/vagrant/code/public
+
+databases:
+  - homestead
+
+features:
+  - mariadb: true
+
+ports:
+  - send: 8090
+    to: 80
