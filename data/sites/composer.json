@@ -1,0 +1,23 @@
+{
+  "name": "sgaponov/hw5",
+  "description": "Учебный проект",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Gaponov Stanislav",
+      "email": "33uv0wsqa@relay.firefox.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MySite\\": "./src/MySite/",
+      "Tests\\": "./tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}
