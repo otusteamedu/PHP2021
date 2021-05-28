@@ -14,9 +14,9 @@ class App
 {
 
     /**
-     *
+     * single entry point into application
      */
-    public function run()
+    public function run(): void
     {
         $request = new Request();
         $response = (new MailChecker())->run($request);
