@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  fpm_backend1:
+    build:
+      context: ./fpm_backend1
+      dockerfile: Dockerfile
+    image: balancer/php
+    container_name: fpm_backend1
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+  nginx_backend1:
+    build:
+      context: ./nginx_backend1
+      dockerfile: Dockerfile
+    image: balancer/nginx_backend1
+    container_name: backend1.application.local
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+  fpm_backend2:
+    build:
+      context: ./fpm_backend2
+      dockerfile: Dockerfile
+    image: balancer/php
+    container_name: fpm_backend2
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+  nginx_backend2:
+    build:
+      context: ./nginx_backend2
+      dockerfile: Dockerfile
+    image: balancer/nginx_backend2
+    container_name: backend2.application.local
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+  nginx_balancer:
+    build:
+      context: ./nginx_balancer
+      dockerfile: Dockerfile
+    image: balancer/nginx_balancer
+    container_name: nginx_balancer
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
