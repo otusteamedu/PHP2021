@@ -1,0 +1,17 @@
+{
+    "name": "repetitor202/stable-package-hello-world",
+    "description": "stable package - hello world)",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Viktar Akulenka",
+            "email": "repetitor202@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "HelloWorld\\": "src/"
+        }
+    }
+}
