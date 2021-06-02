@@ -1,0 +1,28 @@
+version: "3.0"
+
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: docker/app.dockerfile
+    image: otus/app
+    restart: always
+    volumes:
+      - ../src:/app
+    networks:
+      - otus-network
+
+  client:
+    build:
+      context: ..
+      dockerfile: docker/app.dockerfile
+    image: otus/app
+    restart: always
+    volumes:
+      - ../src:/app
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge
