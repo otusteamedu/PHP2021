@@ -1,0 +1,40 @@
+---
+ip: "192.168.10.16"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: application-homestead-otus
+
+#authorize: ~/.ssh/id_rsa.pub
+#
+#keys:
+#    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/otus/PHP2021/hw-1-environment/app
+      to: /home/vagrant/code
+
+sites:
+    - map: application-homestead.local
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+#services:
+#    - enabled:
+#        - "postgresql@12-main"
+#    - disabled:
+#        - "postgresql@11-main"
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp

@@ -1,0 +1,52 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: ./$APP_SCRIPTOR
+      args:
+        UID: $UID
+        USERNAME: $USER_NAME
+    image: $BASIC_NAME/$APP_SCRIPTOR
+    working_dir: /app
+    volumes:
+      - $APP_PATH:/app
+      - $STORE_PATH/sock:/sock
+
+  nginx:
+    build:
+      context: ./$NGINX_TYPE
+      args:
+        UID: $UID
+        USERNAME: $USER_NAME
+    image: $BASIC_NAME/$NGINX_TYPE
+    working_dir: /app
+    volumes:
+      - $APP_PATH:/app
+      - $STORE_PATH/sock:/sock
+      - $STORE_PATH/logs/nginx:/var/log/nginx
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.2"
+
+  redis:
+    build: ./redis
+    volumes:
+      - $STORE_PATH/data/redis:/data
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.3"
+
+  memcached:
+    build: ./memcached
+    volumes:
+      - $STORE_PATH/data/memcached:/var/lib/memcached
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.4"
+
+networks:
+  app-network:
+    ipam:
+      config:
+        - subnet: "${NETWORK_ID}.0/24"

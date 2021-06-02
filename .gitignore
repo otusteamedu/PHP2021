@@ -1,0 +1,5 @@
+.idea/
+store/
+vendor/
+.env
+Homestead.yaml
