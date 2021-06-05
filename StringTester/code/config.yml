@@ -1,0 +1,12 @@
+defaultController: "AppCore\\App\\Controllers\\DefaultController"
+defaultAction: "index"
+notFoundAction: "notFound"
+routes:
+  test_string:
+    path: "/testString"
+    controller: "App\\StringTester\\Controllers\\StringTesterController"
+    action: "test"
+  test_another:
+    path: "/anotherAction"
+    controller: "App\\StringTester\\Controllers\\StringTesterController"
+    action: "another"
