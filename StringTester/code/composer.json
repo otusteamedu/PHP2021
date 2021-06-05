@@ -1,0 +1,15 @@
+{
+    "name": "natallia/lesson4",
+    "description": "Application for simple tasks",
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/http-foundation": "5.4.x-dev",
+        "symfony/yaml": "5.4.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "AppCore\\": "app/",
+            "App\\": "features/"
+        }
+    }
+}

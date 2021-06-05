@@ -1,0 +1,28 @@
+version: '3.6'
+
+services:
+  server:
+    container_name: ${PROJECT_NAME}_server
+    image: ${PROJECT_NAME}_server
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app-network
+
+  client:
+    container_name: ${PROJECT_NAME}_client
+    image: ${PROJECT_NAME}_client
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
