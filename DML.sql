@@ -45,7 +45,7 @@ CREATE TABLE `cashiers` (
 
 -- Билеты
 CREATE TABLE `tickets` (
-	`id` INT(3) NOT NULL AUTO_INCREMENT,
+	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`date_of_sale` DATE,
 	`cashier_id` INT(3),
 	`session_id` INT(5),
