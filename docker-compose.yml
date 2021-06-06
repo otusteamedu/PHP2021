@@ -1,0 +1,96 @@
+version: '3'
+
+services:
+    
+    balancer:
+        build:
+            context: ./nginx/balancer
+            dockerfile: Dockerfile
+        image: myapp/nginx
+        container_name: ${PROJECT_NAME}-balancer
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./code:/var/www/html/
+            
+        networks:
+            - app-network
+        
+    server1:
+        build:
+            context: ./nginx/server1
+            dockerfile: Dockerfile
+        image: myapp/nginx
+        container_name: ${PROJECT_NAME}-webserver1
+        ports:
+            - "81:81"
+            - "444:444"
+        volumes:
+            - ./code/app1:/var/www/html/app1/
+            
+        networks:
+            - app-network
+        links: 
+            - app1
+    
+    server2:
+        build:
+            context: ./nginx/server2
+            dockerfile: Dockerfile
+        image: myapp/nginx
+        container_name: ${PROJECT_NAME}-webserver2
+        ports:
+            - "82:82"
+            - "445:445"
+        volumes:
+            - ./code/app2:/var/www/html/app2/
+            
+        networks:
+            - app-network
+        links: 
+            - app2
+
+            
+    app1:
+        build:
+            context: ./fpm
+            dockerfile: Dockerfile
+        image: myapp/php 
+        container_name: ${PROJECT_NAME}-app1
+        volumes:
+            - ./code/app1/:/var/www/html/app1/
+        networks:
+            - app-network
+        links:
+            - memcached1
+
+    app2:
+        build:
+            context: ./fpm
+            dockerfile: Dockerfile
+        image: myapp/php 
+        container_name: ${PROJECT_NAME}-app2
+        volumes:
+            - ./code/app2/:/var/www/html/app2/
+        networks:
+            - app-network
+        links: 
+            - memcached2
+    
+
+    memcached1:
+        container_name: ${PROJECT_NAME}-memcached1 
+        image: memcached:latest
+        ports:
+            - "11211:11211"
+
+    memcached2:
+        container_name: ${PROJECT_NAME}-memcached2 
+        image: memcached:latest
+        ports:
+            - "11222:11222"
+
+networks:
+  app-network:
+    driver: bridge
