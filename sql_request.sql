@@ -14,9 +14,10 @@ order by movie_sum desc;
 
 
 --SQL для нахождения самого прибыльного фильма №2
-SELECT movies.name, sum(price)
+SELECT movies.name, sum(price) as movie_sum
 FROM tickets
          left join orders on tickets.order_id = orders.id
          left join seances on orders.seance_id = seances.id
          left join movies on seances.movie_id = movies.id
-group by movies.id;
+group by movies.id
+order by movie_sum desc;
