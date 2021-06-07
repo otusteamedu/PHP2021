@@ -1,0 +1,22 @@
+{
+    "name": "sterligov/chat",
+    "description": "otus homework socket chat",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sterligov Denis",
+            "email": "denis0324@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "ext-sockets": "*",
+        "ext-parallel": "*"
+    }
+}
