@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use App\Http\Handler\Handler;
-use App\Http\Request\RequestFactory;
+use App\Http\Request\Request;
 use App\Validator\BracketsValidator;
 
 class Server
@@ -12,8 +12,7 @@ class Server
     {
         $handler = new Handler(new BracketsValidator());
 
-        $request = RequestFactory::createFromGlobal();
-        $response = $handler->handle($request);
+        $response = $handler->handle(new Request());
 
         foreach ($response->getHeaders() as $name => $value) {
             \header("$name: $value");

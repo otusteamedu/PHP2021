@@ -6,19 +6,13 @@ use App\Http\Interfaces\RequestInterface;
 
 class Request implements RequestInterface
 {
-    public function __construct(
-        private array $parsedBody = [],
-        private array $server = [],
-    ){
-    }
-
     public function getPost(string $name): ?string
     {
-        return $this->parsedBody[$name] ?? null;
+        return $_POST[$name] ?? null;
     }
 
     public function getMethod(): string
     {
-        return $this->server['REQUEST_METHOD'];
+        return $_SERVER['REQUEST_METHOD'];
     }
 }
