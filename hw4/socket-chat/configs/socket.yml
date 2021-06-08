@@ -1,0 +1,2 @@
+socket:
+  addr: "/tmp/chat/chat.sock"

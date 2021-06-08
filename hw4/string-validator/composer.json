@@ -1,0 +1,17 @@
+{
+    "name": "sterligov/string-validator",
+    "description": "otus php homework",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sterligov Denis",
+            "email": "denis0324@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "require": {}
+}
