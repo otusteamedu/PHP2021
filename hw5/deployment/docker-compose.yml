@@ -1,0 +1,61 @@
+version: "3.7"
+
+services:
+  nginx-balancer:
+    image: nginx:1.17
+    ports:
+      - "${APP_PORT}:80"
+    volumes:
+      - "./nginx/balancer.conf:/etc/nginx/conf.d/default.conf"
+      - "./nginx/log/balancer:/var/www/log"
+    depends_on:
+      - nginx-server-1
+      - nginx-server-2
+
+  nginx-server-1:
+    image: nginx:1.17
+    volumes:
+      - "./nginx/site.conf:/etc/nginx/conf.d/default.conf"
+      - "./phpsocket/1:/var/run/php-fpm"
+      - "./nginx/log/1:/var/www/log"
+    depends_on:
+      - php-service-1
+
+  nginx-server-2:
+    image: nginx:1.17
+    volumes:
+      - "./nginx/site.conf:/etc/nginx/conf.d/default.conf"
+      - "./phpsocket/2:/var/run/php-fpm"
+      - "./nginx/log/2:/var/www/log"
+    depends_on:
+      - php-service-2
+
+  php-service-1:
+    build:
+      context: ""
+      dockerfile: php/Dockerfile
+    volumes:
+      - "./../:/var/www/html"
+      - "./../configs/config-1.yml:/etc/config.yml"
+      - "./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf"
+      - "./phpsocket/1:/var/run/php-fpm"
+
+  php-service-2:
+    build:
+      context: ""
+      dockerfile: php/Dockerfile
+    volumes:
+      - "./../:/var/www/html"
+      - "./../configs/config-2.yml:/etc/config.yml"
+      - "./php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf"
+      - "./phpsocket/2:/var/run/php-fpm"
+
+  memcached-service-1:
+    image: bitnami/memcached:1.6.9
+    environment:
+      - MEMCACHED_CACHE_SIZE=128
+
+  memcached-service-2:
+    image: bitnami/memcached:1.6.9
+    environment:
+      - MEMCACHED_CACHE_SIZE=128

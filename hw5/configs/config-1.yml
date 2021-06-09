@@ -1,0 +1,3 @@
+cache:
+  host: memcached-service-1
+  port: 11211
