@@ -36,4 +36,17 @@ FROM tickets
 group by movies.id
 order by movie_sum desc;
 
+
+
+--SQL для нахождения итоговой цены билета
+SELECT order_id, place_id,seances.coef * movies.starting_price * places.coef as total_price
+FROM tickets
+         left join orders on tickets.order_id = orders.id
+         left join seances on orders.seance_id = seances.id
+         left join movies on seances.movie_id = movies.id
+         left join places on places.id = movies.id
+order by total_price
+
+
+
 ```
