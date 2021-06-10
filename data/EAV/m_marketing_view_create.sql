@@ -8,6 +8,8 @@ SELECT
         `movie_attribute_values`.`val_text`,
         `movie_attribute_values`.`val_date`,
         `movie_attribute_values`.`val_int`,
+        `movie_attribute_values`.`val_bool`,
+        `movie_attribute_values`.`val_real`,
         `movie_awards`.`name`,
         ''
     )
