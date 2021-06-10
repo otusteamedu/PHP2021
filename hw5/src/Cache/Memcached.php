@@ -11,7 +11,7 @@ class Memcached implements CacheInterface
     public function __construct(array $config)
     {
         assert(!empty($config['host']), new \InvalidArgumentException('Cache config: empty host'));
-        assert(isset($config['port']), new \InvalidArgumentException('Cache config: need port'));
+        assert(!empty($config['port']), new \InvalidArgumentException('Cache config: need port'));
 
         $this->memcached = new \Memcached();
         $this->memcached->addServer($config['host'], $config['port']);
