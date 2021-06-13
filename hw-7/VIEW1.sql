@@ -5,7 +5,8 @@ CREATE OR REPLACE VIEW service AS (
 		CASE
 			WHEN attribute_values.value_date = CURRENT_DATE THEN attributes.name
 		END, ', ') as today,
-		string_agg(CASE
+		string_agg(
+		CASE
 			WHEN attribute_values.value_date >= CURRENT_DATE+20 THEN attributes.name
 		END, ', ') as in20day
 	FROM films
