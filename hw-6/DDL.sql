@@ -40,15 +40,6 @@ CREATE TABLE IF NOT EXISTS halls_sectors (
 	CONSTRAINT hall_sector_sector_id_fk FOREIGN KEY (sector_id) REFERENCES sectors(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS prices (
-	session_id INTEGER NOT NULL,
-	hall_sector_id INTEGER NOT NULL,
-	price MONEY NOT NULL,
-	PRIMARY KEY (session_id, hall_sector_id),
-	CONSTRAINT price_session_fk FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT price_hall_sector_id_fk FOREIGN KEY (hall_sector_id) REFERENCES halls_sectors(id) ON DELETE RESTRICT ON UPDATE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS halls_sectors_places (
 	id SERIAL NOT NULL,
 	hall_sector_id INTEGER NOT NULL,
@@ -64,6 +55,7 @@ CREATE TABLE IF NOT EXISTS tickets (
 	date DATE NOT NULL,
 	time TIME WITHOUT TIME ZONE NOT NULL,
 	client VARCHAR(255) NOT NULL,
+	price MONEY NOT NULL,
 	PRIMARY KEY (session_id, hall_sector_place_id),
 	CONSTRAINT ticket_session_id_fk FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT ticket_hall_sector_place_id_fk FOREIGN KEY (hall_sector_place_id) REFERENCES halls_sectors_places(id) ON DELETE RESTRICT ON UPDATE CASCADE
