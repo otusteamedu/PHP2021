@@ -29,9 +29,11 @@ CREATE TABLE IF NOT EXISTS attribute_values (
 	film_id INTEGER NOT NULL,
 	value_text TEXT,
 	value_date DATE,
-	value_numeric NUMERIC,
+	value_money MONEY,
 	value_int INTEGER,
 	value_bool BOOLEAN,
+	value_float FLOAT8,
+	value_time TIMESTAMP WITHOUT TIME ZONE,
 	PRIMARY KEY (id),
 	CONSTRAINT attribute_value_attribute_id_fk FOREIGN KEY (attribute_id) REFERENCES attributes(id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT attribute_value_film_id_fk FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE RESTRICT ON UPDATE CASCADE

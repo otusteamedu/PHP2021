@@ -6,9 +6,11 @@ CREATE OR REPLACE VIEW marketing AS (
 		COALESCE(
 			attribute_values.value_text,
 			attribute_values.value_date::text,
-			attribute_values.value_numeric::text,
+			attribute_values.value_money::text,
 			attribute_values.value_int::text,
 			attribute_values.value_bool::text,
+			attribute_values.value_float::text,
+			attribute_values.value_time::text,
 			''
 		) as value
 	FROM films
