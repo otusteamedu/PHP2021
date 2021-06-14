@@ -14,14 +14,6 @@ for arg in "$@"; do
     fi
 done
 
-if ! command -v bc &> /dev/null
-then
-    echo "Notice: your system doesn't support bc, the script will calculate arguments as integers"
-    arg1=`printf "%.0f\n" $1`
-    arg2=`printf "%.0f\n" $2`
-    sum=$(expr $arg1 + $arg2 )
-else
-    sum=`echo $1 + $2 | bc`
-fi
+sum=`awk "BEGIN {print $1+$2; exit}"`
 
 echo $sum  >&1
