@@ -50,11 +50,12 @@ CREATE TABLE IF NOT EXISTS halls_sectors_places (
 );
 
 CREATE TABLE IF NOT EXISTS tickets (
+	id SERIAL NOT NULL,
 	session_id INTEGER NOT NULL,
 	hall_sector_place_id INTEGER NOT NULL,
 	date DATE NOT NULL,
 	time TIME WITHOUT TIME ZONE NOT NULL,
-	client VARCHAR(255) NOT NULL,
+	client VARCHAR(255),
 	price MONEY NOT NULL,
 	PRIMARY KEY (session_id, hall_sector_place_id),
 	CONSTRAINT ticket_session_id_fk FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -65,3 +66,4 @@ CREATE UNIQUE INDEX IF NOT EXISTS films_indx ON films(name, release_date);
 CREATE UNIQUE INDEX IF NOT EXISTS sessions_indx ON sessions(hall_id, film_id, date, time);
 CREATE UNIQUE INDEX IF NOT EXISTS halls_sectors_indx ON halls_sectors(hall_id, sector_id);
 CREATE UNIQUE INDEX IF NOT EXISTS halls_sectors_places_indx ON halls_sectors_places(hall_sector_id, place_row, place_column);
+CREATE UNIQUE INDEX IF NOT EXISTS tickets_indx ON tickets(session_id, hall_sector_place_id);
