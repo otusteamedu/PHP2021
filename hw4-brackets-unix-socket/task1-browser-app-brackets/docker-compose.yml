@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  php_fpm_service:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: $BASIC_NAME/php
+    volumes:
+      - $STORE_PATH/sock:/sock
+      - ./code:/data/site.default
+    networks:
+      - app-network
+
+  nginx_service:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: $BASIC_NAME/nginx
+    ports:
+      - $APP_PORT1:80
+      - $APP_PORT2:443
+    volumes:
+      - $STORE_PATH/sock:/sock
+      - ./nginx/default.conf:/etc/nginx/sites-enabled/default
+      - $STORE_PATH/nginx-log:/var/log/nginx
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
