@@ -4,7 +4,8 @@ USE cinema;
 CREATE TABLE schedule (
     id_hall tinyint NOT NULL PRIMARY KEY,
     title_id int NOT NULL,
-    timestamp int(11) NOT NULL
+    timestamp int(11) NOT NULL,
+    price float NOT NULL
 );
 
 CREATE TABLE tickets (
