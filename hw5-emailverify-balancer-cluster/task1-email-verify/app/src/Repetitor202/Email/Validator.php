@@ -29,4 +29,17 @@ class Validator
 
         return getmxrr($hostname, $hosts);
     }
+
+    public function validateParams(string $email): ValidatedParams
+    {
+        $params = new ValidatedParams();
+
+        $params->setEmail($this->validateEmail($email));
+
+        $emailPieces = explode('@', $email);
+        $hostname = $emailPieces[1];
+        $params->setHostname($this->validateHostname($hostname));
+
+        return $params;
+    }
 }

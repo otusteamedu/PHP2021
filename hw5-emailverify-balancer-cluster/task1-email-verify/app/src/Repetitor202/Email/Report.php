@@ -12,24 +12,16 @@ class Report
     public final function validateList(array $emails): void
     {
         foreach ($emails as $email) {
+            $validator = new Validator();
+            $params = $validator->validateParams($email);
+
             $emailReport = $email;
 
             $emailReport .= ' email:';
-            if ((new Validator())->validateEmail($email)) {
-                $emailReport .= 'valid';
-            } else {
-                $emailReport .= 'invalid';
-            }
-
-            $emailPieces = explode('@', $email);
-            $hostname = $emailPieces[1];
+            $emailReport .= $params->getEmail() ? 'valid' : 'invalid';
 
             $emailReport .= ' host:';
-            if ((new Validator())->validateHostname($hostname)) {
-                $emailReport .= 'valid';
-            } else {
-                $emailReport .= 'invalid';
-            }
+            $emailReport .= $params->getHostname() ? 'valid' : 'invalid';
 
             echo $emailReport . PHP_EOL;
         }

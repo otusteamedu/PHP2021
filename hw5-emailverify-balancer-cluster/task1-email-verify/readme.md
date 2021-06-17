@@ -4,6 +4,8 @@
 docker-compose up -d
 docker-compose exec app bash
 
+composer install
+
 php public/index.php emails.txt
 
 ```
