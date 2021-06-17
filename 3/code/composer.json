@@ -1,0 +1,18 @@
+{
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/acya-skulskaya/package-test-hw3"
+        }
+    ],
+    "require": {
+      "php": ">=7.3.0",
+      "acya-skulskaya/package-test-hw3": "dev-main"
+
+    },
+    "autoload": {
+      "psr-4": {
+        "ASTest\\": "scr/ASTest"
+      }
+    }
+}
