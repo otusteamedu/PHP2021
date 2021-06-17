@@ -8,11 +8,20 @@ trait SocketTrait
 {
     public $socket = null;
     public $socketFile = null;
+    private EchoMessage $echoMessage;
+
+    public function __construct()
+    {
+        $this->echoMessage = new EchoMessage();
+
+        $this->createSocket();
+        $this->bindSocket();
+    }
 
     public function createSocket()
     {
         try {
-            echo '>>Creating socket ' . PHP_EOL;
+            $this->echoMessage->write('>>Creating socket ');
             $this->socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
             $this->socketFile = $_ENV['SOCKET_FILE'];
         } catch (\Exception $e) {
@@ -25,7 +34,7 @@ trait SocketTrait
 
     public function bindSocket()
     {
-        echo '>>Binding socket ' . PHP_EOL;
+        $this->echoMessage->write('>>Binding socket ');
 
         if (file_exists($this->socketFile)) {
             unlink($this->socketFile);

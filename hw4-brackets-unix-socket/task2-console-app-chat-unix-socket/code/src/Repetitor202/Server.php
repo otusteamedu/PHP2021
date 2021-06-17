@@ -8,16 +8,20 @@ class Server
 {
     use SocketTrait;
 
+    private EchoMessage $echoMessage;
+
     public function __construct()
     {
-        echo 'Server' . PHP_EOL;
+        $this->echoMessage = new EchoMessage();
+        $this->echoMessage->write('Server');
+
         $this->createSocket();
         $this->bindSocket();
     }
 
     public function listen()
     {
-        echo '>> Listening for messages' . PHP_EOL;
+        $this->echoMessage->write('>> Listening for messages');
 
         $run = true;
         while($run){
@@ -27,13 +31,13 @@ class Server
             try {
                 $bytes_received = socket_recvfrom($this->socket, $buf, 65536, 0, $from);
                 if ($bytes_received == -1) {
-                    echo 'An error occured while receiving from the socket';
+                    $this->echoMessage->writeError('An error occured while receiving from the socket');
                 } else {
-                    echo 'New message: ' . $buf . PHP_EOL;
+                    $this->echoMessage->write('New message: ' . $buf);
                 }
             } catch (\Exception $e) {
                 $run = false;
-                $e->getMessage();
+                $this->echoMessage->writeError($e->getMessage());
             }
         }
     }

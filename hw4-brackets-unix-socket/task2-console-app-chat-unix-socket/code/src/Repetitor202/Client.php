@@ -8,9 +8,13 @@ class Client
 {
     use SocketTrait;
 
+    private EchoMessage $echoMessage;
+
     public function __construct()
     {
-        echo 'Client' . PHP_EOL;
+        $this->echoMessage = new EchoMessage();
+        $this->echoMessage->write('Client');
+
         $this->createSocket();
     }
 
@@ -18,13 +22,15 @@ class Client
     {
         while(true){
             try {
-                echo '>> Insert message: ';
+                $this->echoMessage->write('>> Insert message: ');
+
                 $msg = trim(fgets(STDIN, 1024));
                 $len = strlen($msg);
                 socket_sendto($this->socket, $msg, $len, 0, $this->socketFile, 0);
-                echo 'Message has been received by server: ' . $msg . PHP_EOL;
+
+                $this->echoMessage->write('Message has been received by server: ' . $msg);
             } catch (\Exception $e) {
-                echo $e->getMessage();
+                $this->echoMessage->writeError($e->getMessage());
             }
 
         }
