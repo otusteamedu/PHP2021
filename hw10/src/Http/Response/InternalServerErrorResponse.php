@@ -5,7 +5,7 @@ namespace App\Http\Response;
 
 use Laminas\Diactoros\Response\JsonResponse;
 
-class InternalServerResponse extends JsonResponse
+class InternalServerErrorResponse extends JsonResponse
 {
     public function __construct()
     {
