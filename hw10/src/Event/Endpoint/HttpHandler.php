@@ -42,7 +42,7 @@ class HttpHandler
 
         try {
             $events = $this->eventRepository->findAllByConditions($body['conditions'] ?? null);
-        } catch (\InvalidArgumentException) {
+        } catch (\TypeError) {
             return new InvalidJsonResponse();
         }
 
@@ -55,7 +55,7 @@ class HttpHandler
 
         try {
             $event = $this->eventRepository->findOneWithHighestPriorityByConditions($body['conditions'] ?? null);
-        } catch (\InvalidArgumentException) {
+        } catch (\TypeError) {
             return new InvalidJsonResponse();
         }
 
@@ -72,7 +72,7 @@ class HttpHandler
 
         try {
             $deleted = $this->eventRepository->deleteAllEventsByConditions($body['conditions'] ?? null);
-        } catch (\InvalidArgumentException) {
+        } catch (\TypeError) {
             return new InvalidJsonResponse();
         }
 
@@ -88,7 +88,7 @@ class HttpHandler
                 $body['conditions'] ?? null,
                 $body['event'] ?? null
             );
-        } catch (\InvalidArgumentException) {
+        } catch (\TypeError) {
             return new InvalidJsonResponse();
         }
 
@@ -97,11 +97,7 @@ class HttpHandler
 
     public function flush(ServerRequestInterface $request): ResponseInterface
     {
-        try {
-            $this->eventRepository->flush();
-        } catch (\InvalidArgumentException) {
-            return new InvalidJsonResponse();
-        }
+        $this->eventRepository->flush();
 
         return new OkResponse();
     }
