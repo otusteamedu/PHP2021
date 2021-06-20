@@ -1,0 +1,15 @@
+{
+  "name": "sterligov/hw3",
+  "description": "Otus hw3",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sterligov Denis",
+      "email": "denis0324@gmail.com"
+    }
+  ],
+  "require": {
+    "sterligov/hello-world": "^1.0"
+  }
+}
