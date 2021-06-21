@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS halls (
 CREATE TABLE IF NOT EXISTS places (
                                       id SERIAL PRIMARY KEY,
                                       number smallint NOT NULL,
+                                      coeficient float NOT NULL,
                                       hall_id smallint NOT NULL REFERENCES halls,
                                       UNIQUE (number, hall_id)
 );
@@ -54,6 +55,7 @@ CREATE TABLE IF NOT EXISTS orders (
                                       order_status_id integer NOT NULL REFERENCES order_statuses,
                                       user_id integer NULL REFERENCES users,
                                       datetime timestamp NOT NULL,
+                                      coeficient float NOT NULL,
                                       UNIQUE (event_id, place_id)
 );
 
@@ -74,17 +76,17 @@ INSERT INTO halls (id, title) VALUES (1, 'Madrid-hall');
 INSERT INTO halls (id, title) VALUES (2, 'Moscow-hall');
 INSERT INTO halls (id, title) VALUES (3, 'Minsk-hall');
 
-INSERT INTO places (id, number, hall_id) VALUES (1, 1, 1);
-INSERT INTO places (id, number, hall_id) VALUES (2, 2, 1);
-INSERT INTO places (id, number, hall_id) VALUES (3, 3, 1);
-INSERT INTO places (id, number, hall_id) VALUES (4, 4, 1);
-INSERT INTO places (id, number, hall_id) VALUES (5, 5, 1);
-INSERT INTO places (id, number, hall_id) VALUES (6, 1, 2);
-INSERT INTO places (id, number, hall_id) VALUES (7, 2, 2);
-INSERT INTO places (id, number, hall_id) VALUES (8, 3, 2);
-INSERT INTO places (id, number, hall_id) VALUES (9, 1, 3);
-INSERT INTO places (id, number, hall_id) VALUES (10, 2, 3);
-INSERT INTO places (id, number, hall_id) VALUES (11, 3, 3);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (1, 1, 1.0, 1);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (2, 2, 0.9, 1);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (3, 3, 0.8, 1);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (4, 4, 0.8, 1);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (5, 5, 0.8, 1);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (6, 1, 0.8, 2);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (7, 2, 0.8, 2);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (8, 3, 0.8, 2);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (9, 1, 0.8, 3);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (10, 2, 0.8, 3);
+INSERT INTO places (id, number, coeficient, hall_id) VALUES (11, 3, 0.8, 3);
 
 INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (1, 1, 1, '2021-01-13 17:00', 200.10);
 INSERT INTO events (id, hall_id, film_id, datetime, price) VALUES (2, 1, 2, '2021-01-13 19:00', 300.50);
@@ -99,11 +101,11 @@ INSERT INTO order_statuses (id, title) VALUES (1, 'booked');
 INSERT INTO order_statuses (id, title) VALUES (2, 'paid');
 INSERT INTO order_statuses (id, title) VALUES (3, 'canceled');
 
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
-VALUES (1, 1, 1, 2, NULL, '2020-11-01 13:00');
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
-VALUES (2, 1, 2, 2, 1, '2020-11-01 13:00');
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
-VALUES (3, 2, 1, 1, 2, '2020-11-01 13:00');
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime)
-VALUES (4, 2, 2, 2, 2, '2020-11-01 13:00');
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
+VALUES (1, 1, 1, 2, NULL, '2020-11-01 13:00', 0.9);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
+VALUES (2, 1, 2, 2, 1, '2020-11-01 13:00', 1.0);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
+VALUES (3, 2, 1, 1, 2, '2020-11-01 13:00', 1.0);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
+VALUES (4, 2, 2, 2, 2, '2020-11-01 13:00', 0.8);
