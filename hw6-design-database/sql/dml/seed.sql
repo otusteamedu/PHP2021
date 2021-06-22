@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS orders (
                                       user_id integer NULL REFERENCES users,
                                       datetime timestamp NOT NULL,
                                       coeficient float NOT NULL,
+                                      final_price numeric(6, 2) NULL CHECK (final_price >= 0),
                                       UNIQUE (event_id, place_id)
 );
 
@@ -101,11 +102,11 @@ INSERT INTO order_statuses (id, title) VALUES (1, 'booked');
 INSERT INTO order_statuses (id, title) VALUES (2, 'paid');
 INSERT INTO order_statuses (id, title) VALUES (3, 'canceled');
 
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
-VALUES (1, 1, 1, 2, NULL, '2020-11-01 13:00', 0.9);
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
-VALUES (2, 1, 2, 2, 1, '2020-11-01 13:00', 1.0);
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
-VALUES (3, 2, 1, 1, 2, '2020-11-01 13:00', 1.0);
-INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient)
-VALUES (4, 2, 2, 2, 2, '2020-11-01 13:00', 0.8);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient, final_price)
+VALUES (1, 1, 1, 2, NULL, '2020-11-01 13:00', 0.9, 403.72);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient, final_price)
+VALUES (2, 1, 2, 2, 1, '2020-11-01 13:00', 1.0, 398.43);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient, final_price)
+VALUES (3, 2, 1, 1, 2, '2020-11-01 13:00', 1.0, 400.00);
+INSERT INTO orders (id, event_id, place_id, order_status_id, user_id, datetime, coeficient, final_price)
+VALUES (4, 2, 2, 2, 2, '2020-11-01 13:00', 0.8, 420.01);

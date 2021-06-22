@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS orders (
     user_id integer NULL REFERENCES users,
     datetime timestamp NOT NULL,
     coeficient float NOT NULL,
+    final_price numeric(6, 2) NULL CHECK (final_price >= 0),
     UNIQUE (event_id, place_id)
 );
