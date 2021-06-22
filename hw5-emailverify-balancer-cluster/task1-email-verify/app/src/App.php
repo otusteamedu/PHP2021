@@ -2,25 +2,20 @@
 
 namespace App;
 
-use Repetitor202\Email\IEmailReport;
 use Repetitor202\Email\ReportFactory;
 use Repetitor202\FileParser;
+use Symfony\Component\Yaml\Yaml;
 
 
 class App
 {
-    private IEmailReport $emailReport;
-
     public function run(): void
     {
         $emails = (new FileParser())->getLines($_SERVER['argv'][1]);
+        $config = Yaml::parseFile(__DIR__ . '/../config/email.yaml');
 
-
-        $this->emailReport = new ReportFactory();
-
-        $this->emailReport->setValidateEmail();
-        $this->emailReport->setValidateHostname();
-
-        $this->emailReport->validateList($emails);
+        $emailReport = new ReportFactory();
+        $emailReport->setValidators($config['validators']);
+        $emailReport->validateList($emails);
     }
 }

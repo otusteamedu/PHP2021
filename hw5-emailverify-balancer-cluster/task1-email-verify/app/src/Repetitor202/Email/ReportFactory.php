@@ -4,40 +4,32 @@
 namespace Repetitor202\Email;
 
 
-class ReportFactory implements IEmailReport
+class ReportFactory
 {
-    private bool $emailValidate;
-    private bool $hostnameValidate;
+    private array $validators = [];
 
-    /**
-     * @param array $emails
-     */
     public final function validateList(array $emails): void
     {
         foreach ($emails as $email) {
             $emailReport = $email;
 
-            if($this->emailValidate) {
-                $emailReport .= ' email:';
-                $emailReport .= EmailValidator::validate($email) ? 'valid' : 'invalid';
-            }
-
-            if($this->hostnameValidate) {
-                $emailReport .= ' host:';
-                $emailReport .= HostnameValidator::validate($email) ? 'valid' : 'invalid';
+            foreach($this->validators as $validator){
+                if($validator instanceof IValidator){
+                    $emailReport .= ' ' . $validator->doReport($email) . ' ';
+                }
             }
 
             echo $emailReport . PHP_EOL;
         }
     }
 
-    public function setValidateEmail(bool $trueFalse = true): void
+    public function setValidators(array $validators): void
     {
-        $this->emailValidate = $trueFalse;
-    }
-
-    public function setValidateHostname(bool $trueFalse = true): void
-    {
-        $this->hostnameValidate = $trueFalse;
+        foreach ($validators as $validator) {
+            $class = __NAMESPACE__ . '\\' . ucfirst($validator) . 'Validator';
+            if (class_exists($class)) {
+                array_push($this->validators, new $class());
+            }
+        }
     }
 }
