@@ -1,0 +1,21 @@
+{
+  "name": "repetitor202/email-verify",
+  "description": "email-verify",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Viktar Akulenka",
+      "email": "repetitor202@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "symfony/yaml": "^5.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src",
+      "Repetitor202\\": "src/Repetitor202"
+    }
+  }
+}
