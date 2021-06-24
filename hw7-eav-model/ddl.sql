@@ -39,6 +39,7 @@ CREATE TABLE "filmAttributeValues" (
     val_bigint bigint NULL,
     val_double double precision NULL,
     val_timestamp timestamp NULL,
+    val_date date NULL,
     val_text text NULL,
     comment text NULL DEFAULT ''::text,
     CONSTRAINT filmattrvalues_pk PRIMARY KEY (id),
