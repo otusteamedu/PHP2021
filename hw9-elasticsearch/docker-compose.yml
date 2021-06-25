@@ -1,0 +1,40 @@
+version: '3'
+
+networks:
+  app-network:
+    ipam:
+      config:
+        - subnet: "${NETWORK_ID}.0/24"
+
+services:
+  app:
+    build:
+      context: ./docker/php-fpm
+    image: hw9-youtube
+    volumes:
+      - ./app:/data
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.2"
+
+  elasticsearch:
+    image: elasticsearch:7.9.3
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.3"
+
+
+  mongo:
+    image: mongo
+    volumes:
+      - ./../../logs/youtube/mongo-data/db:/data/db
+    ports:
+      - 27018:27017
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.5"
+
