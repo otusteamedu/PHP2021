@@ -5,7 +5,7 @@ namespace Repetitor202\Application\Routers;
 
 
 use Repetitor202\Application\AppException;
-use Repetitor202\Application\Routers\Events\EventsRouter;
+use Repetitor202\Application\Routers\Explorers\ExplorerRouter;
 
 abstract class Router implements IRouter
 {
@@ -17,7 +17,7 @@ abstract class Router implements IRouter
 
         switch ($argv) {
             case self::TYPE_EXPLORER:
-                EventsRouter::run($argvNumber+1);
+                ExplorerRouter::run($argvNumber+1);
                 break;
             default:
                 AppException::undefinedArgv($argv);
