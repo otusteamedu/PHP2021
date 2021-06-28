@@ -1,0 +1,22 @@
+{
+  "name": "repetitor202/hw10-redis-events",
+  "description": "hw10-redis-events",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Viktar Akulenka",
+      "email": "repetitor202@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "vlucas/phpdotenv": "^5.3",
+    "ext-redis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src",
+      "Repetitor202\\": "src/Repetitor202"
+    }
+  }
+}
