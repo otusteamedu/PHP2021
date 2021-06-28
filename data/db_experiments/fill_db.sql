@@ -1,3 +1,6 @@
+---------------------------------------------------------
+-- Генератор строки
+---------------------------------------------------------
 Create or replace function random_string(length integer) returns text as
 $$
 declare
@@ -15,6 +18,9 @@ begin
 end;
 $$ language plpgsql;
 
+---------------------------------------------------------
+-- Принимает массив, возвращает случайный элемент оттуда
+---------------------------------------------------------
 CREATE OR REPLACE FUNCTION random_from_array(arr int[])
 RETURNS INT AS
 $$
@@ -23,6 +29,9 @@ BEGIN
 END
 $$ LANGUAGE 'plpgsql' STRICT;
 
+---------------------------------------------------------
+-- Вернет случайный ind от low до high
+---------------------------------------------------------
 CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
 RETURNS INT AS
 $$
@@ -31,6 +40,10 @@ begin
 end;
 $$ language 'plpgsql' STRICT;
 
+---------------------------------------------------------
+-- Наполняет случайными данными таблицу movies
+-- @length - количество строк для генерации
+---------------------------------------------------------
 CREATE OR REPLACE FUNCTION fill_movies(length integer)
 RETURNS BOOL AS
 $$
@@ -42,6 +55,10 @@ begin
 end;
 $$ LANGUAGE 'plpgsql' STRICT;
 
+---------------------------------------------------------
+-- Наполняет случайными данными таблицу movie_awards
+-- @length - количество строк для генерации
+---------------------------------------------------------
 CREATE OR REPLACE FUNCTION fill_movie_awards(length integer)
 RETURNS bool AS
 $$
@@ -53,6 +70,10 @@ begin
 end;
 $$ LANGUAGE 'plpgsql' STRICT;
 
+---------------------------------------------------------
+-- Наполняет случайными данными таблицу movie_attributes
+-- @length - количество строк для генерации
+---------------------------------------------------------
 CREATE OR REPLACE FUNCTION fill_movie_attributes(length integer)
 RETURNS BOOL AS
 $$
@@ -67,6 +88,10 @@ begin
 end;
 $$ LANGUAGE 'plpgsql' STRICT;
 
+---------------------------------------------------------
+-- Наполняет случайными данными таблицу movie_attribute_values
+-- @length - количество строк для генерации
+---------------------------------------------------------
 CREATE OR REPLACE FUNCTION fill_movie_attribute_values(length integer)
 RETURNS BOOL AS
 $$
