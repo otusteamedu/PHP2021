@@ -6,6 +6,7 @@ namespace Repetitor202\Application\Clients\Explorers\YouTube;
 
 use Exception;
 use Repetitor202\Application\traits\RequestTrait;
+use Repetitor202\Domain\ActiveRecords\Explorers\YouTube\VideoActiveRecord;
 
 class YouTubeClient
 {
@@ -53,34 +54,10 @@ class YouTubeClient
 
         $videos = [];
         foreach ($videosApi['items'] as $videoApi) {
-            if(! $this->validateVideo($videoApi)) {
-                // TODO: write to log
-                throw new Exception('Incorrect answer from youTube.');
-            }
-
-            $video = [];
-            $video['id'] = $videoApi['id'];
-            $video['channelId'] = $videoApi['snippet']['channelId'];
-            $video['title'] = $videoApi['snippet']['title'];
-            $video['likeCount'] = $videoApi['statistics']['likeCount'];
-            $video['dislikeCount'] = $videoApi['statistics']['dislikeCount'];
-            $videos[] = $video;
+            $videos[] = (new VideoActiveRecord())->doMappingApi($videoApi);
         }
 
         return $videos;
-    }
-
-    private function validateVideo(array $videoApi): bool
-    {
-        return !(
-            is_null($videoApi['id']) ||
-            is_null($videoApi['snippet']) ||
-            is_null($videoApi['snippet']['channelId']) ||
-            is_null($videoApi['snippet']['title']) ||
-            is_null($videoApi['statistics']) ||
-            is_null($videoApi['statistics']['likeCount']) ||
-            is_null($videoApi['statistics']['dislikeCount'])
-        );
     }
 
     private function searchChannelApi(string $channelId, string $nextPageToken = null): ?array
