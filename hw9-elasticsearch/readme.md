@@ -6,6 +6,8 @@ cp app/.env.example app/.env
 
 docker-compose up -d && docker-compose exec app bash
 
+# >> composer install
+
 
 # how to use app (examples):
 
