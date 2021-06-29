@@ -6,22 +6,25 @@ namespace Repetitor202\Domain\Services\Events;
 
 use Repetitor202\Domain\DTO\EventSearchDTO;
 use Repetitor202\Domain\DTO\EventStoreDTO;
+use Repetitor202\Domain\EventValidator;
 use Repetitor202\Domain\Repositories\Events\EventsRedisRepository;
 use Repetitor202\Domain\Repositories\Events\IEventsRepository;
 
 class EventService
 {
     private IEventsRepository $repository;
+    private EventValidator $validator;
 
     public function __construct()
     {
         $this->repository = new EventsRedisRepository();
+        $this->validator = new EventValidator();
     }
 
     public function search(array $params): void
     {
-        $searchDto = new EventSearchDTO($params);
-
+        $filteredParams = $this->validator->filterConditionsParams($params);
+        $searchDto = new EventSearchDTO($filteredParams);
         $eventName = $this->repository->search($searchDto);
 
         if(is_null($eventName)) {
@@ -35,7 +38,7 @@ class EventService
 
     public function save(array $params): void
     {
-        // TODO: validation
+        $this->validator->validateStoreRequest($params);
 
         $storeDto = new EventStoreDTO(
             time(),
