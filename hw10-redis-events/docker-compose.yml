@@ -1,4 +1,4 @@
-version: '3'
+version: '3.5'
 
 networks:
   app-network:
@@ -12,11 +12,12 @@ services:
       context: docker/php-fpm
       args:
         UID: $UID
-        NGINX_PHP_USER: $NGINX_PHP_USER
+        USERNAME: $NGINX_PHP_USER
         CLIENT_HOST: "${NETWORK_ID}.1"
     image: $BASIC_NAME/app
+    working_dir: /app
     volumes:
-      - ./app:/data/site.default
+      - ./app:/app
       - $STORE_PATH/sock:/sock
     networks:
       app-network:
@@ -29,9 +30,9 @@ services:
         UID: $UID
         NGINX_PHP_USER: $NGINX_PHP_USER
     image: $BASIC_NAME/nginx
+    working_dir: /app
     volumes:
-      - ./app:/data/site.default
-      - ./docker/nginx/default.conf:/etc/nginx/sites-enabled/default
+      - ./app:/app
       - $STORE_PATH/sock:/sock
       - $STORE_PATH/nginx-logs:/var/log/nginx
     networks:
