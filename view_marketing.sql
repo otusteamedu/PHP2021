@@ -9,5 +9,7 @@ WHEN data_text IS NOT NULL
 THEN data_text
 WHEN data_date IS NOT NULL
 THEN CAST(data_date AS TEXT)
+WHEN data_bool IS NOT NULL
+THEN CAST(data_bool AS TEXT)
 END AS value
 FROM attr_values
