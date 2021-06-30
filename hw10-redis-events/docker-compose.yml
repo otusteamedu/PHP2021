@@ -1,0 +1,48 @@
+version: '3.5'
+
+networks:
+  app-network:
+    ipam:
+      config:
+        - subnet: "${NETWORK_ID}.0/24"
+
+services:
+  app:
+    build:
+      context: docker/php-fpm
+      args:
+        UID: $UID
+        USERNAME: $NGINX_PHP_USER
+        CLIENT_HOST: "${NETWORK_ID}.1"
+    image: $BASIC_NAME/app
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - $STORE_PATH/sock:/sock
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.4"
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: $BASIC_NAME/nginx
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - $STORE_PATH/sock:/sock
+      - $STORE_PATH/nginx-logs:/var/log/nginx
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.2"
+
+  redis:
+    image: redis:6.2-rc2
+    expose:
+      - 6379
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.3"
