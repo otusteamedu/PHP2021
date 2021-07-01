@@ -31,8 +31,6 @@ class VideoService
         $this->activeRecord = new VideoActiveRecord();
     }
 
-//    public function saveVideo(string $videoIDs): void{}
-
     public function insertVideo(array $params): bool
     {
         $this->activeRecord->setId($params['id']);
