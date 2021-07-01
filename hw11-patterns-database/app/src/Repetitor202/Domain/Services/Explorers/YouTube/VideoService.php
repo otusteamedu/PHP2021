@@ -15,20 +15,25 @@ class VideoService
 {
     private VideoActiveRecord $activeRecord;
     private ?VideoFactory $factory;
+    private ?string $sqlClientClassname;
 
     public function __construct()
     {
         switch ($_ENV['SQL_CLIENT']) {
             case ElasticsearchQuery::STORAGE_NAME:
+                $this->sqlClientClassname = ElasticsearchQuery::class;
                 $this->factory = new VideoElasticsearchFactory();
                 break;
             case MongoDbQuery::STORAGE_NAME:
+                $this->sqlClientClassname = MongoDbQuery::class;
                 $this->factory = new VideoMongoDbFactory();
                 break;
             default:
+                $this->sqlClientClassname = null;
                 $this->factory = null;
         }
-        $this->activeRecord = new VideoActiveRecord();
+
+        $this->activeRecord = new VideoActiveRecord($this->sqlClientClassname);
     }
 
     public function insertVideo(array $params): bool

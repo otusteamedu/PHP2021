@@ -5,8 +5,6 @@ namespace Repetitor202\Domain\ActiveRecords\Explorers\YouTube;
 
 
 use Exception;
-use Repetitor202\Application\Clients\SQL\ElasticsearchQuery;
-use Repetitor202\Application\Clients\SQL\MongoDbQuery;
 
 class VideoActiveRecord
 {
@@ -19,18 +17,9 @@ class VideoActiveRecord
     private int $dislikeCount;
     private string $title;
 
-    public function __construct()
+    public function __construct(string $sqlClientClassname)
     {
-        switch ($_ENV['SQL_CLIENT']) {
-            case ElasticsearchQuery::STORAGE_NAME:
-                $this->sqlClientClassname = ElasticsearchQuery::class;
-                break;
-            case MongoDbQuery::STORAGE_NAME:
-                $this->sqlClientClassname = MongoDbQuery::class;
-                break;
-            default:
-                $this->sqlClientClassname = null;
-        }
+        $this->sqlClientClassname = $sqlClientClassname;
     }
 
     public function insert(): bool

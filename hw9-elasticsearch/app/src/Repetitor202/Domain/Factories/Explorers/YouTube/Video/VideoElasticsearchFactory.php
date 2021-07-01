@@ -6,6 +6,7 @@ namespace Repetitor202\Domain\Factories\Explorers\YouTube\Video;
 
 use Repetitor202\Application\Clients\SQL\ElasticsearchQuery;
 use Repetitor202\Domain\ActiveRecords\Explorers\YouTube\VideoActiveRecord;
+use Repetitor202\Domain\Entities\Explorers\YouTube\VideoSource;
 
 class VideoElasticsearchFactory extends VideoFactory
 {
@@ -20,12 +21,14 @@ class VideoElasticsearchFactory extends VideoFactory
 
         $list = [];
         foreach ($videos['hits']['hits'] as $video) {
+            $videoSource = new VideoSource($video['_source'], $video['_id']);
+
             $item = [
-                'id' => $video['_id'],
-                'channelId' => $video['_source']['channelId'],
-                'likeCount' => $video['_source']['likeCount'],
-                'dislikeCount' => $video['_source']['dislikeCount'],
-                'title' => $video['_source']['title'],
+                'id' => $videoSource->getId(),
+                'channelId' => $videoSource->getChannelId(),
+                'likeCount' => $videoSource->getLikeCount(),
+                'dislikeCount' => $videoSource->getDislikeCount(),
+                'title' => $videoSource->getTitle(),
             ];
             $list[] = $item;
         }
