@@ -1,0 +1,6 @@
+.env
+.idea/
+data/sites/vendor/
+mysql/
+nginx/certs/mysite.local.crt
+nginx/certs/
