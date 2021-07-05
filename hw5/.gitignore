@@ -1,0 +1,4 @@
+deployment/nginx/log
+deployment/.env
+deployment/phpsocket
+vendor

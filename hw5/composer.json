@@ -1,0 +1,19 @@
+{
+    "name": "sterligov/email-validator-with-balancer",
+    "description": "otus php homework",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sterligov Denis",
+            "email": "denis0324@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "require": {
+        "php-di/php-di": "^6.3"
+    }
+}
