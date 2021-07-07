@@ -1,0 +1,4 @@
+mysql/
+.env
+code/vendor/
+code/composer.lock
