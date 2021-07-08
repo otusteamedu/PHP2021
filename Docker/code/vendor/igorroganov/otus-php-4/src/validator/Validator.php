@@ -1,8 +1,5 @@
 <?php
-
-
 namespace App\validator;
-
 
 class Validator
 {
@@ -10,8 +7,6 @@ class Validator
 
         $counter = 0;
         $bracket_str = mb_str_split($brackets);// (()()(()))
-
-
 
         foreach ( $bracket_str as $char ) {
 
@@ -24,14 +19,8 @@ class Validator
 
                 throw new \Exception('Передан неверный символ');
             }
-
         }
 
-
         return $counter === 0;
-
-
-
     }
-
 }
