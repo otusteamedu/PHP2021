@@ -26,19 +26,25 @@ class app
 
 
     public function run(){
+		
 
+        try {
+            $response = $this->objHandler->handle($this->objRequest);
 
-        $response =  $this->objHandler->handle($this->objRequest);
+            foreach ($response->getHeaders() as $name=>$value) {
+                \header("$name:$value");
 
+            }
 
+            \http_response_code($response->getStatus());
+            
+        }catch (\Exception $e ){
 
-        foreach ($response->getHeaders() as $name=>$value) {
-            \header("$name:$value");
+            \header("403:bad request");
+            \http_response_code(400);
+
 
         }
-
-        \http_response_code($response->getStatus());
-
 
 
 
