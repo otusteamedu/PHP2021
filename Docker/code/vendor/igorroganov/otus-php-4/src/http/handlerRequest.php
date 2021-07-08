@@ -39,11 +39,6 @@ class handlerRequest
 
         return new httpResponse(200, ['message' => 'OK']);
 
-
-
-
-
-
     }
 
 }
