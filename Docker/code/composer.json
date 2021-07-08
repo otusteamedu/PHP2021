@@ -1,0 +1,5 @@
+{
+    "require": {
+        "igorroganov/otus-php-4": "^1.1"
+    }
+}
