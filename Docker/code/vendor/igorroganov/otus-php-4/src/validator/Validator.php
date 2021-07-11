@@ -14,6 +14,8 @@ class Validator
                 $counter++;
             } elseif ($char == ")") {
                 $counter--;
+                if ( $counter < 0 )
+                    break;
             } else {
                 throw new \Exception('Передан неверный символ');
             }
