@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    image: validation/php
+    container_name: app
+    volumes:
+      - .:/data/
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: validation/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/data/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
