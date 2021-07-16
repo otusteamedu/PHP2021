@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 nginx/certs/
 mysql/
 .idea/
@@ -14,3 +15,10 @@ nginx/certs
 >>>>>>> SGaponov/hw1
 =======
 >>>>>>> SGaponov/hw3
+=======
+.idea/
+data/sites/vendor/
+mysql/
+nginx/certs/
+.env
+>>>>>>> SGaponov/hw9
