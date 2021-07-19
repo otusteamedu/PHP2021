@@ -1,6 +1,6 @@
 SELECT 
 	Films.Name
-	sum(Places.Price) as price
+	sum(Booking.Price) as price
 FROM Booking
 
 JOIN Schedule ON Booking.ScheduleID = Schedule.id

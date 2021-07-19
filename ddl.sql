@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS Booking (
    ScheduleID INTEGER NOT NULL,
    IDPlace INTEGER NOT NULL,
    IDClient INTEGER NOT NULL,
+   totalPrice INTEGER NOT NULL,   
    PRIMARY KEY (ScheduleID,IDPlace)
 );
 
@@ -18,6 +19,8 @@ CREATE TABLE IF NOT EXISTS Schedule (
    IDFilm INTEGER NOT NULL,
    PlaceID INTEGER NOT NULL,
    DateSession DATE NOT NULL,
+   Price INTEGER NOT NULL,   
+
    PRIMARY KEY (id)
 );
 
@@ -32,7 +35,6 @@ CREATE TABLE IF NOT EXISTS Places (
    hallID VARCHAR(255) NOT NULL,
    Row VARCHAR(255) NOT NULL,
    Column VARCHAR(255) NOT NULL,
-   Price INTEGER NOT NULL,   
    PRIMARY KEY (id)
 );
 
@@ -75,11 +77,11 @@ INSERT INTO Hall (id,name) VALUES
 ('2', 'Малый зал'),
 
 
-INSERT INTO Places (id,hallID,Row,Column,Price) VALUES
-('1', '1',1,1,500),
-('2', '1',1,2,500),
-('3', '1',1,3,500),
-('4', '1',1,4,500),
+INSERT INTO Places (id,hallID,Row,Column) VALUES
+('1', '1',1,1),
+('2', '1',1,2),
+('3', '1',1,3),
+('4', '1',1,4),
 
 
 INSERT INTO Films (id,FilmName) VALUES
