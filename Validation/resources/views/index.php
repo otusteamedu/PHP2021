@@ -16,15 +16,15 @@
         const regex = /[()]+/g;
         let result = value.match(regex);
 
-        $('#stringValidation').val(result.join(''))
-
         e.preventDefault();
-        if (!value || !result) {
-            $('#stringHelp').text('Заполните поле! Или строка не содержит скобки').css('color', 'red')
-            return
-        }
+
         let formData = new FormData();
         formData.append('string', value)
+        if (value.length < 0 || !result) {
+            $('#stringHelp').text('Заполните поле! Или строка не содержит скобки').css('color', 'red');
+            return;
+        }
+        $('#stringValidation').val(result.join(''))
         axios.post(`send-message`, formData).then((resp) => {
             $('#stringHelp').text(resp.data.response).css('color', 'green')
             clearData(value)

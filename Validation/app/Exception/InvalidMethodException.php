@@ -7,9 +7,9 @@ use Throwable;
 
 class InvalidMethodException extends Exception
 {
-    public function __construct($code = 0, Throwable $previous = null)
+    public function __construct($message,$code = 0, Throwable $previous = null)
     {
         header("HTTP/1.1 400 Bad Request");
-        parent::__construct('invalid method', $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 }

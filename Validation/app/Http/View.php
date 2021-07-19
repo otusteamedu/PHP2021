@@ -4,7 +4,6 @@ namespace App\Http;
 
 class View
 {
-
     protected static $attributes = [];
 
     static function view(string $view, array $data = [])

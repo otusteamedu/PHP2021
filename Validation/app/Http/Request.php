@@ -4,13 +4,11 @@ namespace App\Http;
 
 class Request
 {
-    private $data;
-    private $files_data;
+    private array $data;
 
 
-    public function __construct($data = [], $files = [])
+    public function __construct($data = [])
     {
-        $this->files_data = $files;
         $this->data = $data;
     }
 
@@ -27,15 +25,5 @@ class Request
     public function all()
     {
         return $this->data;
-    }
-
-    public function file($key)
-    {
-        return !empty($this->files_data[$key]) ? $this->files_data[$key] : null;
-    }
-
-    public function files()
-    {
-        return $this->files_data;
     }
 }

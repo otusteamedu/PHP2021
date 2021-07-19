@@ -7,7 +7,7 @@ use App\Http\Request;
 
 class MessageController
 {
-    public function test(Request $request)
+    public function checkString(Request $request)
     {
         $data = $request->get('string');
 

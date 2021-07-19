@@ -2,21 +2,17 @@
 
 namespace App\Http;
 
-use App\Exception\EmptyParamsException;
-use App\Exception\InvalidMethodException;
-use App\Exception\InvalidStringException;
 
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\MessageController;
 
 class App
 {
-    /**
-     * @throws InvalidMethodException
-     * @throws EmptyParamsException
-     * @throws InvalidStringException
-     */
-
     public function run()
     {
-        Router::init();
+        Router::init([
+            '/' => [IndexController::class, 'index', 'GET'],
+            '/send-message' => [MessageController::class, 'checkString', 'POST']
+        ]);
     }
 }

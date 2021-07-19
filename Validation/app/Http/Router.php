@@ -2,31 +2,22 @@
 
 namespace App\Http;
 
-
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\MessageController;
+use App\Exception\InvalidMethodException;
 
 
 class Router
 {
-    private static $routes = [
-        '/' => [IndexController::class, 'index', 'GET'],
-        '/send-message' => [MessageController::class, 'test', 'POST'],
-    ];
-
-    static function init()
+    static function init($routes)
     {
         $request_url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
         $request_method = $_SERVER['REQUEST_METHOD'];
-        foreach (self::$routes as $route => $controller) {
+        foreach ($routes as $route => $controller) {
             if ($request_url == $route) {
                 if (!class_exists($controller[0])) {
-                    echo "Класс " . $controller[0] . " не найден.";
-                    return [];
+                    throw new InvalidMethodException("Класс " . $controller[0] . " не найден.");
                 }
                 if (!method_exists($controller[0], $controller[1])) {
-                    echo "Метод " . $controller[1] . " в " . $controller[0] . " не найден.";
-                    return [];
+                    throw new InvalidMethodException("Метод " . $controller[1] . " в " . $controller[0] . " не найден.");
                 }
                 if (strtoupper($request_method) == strtoupper($controller[2])) {
                     $class = new $controller[0];
@@ -38,7 +29,7 @@ class Router
                     if ($request_method == 'GET') {
                         $request_data = $_GET;
                     }
-                    return $class->$method(new Request($request_data, $_FILES));
+                    return $class->$method(new Request($request_data));
                 }
             }
         }
