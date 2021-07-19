@@ -1,0 +1,89 @@
+CREATE TABLE IF NOT EXISTS Films (
+   id SERIAL NOT NULL,
+   FilmName VARCHAR(255) NOT NULL,
+   PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Booking (
+   id SERIAL NOT NULL,
+   ScheduleID INTEGER NOT NULL,
+   IDPlace INTEGER NOT NULL,
+   IDClient INTEGER NOT NULL,
+   totalPrice INTEGER NOT NULL,   
+   PRIMARY KEY (ScheduleID,IDPlace)
+);
+
+CREATE TABLE IF NOT EXISTS Schedule (
+   id SERIAL NOT NULL,
+   IDHall INTEGER NOT NULL,
+   IDFilm INTEGER NOT NULL,
+   PlaceID INTEGER NOT NULL,
+   DateSession DATE NOT NULL,
+   Price INTEGER NOT NULL,   
+
+   PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Hall (
+   id SERIAL NOT NULL,
+   name VARCHAR(255) NOT NULL,
+   PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Places (
+   id SERIAL NOT NULL,
+   hallID VARCHAR(255) NOT NULL,
+   Row VARCHAR(255) NOT NULL,
+   Column VARCHAR(255) NOT NULL,
+   PRIMARY KEY (id)
+);
+
+
+CREATE TABLE IF NOT EXISTS Clients (
+   id SERIAL NOT NULL,
+   FIO VARCHAR(255) NOT NULL,
+   Phone VARCHAR(255) NOT NULL,
+   Email VARCHAR(255) NOT NULL,
+
+   PRIMARY KEY (id)
+);
+
+
+
+ALTER TABLE Schedule ADD FOREIGN KEY (IDHall) REFERENCES Hall(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE Places ADD FOREIGN KEY (hallID) REFERENCES Hall(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE Booking ADD FOREIGN KEY (ScheduleID) REFERENCES Schedule(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE Schedule ADD FOREIGN KEY (IDFilm) REFERENCES Films(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE Booking ADD FOREIGN KEY (IDPlace) REFERENCES Places(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE Booking ADD FOREIGN KEY (IDClient) REFERENCES Clients(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+
+
+INSERT INTO Booking (id, ScheduleID, IDPlace, IDClient) VALUES
+('1', 1, '1',1),
+('2', 1, '2',1),
+('3', 1, '3',1),
+
+
+
+INSERT INTO Schedule (id, IDHall, IDFilm, DateSession, PlaceID) VALUES
+('1', 1, '1','15.07.21',1),
+('2', 1, '1','16.07.21',2),
+('3', 2, '2','17.07.21',3),
+('4', 2, '1','18.07.21',4),
+
+INSERT INTO Hall (id,name) VALUES
+('1', 'Большой зал'),
+('2', 'Малый зал'),
+
+
+INSERT INTO Places (id,hallID,Row,Column) VALUES
+('1', '1',1,1),
+('2', '1',1,2),
+('3', '1',1,3),
+('4', '1',1,4),
+
+
+INSERT INTO Films (id,FilmName) VALUES
+('1', 'Матрица1'),
+('2', 'Матрица2'),
