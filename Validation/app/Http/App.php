@@ -8,9 +8,12 @@ use App\Http\Controllers\MessageController;
 
 class App
 {
+    /**
+     * @throws \App\Exception\InvalidMethodException
+     */
     public function run()
     {
-        Router::init([
+        (new  Router())->init([
             '/' => [IndexController::class, 'index', 'GET'],
             '/send-message' => [MessageController::class, 'checkString', 'POST']
         ]);
