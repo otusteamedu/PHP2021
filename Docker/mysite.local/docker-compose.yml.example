@@ -32,6 +32,21 @@ services:
     networks:
       - app-network
 
+  db:
+    image: mysql:5.7
+    container_name: mysql_57
+    restart: always
+    environment:
+      - MYSQL_DATABASE=docker_demo
+      - MYSQL_ROOT_PASSWORD=root123
+    # проброс портов
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - app-network
+
   #контейне с Nginx
   webserver:
     build:
@@ -49,6 +64,7 @@ services:
       - app
       - redis
       - memcached
+      - db
     networks:
       - app-network
 
