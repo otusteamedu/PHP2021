@@ -1,0 +1,4 @@
+Docker/.env
+Docker/mysql/*
+Docker/nginx/logs/*
+Docker/redis/*
