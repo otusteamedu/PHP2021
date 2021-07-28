@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+    php:
+        build:
+            context: ./php
+            dockerfile: Dockerfile
+        image: hw/php
+        container_name: php
+        volumes:
+            - ./nginx/www/olegsv:/var/www/olegsv
+        networks:
+            - app-network
+
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
+        image: hw/nginx
+        container_name: nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./nginx/www/olegsv:/var/www/olegsv
+            - ./nginx/logs:/var/log/nginx
+        networks:
+            - app-network
+
+    mysql:
+        image: mysql:8.0
+        container_name: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_NAME}
+        volumes:
+            - ./mysql:/var/lib/mysql
+        networks:
+            - app-network
+            
+    redis:
+        image: redis:alpine
+        container_name: redis
+        ports:
+            - "6379:6379"
+        volumes:
+            - ./redis:/data
+        networks:
+            - app-network
+
+    memcached:
+        image: memcached:alpine
+        container_name: memcached
+        ports:
+            - "11211:11211"
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

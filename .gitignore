@@ -1,0 +1,8 @@
+Docker/.env
+Docker/mysql/*
+Docker/nginx/logs/*
+Docker/redis/*
+Homestead/*
+.idea/*
+!Homestead/Homestead.yaml
+!Homestead/Screenshot from 2021-07-28 22-22-40.jpg
