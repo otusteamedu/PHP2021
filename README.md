@@ -15,3 +15,10 @@ mv Docker/.env.example Docker/.env
 ```shell
 docker-compose up -d
 ```
+---
+
+<img src="/Docker/Screenshot from 2021-07-28 21-17-43.png">
+
+## 2. Homestead
+
+<img src="/Homestead/Screenshot from 2021-07-28 22-22-40.jpg">

@@ -1,0 +1,29 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+folders:
+    - map: ./code
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
