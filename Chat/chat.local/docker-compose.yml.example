@@ -1,0 +1,27 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #Контейнер с PHP, назовём его app
+  app-chat:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    expose:
+      - 9000
+    image: chat/php # имя будущего образа
+    container_name: app-chat # имя контейнера после запуска
+    working_dir: /data/chat.local
+    volumes:
+      - ./code:/data/chat.local
+      - ./fpm/php.ini:/usr/local/etc/php/php.ini
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-chat-network
+
+#Docker Networks
+networks:
+  app-chat-network:
+    driver: bridge

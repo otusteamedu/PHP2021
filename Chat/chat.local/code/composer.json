@@ -1,0 +1,10 @@
+{
+  "require": {
+    "vlucas/phpdotenv": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Chat\\": "src/Chat"
+    }
+  }
+}
