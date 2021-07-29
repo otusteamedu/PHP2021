@@ -49,11 +49,9 @@ class RedisEventRepository implements IEventRepository
         ksort($conditions);
 
         $keys = [];
-
         foreach ($conditions as $key => $val) {
             array_push($keys, "$key-$val");
         }
-
         return implode(':', $keys);
     }
 }
