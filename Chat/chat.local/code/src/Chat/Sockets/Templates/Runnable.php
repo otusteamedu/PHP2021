@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Chat\Sockets;
+namespace Chat\Sockets\Templates;
 
 
 interface Runnable

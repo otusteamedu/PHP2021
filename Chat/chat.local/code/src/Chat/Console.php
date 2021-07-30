@@ -1,12 +1,15 @@
 <?php
 
 
+declare(strict_types=1);
+
+
 namespace Chat;
 
 
-use Chat\Sockets\Runnable;
+use \Chat\Sockets\Templates\Runnable;
 
-class Console
+final class Console
 {
 
     private Runnable $appInstance;

@@ -1,28 +1,28 @@
 <?php
 
 
+declare(strict_types=1);
+
+
 namespace Chat\Sockets;
 
 
-class Client implements Runnable
+use Chat\Sockets\Templates\SocketImplementation;
+
+final class Client extends SocketImplementation
 {
 
-    private Socket $socket;
+    private SocketWork $socket;
 
     public function __construct()
     {
-        $this->socket = new Socket($_ENV["SOCKET_PATH"], $_ENV["SOCKET_PORT"]);
+        $this->socket = new SocketWork($_ENV["SOCKET_PATH"], (int)$_ENV["SOCKET_PORT"]);
     }
 
     private function init(): void
     {
         $this->socket->create();
         $this->socket->connect();
-    }
-
-    private function readline(): string
-    {
-        return rtrim(fgets(STDIN));
     }
 
     private function waitingResponse()

@@ -1,19 +1,19 @@
 <?php
 
 
-namespace Chat\Sockets;
+namespace Chat\Sockets\Templates;
 
 
-class Socket
+abstract class Socket
 {
 
-    private $socket;
-    private $acceptedSocket;
-    private $bind;
-    private string $host;
-    private int $port;
-    private int $maxConnection = 3;
-    private int $readingLength = 4096;//bytes
+    protected $socket;
+    protected $acceptedSocket;
+    protected $bind;
+    protected string $host;
+    protected int $port;
+    protected int $maxConnection = 3;
+    protected int $readingLength = 4096;//bytes
 
     public function __construct(string $host, int $port)
     {
@@ -41,13 +41,6 @@ class Socket
         }
     }
 
-    public function clearSocketFile(): void
-    {
-        if (file_exists($this->host)) {
-            unlink($this->host);
-        }
-    }
-
     public function bindName(): void
     {
         $this->bind = socket_bind($this->socket, $this->host, $this->port);
@@ -72,38 +65,20 @@ class Socket
         }
     }
 
-    public function readFromSocket(): ?string
+    protected function read($socket): ?string
     {
-        return $this->read($this->socket);
-    }
-
-    public function readFromAcceptedSocket(): ?string
-    {
-        return $this->read($this->acceptedSocket);
-    }
-
-    private function read($socket): ?string
-    {
-        if (false === ($buf = socket_read($socket, $this->readingLength))) {
+        $buf = socket_read($socket, $this->readingLength);
+        if (false === $buf) {
             throw new \Exception("Can't read from a socket (socket_read)");
         }
-        if (!$buf = trim($buf)) {
+        $buf = trim($buf);
+        if (!$buf) {
             return null;
         }
         return trim($buf);
     }
 
-    public function writeToSocket(string $message): void
-    {
-        $this->write($this->socket, $message);
-    }
-
-    public function writeToAccepted(string $message): void
-    {
-        $this->write($this->acceptedSocket, $message);
-    }
-
-    private function write($socket, string $message): void
+    protected function write($socket, string $message): void
     {
         socket_write(
             $socket,
