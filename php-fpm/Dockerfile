@@ -21,6 +21,10 @@ RUN apt-get update && apt-get install -y \
 # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN apt-get install -y nano
+
+RUN chmod -R 777 /var/run
+
 WORKDIR /var/www
 
 VOLUME /var/www

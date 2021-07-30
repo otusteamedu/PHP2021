@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
     volumes:
     - ./code:/var/www
-    - ./socket:/socket
+    - ./socket/php-fpm.sock:/var/run/php-fpm.sock
     networks:
       - app-network
 
@@ -25,7 +25,7 @@ services:
     volumes:
       - ./code:/var/www
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./socket:/socket
+      - ./socket/php-fpm.sock:/var/run/php-fpm.sock
     networks:
       - app-network
 
