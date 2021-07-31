@@ -9,7 +9,7 @@
 
 #Сборка/Запуск контейнера
 docker-compose up -d
-docker exec -i app bash -c "cd /data/chat.local && composer install"
+docker exec -i app-chat bash -c "cd /data/chat.local && composer install"
 
 #Запуск чата
 Для Windows: winpty docker exec -it app-chat bash

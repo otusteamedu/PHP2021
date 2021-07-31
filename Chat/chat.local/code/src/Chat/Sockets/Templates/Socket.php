@@ -75,7 +75,7 @@ abstract class Socket
         if (!$buf) {
             return null;
         }
-        return trim($buf);
+        return $buf;
     }
 
     protected function write($socket, string $message): void

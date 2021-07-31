@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Brackets;
 
-use Brackets\Tools\Filters\InputFilter;
-
-class App
+final class App
 {
 
-    public function run()
+    public function run(): void
     {
-        $controller = InputFilter::getPostValue("controller") ?? "DefaultController";
+        $controller = $_POST["controller"] ?? "DefaultController";
         $controller = "Brackets\\Controllers\\" . $controller;
-        $action = InputFilter::getPostValue("action") ?? "indexAction";
+        $action = $_POST["action"] ?? "indexAction";
 
         try {
             $controllerObject = new $controller();

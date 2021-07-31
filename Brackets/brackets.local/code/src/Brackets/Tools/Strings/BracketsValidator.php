@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Brackets\Tools\Strings;
 
 
-class BracketsValidator
+final class BracketsValidator
 {
 
     private string $string;
@@ -23,7 +23,7 @@ class BracketsValidator
      *
      * @param string $inputString
      */
-    private function initString(string $inputString)
+    private function initString(string $inputString): void
     {
         $inputString = trim($inputString);
         $inputString = stripslashes($inputString);

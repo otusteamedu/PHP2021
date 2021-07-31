@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Brackets\Controllers;
 
 
-use Brackets\Tools\Filters\InputFilter;
-use Brackets\Tools\Strings\BracketsValidator;
-use Brackets\Tools\Exceptions\CustomException;
+use Brackets\Tools\Response\HttpResponseTransport;
+use Brackets\Tools\Service\ValidationService;
 
 
-class DefaultController
+final class DefaultController
 {
 
     public function __construct()
@@ -18,20 +17,15 @@ class DefaultController
 
     }
 
-    public function indexAction()
+    /**
+     * Index action
+     */
+    public function indexAction(): void
     {
-        $inputString = InputFilter::getPostValue("string");
-        if (is_null($inputString)) {
-            CustomException::throwHTTPException(400, "No POST-param with name string passed");
-        }
-
-        $validator = new BracketsValidator($inputString);
-        $isValid = $validator->isValid();
-        if ($isValid) {
-            echo "OK";
-        } else {
-            CustomException::throwHTTPException(400, "Wrong string!");
-        }
+        $inputString = $_POST["string"] ?? null;
+        $validationService = new ValidationService($inputString);
+        $httpAnswer = $validationService->getBracketsValidation();
+        HttpResponseTransport::response($httpAnswer);
     }
 
 }

@@ -15,8 +15,7 @@ final class App
         $callType = php_sapi_name();
         switch ($callType) {
             case "cli":
-                global $argv;
-                $console = new Console($argv);
+                $console = new Console($_SERVER["argv"]);
                 $console->run();
                 break;
             default:
