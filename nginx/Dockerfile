@@ -1,6 +1,6 @@
 FROM nginx
 
-COPY ./hosts/app.local.conf /etc/nginx/conf.d/app.local.conf
+COPY ./hosts/application.local.conf /etc/nginx/conf.d/application.local.conf
 
 WORKDIR /var/www/homework
 
