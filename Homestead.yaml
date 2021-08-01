@@ -1,0 +1,24 @@
+---
+ip: "192.168.10.10"
+memory: 4096
+cpus: 4
+provider: virtualbox
+
+folders:
+    - map: ~/PhpstormProjects
+      to: /home/code
+
+sites:
+    - map: application.local
+      to: /home/code/PHP2021
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
