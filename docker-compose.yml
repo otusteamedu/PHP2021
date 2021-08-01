@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+  nginx:
+    image: hw/nginx
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./web-content:/var/www/homework
+    networks:
+      - hw-network
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: hw/php-fpm
+    container_name: php-fpm
+    volumes:
+        - ./web-content:/var/www/homework
+    networks:
+      - hw-network
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE_NAME: ${MYSQL_DATABASE_NAME}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - hw-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - hw-network
+    environment:
+      - MEMCACHED_MAX_CONNECTIONS=100
+      - MEMCACHED_THREADS=1
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "5000:5000"
+
+networks:
+  hw-network:
+    driver: bridge
+
+#    :ro - read only
