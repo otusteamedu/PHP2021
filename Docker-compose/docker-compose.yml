@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  web:
+    build: ./nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/code:/var/www/test
+    restart: always
+    networks:
+      - test
+
+  php:
+    build: ./php-fpm
+    volumes:
+      - ./nginx/code:/var/www/test
+    restart: always
+    networks:
+      - test
+
+  redis:
+    build: ./redis
+    volumes:
+      - ./redis/data:/data
+    restart: always
+    networks:
+      - test
+
+  memcached:
+    image: memcached:latest
+    restart: always
+    networks:
+      - test
+
+  db:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: track
+      MYSQL_USER: track
+      MYSQL_PASSWORD: track
+    networks:
+      - test
+
+networks:
+  test:
+    driver: bridge
