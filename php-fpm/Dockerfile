@@ -27,8 +27,12 @@ RUN mkdir "/socket"
 
 RUN chmod -R 777 /socket
 
+RUN chown -R root:root /socket
+
 WORKDIR /var/www
 
 VOLUME /var/www
+
+USER root
 
 CMD ["php-fpm"]
