@@ -1,0 +1,59 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: ./php_fpm/
+      dockerfile: Dockerfile
+    image: docker_burki/php_fpm
+    container_name: docker_burki_web
+    volumes:
+      - ./code:/src/docker-burki.test
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    image: docker_burki/nginx
+    container_name: docker_burki_webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/src/docker-burki.test
+    networks:
+      - app-network
+
+  redis:
+    image: "redis:6.2.5"
+    container_name: docker_burki_redis
+    volumes:
+      - ./code:/src/docker-burki.test
+    networks:
+      - app-network
+
+  memcached:
+    image: "memcached:1.6.10"
+    container_name: docker_burki_memcached
+    volumes:
+      - ./code:/src/docker-burki.test
+    networks:
+      - app-network
+
+  database:
+    image: mysql:8.0.26
+    container_name: docker_burki_database
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
