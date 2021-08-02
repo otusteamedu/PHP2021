@@ -23,6 +23,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN apt-get install -y nano
 
+RUN mkdir "/socket"
+
+RUN chmod -R 777 /socket
+
 WORKDIR /var/www
 
 VOLUME /var/www
