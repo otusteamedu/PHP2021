@@ -351,3 +351,5 @@
 172.31.0.1 - - [03/Aug/2021:11:32:48 +0000] "POST /event/add HTTP/1.1" 200 204 "-" "PostmanRuntime/7.26.8"
 172.31.0.1 - - [03/Aug/2021:11:32:58 +0000] "POST /event/add HTTP/1.1" 200 168 "-" "PostmanRuntime/7.26.8"
 172.31.0.1 - - [03/Aug/2021:11:33:19 +0000] "POST /event/add HTTP/1.1" 200 168 "-" "PostmanRuntime/7.26.8"
+192.168.0.1 - - [03/Aug/2021:11:43:01 +0000] "GET /event/find-all HTTP/1.1" 200 12 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+192.168.0.1 - - [03/Aug/2021:11:43:03 +0000] "GET /event/find-all HTTP/1.1" 200 12 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
