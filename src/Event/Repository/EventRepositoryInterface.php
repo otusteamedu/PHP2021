@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Queue\Events\Repository;
+namespace App\Event\Repository;
 
-interface IEventRepository
+interface EventRepositoryInterface
 {
     /**
      * Вставляем событие в очередь событий.

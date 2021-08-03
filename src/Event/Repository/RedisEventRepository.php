@@ -1,15 +1,14 @@
 <?php
 
 
-namespace Queue\Events\Repository;
+namespace App\Event\Repository;
 
-use Queue\Events\IEvent;
-
-class RedisEventRepository implements IEventRepository
+class RedisEventRepository implements EventRepositoryInterface
 {
+
     private \Redis $conn;
 
-    public function __constructor(\Redis $conn)
+    public function __construct(\Redis $conn)
     {
         $this->conn = $conn;
     }
@@ -45,13 +44,13 @@ class RedisEventRepository implements IEventRepository
             return '';
         }
 
-        // сортируем что бы ключи были всегда в одном порядке
         ksort($conditions);
 
         $keys = [];
         foreach ($conditions as $key => $val) {
             array_push($keys, "$key-$val");
         }
+
         return implode(':', $keys);
     }
 }
