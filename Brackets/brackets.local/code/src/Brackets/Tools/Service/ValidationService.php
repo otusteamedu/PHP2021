@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Brackets\Tools\Service;
 
 
-use Brackets\Tools\Response\HttpRespone;
+use Brackets\Tools\Response\HttpResponse;
 use Brackets\Tools\Strings\BracketsValidator;
 
 final class ValidationService
@@ -24,21 +24,21 @@ final class ValidationService
      *
      * Return HttpRespone of brackets validation
      *
-     * @return HttpRespone
+     * @return HttpResponse
      */
-    public function getBracketsValidation(): HttpRespone
+    public function getBracketsValidation(): HttpResponse
     {
         if (is_null($this->string)) {
-            return new HttpRespone(400, "No POST-param with name string passed");
+            return new HttpResponse(400, "No POST-param with name string passed");
         }
 
         $validator = new BracketsValidator($this->string);
         $isValid = $validator->isValid();
 
         if (!$isValid) {
-            return new HttpRespone(400, "Wrong string!");
+            return new HttpResponse(400, "Wrong string!");
         }
-        return new HttpRespone(200, "OK", "OK");
+        return new HttpResponse(200, "OK", "OK");
     }
 
 }

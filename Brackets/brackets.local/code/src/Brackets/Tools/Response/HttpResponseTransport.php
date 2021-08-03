@@ -11,10 +11,9 @@ final class HttpResponseTransport
 {
 
     /**
-     * @param int $code Response code
-     * @param string $text Response text
+     * @param HttpResponse $httpResponse
      */
-    public static function response(HttpRespone $httpResponse): void
+    public static function response(HttpResponse $httpResponse): void
     {
         header("HTTP/1.1 " . $httpResponse->getCode() . ": " . $httpResponse->getText());
         echo $httpResponse->getContent();

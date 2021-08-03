@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Brackets\Tools\Response;
 
 
-final class HttpRespone
+final class HttpResponse
 {
 
     private int $code;
