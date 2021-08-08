@@ -1,17 +1,5 @@
 {
-    "name": "aleksandrdolzikov/otus",
-    "autoload": {
-        "psr-4": {
-            "Otus\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Alex Dolzhykov",
-            "email": "sanya201412@gmail.com"
-        }
-    ],
     "require": {
-        "php": ">=7.4"
+        "adoronichev/sample": "^1.0"
     }
 }
