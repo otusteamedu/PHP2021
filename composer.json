@@ -1,0 +1,5 @@
+{
+    "require": {
+        "olegsv/hello-world": ">=1.0"
+    }
+}
