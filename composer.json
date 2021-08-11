@@ -1,0 +1,20 @@
+{
+    "name": "stoforc/hello-world",
+    "description": "homework 3",
+    "version": "1.1.3",
+    "autoload": {
+        "psr-4": {
+            "Hello\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Stepanov Sergeu",
+            "email": "prostoforce1@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "license": "MIT"
+}
