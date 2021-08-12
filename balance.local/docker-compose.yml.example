@@ -37,6 +37,8 @@ services:
     restart: unless-stopped
     environment:
       - SLAVE=memcached2
+    depends_on:
+      - memcached2
     networks:
       - app-network
 
@@ -44,8 +46,6 @@ services:
     image: 'oktec/repcached:latest'
     container_name: memcached2
     restart: unless-stopped
-    environment:
-      - SLAVE=memcached1
     networks:
       - app-network
 
