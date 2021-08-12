@@ -1,0 +1,24 @@
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+folders:
+    - map: /home/alexander/code/test
+      to: /home/vagrant/code
+
+sites:
+    - map: homestead.test
+      to: /home/vagrant/code/public
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
