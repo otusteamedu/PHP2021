@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use \Core\View;
 use \Core\Controller;
-use \App\BurgerFactory;
-use \App\HotDogFactory;
-use \App\SendwichFactory;
+use \App\Factories\BurgerFactory;
+use \App\Factories\HotDogFactory;
+use \App\Factories\SendwichFactory;
 
 class Home extends Controller
 {

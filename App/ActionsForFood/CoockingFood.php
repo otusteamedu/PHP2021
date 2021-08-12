@@ -4,7 +4,7 @@ namespace \App\ActionsForFood;
 
 use \App\Interfaces;
 
-class CoockingFood implements FoodCustumer
+class CoockingFood implements Observable
 {
     protected $foodCustomers = [];
 
