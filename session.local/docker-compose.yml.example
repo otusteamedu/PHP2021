@@ -1,0 +1,92 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: myapp-mysql
+    volumes:
+      - ./db/data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=myapp
+      - MYSQL_DATABASE=myapp
+      - MYSQL_USER=myapp
+      - MYSQL_PASSWORD=myapp
+    ports:
+      - "8001:3306"
+    networks:
+      - app-network
+
+  #Контейнер с PHP, назовём его app1
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+      - ./code:/data/session.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP, назовём его app2
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
+    volumes:
+      - ./code:/data/session.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  memcached1:
+    image: 'oktec/repcached:latest'
+    container_name: memcached1
+    restart: unless-stopped
+    environment:
+      - SLAVE=memcached2
+    networks:
+      - app-network
+
+  memcached2:
+    image: 'oktec/repcached:latest'
+    container_name: memcached2
+    restart: unless-stopped
+    environment:
+      - SLAVE=memcached1
+    networks:
+      - app-network
+
+  #контейне с Nginx
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/session.local
+    depends_on:
+      - app1
+      - app2
+      - memcached1
+      - memcached2
+      - db
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
