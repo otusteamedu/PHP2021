@@ -25,4 +25,4 @@ exit $E_BADARGS
 fi
 
 echo "Лови сумму: "
-echo $(( $var1 + $var2 ))
+echo $var1 $var2 | awk '{print $1 + $2}'
