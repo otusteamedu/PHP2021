@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS public.ticket
     seat_id integer NOT NULL,
     price_id integer NOT NULL,
     status_id integer NOT NULL,
+    price_fact numeric(5, 2) NOT NULL,
     PRIMARY KEY (id)
 );
 
