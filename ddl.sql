@@ -30,13 +30,10 @@ CREATE TABLE IF NOT EXISTS public."filmAttributeValue"
     id serial NOT NULL,
     film_attribute_id smallint NOT NULL,
     film_id integer NOT NULL,
-    value_string character varying(255),
     value_text text,
-    value_integer integer,
     value_numeric numeric(8, 4),
     value_boolean boolean,
     value_timestamp timestamp without time zone,
-    value_interval interval,
     PRIMARY KEY (id)
 );
 
