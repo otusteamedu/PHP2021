@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Controllers;
-
-use \Core\View;
-use \Core\Controller;
-use \App\Factories\BurgerFactory;
-use \App\Factories\HotDogFactory;
-use \App\Factories\SendwichFactory;
+use Core\View;
+use Core\Controller;
+use App\Decorator\Features\OnionDecorator;
+use App\AbstractFactory\Factories\BurgerFactory;
+use App\AbstractFactory\Factories\HotDogFactory;
+use App\AbstractFactory\Factories\SendwichFactory;
 
 class Home extends Controller
 {
@@ -15,12 +14,24 @@ class Home extends Controller
     {
         
         
+        //Бургеры
+        $burgerFactory = new BurgerFactory();
+        $burgerBlackBread = $burgerFactory->createBlackBreadProduct('Гамбургер');
+        $burgerWhiteBread = $burgerFactory->createWhiteBreadProduct('Биштейсти');
+        
+        $OnionDecorator = new OnionDecorator();
+        //Бургер с луком 
+        $burgerAddOnion = $OnionDecorator->getProduct($burgerBlackBread);
 
-        // $burgerFactory = new BurgerFactory();
-        // $burger = $burgerFactory->makeFood();
-        // $burger->getDescription();
+        //Хот доги
+        $hotDogFactory = new HotDogFactory();
+        $hotDogBlackBread = $hotDogFactory->createBlackBreadProduct('МиниКорн');
+        $hotDogWhiteBread = $hotDogFactory->createWhiteBreadProduct('Классический');
 
-
+        //Сендвичи
+        $sendwichFactory = new SendwichFactory();
+        $sendwichBlackBread = $sendwichFactory->createWhiteBreadProduct('Итальянский БМТ');
+        $sendwichWhiteBread = $sendwichFactory->createWhiteBreadProduct('Датский');
 
 
         
