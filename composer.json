@@ -1,0 +1,23 @@
+{
+    "name": "artemanoshin/isibia",
+    "description": "My test composer package",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Artemanoshin\\Isibia\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artem Anoshin",
+            "email": "artem-anoshin@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "require-dev": {
+
+    },
+    "minimum-stability": "dev"
+}
