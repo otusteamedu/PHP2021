@@ -26,6 +26,7 @@ SELECT
     fa.name film_attribute_name,
     (
         CASE WHEN fav.value_text IS NOT NULL THEN fav.value_text || ' ' ELSE '' END
+        || CASE WHEN fav.value_integer IS NOT NULL THEN fav.value_integer || ' ' ELSE '' END
         || CASE WHEN fav.value_numeric IS NOT NULL THEN fav.value_numeric || ' ' ELSE '' END
         || CASE WHEN fav.value_boolean IS NOT NULL THEN (
             CASE WHEN fav.value_boolean=TRUE THEN 'Да ' ELSE 'Нет ' END

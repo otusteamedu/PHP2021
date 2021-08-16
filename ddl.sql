@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS public."filmAttributeValue"
     film_attribute_id smallint NOT NULL,
     film_id integer NOT NULL,
     value_text text,
+    value_integer integer,
     value_numeric numeric(8, 4),
     value_boolean boolean,
     value_timestamp timestamp without time zone,
