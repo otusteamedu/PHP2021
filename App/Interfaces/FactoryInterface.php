@@ -2,18 +2,21 @@
 
 interface ProductFactory {
 
-    /* Продукция с черным хлебом */
-    public function createBlackBreadProduct() : BlackBread;
+    public function createBurger() : Burger;
+    public function createSendwich() : Sendwich;
+    public function createHotDog() : HotDog;
 
-    /* Продукция с белым хлебом */
-    public function createWhiteBreadProduct() : WhiteBread;
 
 }
 
-interface Food {
-    
-    public function getProduct();
-
+interface Burger {
+    public function ProductInformation() : String;
 }
 
+interface Sendwich {
+    public function ProductInformation() : String;
+}
 
+interface HotDog {
+    public function ProductInformation() : String;
+}
