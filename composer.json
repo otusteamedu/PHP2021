@@ -1,0 +1,12 @@
+{
+    "name": "caveman108/hellohello",
+    "description": "Hello Hello package",
+    "require": {
+      "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "HelloHello\\": "src/"
+        }
+    }
+}
