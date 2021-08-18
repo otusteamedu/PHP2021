@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ../code:/var/www
+      - /tmp:/tmp
+  client:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ../code:/var/www
+      - /tmp:/tmp
