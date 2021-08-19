@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  php-fpm:
+    container_name: hw4-php-fpm
+    image: myapp/php
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    volumes:
+    - ./code:/var/www
+    networks:
+      - app-network
+
+  nginx:
+    container_name: hw4-nginx
+    image: myapp/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/sites-available/default
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

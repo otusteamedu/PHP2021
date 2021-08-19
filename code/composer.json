@@ -1,0 +1,15 @@
+{
+    "name": "gena/code",
+    "authors": [
+        {
+            "name": "genamalugin",
+            "email": "genamalugin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Controllers\\" : "app/Controllers"
+        }
+    },
+    "require": {}
+}
