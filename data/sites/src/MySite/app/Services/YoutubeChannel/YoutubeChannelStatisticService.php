@@ -24,11 +24,6 @@ final class YoutubeChannelStatisticService
         $this->channelService = new YoutubeChannelService();
     }
 
-    public function getBestChannels()
-    {
-
-    }
-
     /**
      * @param string $id
      * @return float|int
@@ -53,9 +48,11 @@ final class YoutubeChannelStatisticService
     {
         $likes = 0;
         $channel = $this->channelService->getChannelById($id);
+
         if ($channel) {
             $likes = $channel->likes();
         }
+
         return $likes;
     }
 
@@ -67,9 +64,11 @@ final class YoutubeChannelStatisticService
     {
         $dislikes = 0;
         $channel = $this->channelService->getChannelById($id);
+
         if ($channel) {
             $dislikes = $channel->dislikes();
         }
+        
         return $dislikes;
     }
 }
