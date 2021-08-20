@@ -3,3 +3,4 @@ store/
 vendor/
 .env
 Homestead.yaml
+.phpunit.result.cache
