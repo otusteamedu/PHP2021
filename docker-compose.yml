@@ -6,6 +6,8 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/hw-9
+    env_file:
+      - .env
     volumes:
       - ./data/sites:/data/
     networks:
@@ -28,6 +30,17 @@ services:
       - app
     restart: always
 
+  elasticsearch:
+    image: elasticsearch:7.9.3
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+    depends_on:
+          - app
+    restart: always
+    networks:
+      - app-network
 
 networks:
   app-network:
