@@ -27,3 +27,8 @@
   method: DELETE
   resource: TestController
   action: testDelete
+
+- path: /make-payment
+  method: POST
+  resource: PaymentController
+  action: makePayment
