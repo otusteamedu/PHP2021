@@ -7,13 +7,12 @@ INSERT INTO attribute_types (name, code, description) VALUES
 ('Text', 'text', 'Текстовое значение'),
 ('Service dates', 'service_date', 'Служебные даты'),
 ('Regular dates', 'regular_date', 'Обычные даты'),
-('Numeric', 'num', 'Денежные значения'),
 ('Integer', 'int', 'Числовые значения'),
 ('Boolean', 'bool', 'Да/Нет');
 
 INSERT INTO attributes (name, code, attribute_type_id) VALUES
 ('Рецензии', 'reviews', 1),
-('Есть премия', 'have_reward', 6),
+('Есть премия', 'have_reward', 5),
 ('Мировая премьера', 'world_premiere', 3),
 ('Премьера в РФ', 'russia_premiere', 3),
 ('Дата начала продажи билетов', 'start_sale', 2),

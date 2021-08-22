@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS attribute_values (
 	film_id INTEGER NOT NULL,
 	value_text TEXT,
 	value_date DATE,
-	value_money MONEY,
 	value_int INTEGER,
 	value_bool BOOLEAN,
 	value_float FLOAT8,
