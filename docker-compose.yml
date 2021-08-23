@@ -6,10 +6,14 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/hw-9
+    env_file:
+      - .env
     volumes:
       - ./data/sites:/data/
     networks:
       - app-network
+    depends_on:
+      - redis
     restart: always
 
   nginx:
@@ -27,6 +31,14 @@ services:
     depends_on:
       - app
     restart: always
+
+  redis:
+    image: redis:6.2-rc2
+    expose:
+      - 6379
+    restart: always
+    networks:
+      - app-network
 
 
 networks:
