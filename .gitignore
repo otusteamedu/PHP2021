@@ -1,0 +1,6 @@
+.git
+.idea
+.DS_Store
+.env
+code/vendor
+composer.phar
