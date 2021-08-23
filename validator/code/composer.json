@@ -1,0 +1,21 @@
+{
+	"name": "acya-skulskaya/hw4-validator",
+	"description": "Home Work 4: Validator",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Acya Skulskaya",
+			"email": "onestepclosertome@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"HW4\\": "./src/HW4/"
+		}
+	},
+	"require": {
+		"php": ">=7.4.0"
+	}
+}
+	
