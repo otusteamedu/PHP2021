@@ -30,13 +30,13 @@ final class VideoDetailsGrabber extends BaseGrabber
         $answer = $this->requestHandle();
 
         if (isset($answer['items'][0]['snippet'])) {
-            $likes = intval($answer['items'][0]['statistics']['likeCount']);
-            $dislikes = intval($answer['items'][0]['statistics']['dislikeCount']);
             $this
                 ->video
                 ->setTitle($answer['items'][0]['snippet']['title'])
                 ->setDescription($answer['items'][0]['snippet']['description'])
                 ->setPublishedAt($answer['items'][0]['snippet']['publishedAt'])
+                ->addLikes($answer['items'][0]['statistics']['likeCount'])
+                ->addDislikes($answer['items'][0]['statistics']['dislikeCount'])
                 ->setChannelId(
                     $this
                         ->channel
@@ -44,8 +44,8 @@ final class VideoDetailsGrabber extends BaseGrabber
                 );
             $this
                 ->channel
-                ->addLikes($likes)
-                ->addDislikes($dislikes);
+                ->addLikes($this->video->likes())
+                ->addDislikes($this->video->dislikes());
         }
         return parent::handle();
     }
