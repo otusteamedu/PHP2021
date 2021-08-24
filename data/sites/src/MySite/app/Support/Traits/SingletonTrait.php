@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace MySite\app\Support\Traits;
 
@@ -12,7 +13,6 @@ trait SingletonTrait
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -20,7 +20,6 @@ trait SingletonTrait
      */
     public function __clone()
     {
-
     }
 
     /**
@@ -28,6 +27,5 @@ trait SingletonTrait
      */
     public function __wakeup()
     {
-
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace MySite\app\Services\EndpointService;
 
@@ -9,6 +10,10 @@ use Doctrine\ORM\ORMException;
 use MySite\app\Support\Entities\Endpoint;
 use MySite\app\Support\Facades\Schema;
 
+/**
+ * Class EndpointHandler
+ * @package MySite\app\Services\EndpointService
+ */
 class EndpointHandler
 {
 

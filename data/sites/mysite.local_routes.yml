@@ -1,0 +1,4 @@
+- path: /api/endpoint
+  method: POST
+  resource: EndpointController
+  action: store

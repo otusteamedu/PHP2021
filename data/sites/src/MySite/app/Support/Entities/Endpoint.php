@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MySite\app\Support\Entities;
 
+
+use DateTime;
 
 /**
  * @Entity
@@ -25,37 +28,37 @@ class Endpoint
     /**
      * @Column(type="string", nullable="true", name="http_referer")
      *
-     * @var string
+     * @var string|null
      */
-    private string $httpReferer;
+    private ?string $httpReferer;
 
     /**
      * @Column(type="string", nullable="true", name="query_string")
      *
-     * @var string
+     * @var string|null
      */
-    private string $queryString;
+    private ?string $queryString;
 
     /**
      * @Column(type="string", nullable="true", name="redirected_query_string")
      *
-     * @var string
+     * @var string|null
      */
-    private string $redirectedQueryString;
+    private ?string $redirectedQueryString;
 
     /**
      * @Column(type="string", nullable="true", name="user_ip")
      *
-     * @var string
+     * @var string|null
      */
-    private string $userIp;
+    private ?string $userIp;
 
     /**
      * @Column(type="string", nullable=true, name="user_agent")
      *
-     * @var string
+     * @var string|null
      */
-    private string $userAgent;
+    private ?string $userAgent;
 
     /**
      * @Column(type="boolean", name="is_checked")
@@ -65,12 +68,33 @@ class Endpoint
     private bool $isChecked = false;
 
     /**
-     * @Column(type="datetime", name="created_at", options={"default"= "CURRENT_TIMESTAMP"})
+     * @Column(type="datetime", name="created_at")
      *
-     * @var string
+     * @var DateTime
      */
-    private string $createdAt;
+    private DateTime $createdAt;
 
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
+
+    /**
+     * @param array $validated
+     * @return Endpoint
+     */
+    public static function createFromArray(array $validated): Endpoint
+    {
+        $endpoint = new self();
+
+        $endpoint->setHttpReferer($validated['http_referer']);
+        $endpoint->setQueryString($validated['query_string']);
+        $endpoint->setRedirectedQueryString($validated['redirected_query_string']);
+        $endpoint->setUserIp($validated['user_ip']);
+        $endpoint->setUserAgent($validated['user_agent']);
+
+        return $endpoint;
+    }
 
     /**
      * @return int
@@ -91,90 +115,90 @@ class Endpoint
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getHttpReferer(): string
+    public function getHttpReferer(): ?string
     {
         return $this->httpReferer;
     }
 
     /**
-     * @param string $httpReferer
+     * @param string|null $httpReferer
      * @return Endpoint
      */
-    public function setHttpReferer(string $httpReferer): Endpoint
+    public function setHttpReferer(?string $httpReferer): Endpoint
     {
         $this->httpReferer = $httpReferer;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getQueryString(): string
+    public function getQueryString(): ?string
     {
         return $this->queryString;
     }
 
     /**
-     * @param string $queryString
+     * @param string|null $queryString
      * @return Endpoint
      */
-    public function setQueryString(string $queryString): Endpoint
+    public function setQueryString(?string $queryString): Endpoint
     {
         $this->queryString = $queryString;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRedirectedQueryString(): string
+    public function getRedirectedQueryString(): ?string
     {
         return $this->redirectedQueryString;
     }
 
     /**
-     * @param string $redirectedQueryString
+     * @param string|null $redirectedQueryString
      * @return Endpoint
      */
-    public function setRedirectedQueryString(string $redirectedQueryString): Endpoint
+    public function setRedirectedQueryString(?string $redirectedQueryString): Endpoint
     {
         $this->redirectedQueryString = $redirectedQueryString;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUserIp(): string
+    public function getUserIp(): ?string
     {
         return $this->userIp;
     }
 
     /**
-     * @param string $userIp
+     * @param string|null $userIp
      * @return Endpoint
      */
-    public function setUserIp(string $userIp): Endpoint
+    public function setUserIp(?string $userIp): Endpoint
     {
         $this->userIp = $userIp;
         return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getUserAgent(): string
+    public function getUserAgent(): ?string
     {
         return $this->userAgent;
     }
 
     /**
-     * @param string $userAgent
+     * @param string|null $userAgent
      * @return Endpoint
      */
-    public function setUserAgent(string $userAgent): Endpoint
+    public function setUserAgent(?string $userAgent): Endpoint
     {
         $this->userAgent = $userAgent;
         return $this;
@@ -199,18 +223,18 @@ class Endpoint
     }
 
     /**
-     * @return string
+     * @return DateTime
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param string $createdAt
+     * @param DateTime $createdAt
      * @return Endpoint
      */
-    public function setCreatedAt(string $createdAt): Endpoint
+    public function setCreatedAt(DateTime $createdAt): Endpoint
     {
         $this->createdAt = $createdAt;
         return $this;
