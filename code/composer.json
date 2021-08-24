@@ -1,0 +1,23 @@
+{
+	"name": "acya-skulskaya/hw9-elasticsearch",
+	"description": "Home Work 9: ElasticSearch",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Acya Skulskaya",
+			"email": "onestepclosertome@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"HW9\\": "./src/HW9/"
+		}
+	},
+	"require": {
+		"php": ">=7.4.0",
+		"elasticsearch/elasticsearch": "^7.9",
+		"google/apiclient": "^2.0"
+	}
+}
+	
