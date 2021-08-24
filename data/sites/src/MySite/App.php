@@ -15,6 +15,6 @@ class App
      */
     public function run(): void
     {
-        echo 1;
+
     }
 }

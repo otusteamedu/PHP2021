@@ -8,6 +8,8 @@ services:
     image: myapp/hw-9
     volumes:
       - ./data/sites:/data/
+    env_file:
+      - .env
     networks:
       - app-network
     restart: always
@@ -28,7 +30,20 @@ services:
       - app
     restart: always
 
-
+  mariadb:
+    image: 'mariadb:latest'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_LOGIN}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+    networks:
+      - app-network
+    ports:
+      - "${DB_PORT}:3306"
 networks:
   app-network:
     driver: bridge
