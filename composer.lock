@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "291a977da47b713a8b96285c566fe06f",
+    "packages": [
+        {
+            "name": "artsap/composer_package",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/artsap/com.git",
+                "reference": "d508c18541f1c227c52e1292e8774ee39b4c2102"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/artsap/com/zipball/d508c18541f1c227c52e1292e8774ee39b4c2102",
+                "reference": "d508c18541f1c227c52e1292e8774ee39b4c2102",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Otus\\": "src/Otus"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Супермутант",
+                    "email": "work@artsap.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/artsap/com/issues",
+                "source": "https://github.com/artsap/com/tree/1.0.0"
+            },
+            "time": "2021-08-24T16:02:17+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
