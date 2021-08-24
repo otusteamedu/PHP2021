@@ -30,4 +30,40 @@ class EndpointHandler
         $entityManager->flush();
         return $endpoint->getId();
     }
+
+    /**
+     * @return array
+     */
+    public function getAll(): array
+    {
+        $entityManager = Schema::connection();
+        $repository = $entityManager->getRepository(Endpoint::class);
+        $endpoints = $repository->findAll();
+        return $this->prepareArray($endpoints);
+    }
+
+    /**
+     * @param array $endpoints
+     * @return array
+     */
+    private function prepareArray(array $endpoints): array
+    {
+        $result = [];
+        array_walk(
+            $endpoints,
+            function (Endpoint $endpoint) use (&$result) {
+                $result[] = [
+                    'id' => $endpoint->getId(),
+                    'http_referer' => $endpoint->getHttpReferer(),
+                    'query_string' => $endpoint->getQueryString(),
+                    'redirected_query_string' => $endpoint->getRedirectedQueryString(),
+                    'user_ip' => $endpoint->getUserIp(),
+                    'user_agent' => $endpoint->getUserAgent(),
+                    'is_checked' => $endpoint->isChecked(),
+                    'created_at' => $endpoint->getCreatedAt()
+                ];
+            }
+        );
+        return $result;
+    }
 }

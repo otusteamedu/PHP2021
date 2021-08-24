@@ -2,3 +2,9 @@
   method: POST
   resource: EndpointController
   action: store
+
+
+- path: /api/endpoint
+  method: GET
+  resource: EndpointController
+  action: index
