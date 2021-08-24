@@ -28,9 +28,11 @@ class ParserController extends BaseController
     {
         $youTubeChannelDTO = (new YouTubeParserService($request))->run();
         return $this->prepareResponse(
-            [
-                'result' => (new YoutubeChannelService())->saveChannel($youTubeChannelDTO)
-            ]
+            json_encode(
+                [
+                    'result' => (new YoutubeChannelService())->saveChannel($youTubeChannelDTO)
+                ]
+            )
         );
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace MySite;
 
-use League\Container\ContainerInterface;
-use League\Route\RouteCollectionInterface;
+use MySite\bootstrap\AppContainer;
+use MySite\bootstrap\AppRouter;
 
 /**
  * Class App
@@ -17,11 +17,12 @@ final class App
     /**
      * single entry point into application
      *
-     * @param ContainerInterface $container
-     * @param RouteCollectionInterface $router
      */
-    public function run(ContainerInterface $container, RouteCollectionInterface $router): void
+    public function run(): void
     {
+        $container = (new AppContainer())();
+        $router = (new AppRouter())($container);
+
         $response = $router->dispatch(
             $container->get('Zend\Diactoros\ServerRequest'),
             $container->get('Zend\Diactoros\Response')

@@ -35,8 +35,8 @@ final class VideoDetailsGrabber extends BaseGrabber
                 ->setTitle($answer['items'][0]['snippet']['title'])
                 ->setDescription($answer['items'][0]['snippet']['description'])
                 ->setPublishedAt($answer['items'][0]['snippet']['publishedAt'])
-                ->addLikes($answer['items'][0]['statistics']['likeCount'])
-                ->addDislikes($answer['items'][0]['statistics']['dislikeCount'])
+                ->addLikes((int)$answer['items'][0]['statistics']['likeCount'])
+                ->addDislikes((int)$answer['items'][0]['statistics']['dislikeCount'])
                 ->setChannelId(
                     $this
                         ->channel
