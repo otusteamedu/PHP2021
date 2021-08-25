@@ -61,9 +61,7 @@ class EndpointController extends BaseController
             $validationResult->validated()
         );
 
-        if (
-            (new EndpointHandler())->saveEndpoint($endpoint) == 0
-        ) {
+        if (!(new EndpointHandler())->saveEndpoint($endpoint)) {
             return (new ErrorResponse())->getResponse();
         }
 
