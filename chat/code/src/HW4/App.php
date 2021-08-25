@@ -21,16 +21,16 @@ Class App
 		switch ( $type )
 		{
 			case 'client':
-				$CLIENT_SOCKET = getenv('CLIENT_SOCKET', true) ?: getenv('CLIENT_SOCKET');
-				$CLIENT_PORT = getenv('CLIENT_PORT', true) ?: getenv('CLIENT_PORT');
-				$client = new Client( $CLIENT_SOCKET , $CLIENT_PORT);
+				$client_socket = getenv('CLIENT_SOCKET', true) ?: getenv('CLIENT_SOCKET');
+				$client_port = getenv('CLIENT_PORT', true) ?: getenv('CLIENT_PORT');
+				$client = new Client( $client_socket , $client_port);
 				$client->waitForMessage();
 				break;
 				
 			case 'server':
-				$SERVER_SOCKET = getenv('SERVER_SOCKET', true) ?: getenv('SERVER_SOCKET');
-				$SERVER_PORT = getenv('SERVER_PORT', true) ?: getenv('SERVER_PORT');
-				$server = new Server( $SERVER_SOCKET, $SERVER_PORT );
+				$server_socket = getenv('SERVER_SOCKET', true) ?: getenv('SERVER_SOCKET');
+				$server_port = getenv('SERVER_PORT', true) ?: getenv('SERVER_PORT');
+				$server = new Server( $server_socket, $server_port );
 				$server->listen();
 				break;
 			
