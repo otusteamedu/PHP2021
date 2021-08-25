@@ -1,0 +1,30 @@
+{
+  "name": "sgaponov/hw9",
+  "description": "Учебный проект",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Gaponov Stanislav",
+      "email": "33uv0wsqa@relay.firefox.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "MySite\\": "./src/MySite/",
+      "Tests\\": "./tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.0",
+    "ext-json": "*",
+    "doctrine/orm": "^2.6.2",
+    "doctrine/cache": "^1.11",
+    "league/route": "^5.1",
+    "laminas/laminas-diactoros": "^2.6",
+    "laminas/laminas-httphandlerrunner": "^2.0",
+    "symfony/yaml": "^5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}
