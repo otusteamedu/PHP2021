@@ -89,7 +89,7 @@ class EndpointRequestValidator extends BaseValidator implements RequestValidator
         $fail = true;
         array_walk(
             $validated,
-            function ($elem) use (&$fail) {
+            static function ($elem) use (&$fail) {
                 if ($fail) {
                     $fail = !boolval($elem);
                 }

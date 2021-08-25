@@ -51,7 +51,7 @@ class EndpointHandler
         $result = [];
         array_walk(
             $endpoints,
-            function (Endpoint $endpoint) use (&$result) {
+            static function (Endpoint $endpoint) use (&$result) {
                 $result[] = [
                     'id' => $endpoint->getId(),
                     'http_referer' => $endpoint->getHttpReferer(),
