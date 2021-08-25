@@ -4,31 +4,36 @@ namespace HW5;
 
 use Exception;
 
-
-Class App 
+class App
 {
 	private $emails = [];
-	
-	public function __construct( array $emails )
+
+	public function run( array $argv ) : void
 	{
-		$this->emails = $emails;
-	}
-	
-	public function run( ) : void
-	{
-		if ( empty( $this->emails ) )
-		{
-			throw new Exception( 'No emails' );
-		}
-		
+        if ( empty($argv) )
+        {
+            throw new Exception( 'Please specify a file name to read email list from.' );
+        }
+
+        $fn = $argv[1];
+        $this->readEmailsFromFile( $fn );
+
 		foreach ( $this->emails as $email )
 		{
 			echo $email . ' = ' . ( ( $this->checkEmail( $email) ) ? 'valid' : 'invalid' ) . "\r\n\r\n";
 		}
-		
-		
 	}
-	
+
+	private function readEmailsFromFile( $fn ) : void
+    {
+        $this->emails = file($fn, FILE_IGNORE_NEW_LINES);
+
+        if ( empty( $this->emails ) )
+        {
+            throw new Exception( 'No emails' );
+        }
+    }
+
 	private function checkEmail( string $email ) : bool
 	{
 		if ( empty( $email ) )
