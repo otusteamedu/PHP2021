@@ -2,10 +2,12 @@
 
 namespace Dmigrishin\Testproject;
 
+use Exception;
+
 class App
 {
    
-   public function run()
+   public function run() : void
    {
       $method = strtolower($_SERVER['REQUEST_METHOD']);
       
@@ -30,14 +32,15 @@ class App
       {
          http_response_code(200);
 
-         exit();
+         return;
       }
       else {
          http_response_code(400);
-         exit();
+         throw new Exception( 'Bad Request', 400);
+         return;
       }
    }
-   
+
    private function validateParameters($param){
          
       if((substr($param,0,1))<>'('){
