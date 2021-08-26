@@ -37,6 +37,11 @@ class MakePaymentValidator implements IMakePaymentValidator
             return $validatorCardNumber;
         }
 
+        $validatorCardExpiration = $this->validateCardExpiration($params['card_expiration']);
+        if (! $validatorCardExpiration->getIsValid()) {
+            return $validatorCardExpiration;
+        }
+
         return $this->validatorResultDto;
     }
 
@@ -45,7 +50,7 @@ class MakePaymentValidator implements IMakePaymentValidator
         $requiredFields = [
             'card_holder',
             'card_number',
-//            'card_expiration',
+            'card_expiration',
 //            'cvv',
 //            'order_number',
 //            'sum',
@@ -65,7 +70,7 @@ class MakePaymentValidator implements IMakePaymentValidator
 
     private function validateCardHolder(string $fullName): ValidatorResultDto
     {
-        if (! preg_match('/\b[a-z]+ [a-z]+\b/i', $fullName)) {
+        if (! preg_match('/\b[a-z]+ [a-z]+\-?[a-z]+\b/i', $fullName)) {
             $this->validatorResultDto->setIsValid(false);
             $this->validatorResultDto->setMessage('card_holder is invalid');
         }
@@ -78,6 +83,17 @@ class MakePaymentValidator implements IMakePaymentValidator
         if (! preg_match('/\b[0-9]{16}\b/', $cardNumber)) {
             $this->validatorResultDto->setIsValid(false);
             $this->validatorResultDto->setMessage('card_number is invalid');
+        }
+
+        return $this->validatorResultDto;
+    }
+
+    // todo: cardExpiration must be >= now
+    private function validateCardExpiration(string $cardExpiration): ValidatorResultDto
+    {
+        if (! preg_match('/\b(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})\b/', $cardExpiration)) {
+            $this->validatorResultDto->setIsValid(false);
+            $this->validatorResultDto->setMessage('card_expiration is invalid');
         }
 
         return $this->validatorResultDto;
