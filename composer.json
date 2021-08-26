@@ -1,0 +1,5 @@
+{
+    "require": {
+        "artsap/composer_package": "^1.0"
+    }
+}
