@@ -9,11 +9,11 @@ class MakePaymentValidatorTestCase extends TestCase
 {
     private const VALID_PARAMS = [
         'card_holder' => 'Ivan Ivanov-Petrov',
-        'card_number' => 1234567890123456,
+        'card_number' => '1234567890123456',
         'card_expiration' => '12/22',
-        'cvv' => 123,
+        'cvv' => '123',
         'order_number' => 'order-123',
-        'sum' => 123.40
+        'sum' => '123.40'
     ];
 
     public function testSuccess()
@@ -179,6 +179,18 @@ class MakePaymentValidatorTestCase extends TestCase
         $result = $validator->validate($params);
 
         static::assertFalse($result->getIsValid());
+    }
+
+    public function testCardExpirationDateIsNow()
+    {
+        static::markTestIncomplete('Недоделанный тест');
+
+        $validator = new MakePaymentValidator();
+        $params = self::VALID_PARAMS;
+        $params['card_expiration'] = '08/21'; // todo
+        $result = $validator->validate($params);
+
+        static::assertTrue($result->getIsValid());
     }
 
     /* Если длина поля cvv не равно 3 => static::assertFalse($result->getIsValid()); */
