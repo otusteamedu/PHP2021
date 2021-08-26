@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app-server:
+    build: ./php-fpm
+    volumes:
+      - ./code:/tmp
+
+  app-client:
+    build: ./php-fpm
+    volumes:
+      - ./code:/tmp
