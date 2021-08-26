@@ -20,7 +20,8 @@
     "psr-4": {
       "App\\": "src",
       "Repetitor202\\": "src/Repetitor202",
-      "AppUnitTests\\": "tests/unit/"
+      "AppUnitTests\\": "tests/unit/",
+      "integration\\": "tests/integration/"
     }
   },
   "require-dev": {
