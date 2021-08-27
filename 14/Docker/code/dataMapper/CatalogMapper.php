@@ -25,14 +25,13 @@ class CatalogMapper
 
         $this->selectStatement = $pdo->prepare('SELECT * FROM goods WHERE id=?');
 
-        $this->selectStatementLimit  = $pdo->query('SELECT * FROM goods LIMIT = 10');
 
         $this->insertStatement = $pdo->prepare(
-            'INSERT INTO goods (name,prop1,prop2,description,count,price) VALUES(?,?,?,?,?,?)'
+            'INSERT INTO goods (name,propertyColor,propertySize,description,count,price) VALUES(?,?,?,?,?,?)'
         );
 
         $this->updateStatement = $pdo->prepare(
-            'UPDATE goods SET INTO name = ?,prop1 = ?,prop2 = ?,description = ?,count = ?,price = ?) WHERE id = ?'
+            'UPDATE goods SET INTO name = ?,propertyColor = ?,propertySize = ?,description = ?,count = ?,price = ?) WHERE id = ?'
         );
 
         $this->deleteStatement = $pdo->prepare(
@@ -40,7 +39,9 @@ class CatalogMapper
         );
     }
 
-    public function getAllRecordsByLimit():catalogCollection{
+    public function getAllRecordsByLimit($limit = 10):catalogCollection{
+
+        $this->selectStatementLimit  = $this->pdo->query('SELECT * FROM goods LIMIT = $limit');
 
         $result = $this->selectSatamentLimit->setFetchMode(PDO::FETCH_ASSOC);
 
@@ -51,8 +52,8 @@ class CatalogMapper
             $collection->addItem(
                  new Catalog(
                      $item['name'],
-                     $item['prop1'],
-                     $item['prop2'],
+                     $item['propertyColor'],
+                     $item['propertySize'],
                      $item['description'],
                      $item['count'],
                      $item['price'],
@@ -72,8 +73,11 @@ class CatalogMapper
 
             $result['id'],
             $result['name'],
-            $result['prop1'],
-            $result['prop2'],
+            $result['propertyColor'],
+            $result['propertySize'],
+            $result['description'],
+            $result['count'],
+            $result['price']
 
         ));
     }
@@ -83,23 +87,15 @@ class CatalogMapper
 
         $this->insertStatement->execute([
                 $rawuserData['name'],
-                $rawuserData['prop1'],
-                $rawuserData['prop2'],
+                $rawuserData['propertyColor'],
+                $rawuserData['propertySize'],
                 $rawuserData['description'],
                 $rawuserData['count'],
                 $rawuserData['price']
         ]);
 
-        return new Catalog(
-            (int) $this->pdo->lastInsertId(),
-            $rawuserData['name'],
-            $rawuserData['prop1'],
-            $rawuserData['prop2'],
-            $rawuserData['description'],
-            $rawuserData['count'],
-            $rawuserData['price']
+        return (int) $this->pdo->lastInsertId();
 
-        );
 
     }
 
@@ -108,9 +104,12 @@ class CatalogMapper
         return $this->updateStatement->execute(
           [
               $catalog->getName(),
-              $catalog->getprop1(),
-              $catalog->getprop2(),
-              $catalog->getName()
+              $catalog->getpropertyColor(),
+              $catalog->getpropertySize(),
+              $catalog->getDescription(),
+              $catalog->getCount(),
+              $catalog->getPrice(),
+
           ]
         );
     }

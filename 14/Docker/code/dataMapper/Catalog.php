@@ -68,4 +68,33 @@ class Catalog
     }
 
 
+    public function setDescription(int $description):string{
+        $this->$description = $description;
+        return $this;
+    }
+
+    public function getDescription():self{
+        return $this->description;
+    }
+
+
+    public function setCount(int $count):int{
+        $this->$count = $count;
+        return $this;
+    }
+
+    public function getCount():self{
+        return $this->count;
+    }
+
+    public function setPrice(int $price):int{
+        $this->id = $price;
+        return $this;
+    }
+
+    public function getPrice():self{
+        return $this->price;
+    }
+
+
 }
