@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  postgres:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    container_name: postgres_cinema
+    environment: 
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+    volumes: 
+      - ./postgres/init:/docker-entrypoint-initdb.d/
+    networks: 
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
