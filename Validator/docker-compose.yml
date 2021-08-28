@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    build: ./php-fpm
+    image: app/php
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+  webserver:
+    build: ./nginx
+    image: app/nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

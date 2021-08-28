@@ -1,0 +1,1 @@
+POST requests to application.local/public/
