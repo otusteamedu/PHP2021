@@ -1,0 +1,12 @@
+{
+    "name":"dtsarev/hellocomponent",
+    "version":"1.0.0",
+    "require":{
+        "php":">=7.4.0"
+    },
+    "autoload":{
+        "psr-4":{
+            "hellocomponent\\":"source/"
+        }
+    }
+}
