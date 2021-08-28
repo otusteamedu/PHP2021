@@ -19,16 +19,22 @@ class Server
         $this->socket->bind();
         $this->socket->listen();
         $this->socket->accept();
+        echo "Для выхода введи: /выход \n";
 
         do {
             $this->messageRead = $this->socket->read($this->source);
             echo "Ответ: " . $this->messageRead . "\n";
             echo "Введите сообщение: ";
             $this->TextInput();
+
+            if ($this->messageWrite == '/выход') {
+                break;
+            }
+            
             $this->socket->write($this->source, $this->messageWrite);
         } while (true);
 
-        close();
+        $this->socket->close();
     }
 
     public function TextInput()

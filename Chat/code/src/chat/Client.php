@@ -21,16 +21,22 @@ class Client
         $this->socket = new Socket();
         $this->socket->create();
         $this->socket->connect();
-    
+        echo "Для выхода введи: /выход \n";
+
         do {
             echo 'Введите сообщение: ';
             $this->TextInput();
+
+            if ($this->messageWrite == '/выход') {
+                break;
+            }
+            
             $this->socket->write($this->source, $this->messageWrite);
             $this->messageRead = $this->socket->read($this->source);
             echo "Ответ: " . $this->messageRead . "\n";
         } while (true);
 
-        close();
+        $this->socket->close();
     }
     
     public function TextInput()

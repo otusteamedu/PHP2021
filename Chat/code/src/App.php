@@ -9,11 +9,11 @@ class App
 {
     public function run()
     {
-        $argv1 = $_SERVER['argv'][1];
+        $role = $_SERVER['argv'][1];
 
-        if($argv1 == 'server') {
+        if($role == 'server') {
             $server = new Server();
-        } elseif ($argv1 == 'client') {
+        } elseif ($role == 'client') {
             $client = new Client();
         } else {
             throw new \Exception('Укажите аргумент: server, client' . PHP_EOL);
