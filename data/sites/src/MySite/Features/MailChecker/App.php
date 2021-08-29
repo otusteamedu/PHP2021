@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
 
 namespace MySite\Features\MailChecker;
 
+use MySite\Features\MailChecker\Dto\EmailValidate;
+use MySite\Features\MailChecker\Services\EmailService;
 use MySite\Http\HttpCodes;
 use MySite\Http\Request;
 use MySite\Http\Response;
@@ -25,27 +28,16 @@ class App implements HttpCodes
         $response = new Response();
         $response->withStatus(self::BAD_REQUEST, 'BAD REQUEST');
 
-        if (isset($post['email']) && $this->checkEmail($post['email'])) {
-            $response->withStatus(self::OK, 'OK');
+        if (isset($post['email'])) {
+            $emailValidateDto = EmailValidate::createFromString($post['email']);
+
+            EmailService::validate($emailValidateDto);
+
+            if ($emailValidateDto->isValid()) {
+                $response->withStatus(self::OK, 'OK');
+            }
         }
 
         return $response;
-    }
-
-    /**
-     * @param string $email
-     * @return bool
-     */
-    private function checkEmail(string $email): bool
-    {
-        $result = false;
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $explodedEmail = explode('@', $email);
-            if (is_array($explodedEmail)) {
-                $host = $explodedEmail[1];
-                $result = checkdnsrr($host, 'MX');
-            }
-        }
-        return $result;
     }
 }
