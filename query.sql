@@ -4,9 +4,9 @@ SELECT
 
 FROM
 	`orders`
-	LEFT JOIN `seats` ON  `seats`.`id` = `orders`.`seat`
-	LEFT JOIN `screenings` ON  `screenings`.`id` = `orders`.`screening`
-		INNER JOIN `movies` ON `movies`.`id` = `screenings`.`movie`
+	INNER JOIN `seats` ON  `seats`.`id` = `orders`.`seat`
+	INNER JOIN `screenings` ON  `screenings`.`id` = `orders`.`screening`
+	INNER JOIN `movies` ON `movies`.`id` = `screenings`.`movie`
 	,
 	`price_types_price_ranges`
 
