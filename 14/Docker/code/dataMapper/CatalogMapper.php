@@ -84,19 +84,18 @@ class CatalogMapper
 
     public function insert(array $rawuserData):Catalog
     {
-
+        foreach ($rawuserData as $key=>$value){
+            if (!empty($rawuserData[$key])){
+                $rawuserData[$key] = $value;
+            }else{
+                unset($rawuserData[$key]);
+            }
+        }
         $this->insertStatement->execute([
-                $rawuserData['name'],
-                $rawuserData['propertyColor'],
-                $rawuserData['propertySize'],
-                $rawuserData['description'],
-                $rawuserData['count'],
-                $rawuserData['price']
+            $rawuserData
         ]);
 
         return (int) $this->pdo->lastInsertId();
-
-
     }
 
     public function update(Catalog $catalog):bool{
