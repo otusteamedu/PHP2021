@@ -1,0 +1,20 @@
+{
+    "name": "dmigrishin/chat",
+    "description": "Chat app",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dmigrishin\\Chat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dmitrii Grishin",
+            "email": "dmigrishin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "7.4.*"
+    }
+}
