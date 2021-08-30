@@ -8,19 +8,28 @@ CREATE TABLE movies (
     name varchar NOT NULL
 );
 
+CREATE TABLE seat_groups (
+    id serial PRIMARY KEY,
+    name varchar NOT NULL,
+    price_multiplier float NOT NULL DEFAULT 1
+);
+
 CREATE TABLE seats (
     id serial PRIMARY KEY,
     hall_id integer NOT NULL,
+    seat_group_id integer NOT NULL,
     row integer NOT NULL,
     seat integer NOT NULL,
-    FOREIGN KEY (hall_id) REFERENCES halls (id)
+    FOREIGN KEY (hall_id) REFERENCES halls (id),
+    FOREIGN KEY (seat_group_id) REFERENCES seat_groups (id)
 );
 
 CREATE TABLE clients (
     id serial PRIMARY KEY,
     name varchar,
     email varchar,
-    phone_number varchar
+    phone_number varchar,
+    discount integer NOT NULL DEFAULT 0
 );
 
 CREATE TABLE sessions (
@@ -39,6 +48,7 @@ CREATE TABLE tickets (
     seat_id integer NOT NULL,
     session_id integer NOT NULL,
     client_id integer NOT NULL,
+    sell_price numeric(6,2) NOT NULL,
     FOREIGN KEY (seat_id) REFERENCES seats (id),
     FOREIGN KEY (session_id) REFERENCES sessions (id),
     FOREIGN KEY (client_id) REFERENCES clients (id)

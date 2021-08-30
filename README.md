@@ -27,11 +27,11 @@ docker-compose -f docker/docker-compose.yml exec --user=postgres postgres psql
 
 4. Выполнить sql запрос
 ```sql
-SELECT movies.name AS movie 
+SELECT movies.name AS movie
 FROM movies 
 JOIN sessions ON movies.id=sessions.movie_id 
 JOIN tickets ON sessions.id=tickets.session_id 
 GROUP BY movies.id 
-ORDER BY SUM(sessions.price) DESC 
+ORDER BY SUM(tickets.sell_price) DESC
 LIMIT 1;
 ```
