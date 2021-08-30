@@ -1,0 +1,68 @@
+version: '3'
+
+services: 
+    nginx_1:
+        build:
+            context: ./nginx_1
+            dockerfile: Dockerfile
+        container_name: nginx_1
+        volumes: 
+            - ../code/public:/var/www/public
+        networks: 
+            - app-network
+
+    nginx_2:
+        build:
+            context: ./nginx_2
+            dockerfile: Dockerfile
+        container_name: nginx_2
+        volumes: 
+            - ../code/public:/var/www/public
+        networks: 
+            - app-network
+
+    nginx_balance:
+        build: 
+            context: ./nginx_balance
+            dockerfile: Dockerfile
+        container_name: nginx_balance
+        ports: 
+            - 80:80
+        networks: 
+            - app-network
+
+    memcached_1:
+        image: memcached:latest
+        container_name: memcached_1
+        networks:
+            - app-network
+
+    memcached_2:
+        image: memcached:latest
+        container_name: memcached_2
+        networks:
+            - app-network
+    
+    app_1:
+        build: 
+            context: ./php_1
+            dockerfile: Dockerfile
+        container_name: app_1
+        volumes: 
+            - ../code:/var/www
+        networks: 
+            - app-network
+
+    app_2:
+        build: 
+            context: ./php_2
+            dockerfile: Dockerfile
+        container_name: app_2
+        volumes: 
+            - ../code:/var/www
+        networks: 
+            - app-network
+
+networks: 
+    app-network:
+        driver: bridge
