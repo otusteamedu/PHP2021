@@ -2,24 +2,23 @@
 
 namespace App;
 
+use \Exception;
+
 class App
 {
-    public function run(): void
+    private EmailValidator $emailValidator;
+
+    public function __construct()
     {
-        $emailValidator = new EmailValidator();
+        $this->emailValidator = new EmailValidator();
+    }
 
-        $emails = [
-            "olegsv3007@yandex.ru",
-            "example@yandex.ru",
-            "example@yyyyandex.ru",
-            "example.yandex.ru",
-            "example",
-            "example@@yandex.ru",
-            "hello@gmail.com",
-        ];
+    public function run(): bool
+    {
+        if (empty($email = $_GET['email'])) {
+            throw new Exception('Email not found');
+        }
 
-        $correctEmails = $emailValidator->validateArray($emails);
-
-        print_r($correctEmails);
+        return $this->emailValidator->validate($email);
     }
 }
