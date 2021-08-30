@@ -1,5 +1,5 @@
 <?php
-namespace dtsarev;
+namespace hellocomponent;
 
 class hellocomponent
 {
