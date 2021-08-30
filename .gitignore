@@ -1,3 +1,4 @@
 # phpstorm project files
 .idea
 .git
+/vendor/

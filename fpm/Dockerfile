@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.0-fpm
 
 RUN apt-get update && apt-get install -y \
         curl \
@@ -13,23 +13,16 @@ RUN apt-get update && apt-get install -y \
         libmemcached-dev\
         libmemcached-tools\
         libzip-dev\
-        zlibc\
-        zlib1g\
-    && pecl install mcrypt-1.0.3 \
+    && pecl install mcrypt \
     && docker-php-ext-enable mcrypt \
     && pecl install memcached\
     && docker-php-ext-enable memcached\
-    && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd \
-    && pecl install -o -f redis \
-    && docker-php-ext-enable redis\
-    && rm -rf /tmp/pear
+    && rm -rf /tmp/pecl \
+    && docker-php-ext-install sockets\
+    && docker-php-ext-enable sockets\
 
 
 
-
-# Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /data
