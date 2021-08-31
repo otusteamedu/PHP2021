@@ -13,13 +13,15 @@ RUN apt-get update && apt-get install -y \
         libmemcached-dev\
         libmemcached-tools\
         libzip-dev\
+        libyaml-dev\
     && pecl install mcrypt \
     && docker-php-ext-enable mcrypt \
     && pecl install memcached\
     && docker-php-ext-enable memcached\
-    && rm -rf /tmp/pecl \
     && docker-php-ext-install sockets\
     && docker-php-ext-enable sockets\
+    && pecl install yaml-2.2.1 && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini\
+    && rm -rf /tmp/pecl \
 
 
 

@@ -3,8 +3,7 @@
 require_once('vendor/autoload.php');
 
 try {
-    $app = PHP_SAPI == 'cli' ? new Project\CliApp() : new Project\App();
-    $app->run($argv);
+    (new Project\App())->run($argv);
 } catch (Exception $e) {
     var_dump($e);
 }

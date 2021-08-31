@@ -25,7 +25,7 @@ class Server extends UserSocket
                 sleep(1);
             }
         } catch (ErrorException $e) {
-            var_dump($e->getMessage());
+            echo $e->getMessage();
         }
     }
 

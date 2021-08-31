@@ -19,7 +19,7 @@ class Client extends UserSocket
                 0
             );
         } catch (\ErrorException $e) {
-            var_dump($e->getMessage());
+            echo $e->getMessage();
         }
 
     }

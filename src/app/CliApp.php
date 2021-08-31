@@ -1,5 +1,5 @@
 <?php
-namespace Project;
+namespace Project\app;
 
 use Project\components\chat\Client;
 use Project\components\chat\Server;
@@ -10,7 +10,7 @@ class CliApp
 
     public function __construct()
     {
-        $this->config = require __DIR__ . '/config/console.php';
+        $this->config = yaml_parse_file(realpath(__DIR__."/../config/console.yaml"));
     }
 
     public function run(array $argv): void
@@ -23,7 +23,7 @@ class CliApp
                 'client' => (new Client($this->config['socket']))->run($message),
             };
         } catch (\UnhandledMatchError $e) {
-            var_dump("Not corrected format!");
+            echo "Not corrected format!";
         }
     }
 }

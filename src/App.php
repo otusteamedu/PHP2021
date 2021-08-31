@@ -1,18 +1,16 @@
 <?php
-
 namespace Project;
 
-use Project\components\validator\DataValidator;
+use Project\app\WebApp;
+use Project\app\CliApp;
 
 class App
 {
     public function run(array $argv = []): bool|int
     {
-        $isCorrectData = true;
-        foreach ($_POST as $val) {
-            $isCorrectData = $isCorrectData && DataValidator::isCorrectString($val);
-        }
-
-        return $isCorrectData ? http_response_code(200) : http_response_code(400);
+        match (PHP_SAPI) {
+            'cli' => (new CliApp())->run($argv),
+            default => (new WebApp())->run(),
+        };
     }
 }
