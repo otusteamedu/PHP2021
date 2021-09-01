@@ -20,5 +20,5 @@ read number2
 done
 
 # Результат
-res=$(bc<<<"scale=3;$number1+$number2")
-echo "Результат: " $res
+echo "Результат: "
+awk "BEGIN {print $number1+$number2; exit}"
