@@ -4,20 +4,14 @@ namespace Controllers;
 
 class App
 {
-    public function run()
+    public function run($request)
     {
-        $_POST['false_string'] = '(()()()()))((((()()()))(()()()(((()))))))';
-        $_POST['true_string'] = '(((())))';
-
-        $value = $_POST['true_string'];
-
         $validator = new Validate();
-        $result = $validator->isValidate($value);
+        $result = $validator->isValidate($request);
 
         if ($result) {
             echo "Проверка прошла успешно";
         } else {
-            header("HTTP/1.1 404 Not Found");
             echo "404";
         }
 

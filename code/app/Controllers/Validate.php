@@ -4,13 +4,9 @@ namespace Controllers;
 
 class Validate
 {
-//    public function __construct($value) {
-//        $this->value = $value;
-//    }
+    public static function isValidate($request) : bool {
 
-    public static function isValidate($value) : bool {
-
-        $valueArr = str_split($value);
+        $valueArr = str_split($request);
 
         $count = 0;
 
