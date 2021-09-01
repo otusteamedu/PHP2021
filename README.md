@@ -1,1 +1,1 @@
-# PHP2021
+<p>Зайти в контейнер ```docker exec -it client-php-fpm bash```, перейти в директорию и запустить ```php code/public/index.php server```. Ответ должен быть "Привет! Это сервер!"  </p>

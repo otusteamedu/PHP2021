@@ -1,0 +1,17 @@
+{
+    "name": "gena/4.2",
+    "authors": [
+        {
+            "name": "genamalugin",
+            "email": "genamalugin@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Chat\\": "code//src/"
+        }
+    },
+    "require": {
+        "ext-sockets": "*"
+    }
+}
