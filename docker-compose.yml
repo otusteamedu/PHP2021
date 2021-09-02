@@ -9,6 +9,7 @@ services:
     container_name: app
     volumes:
       - ./code:/data/mysite.local
+      - ./sock:/run/php-fpm
     networks:
       - app-network
   webserver:
@@ -22,6 +23,7 @@ services:
       - "443:443"
     volumes:
       - ./code:/data/mysite.local
+      - ./sock:/run/php-fpm
     networks:
       - app-network
 
