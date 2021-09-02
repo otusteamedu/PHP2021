@@ -1,0 +1,28 @@
+version: "3.4"
+
+services:
+
+  socket_php:
+    build:
+      context: "php"
+    hostname: "socket-php"
+    working_dir: "/app"
+    volumes:
+      - "./:/app"
+      - "./socket:/socket"
+      - ./php/www.conf /usr/local/etc/php-fpm.d/www.conf
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
+
+  socket_nginx:
+    build:
+      context: "nginx"
+    hostname: "socket-nginx"
+    working_dir: "/app"
+    ports:
+      - "6080:8080"
+    volumes:
+      - "./:/app"
+      - "./socket:/socket"
+    environment:
+      PS1: "\\u@\\h:\\w\\$$ "
