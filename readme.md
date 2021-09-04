@@ -1,4 +1,4 @@
 #email verification
 
 cd public
-php index.php emai.txt
+php index.php email.txt
