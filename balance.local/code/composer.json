@@ -1,0 +1,17 @@
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/doron-alex/Validators"
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "^5.1",
+    "adoronichev/validators": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Balance\\": "src/Balance"
+    }
+  }
+}
