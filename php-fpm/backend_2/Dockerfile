@@ -1,0 +1,36 @@
+FROM php:8.0-fpm
+
+RUN apt-get update && apt-get install -y \
+        libmemcached11 \
+        libmemcachedutil2 \
+        libmemcached-dev \
+        libz-dev \
+        curl \
+        autoconf \
+        g++ \
+        make \
+        git \
+    && pecl install -o -f redis \
+    && docker-php-ext-enable redis.so \
+    && pecl clear-cache \
+    && cd /root \
+    && git clone https://github.com/php-memcached-dev/php-memcached \
+    && cd php-memcached \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf  php-memcached \
+    && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini \
+    && apt-get remove -y build-essential libmemcached-dev libz-dev \
+    && apt-get remove -y libmemcached-dev libz-dev \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+# Устанавливаем Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+WORKDIR /var/www/application.local
+
+CMD ["php-fpm"]
