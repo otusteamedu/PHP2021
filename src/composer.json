@@ -1,0 +1,14 @@
+{
+  "name": "profox/php2021",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "profox",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  }
+}
