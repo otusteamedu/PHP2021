@@ -1,5 +1,5 @@
 {
-  "name": "sgaponov/hw9",
+  "name": "sgaponov/hw12",
   "description": "Учебный проект",
   "license": "proprietary",
   "authors": [
@@ -15,7 +15,13 @@
     }
   },
   "require": {
-    "php": ">=7.3.0"
+    "php": ">=8.0",
+    "ext-json": "*",
+    "league/route": "^5.1",
+    "laminas/laminas-diactoros": "^2.6",
+    "laminas/laminas-httphandlerrunner": "^2.0",
+    "symfony/yaml": "^5.3",
+    "league/container": "^2.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"

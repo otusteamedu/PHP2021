@@ -8,6 +8,8 @@ services:
     image: myapp/hw-9
     volumes:
       - ./data/sites:/data/
+    env_file:
+      - .env
     networks:
       - app-network
     restart: always
