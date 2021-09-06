@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MySite;
 
+use MySite\bootstrap\Container\AppContainer;
+use MySite\bootstrap\Router\AppRouter;
 
 /**
  * Class App
@@ -9,12 +13,14 @@ namespace MySite;
  */
 class App
 {
-
     /**
      * single entry point into application
      */
     public function run(): void
     {
-        echo 1;
+        $container = (new AppContainer())->getContainer();
+        $router = (new AppRouter($container));
+
+        $router->getResponse();
     }
 }
