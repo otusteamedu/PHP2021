@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-danger mt-5" role="alert" id="errorAlert">Введите текст сообщения и проверьте что кол-во открытых и закрытых скобок соответствует</div>
+            <div class="alert alert-success mt-5" role="alert" id="successAlert">Все хорошо, сообщение отправлено</div>
+            <div class="bg-light p-5 rounded mt-3">
+                
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Сообщение</label>
+                    <input type="message" class="form-control" name="message">
+                </div>
+                <button type="submit" class="btn btn-primary" id="pushMessage">Отправить</button>
+            
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
