@@ -9,6 +9,13 @@
       "email": "email@example.com"
     }
   ],
-  "require": {
+  "autoload": {
+    "psr-4": {
+      "App\\": "app",
+      "Services\\": "services"
+    },
+    "files": [
+      "config.php"
+    ]
   }
 }
