@@ -1,4 +1,3 @@
 #email verification
 
-cd public
-php index.php email.txt
+php app.php email.txt
