@@ -2,8 +2,6 @@
 
 namespace Services;
 
-use HttpResponse;
-
 class CheckBrackets
 {
     private $string;
