@@ -4,11 +4,11 @@ CREATE OR REPLACE VIEW management (movie, attribute_type, attribute, value) AS
         attribute_types.type,
         attributes.title,
         COALESCE(
-            values.value_integer::text,
+            values.value_integer,
             values.value_text,
-            values.value_numeric::text,
-            values.value_date::text,
-            values.value_boolean::text
+            values.value_float,
+            values.value_date,
+            values.value_boolean
         ) as value
     FROM movies
     JOIN values ON movies.id=values.movie_id

@@ -22,7 +22,7 @@ CREATE TABLE values (
     attribute_id integer NOT NULL,
     value_integer integer,
     value_text text,
-    value_numeric numeric,
+    value_float float,
     value_date date,
     value_boolean boolean,
 
@@ -42,7 +42,7 @@ CREATE VIEW management (movie, attribute_type, attribute, value) AS
         COALESCE(
             values.value_integer::text,
             values.value_text,
-            values.value_numeric::text,
+            values.value_float::text,
             values.value_date::text,
             values.value_boolean::text
         ) as value

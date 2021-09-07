@@ -9,7 +9,7 @@ INSERT INTO movies (name) VALUES
 INSERT INTO attribute_types (type) VALUES
 ('integer'),
 ('text'),
-('numeric'),
+('float'),
 ('timestamp'),
 ('boolean')
 ;
