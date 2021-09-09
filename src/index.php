@@ -4,7 +4,7 @@ require_once('./vendor/autoload.php');
 
 try {
     $app = new App\App();
-    $app->run();
+    $app->run($argv);
 } catch (Exception $e) {
     echo $e->getMessage();
 }
