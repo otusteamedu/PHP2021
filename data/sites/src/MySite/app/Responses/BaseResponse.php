@@ -7,6 +7,7 @@ namespace MySite\app\Responses;
 
 use Laminas\Diactoros\Response;
 use MySite\app\Features\FastFood\Contracts\FastFoodFactoryContract;
+use MySite\domain\Support\Constants\HttpConstants;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -24,7 +25,7 @@ abstract class BaseResponse
     /**
      * @var int
      */
-    protected int $code = 200;
+    protected int $code = HttpConstants::OK;
 
     /**
      * @var string|null

@@ -11,7 +11,7 @@ use MySite\bootstrap\Router\AppRouter;
  * Class App
  * @package MySite
  */
-class App
+final class App
 {
     /**
      * single entry point into application

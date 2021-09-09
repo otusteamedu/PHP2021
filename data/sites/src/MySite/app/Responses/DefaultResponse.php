@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  * Class DefaultResponse
  * @package MySite\app\Responses
  */
-class DefaultResponse extends BaseResponse
+final class DefaultResponse extends BaseResponse
 {
 
     /**

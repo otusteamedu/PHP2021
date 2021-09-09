@@ -6,6 +6,8 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/hw-9
+    env_file:
+      - .env
     volumes:
       - ./data/sites:/data/
     networks:
@@ -27,6 +29,19 @@ services:
     depends_on:
       - app
     restart: always
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    volumes:
+        - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+        - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+        - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+        - ./rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+        - '18672:15672'
+        - '56672:5672'
+    networks:
+        - app-network
 
 
 networks:
