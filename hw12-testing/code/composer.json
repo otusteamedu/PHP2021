@@ -14,7 +14,9 @@
         "laminas/laminas-diactoros": "^2.6",
         "laminas/laminas-httphandlerrunner": "^2.0",
         "symfony/yaml": "^5.3",
-        "ext-json": "*"
+        "ext-json": "*",
+        "league/container": "^4.1",
+        "guzzlehttp/guzzle": "^7.3"
     },
     "autoload": {
         "psr-4": {
@@ -29,6 +31,7 @@
         "phpunit/phpunit": "^9.5",
         "codeception/codeception": "*",
         "codeception/module-rest": "^1.0.0",
-        "codeception/module-phpbrowser": "^1.0.0"
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/stub": "^3.7"
     }
 }

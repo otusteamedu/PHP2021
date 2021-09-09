@@ -6,7 +6,10 @@ use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\Container\Container;
+use League\Container\ReflectionContainer;
 use League\Route\Router as LeagueRoute;
+use League\Route\Strategy\ApplicationStrategy;
 use League\Route\Strategy\JsonStrategy;
 use Symfony\Component\Yaml\Yaml;
 
@@ -25,7 +28,13 @@ class Router
         );
 
         $responseFactory = new ResponseFactory();
-        $strategy = new JsonStrategy($responseFactory);
+        $container = new Container;
+        $container->delegate(
+//            new League\Container\ReflectionContainer()
+            new ReflectionContainer()
+        );
+        $strategy = (new JsonStrategy($responseFactory))->setContainer($container);
+//        $strategy = (new ApplicationStrategy)->se;
 
         $this->router = new LeagueRoute();
         $this->router->setStrategy($strategy);

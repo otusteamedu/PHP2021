@@ -3,10 +3,26 @@
 namespace AppUnitTests\Repetitor202\validators;
 
 use PHPUnit\Framework\TestCase;
+use Repetitor202\controllers\PaymentController;
+use Repetitor202\facades\MoneyServiceAFacade;
+use Repetitor202\repositories\IOrderRepository;
 use Repetitor202\validators\payment\MakePaymentValidator;
+use GuzzleHttp\Client as GuzzleHttpClient;
 
 class MakePaymentValidatorTestCase extends TestCase
 {
+    private $http;
+
+    public function setUp(): void
+    {
+        $this->http = new GuzzleHttpClient(['base_uri' => 'http://unittests.hw/']);
+//        $this->http = new GuzzleHttpClient();
+    }
+
+    public function tearDown(): void {
+        $this->http = null;
+    }
+
     private const VALID_PARAMS = [
         'card_holder' => 'Ivan Ivanov-Petrov',
         'card_number' => '1234567890123456',
@@ -219,4 +235,40 @@ class MakePaymentValidatorTestCase extends TestCase
     /* Если в поле sum после запятой не число => static::assertFalse($result->getIsValid()); */
     /* Если в поле sum перед запятой не число => static::assertFalse($result->getIsValid()); */
     /* Если в поле sum стоит первый символ “-” => static::assertFalse($result->getIsValid()); */
+
+    public function testControllerGet()
+    {
+////        static::markTestIncomplete('Недоделанный тест');
+//        $stub = $this->createMock(IOrderRepository::class);
+//        $stub->method('setOrderIsPaid')
+//            ->willReturn(true);
+//
+//        $c = new PaymentController($stub, new MoneyServiceAFacade());
+//
+//        static::assertFalse($c->makePayment());
+
+//        $response = $this->http->request('GET', 'user-agent');
+        $response = $this->http->request('GET');
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testControllerPost()
+    {
+//        $this->instance(
+//        Service::class,
+//        Mockery::mock(Service::class, function (MockInterface $mock) {
+//            $mock->shouldReceive('process')->once();
+//        })
+//    );
+        $stub = $this->createMock(IOrderRepository::class);
+
+        // Настроить заглушку.
+        $stub->method('setOrderIsPaid')
+            ->willReturn(true);
+        $response = $this->http->request('POST', 'make-payment', ['json' => self::VALID_PARAMS]);
+//        $response = $this->http->request('POST', '/make-payment');
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
 }
