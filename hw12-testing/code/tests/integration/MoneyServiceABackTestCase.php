@@ -1,16 +1,13 @@
 <?php
 
+// в принципе, чего лишний раз деньги ради теста переводить. эта связка вполне адекватно протестируется
+//за счет системных тестов.
+
 namespace AppIntegrationTests;
 
 use PHPUnit\Framework\TestCase;
 
 class MoneyServiceABackTestCase extends TestCase
 {
-    public function testSuccess()
-    {
-        $validator = new MakePaymentValidator();
-        $result = $validator->validate(self::VALID_PARAMS);
 
-        static::assertTrue($result->getIsValid());
-    }
 }

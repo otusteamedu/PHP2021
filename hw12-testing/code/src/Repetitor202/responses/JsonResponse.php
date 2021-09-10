@@ -6,7 +6,7 @@ use Laminas\Diactoros\Response;
 
 class JsonResponse
 {
-    public static function resposeWithStatus(int $status, array $data = [])
+    public static function responseWithStatus(int $status, array $data = [])
     {
         $response = new Response();
 
