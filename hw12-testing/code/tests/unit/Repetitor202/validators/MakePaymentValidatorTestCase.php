@@ -23,7 +23,7 @@ class MakePaymentValidatorTestCase extends TestCase
         $this->http = null;
     }
 
-    private const VALID_PARAMS = [
+    public const VALID_PARAMS = [
         'card_holder' => 'Ivan Ivanov-Petrov',
         'card_number' => '1234567890123456',
         'card_expiration' => '12/22',

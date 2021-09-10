@@ -39,17 +39,42 @@ output: ValidatorResultDto.isValid - false
 ## Integration-tests
 
 ### front-back: Front(иммитатор запроса)-Back-~~MoneyServiceA~~(mock)-~~Repository~~(mock)
+#### mockMoney->pay:200 (success)
+##### mockRepository->setOrderIsPaid:true (success)
+##### mockRepository->setOrderIsPaid:false (unsuccess)
+
+#### mockMoney->pay:403 (unsuccess)
+```
+PaymentControllerTest
+    public function test(): void
+    {
+        $this->mock(IOrderRepository::class, function (MockInterface $mock) {
+            $mock->shouldReceive('setOrderIsPaid')
+                ->zero();
+        });
+        $this->mock(MoneyServiceAFacade::class, function (MockInterface $mock) {
+            $mock->shouldReceive('pay')
+                ->once()
+                ->andReturn(true);;
+        });
+
+        $response = $this->postJson('make-payment', self::VALID_PARAMS);
+
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals('Не получилось списать деньги!!!', $response->getReasonPhrase());
+    }
+```
+
 чтобы это реализовать, можно использовать api-tests.
 
 фронт как бы реальный не участвует в тэстах. чисто иммитация отправка запроса с фронта ($this->postJson('make-payment', self::VALID_PARAMS))
 может быть все-таки это считается юнит-тестом?
 
-важно архитектуру бэка организовать как DI-container. как еще можно делать, чтоб потом удобно было заглушки расставлять?)
-по идее я это сделал, но вот замокать так и не получилось.
+по идее я использовал DI-container, но вот замокать так и не получилось.
 правда, для интереса попробовал в Laravel это сделать, и прокатило:
 ```
 PaymentController
-    public function __construct(OrderRepository $repository, MoneyServiceAFacade $moneyServiceAFacade)
+    public function __construct(IOrderRepository $repository, MoneyServiceAFacade $moneyServiceAFacade)
     {
         $this->repository = $repository;
         $this->moneyServiceAFacade = $moneyServiceAFacade;
@@ -71,10 +96,15 @@ PaymentControllerTest
 ```
 
 ### back-repository: Front(иммитатор запроса)-Back-~~MoneyServiceA~~(mock)-Repository
+#### mockMoney->pay:200 (success)
+#### mockMoney->pay:403 (unsuccess)
 
 ### back-moneyService: Front(иммитатор запроса)-Back-MoneyServiceA-~~Repository~~(mock)
+в принципе, чего лишний раз деньги ради теста переводить. эта связка вполне адекватно протестируется
+за счет системных тестов.
 
-### moneyService-repository: Front(иммитатор запроса)-~~Back~~-MoneyServiceA-Repository (!!! UNREAL)
+### moneyService-repository: Front(иммитатор запроса)-~~Back~~-MoneyServiceA-Repository
+!!! UNREAL
 
 
 
