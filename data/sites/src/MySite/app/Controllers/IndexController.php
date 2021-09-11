@@ -6,6 +6,7 @@ namespace MySite\app\Controllers;
 
 use MySite\app\Responses\DefaultResponse;
 use MySite\domain\Support\Facades\Queue;
+use MySite\domain\Support\Traits\Tools;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -15,6 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 final class IndexController extends BaseController
 {
+    use Tools;
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
@@ -23,7 +25,7 @@ final class IndexController extends BaseController
     {
         $result = false;
 
-        $postData = $this->parseJsonRequest($request);
+        $postData = self::parseJsonRequest($request);
 
         if (isset($postData->id)) {
             $result = Queue::pushRaw(

@@ -17,19 +17,20 @@ class Queue
     /**
      * @param $message
      * @param null $queue
-     * @return PromiseInterface|bool|int
+     * @return bool
      */
     public static function pushRaw(
         $message,
         $queue = null
-    ): PromiseInterface|bool|int {
+    ): bool {
         $queue ??= getenv('QUEUE_DEFAULT');
 
         $channel = self::getChannel();
 
-        return $channel->publish(
+        return (bool) $channel->publish(
             body: $message,
             routingKey: $queue,
+            immediate: true
         );
     }
 
