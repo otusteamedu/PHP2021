@@ -2,3 +2,6 @@
 .idea/
 mysql/
 nginx/certs
+data/sites/vendor/
+rabbitmq/
+data/sites/mysite.local/.editorconfig
