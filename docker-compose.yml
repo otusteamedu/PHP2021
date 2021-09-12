@@ -3,13 +3,13 @@ version: '3'
 services:
   postgres:
     build:
-      context: ./postgres
+      context: ./docker/postgres
       dockerfile: Dockerfile
     container_name: postgres_cinema
     environment: 
       POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
     volumes: 
-      - ./postgres/init:/docker-entrypoint-initdb.d/
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d/
     networks: 
       - app-network
 
