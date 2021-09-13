@@ -1,6 +1,6 @@
 <?php
 
-/** @var \Laravel\Lumen\Routing\Router $router */
+/** @var Router $router */
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,21 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+use Laravel\Lumen\Routing\Router;
+
+$router->group(
+    ['prefix' => 'api'],
+    function () use ($router) {
+        $router->post('report_task', 'ReportTaskController@store');
+        $router->get(
+            'report_task/{reportTaskId:[0-9]+}',
+            [
+                'as' => 'report_task',
+                'uses' => 'ReportTaskController@show'
+            ]
+
+        );
+    }
+);
+
+
