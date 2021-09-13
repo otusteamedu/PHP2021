@@ -1,30 +1,30 @@
 <?php
 
-namespace AppIntegrationTests;
+namespace PhpUnit\integration;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
 use Repetitor202\controllers\PaymentController;
 use Repetitor202\dto\StatusMessageDto;
 use Repetitor202\facades\MoneyServiceAFacade;
 
 
 // по идее чтоб такую штуку пытаться делать, надо сразу сделать соответствующий риквест-класс Req
-class Req implements ServerRequestInterface
+// я так понимаю, такие тесты не выгодны в разработке (отнимают много времени) ???
+class Req // implements ServerRequestInterface
 {}
 
 class RepositoryBackTestCase extends TestCase
 {
     public function testSuccess()
     {
+        static::markTestIncomplete('Недоделанный тест');
         // вставляем в бд ордер
 
         $controller = new PaymentController();
         $validParams = [
             'order_number' => 123,
-            ...
+//            ...
         ];
         $controller->makePayment(new Req($validParams));
 
@@ -41,12 +41,13 @@ class RepositoryBackTestCase extends TestCase
 
     public function testOrderIsAbsent()
     {
+        static::markTestIncomplete('Недоделанный тест');
         // чистим бд
 
         $controller = new PaymentController();
         $validParams = [
             'order_number' => 123,
-            ...
+//            ...
         ];
         $controller->makePayment(new Req($validParams));
 

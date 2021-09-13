@@ -1,6 +1,6 @@
 <?php
 
-namespace AppIntegrationTests;
+namespace PhpUnit\system;
 
 use AppUnitTests\Repetitor202\validators\MakePaymentValidatorTestCase;
 use GuzzleHttp\Client as GuzzleHttpClient;
@@ -9,7 +9,7 @@ use Repetitor202\dto\StatusMessageDto;
 use Repetitor202\facades\MoneyServiceAFacade;
 use Repetitor202\repositories\IOrderRepository;
 
-class FrontBackTestCase extends TestCase
+class WithMockSystemTestCase extends TestCase
 {
     private ?GuzzleHttpClient $http;
 
@@ -24,6 +24,7 @@ class FrontBackTestCase extends TestCase
 
     public function testSuccess()
     {
+        static::markTestIncomplete('Недоделанный тест');
         $params = MakePaymentValidatorTestCase::VALID_PARAMS;
 
         $moneyStatusMessageDto = new StatusMessageDto();
@@ -46,6 +47,7 @@ class FrontBackTestCase extends TestCase
 
     public function testUnvalidParamCardNumber()
     {
+        static::markTestIncomplete('Недоделанный тест');
         $params = MakePaymentValidatorTestCase::VALID_PARAMS;
         $params['card_number'] = '-';
 
@@ -67,6 +69,7 @@ class FrontBackTestCase extends TestCase
 
     public function testUnavailableMoneyServiceA()
     {
+        static::markTestIncomplete('Недоделанный тест');
         $params = MakePaymentValidatorTestCase::VALID_PARAMS;
 
         $moneyStatusMessageDto = new StatusMessageDto();
@@ -91,6 +94,7 @@ class FrontBackTestCase extends TestCase
 
     public function testProblemRepository()
     {
+        static::markTestIncomplete('Недоделанный тест');
         $params = MakePaymentValidatorTestCase::VALID_PARAMS;
 
         $moneyStatusMessageDto = new StatusMessageDto();

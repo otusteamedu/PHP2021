@@ -22,9 +22,8 @@
         "psr-4": {
             "App\\": "src",
             "Repetitor202\\": "src/Repetitor202",
-            "AppUnitTests\\": "tests/unit/",
-            "integration\\": "tests/integration/",
-            "codecept\\": "tests/codecept/api/"
+            "PhpUnit\\": "tests/PhpUnit/",
+            "CodeceptApi\\": "tests/codecept/api/"
         }
     },
     "require-dev": {

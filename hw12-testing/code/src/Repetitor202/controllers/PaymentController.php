@@ -9,12 +9,10 @@ use Repetitor202\facades\MoneyServiceAFacade;
 use Repetitor202\repositories\IOrderRepository;
 use Repetitor202\repositories\OrderRepository;
 use Repetitor202\responses\JsonResponse;
-use Repetitor202\validators\payment\IMakePaymentValidator;
 use Repetitor202\validators\payment\MakePaymentValidator;
 
 class PaymentController
 {
-    private IMakePaymentValidator $validator;
     private IOrderRepository $repository;
     private ServerRequestDecoder $decoder;
 

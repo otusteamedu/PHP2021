@@ -1,15 +1,11 @@
 <?php
 
-namespace AppSystemTests;
+namespace PhpUnit\system;
 
-use AppUnitTests\Repetitor202\validators\MakePaymentValidatorTestCase;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use PHPUnit\Framework\TestCase;
-use Repetitor202\dto\StatusMessageDto;
-use Repetitor202\facades\MoneyServiceAFacade;
-use Repetitor202\repositories\IOrderRepository;
 
-class SystemTestCase extends TestCase
+class NoMockSystemTestCase extends TestCase
 {
     private ?GuzzleHttpClient $http;
 
@@ -35,6 +31,7 @@ class SystemTestCase extends TestCase
     // по идее этот тест должен быть заккомментирован или лежать в редко запускаемом файле
     public function testSuccess()
     {
+        static::markTestIncomplete('Недоделанный тест');
         $response = $this->http->request('POST', 'make-payment', ['json' => self::VALID_PARAMS]);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -45,6 +42,7 @@ class SystemTestCase extends TestCase
     // order_number отсутствует в базе, чисто чтоб валидацию проходил
     public function testUnexistedOrder()
     {
+        static::markTestIncomplete('Недоделанный тест');
         $params = self::VALID_PARAMS;
         $params['order_number'] = 'unreal';
         $response = $this->http->request('POST', 'make-payment', ['json' => $params]);
@@ -55,6 +53,7 @@ class SystemTestCase extends TestCase
     // параметры должны пройти валидацию, но в реале такой карты нет
     public function testUnrealСardData()
     {
+        static::markTestIncomplete('Недоделанный тест');
         $params = self::VALID_PARAMS;
         $params['card_number'] = '1111111111111111';
 
