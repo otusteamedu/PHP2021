@@ -6,7 +6,7 @@ use ApiTester;
 
 class ApiCest
 {
-    public function tryApi4(ApiTester $I, $scenario)
+    public function testValidParams(ApiTester $I, $scenario)
     {
 //        $scenario->skip('your message');
 
@@ -20,5 +20,19 @@ class ApiCest
         ]));
 
         $I->seeResponseCodeIs(200);
+    }
+
+    public function testUnvalidParams(ApiTester $I)
+    {
+        $I->sendPost('make-payment', json_encode([
+            'card_holder' => 'Ivan Ivanov-Petrov',
+            'card_number' => '123', // unvalid param
+            'card_expiration' => '12/22',
+            'cvv' => '123',
+            'order_number' => 'order-123',
+            'sum' => '123.40',
+        ]));
+
+        $I->seeResponseCodeIs(400);
     }
 }

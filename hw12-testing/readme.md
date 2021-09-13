@@ -63,7 +63,7 @@ output: ValidatorResultDto.isValid - false
 ## Integration-tests
 
 ### back-FRONT: Front(иммитатор запроса)-Back-~~MoneyServiceA~~(mock)-~~Repository~~(mock)
-tests/PhpUnit/integration/FrontBackTestCase
+tests/PhpUnit/integration/FrontBackTestCase - по итогу все закомментировано, т.к. проверяется через системные тесты
 
 тут вот что хочется понять.
 допустим я пишу такой тест:
@@ -183,7 +183,10 @@ PaymentControllerTest
 
 
 # Codeception-tests (integration/system)
-ввиду того, что мокать не получилось, набросал чисто парочку тестов
+tests/codecept/api/ApiCest
+
+ввиду того, что мокать не получилось, набросал чисто парочку тестов;
+считаю, что тут все тесты системные ???
 
 
 # Selenium-tests (system)
@@ -191,4 +194,4 @@ PaymentControllerTest
 (в плане клика на кнопки, вывод всплывающих сообщений)
 но если в случае PhpUnit или Codeception можно репозиторий и СервисОплаты замокать, 
 то в случае с селениумом все придется делать в реале (если только не написать параллельный специальный для тестов api)
-правильно рассуждаю?
+правильно рассуждаю ???
