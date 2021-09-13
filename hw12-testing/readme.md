@@ -66,7 +66,19 @@ output: ValidatorResultDto.isValid - false
 tests/PhpUnit/integration/FrontBackTestCase - по итогу все закомментировано, т.к. проверяется через системные тесты
 
 тут вот что хочется понять.
-допустим я пишу такой тест:
+1) в задании в качетсве примера приведен модульный тест:
+```
+1. Модульные тесты:
+
+a. Если card_holder содержит более одного пробела, то
+тестируемый метод возвращает 400 с сообщением об ошибке;
+```
+но это ж по идее уже интеграционный тест ???
+или же:
+фронт как бы реальный не участвует в тэстах. чисто иммитация отправка запроса с фронта ($this->postJson('make-payment', self::VALID_PARAMS))
+и тогда считается юнит-тестом ???
+
+2допустим я пишу такой тест:
 [тест (версия 1)]
 ```
 public function testSuccess()
@@ -123,47 +135,6 @@ public function testSuccess()
 
 и если это так, то тест (версия 1) в интеграционный вносить не надо, 
 достаточно с одной лишней строкой кода хранить его [тест (версия 2)] в системных тестах???
-
-(вообще)
-#### mockMoney->pay:200 (success)
-##### mockRepository->setOrderIsPaid:true (success)
-##### mockRepository->setOrderIsPaid:false (unsuccess)
-
-#### mockMoney->pay:403 (unsuccess)
-
-чтобы это реализовать, можно использовать api-tests.
-
-фронт как бы реальный не участвует в тэстах. чисто иммитация отправка запроса с фронта ($this->postJson('make-payment', self::VALID_PARAMS))
-может быть все-таки это считается юнит-тестом?
-
-по идее я использовал DI-container, но вот замокать так и не получилось.
-правда, для интереса попробовал в Laravel это сделать, и прокатило:
-```
-PaymentController
-    public function __construct(IOrderRepository $repository, MoneyServiceAFacade $moneyServiceAFacade)
-    {
-        $this->repository = $repository;
-        $this->moneyServiceAFacade = $moneyServiceAFacade;
-    }
-
-PaymentControllerTest
-    public function testSuccessMockRepository(): void
-    {
-        $this->mock(IOrderRepository::class, function (MockInterface $mock) {
-            $mock->shouldReceive('setOrderIsPaid')
-                ->once()
-                ->andReturn(true);
-        });
-
-        $response = $this->postJson('make-payment', self::VALID_PARAMS);
-
-        $this->assertEquals(200, $response->getStatusCode());
-    }
-```
-
-### back-REPOSITORY: Front(иммитатор запроса)-Back-~~MoneyServiceA~~(mock)-Repository
-#### mockMoney->pay:200 (success)
-#### mockMoney->pay:403 (unsuccess)
 
 ### back-MONEYsERVICE: Front(иммитатор запроса)-Back-MoneyServiceA-~~Repository~~(mock)
 в принципе, чего лишний раз деньги ради теста переводить. эта связка вполне адекватно протестируется

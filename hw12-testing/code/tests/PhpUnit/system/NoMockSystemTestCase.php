@@ -31,7 +31,6 @@ class NoMockSystemTestCase extends TestCase
     // по идее этот тест должен быть заккомментирован или лежать в редко запускаемом файле
     public function testSuccess()
     {
-        static::markTestIncomplete('Недоделанный тест');
         $response = $this->http->request('POST', 'make-payment', ['json' => self::VALID_PARAMS]);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -42,7 +41,7 @@ class NoMockSystemTestCase extends TestCase
     // order_number отсутствует в базе, чисто чтоб валидацию проходил
     public function testUnexistedOrder()
     {
-        static::markTestIncomplete('Недоделанный тест');
+        static::markTestIncomplete('Код приложения не готов');
         $params = self::VALID_PARAMS;
         $params['order_number'] = 'unreal';
         $response = $this->http->request('POST', 'make-payment', ['json' => $params]);
@@ -53,7 +52,7 @@ class NoMockSystemTestCase extends TestCase
     // параметры должны пройти валидацию, но в реале такой карты нет
     public function testUnrealСardData()
     {
-        static::markTestIncomplete('Недоделанный тест');
+        static::markTestIncomplete('Код приложения не готов, в смысле что нет сервиса который поймет, что такой карточки нет в природе');
         $params = self::VALID_PARAMS;
         $params['card_number'] = '1111111111111111';
 
