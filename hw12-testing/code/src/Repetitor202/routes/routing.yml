@@ -1,0 +1,34 @@
+- path: /
+  method: GET
+  resource: HelloController
+  action: hello
+
+- path: /php-info
+  method: GET
+  resource: TestController
+  action: phpInfo
+
+- path: /test-get
+  method: GET
+  resource: TestController
+  action: testGet
+
+- path: /test-post
+  method: POST
+  resource: TestController
+  action: testPost
+
+- path: /test-patch
+  method: PATCH
+  resource: TestController
+  action: testPatch
+
+- path: /test-delete
+  method: DELETE
+  resource: TestController
+  action: testDelete
+
+- path: /make-payment
+  method: POST
+  resource: PaymentController
+  action: makePayment
