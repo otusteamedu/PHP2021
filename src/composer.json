@@ -1,0 +1,21 @@
+{
+  "name": "profox/php2021",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "profox",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app",
+      "Services\\": "services"
+    }
+  },
+  "require": {
+    "ext-sockets": "*"
+  }
+}
