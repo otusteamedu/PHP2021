@@ -16,6 +16,5 @@
     }
   },
   "require": {
-    "ext-sockets": "*"
   }
 }
