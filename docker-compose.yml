@@ -1,0 +1,20 @@
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: alex
+      POSTGRES_DB: cinema-otus
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+
+  dbadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: example
+      PGADMIN_DEFAULT_EMAIL: sanya201412@gmail.com
+    ports:
+      - 81:80
