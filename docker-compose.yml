@@ -12,6 +12,10 @@ services:
       - ./src:/src/appdocker.local
     networks:
       - app-network
+    environment:
+      MEMCACHED_SERVER: memcached1
+      MEMCACHED_PORT: 11211
+
 
   fmp2:
     image: fpm2
@@ -21,6 +25,26 @@ services:
     container_name: container_fpm2
     volumes:
       - ./src:/src/appdocker.local
+    networks:
+      - app-network
+    environment:
+      MEMCACHED_SERVER: memcached2
+      MEMCACHED_PORT: 11212
+
+
+  memcached1:
+    image: memcached:latest
+    container_name: memcached1
+    ports:
+      - 11211:11211
+    networks:
+      - app-network
+
+  memcached2:
+    image: memcached:latest
+    container_name: memcached2
+    ports:
+      - 11212:11212
     networks:
       - app-network
 
