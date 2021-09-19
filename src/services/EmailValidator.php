@@ -4,28 +4,63 @@ namespace Services;
 
 class EmailValidator
 {
-    public static function checkEmail(string $email): bool
+    private array $emailList;
+    private array $validEmails;
+
+    function __construct($emailList)
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL) && self::checkDomain($email);
+        if (is_array($emailList)) {
+            $this->emailList = $emailList;
+        } else {
+            $this->emailList[] = $emailList;
+        }
     }
 
 
-    public static function checkEmails(array $emails): array
+    private function checkEmail(string $email): bool
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) && self::checkEmailDomain($email);
+    }
+
+
+    private function checkEmails()
     {
         $validEmails = [];
-        foreach ($emails as $email) {
-            $email=trim($email);
+        foreach ($this->emailList as $email) {
+            $email = trim($email);
             if (self::checkEmail($email)) {
                 $validEmails[] = $email;
             }
         }
-        return $validEmails;
+        $this->validEmails = $validEmails;
     }
 
-    private static function checkDomain(string $email): bool
+    private function checkEmailDomain(string $email): bool
     {
         $domain = explode('@', $email)[1];
         return checkdnsrr($domain, "MX");
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidEmails(): array
+    {
+        $this->checkEmails();
+        return $this->validEmails;
+    }
+
+    public function printValidEmails()
+    {
+        $this->checkEmails();
+        if (count($this->validEmails) > 0) {
+            echo "Correct emails:\n";
+            foreach ($this->validEmails as $email) {
+                echo $email . "\n";
+            }
+        } else {
+            echo "All Emails not correct!\n";
+        }
     }
 
 }
