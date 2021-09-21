@@ -2,14 +2,13 @@
 
 class BaseProduct
 {
+    protected $cheese = false;
 
-    private $cheese = false;
+    protected $tomato = false;
 
-    private $tomato = false;
+    protected $pepper = true;
 
-    private $pepper = true;
-
-    private $green = true;
+    protected $salad = true;
     /**
      * @return bool
      */
@@ -51,11 +50,11 @@ class BaseProduct
     }
 
     /**
-     * @param bool $green
+     * @param bool $salad
      */
-    public function setGreen(bool $green): void
+    public function setGreen(bool $salad): void
     {
-        $this->green = $green;
+        $this->salad = $salad;
     }
 
 

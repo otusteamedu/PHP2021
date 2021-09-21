@@ -2,7 +2,7 @@
 
 class FactoryHotdog implements FactoryProduct
 {
-    public function createProduct(): Product
+    public function createProduct(): BaseProduct
     {
         return new HotDog();
     }

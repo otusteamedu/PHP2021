@@ -2,5 +2,5 @@
 
 interface  FactoryProduct
 {
-     public function createProduct(): Product;
+     public function createProduct(): BaseProduct;
 }

@@ -1,5 +1,4 @@
 <?php
-
 function createProduct(FactoryProduct $product){
 
     $product->createProduct();
@@ -10,7 +9,8 @@ createProduct(new FactoryHotdog());
 
 $select_food = new SelectFood();
 
-/* реализация стратегии: в конструторе указываем абстрактный метод фабрики */
+
+/* реализация стратегии: в конструторе указываем абстрактный метод фабрики*/
 if (  isset($_POST['burger']) ) {
     $select_food->setFoodType(new BurgerFood(FactoryProduct));
     $food = $select_food->execute();
@@ -25,13 +25,13 @@ if (  isset($_POST['burger']) ) {
 
 //Decorator
 
-$food = new Food();
+$product = new Food();
 
-$onion1 = new addCheese($food);
+$cheese = new cheeseDecorator($product);
 
-$chese = new CheeseInFood($onion1);
+$salad = new SaladDecorator($cheese);
 
-$salat = new SalatInFood($chese);
+
 
 
 

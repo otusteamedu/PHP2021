@@ -2,7 +2,7 @@
 
 class FactorySandwitch
 {
-    public function createProduct(): Product
+    public function createProduct(): BaseProduct
     {
         return new HotDog();
     }

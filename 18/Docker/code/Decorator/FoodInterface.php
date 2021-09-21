@@ -2,5 +2,5 @@
 
 interface FoodInterface
 {
-    public function addComponent(Product $product);
+    public function addComponent(BaseProduct $product);
 }

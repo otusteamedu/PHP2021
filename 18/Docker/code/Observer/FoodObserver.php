@@ -4,13 +4,13 @@ class FoodObserver implements ObserverInterface
 {
     private Product $concreteProduct;
 
-    public function __construct(Product $food ){
+    public function __construct(BaseProduct $food ){
         $this->concreteProduct = $food;
 
     }
     public function handle(Observable $object)
     {
-        $this->concreteProduct->setStatus('Продукт готото');
+        $this->concreteProduct->setStatus('Продукт готот');
     }
 
 }

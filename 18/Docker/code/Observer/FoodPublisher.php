@@ -5,7 +5,7 @@ class FoodPublisher implements Observable
     private array $observers;
     private Product $product;
 
-    public function __construct(Product $product){
+    public function __construct(BaseProduct $product){
         $this->product = $product;
 
     }

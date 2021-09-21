@@ -7,7 +7,7 @@ class FoodComponents
      */
     protected $food;
 
-    public function __construct(Product $food)
+    public function __construct(Food $food)
     {
         $this->food = $food;
     }

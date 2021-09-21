@@ -1,6 +1,6 @@
 <?php
 
-class addCheese extends FoodComponents
+class cheeseDecorator extends FoodComponents
 {
 
     public function addComponent(BaseProduct $product):BaseProduct{

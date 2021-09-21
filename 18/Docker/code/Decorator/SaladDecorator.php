@@ -1,6 +1,6 @@
 <?php
 
-class addSalad extends FoodComponents
+class saladDecorator extends FoodComponents
 {
 
     public function addComponent(BaseProduct $product):BaseProduct{
