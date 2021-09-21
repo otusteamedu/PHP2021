@@ -60,7 +60,7 @@ final class ElasticsearchTopStatistics extends ElasticsearchStatistics implement
                                 'script' => 'params.totalLikes/params.totalDislikes'
                             ],
                         ],
-                        'sales_bucket_sort' => [
+                        'ld_bucket_sort' => [
                             'bucket_sort' => [
                                 'sort' => [
                                     'value' => [
