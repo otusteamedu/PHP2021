@@ -8,4 +8,7 @@ cp code/.env.example code/.env
 docker-compose up -d nginx postgres
 docker-compose exec --user=laradock workspace composer install
 docker-compose exec workspace php artisan migrate
+
+# /api/documentation - swagger
+http://localhost:83/api/documentation
 ```
