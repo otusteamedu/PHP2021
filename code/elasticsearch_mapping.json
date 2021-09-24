@@ -1,0 +1,30 @@
+[{
+	"index" : "channels",
+	"body" : {
+		"properties" : {
+			"title" : {
+				"type": "text",
+		         "index": false
+			}
+		}
+	}
+},
+{
+	"index" : "videos",
+	"body" : {
+		"properties" : {
+			"channel" : {
+				"type" : "keyword",
+				"index": true
+			},
+			"likes" : {
+				"type" : "integer",
+				"index" : true
+			},
+			"dislikes" : {
+				"type" : "integer",
+				"index" : true
+			}
+		}
+	}
+}]

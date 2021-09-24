@@ -1,0 +1,9 @@
+.git
+.idea
+.DS_Store
+.env
+
+code/vendor
+elasticsearch_data/*
+
+code/youtube_chanels_list_short.json
