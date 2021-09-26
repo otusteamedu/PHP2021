@@ -11,4 +11,6 @@ docker-compose exec workspace php artisan migrate
 
 # /api/documentation - swagger
 http://localhost:83/api/documentation
+## php artisan swagger-lume:generate - to generate docs
+## php artisan swagger-lume:lume:publish - to publish everything
 ```
