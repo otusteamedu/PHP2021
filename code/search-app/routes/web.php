@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\StatisticsController;
-use App\Models\Channel;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [StatisticsController::class, 'index']);
+Route::get('/', function () {
+    return view('welcome');
+});

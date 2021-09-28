@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ChannelSeeder::class);
-        $this->call(VideoSeeder::class);
+        // \App\Models\User::factory(10)->create();
     }
 }
