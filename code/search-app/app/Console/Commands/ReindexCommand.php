@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Video;
-use Elasticsearch\Client;
+use App\Services\Youtube\Repositories\Background\ElasticsearchVideos;
 use Illuminate\Console\Command;
 
 class ReindexCommand extends Command
@@ -22,41 +21,31 @@ class ReindexCommand extends Command
      */
     protected $description = 'Indexes all videos to Elasticsearch';
 
-    private Client $elasticsearch;
+    private ElasticsearchVideos $service;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Client $elasticsearch)
+    public function __construct(ElasticsearchVideos $service)
     {
         parent::__construct();
-        $this->elasticsearch = $elasticsearch;
+        $this->service = $service;
     }
 
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
     public function handle()
     {
         $this->info('Indexing all videos. This might take a while...');
 
-        foreach (Video::cursor() as $video) {
+        $numberofVideos = $this->service->reindexAllVideos();
 
-            $this->elasticsearch->index([
-                'index' => $video->getSearchIndex(),
-                'type' => $video->getSearchType(),
-                'id' => $video->getKey(),
-                'body' => $video->toSearchArray(),
-            ]);
-
-            $this->output->write('.');
-
-        }
-
+        $this->info(PHP_EOL . $numberofVideos . ' added to index.');
         $this->info(PHP_EOL . 'Done!');
     }
 }
