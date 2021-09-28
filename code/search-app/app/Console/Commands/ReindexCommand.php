@@ -46,6 +46,5 @@ class ReindexCommand extends Command
         $numberofVideos = $this->service->reindexAllVideos();
 
         $this->info(PHP_EOL . $numberofVideos . ' added to index.');
-        $this->info(PHP_EOL . 'Done!');
     }
 }
