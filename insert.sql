@@ -1,47 +1,31 @@
-INSERT INTO public.clients (name,email,phone_number,discount) VALUES
-	 ('Клиент4','444@444.com','74444444',10),
-	 ('Клиент1','111@111.com','71111111',10),
-	 ('Клиент2','222@222.com','72222222',10),
-	 ('Клиент3','333@333.com','73333333',10);
+INSERT INTO public.types_attributes ("type") VALUES
+	 ('int'),
+	 ('boolean'),
+	 ('float'),
+	 ('date'),
+	 ('text');
+	
+INSERT INTO public."attributes" (id_types_attributes,"name") values
+	 (3,'Оскар'),
+	 (3,'Золотой глобус'),
+	 (3,'Ника'),
+	 (1,'Отзыв'),
+	 (5,'Мировая премьера'),
+	 (5,'Премьера в россии'),
+	 (5,'Начало рекламы'),
+	 (4,'Рейтинг'),
+	 (1,'Режиссер');
+	
+INSERT INTO public.movies (name) VALUES
+	 ('Фильм 1'),
+	 ('Фильм 2');
 
-INSERT INTO public.halls (name) VALUES
-	 ('Зал2'),
-	 ('Зал1'),
-	 ('Зал3'),
-	 ('Зал4');
-
-INSERT INTO public.movies (name,genre) VALUES
-	 ('Фильм1','Жанр1'),
-	 ('Фильм3','Жанр3'),
-	 ('Фильм4','Жанр4'),
-	 ('Фильм2','Жанр2');
-
-INSERT INTO public.seats (id_hall,seat,row) VALUES
-	 (1,10,5),
-	 (1,5,5),
-	 (1,7,5),
-	 (1,8,7),
-	 (1,6,5),
-	 (1,10,6),
-	 (1,3,3);
-
-INSERT INTO public.sessions (start_time,start_end,id_hall,id_movie,price) VALUES
-	 ('2021-09-01 12:00:00','2021-09-01 13:45:00',1,1,350),
-	 ('2021-09-01 12:00:00','2021-09-01 13:45:00',2,1,350),
-	 ('2021-09-01 12:00:00','2021-09-01 13:45:00',3,2,350),
-	 ('2021-09-01 14:00:00','2021-09-01 15:45:00',1,1,350),
-	 ('2021-09-01 14:00:00','2021-09-01 15:45:00',2,2,350),
-	 ('2021-09-01 14:00:00','2021-09-01 15:45:00',3,1,350),
-	 ('2021-09-01 15:00:00','2021-09-01 16:45:00',1,3,350),
-	 ('2021-09-01 15:00:00','2021-09-01 16:45:00',2,1,350),
-	 ('2021-09-01 15:00:00','2021-09-01 16:45:00',3,4,350),
-	 ('2021-09-01 12:00:00','2021-09-01 16:45:00',4,4,350);
-
-INSERT INTO public.tickets (id_seat,id_sessions,id_clients,final_price) VALUES
-	 (1,1,1,315),
-	 (2,2,2,315),
-	 (3,3,3,315),
-	 (4,4,4,315),
-	 (5,5,1,315),
-	 (6,6,2,315),
-	 (7,7,3,315);
+INSERT INTO public.values (id_movie,id_attribute,value_text,value_int,value_boolean,value_float,value_date) VALUES
+	 (2,2,NULL,NULL,true,NULL,NULL),
+	 (2,3,NULL,NULL,false,NULL,NULL),
+	 (2,4,'Положительный отзыв',NULL,NULL,NULL,NULL),
+	 (2,5,NULL,NULL,NULL,NULL,'2021-09-29'),
+	 (2,6,NULL,NULL,NULL,NULL,'2021-10-29'),
+	 (2,7,NULL,NULL,NULL,NULL,'2021-10-19'),
+	 (2,8,'Режиссер',NULL,NULL,NULL,NULL),
+	 (2,9,NULL,NULL,NULL,9.7,NULL);

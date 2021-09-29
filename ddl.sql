@@ -1,54 +1,37 @@
-CREATE TABLE public.clients (
-	id serial4 NOT NULL,
-	name varchar NOT NULL,
-	email varchar NULL,
-	phone_number numeric NULL,
-	discount int4 NOT NULL,
-	CONSTRAINT clients_pkey PRIMARY KEY (id)
-);
-
-CREATE TABLE public.halls (
-	id serial4 NOT NULL,
-	name varchar NOT NULL,
-	CONSTRAINT halls_pkey PRIMARY KEY (id)
-);
-
 CREATE TABLE public.movies (
 	id serial4 NOT NULL,
-	name varchar NULL,
-	genre varchar NULL,
+	name varchar NOT NULL,
 	CONSTRAINT movies_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE public.seats (
+CREATE TABLE public.types_attributes (
 	id serial4 NOT NULL,
-	id_hall int4 NOT NULL,
-	seat int4 NOT NULL,
-	row int4 NOT NULL,
-	CONSTRAINT seats_pkey PRIMARY KEY (id),
-	CONSTRAINT seats_fk FOREIGN KEY (id_hall) REFERENCES public.halls(id)
+	type varchar NOT NULL,
+	CONSTRAINT types_attributes_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE public.sessions (
+CREATE TABLE public.attributes (
 	id serial4 NOT NULL,
-	start_time timestamp NOT NULL,
-	start_end timestamp NOT NULL,
-	id_hall int4 NOT NULL,
+	id_types_attributes int4 NOT NULL,
+	name varchar NOT NULL,
+	CONSTRAINT attributes_pkey PRIMARY KEY (id),
+	CONSTRAINT attributes_fk FOREIGN KEY (id_types_attributes) REFERENCES public.types_attributes(id)
+);
+
+CREATE TABLE public.values (
+	id serial4 NOT NULL,
 	id_movie int4 NOT NULL,
-	price numeric NOT NULL,
-	CONSTRAINT sessions_pkey PRIMARY KEY (id),
-	CONSTRAINT sessions_fk FOREIGN KEY (id_hall) REFERENCES public.halls(id),
-	CONSTRAINT sessions_fk_1 FOREIGN KEY (id_movie) REFERENCES public.movies(id)
+	id_attribute int4 NOT NULL,
+	value_text text NULL,
+	value_int int4 NULL,
+	value_boolean bool NULL,
+	value_float numeric(10, 1) NULL,
+	value_date date NULL,
+	CONSTRAINT values_pkey PRIMARY KEY (id),
+	CONSTRAINT values_fk FOREIGN KEY (id_attribute) REFERENCES public.attributes(id),
+	CONSTRAINT values_fk_1 FOREIGN KEY (id_movie) REFERENCES public.movies(id)
 );
 
-CREATE TABLE public.tickets (
-	id serial4 NOT NULL,
-	id_seat int4 NOT NULL,
-	id_sessions int4 NOT NULL,
-	id_clients int4 NOT NULL,
-	final_price numeric NOT NULL,
-	CONSTRAINT tickets_pkey PRIMARY KEY (id),
-	CONSTRAINT tickets_fk FOREIGN KEY (id_clients) REFERENCES public.clients(id),
-	CONSTRAINT tickets_fk_1 FOREIGN KEY (id_seat) REFERENCES public.seats(id),
-	CONSTRAINT tickets_fk_2 FOREIGN KEY (id_sessions) REFERENCES public.sessions(id)
-);
+CREATE INDEX values_id_movie_idx ON public.values USING btree (id_movie);
+
+CREATE INDEX values_value_date_idx ON public.values USING btree (value_date);
