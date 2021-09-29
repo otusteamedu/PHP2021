@@ -1,0 +1,21 @@
+{
+	"name": "acya-skulskaya/hw5",
+	"description": "Home Work 5",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Acya Skulskaya",
+			"email": "onestepclosertome@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"HW5\\": "./src/HW5/"
+		}
+	},
+	"require": {
+		"php": ">=7.1.0"
+	}
+}
+	

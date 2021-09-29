@@ -1,0 +1,99 @@
+version: '3'
+
+services:
+  php_1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: as/php-${APP_NAME}
+    container_name: php_${APP_NAME}_1
+    volumes:
+       - ./code:/data/
+    networks:
+      - app-network
+    environment:
+      MEMCACHED_SERVER: ${MEMCACHED_SERVER_1}
+      MEMCACHED_PORT: ${MEMCACHED_PORT_1}
+
+  memcached_1:
+    image: memcached:latest
+    container_name: ${MEMCACHED_SERVER_1}
+    ports:
+      - ${MEMCACHED_PORT_1}:${MEMCACHED_PORT_1}
+    networks:
+      - app-network
+   
+  webserver_1:
+    build:
+      context: ./nginx_1
+      dockerfile: Dockerfile
+    image: as/nginx-${APP_NAME}
+    container_name: webserver_${APP_NAME}_1
+    ports:
+      - "81:81"
+      - "444:444"
+    volumes:
+       - ./code:/data/
+       - ./nginx_1/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - app-network
+
+
+  php_2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: as/php-${APP_NAME}
+    container_name: php_${APP_NAME}_2
+    volumes:
+       - ./code:/data/
+    networks:
+      - app-network
+    environment:
+      MEMCACHED_SERVER: ${MEMCACHED_SERVER_2}
+      MEMCACHED_PORT: ${MEMCACHED_PORT_2}
+
+  memcached_2:
+    image: memcached:latest
+    container_name: ${MEMCACHED_SERVER_2}
+    ports:
+      - ${MEMCACHED_PORT_2}:${MEMCACHED_PORT_2}
+    networks:
+      - app-network
+   
+  webserver_2:
+    build:
+      context: ./nginx_2
+      dockerfile: Dockerfile
+    image: as/nginx-${APP_NAME}
+    container_name: webserver_${APP_NAME}_2
+    ports:
+      - "82:82"
+      - "446:446"
+    volumes:
+       - ./code:/data/
+       - ./nginx_2/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - app-network
+
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: as/nginx-${APP_NAME}
+    container_name: webserver_${APP_NAME}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+       - ./code:/data/
+       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - app-network
+
+
+
+networks:
+  app-network:
+    driver: bridge
