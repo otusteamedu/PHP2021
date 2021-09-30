@@ -10,5 +10,5 @@ elif [[ $2 =~ [^0-9\.\/\-]+ ]]; then
   exit
 else
   echo The sum of $1 and $2 is
-  echo $1 + $2 |bc
+  awk "BEGIN {print $1+$2; exit}"
 fi
