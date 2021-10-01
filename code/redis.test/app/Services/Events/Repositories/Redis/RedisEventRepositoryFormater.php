@@ -5,44 +5,37 @@ declare(strict_types=1);
 namespace App\Services\Events\Repositories\Redis;
 
 use App\Services\Events\Common\ArrayCommonService;
-use App\Services\Events\Repositories\Redis\Exceptions\RedisEventFormatException;
+use App\Services\Events\DTO\EventDTO;
+use App\Services\Events\DTO\SortedSetMemberDTO;
 
 final class RedisEventRepositoryFormater
 {
 
+    /**
+     * @var ArrayCommonService
+     */
     private ArrayCommonService $arrayCommonService;
 
+    /**
+     * @param ArrayCommonService $arrayCommonService
+     */
     public function __construct(ArrayCommonService $arrayCommonService)
     {
         $this->arrayCommonService = $arrayCommonService;
     }
 
     /**
-     * @param array $array
+     * @param EventDTO $eventDTO
      * @return array
-     * @throws RedisEventFormatException
      */
-    public function getDataToAddEvent(array $array): array
+    public function getDataToAddEvent(EventDTO $eventDTO): SortedSetMemberDTO
     {
-        if (
-            !isset($array['priority'])
-            || !is_numeric($array['priority'])
-            || !isset($array['conditions'])
-            || !is_array($array['conditions'])
-            || !isset($array['event'])
-            || !is_string($array['event'])
-        ) {
-            throw new RedisEventFormatException('Неверный формат входных данных! '
-                . '(Пример: {"priority": 10, "conditions": { "param1": 1, "param2": 2 }, "event": "event1"})');
-        }
-
-        $key = $this->arrayCommonService->implodeArray($array['conditions'], ":", true, ";");
-
-        return [
-            'key' => $key,
-            'options' => (int)$array['priority'],
-            'score' => $array['event'],
-        ];
+        $key = $this->arrayCommonService->implodeArrayString($eventDTO->getConditions(), ":", ";");
+        return new SortedSetMemberDTO(
+            $key,
+            (float)$eventDTO->getPriority(),
+            $eventDTO->getEvent()
+        );
     }
 
 }

@@ -2,9 +2,11 @@
 
 namespace App\Services\Events\Repositories;
 
+use App\Services\Events\DTO\EventDTO;
+
 interface EventRepository
 {
-    public function add(array $params): bool;
+    public function add(EventDTO $params): bool;
 
     public function clear(): bool;
 

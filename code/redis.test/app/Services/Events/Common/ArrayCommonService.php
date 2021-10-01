@@ -10,26 +10,31 @@ final class ArrayCommonService
     /**
      * @param array $inputArray
      * @param string $keyValueSeparator
-     * @param bool $toString
-     * @param string $valuesSeparator
-     * @return array|string
+     * @return array
      */
-    public static function implodeArray(
-        array  $inputArray,
-        string $keyValueSeparator = ":",
-        bool   $toString = false,
-        string $valuesSeparator = ";"
-    ): array|string
+    public function implodeArray(array $inputArray, string $keyValueSeparator = ":"): array
     {
         array_walk($inputArray, function (&$value, $key) use ($keyValueSeparator) {
             $value = $key . $keyValueSeparator . $value;
         });
         $returnValue = array_values($inputArray);
-        if ($toString) {
-            $returnValue = implode($valuesSeparator, $returnValue);
-        }
         return $returnValue;
     }
 
+    /**
+     * @param array $inputArray
+     * @param string $keyValueSeparator
+     * @param string $valuesSeparator
+     * @return string
+     */
+    public function implodeArrayString(
+        array  $inputArray,
+        string $keyValueSeparator = ":",
+        string $valuesSeparator = ";"
+    ): string
+    {
+        $returnValue = $this->implodeArray($inputArray, $keyValueSeparator);
+        return implode($valuesSeparator, $returnValue);
+    }
 
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Events\Repositories\Redis;
 
+use App\Services\Events\DTO\EventDTO;
 use App\Services\Events\Repositories\EventRepository;
 use Illuminate\Redis\Connections\Connection;
 use Redis;
@@ -26,10 +27,14 @@ final class RedisEventRepository implements EventRepository
         $this->redisEventRepositoryFormater = $redisEventRepositoryFormater;
     }
 
-    public function add(array $params): bool
+    public function add(EventDTO $eventDTO): bool
     {
-        $params = $this->redisEventRepositoryFormater->getDataToAddEvent($params);
-        $added = $this->redis->zAdd(self::EVENTS_PREFIX . $params['key'], $params['options'], $params['score']);
+        $params = $this->redisEventRepositoryFormater->getDataToAddEvent($eventDTO);
+        $added = $this->redis->zAdd(
+            self::EVENTS_PREFIX . $params->getKey(),
+            $params->getOptions(),
+            $params->getScore()
+        );
         return $added > 0;
     }
 

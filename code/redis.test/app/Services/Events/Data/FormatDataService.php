@@ -6,6 +6,7 @@ namespace App\Services\Events\Data;
 
 use App\Services\Events\Common\ArrayCommonService;
 use App\Services\Events\Data\Exceptions\FindEventFormatException;
+use App\Services\Events\DTO\SearchEventParamsDTO;
 
 final class FormatDataService
 {
@@ -17,15 +18,9 @@ final class FormatDataService
         $this->arrayCommonService = $arrayCommonService;
     }
 
-    public function getDataToSearchEvent(array $searchParams): ?array
+    public function getDataToSearchEvent(SearchEventParamsDTO $searchEventParamsDTO): ?array
     {
-        if (
-            !isset($searchParams['params'])
-        ) {
-            throw new FindEventFormatException('Неверный формат входных данных! '
-                . '(Пример: {"params": { "param1": 1, "param2": 2 }})');
-        }
-        $arrays = (array)$searchParams['params'];
+        $arrays = $searchEventParamsDTO->getParams();
         return $this->arrayCommonService->implodeArray($arrays);
     }
 

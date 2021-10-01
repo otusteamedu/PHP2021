@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Events;
 
 use App\Services\Events\Data\FormatDataService;
+use App\Services\Events\DTO\EventDTO;
+use App\Services\Events\DTO\SearchEventParamsDTO;
 use App\Services\Events\Repositories\EventRepository;
 use App\Services\Events\Math\ArrayMathService;
 
@@ -28,7 +30,8 @@ final class EventService
 
     public function addEvent(array $params): bool
     {
-        return $this->repository->add($params);
+        $eventDTO = EventDTO::fromArray($params);
+        return $this->repository->add($eventDTO);
     }
 
     public function clearData(): bool
@@ -49,7 +52,8 @@ final class EventService
 
     public function findEventByParams(array $params): ?string
     {
-        $stringParams = $this->formatDataService->getDataToSearchEvent($params);
+        $searchEventParamsDTO = SearchEventParamsDTO::fromArray($params);
+        $stringParams = $this->formatDataService->getDataToSearchEvent($searchEventParamsDTO);
         $validKeys = $this->arrayMathService->getSubArrays($stringParams, ";");
         return $this->repository->findEventByConditions($validKeys);
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Events\Repositories\Redis\Exceptions;
+declare(strict_types=1);
 
-use Throwable;
+namespace App\Services\Events\DTO\Exceptions;
 
-final class RedisEventFormatException extends \Exception
+final class SearchEventParamsFromArrayException extends \Exception
 {
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
