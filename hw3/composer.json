@@ -1,0 +1,14 @@
+{
+    "name": "golubev/hello-composer",
+    "description": "Hello-World package",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Golubev",
+            "email": "Golubev@Ingrad.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
