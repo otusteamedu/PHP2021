@@ -4,5 +4,5 @@ namespace Otus;
 
 interface PageInterface
 {
-	public function showPage();
+	public function template();
 }

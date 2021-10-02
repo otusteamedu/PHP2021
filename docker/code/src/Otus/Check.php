@@ -16,14 +16,13 @@ class Check implements PageInterface
 		$this->strlen = strlen($this->str);
 	}
 
-	public function showPage(): void {
-		echo '<h1>Результаты проверки</h1>
-        <div>
-	        <p>Была введена строка: '. $this->str .'</p>
-	        <p>Количество символов в строке: '. $this->strlen .'</p>
-	        <p>Корректность скобок в строке: '. $this->msg .'</p>
-        </div>
-        <a href="/" class="btn btn-primary">Вернуться</a>';
+	public function template(): string {
+		return 'check';
+	}
+
+	public function params(): array {
+		$params = ['str'=>$this->str, 'msg'=>$this->msg, 'strlen'=>$this->strlen];
+		return $params;
 	}
 
 	private function exam(): string {

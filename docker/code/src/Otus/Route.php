@@ -3,13 +3,14 @@
 namespace Otus;
 
 use Otus\App;
+use Otus\View;
 use Otus\Check;
 use Otus\NotFound;
 
 class Route
 {
     private $uri;
-    private $page;
+    private $view;
 
     public function __construct($uri) {
     	$this->uri = $uri;
@@ -18,15 +19,17 @@ class Route
     public function renderPage(): void {
     	switch ($this->uri) {
         case '/':
-            $this->page = new App;
+            $page = new App;
+            $this->view = new View($page->template());
             break;
         case '/check':
-            $this->page = new Check($_POST['string']);
+            $page = new Check($_POST['string']);
+            $this->view = new View($page->template(), $page->params());
             break;
         default:
         	 $this->page = new NotFound;
         }
 
-        $this->page->showPage();
+        $this->view->render();
     }
 }
