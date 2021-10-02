@@ -25,8 +25,8 @@ CREATE TABLE public.values (
 	value_text text NULL,
 	value_int int4 NULL,
 	value_boolean bool NULL,
-	value_float numeric(10, 1) NULL,
-	value_date date NULL,
+	value_float float4 NULL,
+	value_date timestamp NULL,
 	CONSTRAINT values_pkey PRIMARY KEY (id),
 	CONSTRAINT values_fk FOREIGN KEY (id_attribute) REFERENCES public.attributes(id),
 	CONSTRAINT values_fk_1 FOREIGN KEY (id_movie) REFERENCES public.movies(id)

@@ -24,8 +24,8 @@ INSERT INTO public.values (id_movie,id_attribute,value_text,value_int,value_bool
 	 (2,2,NULL,NULL,true,NULL,NULL),
 	 (2,3,NULL,NULL,false,NULL,NULL),
 	 (2,4,'Положительный отзыв',NULL,NULL,NULL,NULL),
-	 (2,5,NULL,NULL,NULL,NULL,'2021-09-29'),
-	 (2,6,NULL,NULL,NULL,NULL,'2021-10-29'),
+	 (2,5,NULL,NULL,NULL,NULL,'2021-10-02'),
+	 (2,6,NULL,NULL,NULL,NULL,'2021-10-22'),
 	 (2,7,NULL,NULL,NULL,NULL,'2021-10-19'),
 	 (2,8,'Режиссер',NULL,NULL,NULL,NULL),
 	 (2,9,NULL,NULL,NULL,9.7,NULL);
