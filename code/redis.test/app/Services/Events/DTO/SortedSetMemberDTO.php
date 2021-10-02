@@ -15,27 +15,27 @@ final class SortedSetMemberDTO
     /**
      * @var float
      */
-    private float $options;
+    private float $order;
 
     /**
      * @var string
      */
-    private string $score;
+    private string $value;
 
     /**
      * @param string $key
-     * @param float $options
-     * @param string $score
+     * @param float $order
+     * @param string $value
      */
     public function __construct(
         string $key,
-        float  $options,
-        string $score
+        float  $order,
+        string $value
     )
     {
         $this->key = $key;
-        $this->options = $options;
-        $this->score = $score;
+        $this->order = $order;
+        $this->value = $value;
     }
 
     /**
@@ -49,17 +49,17 @@ final class SortedSetMemberDTO
     /**
      * @return float
      */
-    public function getOptions(): float
+    public function getOrder(): float
     {
-        return $this->options;
+        return $this->order;
     }
 
     /**
      * @return string
      */
-    public function getScore(): string
+    public function getValue(): string
     {
-        return $this->score;
+        return $this->value;
     }
 
 }

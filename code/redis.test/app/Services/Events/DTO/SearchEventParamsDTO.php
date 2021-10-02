@@ -28,12 +28,12 @@ final class SearchEventParamsDTO
     {
         if (
             !isset($data['params'])
-            || !(is_object($data['params']))
+            || !(is_array($data['params']))
         ) {
             throw new SearchEventParamsFromArrayException('Неверный формат входных данных! '
                 . '(Пример: {"params": { "param1": 1, "param2": 2 }})');
         }
-        return new static((array)$data['params']);
+        return new static($data['params']);
     }
 
     public function getParams(): array

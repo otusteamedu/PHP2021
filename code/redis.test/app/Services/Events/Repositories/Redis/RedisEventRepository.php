@@ -32,8 +32,8 @@ final class RedisEventRepository implements EventRepository
         $params = $this->redisEventRepositoryFormater->getDataToAddEvent($eventDTO);
         $added = $this->redis->zAdd(
             self::EVENTS_PREFIX . $params->getKey(),
-            $params->getOptions(),
-            $params->getScore()
+            $params->getOrder(),
+            $params->getValue()
         );
         return $added > 0;
     }

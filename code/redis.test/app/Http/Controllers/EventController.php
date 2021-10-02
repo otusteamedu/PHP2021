@@ -28,7 +28,7 @@ class EventController extends Controller
     public function get(Request $request)
     {
         $params = $request->getContent();
-        $result = $this->eventService->findEventByParams((array)json_decode($params));
+        $result = $this->eventService->findEventByParams(json_decode($params, true));
         $this->viewService->printValue($result);
     }
 
