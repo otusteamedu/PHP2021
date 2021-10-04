@@ -13,6 +13,20 @@
 |
 */
 
-$router->get('/', function () use ($router) {
+$router->get('/', function() use ($router) {
     return $router->app->version();
 });
+
+//Events
+$router->group(['prefix' => 'events'], function () use ($router) {
+    $router->post('', 'EventController@add');
+    $router->delete('', 'EventController@deleteAll');
+    $router->get('', 'EventController@get');
+    $router->get('all_conditions', 'EventController@getAllConditions');
+    $router->get('all', 'EventController@getAllEvents');
+});
+
+
+
+
+
