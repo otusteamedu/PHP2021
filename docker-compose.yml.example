@@ -1,0 +1,39 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #Контейнер с PHP, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: search/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+      - ./code:/data/database.patterns
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с мускулем
+  db:
+    image: mysql:5.7
+    container_name: mysql_57
+    restart: always
+    environment:
+      - MYSQL_DATABASE=docker_demo
+      - MYSQL_ROOT_PASSWORD=root123
+    # проброс портов
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
