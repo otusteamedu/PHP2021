@@ -10,8 +10,8 @@
 docker-compose up -d
 docker exec -it app bash (winpty docker exec -it app bash - для windows)
 cd /data/database.patterns/
-sh install.sh
-
+composer install
+php console/install.php
 
 ##Тестирование функционала
 ##Добавление события

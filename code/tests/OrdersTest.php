@@ -103,7 +103,7 @@ class OrdersTest extends TestCase
 
         $this->orderMapper->deleteById($id);
 
-        //Проверяем, что добавилась одна запись
+        //Проверяем, что эта запись удалена, а следовательно записей - 0
         $recordsAfterDeleteById = $this->orderMapper->getAll();
         $this->assertEmpty($recordsAfterDeleteById);
     }
