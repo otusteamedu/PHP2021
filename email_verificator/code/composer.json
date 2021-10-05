@@ -1,0 +1,15 @@
+{
+    "name": "alexander/hw5",
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/Otus"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Golubev",
+            "email": "Golubev@Ingrad.com"
+        }
+    ],
+    "require": {}
+}

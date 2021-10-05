@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  balancer:
+    build:
+      context: ./balancer
+      dockerfile: Dockerfile
+    image: hw5/balancer
+    container_name: hw5.balancer
+    ports:
+      - "80:80"
+    networks: 
+      - app-network
+
+  webserver1:
+    build:
+      context: ./webserver1
+      dockerfile: Dockerfile
+    image: hw5/webserver1
+    container_name: hw5.webserver1
+    volumes:
+      - ./app_code1:/var/www/app
+    networks:
+      - app-network
+
+  webserver2:
+    build:
+      context: ./webserver2
+      dockerfile: Dockerfile
+    image: hw5/webserver2
+    container_name: hw5.webserver2
+    volumes:
+      - ./app_code2:/var/www/app
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./app1
+      dockerfile: Dockerfile
+    image: hw5/app1
+    container_name: hw5.app1
+    volumes:
+      - ./app_code1:/var/www/app
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./app2
+      dockerfile: Dockerfile
+    image: hw5/app2
+    container_name: hw5.app2
+    volumes:
+      - ./app_code2:/var/www/app
+    networks:
+      - app-network
+
+  memcached1:
+    image: memcached:1
+    container_name: hw5.app1.memcached
+    networks:
+      - app-network
+
+  memcached2:
+    image: memcached:1
+    container_name: hw5.app2.memcached
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
