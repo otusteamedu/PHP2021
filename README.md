@@ -11,9 +11,7 @@ docker-compose up -d
 docker exec -it app bash (winpty docker exec -it app bash - для windows)
 cd /data/database.patterns/
 composer install
-php console/install.php
 
 ##Тестирование функционала
-##Добавление события
 cd /data/database.patterns/
 ./vendor/bin/phpunit --testdox ./tests/OrdersTest.php

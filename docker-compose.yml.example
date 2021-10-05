@@ -19,17 +19,19 @@ services:
 
   #Контейнер с мускулем
   db:
-    image: mysql:5.7
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
     container_name: mysql_57
-    restart: always
     environment:
       - MYSQL_DATABASE=docker_demo
       - MYSQL_ROOT_PASSWORD=root123
+    restart: always
     # проброс портов
     ports:
       - "3306:3306"
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./mysql_data:/var/lib/mysql
     networks:
       - app-network
 

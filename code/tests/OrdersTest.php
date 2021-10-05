@@ -4,7 +4,7 @@ namespace tests;
 
 use Orders\Data\Order;
 use Orders\Data\OrderMapper;
-use Orders\Data\Storage\StorageAdapter;
+use Orders\Data\Storage\StorageAdapterMysql;
 use PHPUnit\Framework\TestCase;
 
 class OrdersTest extends TestCase
@@ -40,7 +40,7 @@ class OrdersTest extends TestCase
         parent::__construct($name, $data, $dataName);
 
         require_once(__DIR__ . "/../bootstrap/app.php");
-        $this->orderMapper = new OrderMapper(new StorageAdapter());
+        $this->orderMapper = new OrderMapper(new StorageAdapterMysql());
     }
 
     public function testSaveNewAndUpdateOld()
