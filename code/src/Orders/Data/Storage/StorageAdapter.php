@@ -16,15 +16,16 @@ interface StorageAdapter
     /**
      * @param int $id
      * @param string $tableName
-     * @return array|null
+     * @return object|null
      */
-    public function getDataById(int $id, string $tableName): ?array;
+    public function getDataById(int $id, string $tableName, string $classToMap): ?object;
 
     /**
      * @param string $tableName
+     * @param string $classToMap
      * @return array|null
      */
-    public function getAll(string $tableName): ?array;
+    public function getAll(string $tableName, string $classToMap): ?array;
 
     /**
      * @param int $id

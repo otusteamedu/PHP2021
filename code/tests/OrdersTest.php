@@ -35,12 +35,18 @@ class OrdersTest extends TestCase
 
     private OrderMapper $orderMapper;
 
+    private array $testOrders;
+
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
         require_once(__DIR__ . "/../bootstrap/app.php");
         $this->orderMapper = new OrderMapper(new StorageAdapterMysql());
+
+        foreach (self::TEST_ORDERS as $order) {
+            $this->testOrders[] = new Order($order['id'], $order['summ'], $order['created_at']);
+        }
     }
 
     public function testSaveNewAndUpdateOld()
@@ -48,9 +54,9 @@ class OrdersTest extends TestCase
 
         $this->orderMapper->deleteAll();
 
-        $id = self::TEST_ORDERS[0]['id'];
+        $id = $this->testOrders[0]->getId();
 
-        $order = new Order(self::TEST_ORDERS[0]['summ'], self::TEST_ORDERS[0]['created_at'], $id);
+        $order = $this->testOrders[0];
         $order = $this->orderMapper->save($order);
 
         $orderToCheck = $this->orderMapper->findById($id);
@@ -60,8 +66,8 @@ class OrdersTest extends TestCase
         //Проверяем реализацию identity map
         $this->assertSame($order, $orderToCheck);
 
-        $order->setSumm(self::TEST_ORDERS[1]['summ']);
-        $order->setCreatedAt(self::TEST_ORDERS[1]['created_at']);
+        $order->setSumm($this->testOrders[1]->getSumm());
+        $order->setCreatedAt($this->testOrders[1]->getCreatedAt());
 
         $this->orderMapper->save($order);
 
@@ -77,8 +83,8 @@ class OrdersTest extends TestCase
     {
         $this->orderMapper->deleteAll();
 
-        foreach (self::TEST_ORDERS as $order) {
-            $this->orderMapper->save(new Order($order['summ'], $order['created_at']));
+        foreach ($this->testOrders as $order) {
+            $this->orderMapper->save($order);
         }
 
         $records = $this->orderMapper->getAll();
@@ -93,7 +99,7 @@ class OrdersTest extends TestCase
     {
         $this->orderMapper->deleteAll();
 
-        $order = new Order(self::TEST_ORDERS[0]['summ'], self::TEST_ORDERS[0]['created_at']);
+        $order = $this->testOrders[0];
         $order = $this->orderMapper->save($order);
         $id = $order->getId();
 

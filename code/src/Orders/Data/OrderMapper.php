@@ -11,6 +11,8 @@ final class OrderMapper
 
     private const TABLE_NAME = "orders";
 
+    private const CLASS_TO_MAP = "Order";
+
     /**
      * @var array
      */
@@ -20,6 +22,8 @@ final class OrderMapper
      * @var StorageAdapter
      */
     private StorageAdapter $storageAdapter;
+
+    private string $classToMap;
 
     /**
      * @param StorageAdapter $storageAdapter
@@ -37,10 +41,10 @@ final class OrderMapper
     {
         if (!array_key_exists($id, $this->identities)) {
             $this->identities[$id] = null;
-            $orderArray = $this->storageAdapter->getDataById($id, self::TABLE_NAME);
+            $order = $this->storageAdapter->getDataById($id, self::TABLE_NAME, self::CLASS_TO_MAP);
 
-            if ($orderArray !== null) {
-                $this->identities[$id] = self::mapArrayToOrder($orderArray);
+            if ($order !== null) {
+                $this->identities[$id] = $order;
             }
         }
         return $this->identities[$id];
@@ -51,19 +55,18 @@ final class OrderMapper
      */
     public function getAll(): array
     {
-        $ordersAsArrays = $this->storageAdapter->getAll(self::TABLE_NAME);
+        $ordersAsArrays = $this->storageAdapter->getAll(self::TABLE_NAME, self::CLASS_TO_MAP);
 
         if (empty($ordersAsArrays)) {
             return [];
         }
 
-
-        return array_map(function (array $row) {
-            if (!array_key_exists($row['id'], $this->identities)) {
-                return $this->identities[$row['id']];
+        return array_map(function (Order $row) {
+            if (!array_key_exists($row->getId(), $this->identities)) {
+                return $this->identities[$row->getId()];
             }
 
-            return self::mapArrayToOrder($row);
+            return $row;
         }, $ordersAsArrays);
     }
 
@@ -100,15 +103,6 @@ final class OrderMapper
         $this->identities[$id] = $order;
 
         return $this->identities[$id];
-    }
-
-    /**
-     * @param array $row
-     * @return Order
-     */
-    private static function mapArrayToOrder(array $row): Order
-    {
-        return Order::fromState($row);
     }
 
 }

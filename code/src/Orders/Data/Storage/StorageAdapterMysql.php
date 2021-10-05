@@ -12,6 +12,8 @@ final class StorageAdapterMysql implements StorageAdapter
 
     private const KEY_FIELD = 'id';
 
+    private const DATA_NAMESPACE_PREFIX = '\\Orders\\Data\\';
+
     /**
      * @var PDO
      */
@@ -34,26 +36,35 @@ final class StorageAdapterMysql implements StorageAdapter
     /**
      * @param int $id
      * @param string $tableName
-     * @return array|null
+     * @return object|null
      */
-    public function getDataById(int $id, string $tableName): ?array
+    public function getDataById(int $id, string $tableName, string $classToMap): ?object
     {
         $selectStatement = $this->pdo->prepare('SELECT * FROM ' . $tableName . ' WHERE id = ?');
         $selectStatement->execute([$id]);
-        $result = $selectStatement->fetch(PDO::FETCH_ASSOC);
+        $selectStatement = $this->setObjectFetchMode($selectStatement, $classToMap);
+        $result = $selectStatement->fetch();
         return $result ?: null;
     }
 
     /**
      * @param string $tableName
+     * @param string $classToMap
      * @return array|null
      */
-    public function getAll(string $tableName): ?array
+    public function getAll(string $tableName, string $classToMap): ?array
     {
         $selectStatement = $this->pdo->prepare('SELECT * FROM ' . $tableName);
         $selectStatement->execute();
-        $result = $selectStatement->fetchAll(PDO::FETCH_ASSOC);
+        $selectStatement = $this->setObjectFetchMode($selectStatement, $classToMap);
+        $result = $selectStatement->fetchAll();
         return $result ?: null;
+    }
+
+    private function setObjectFetchMode(PDOStatement $selectStatement, string $classToMap): PDOStatement
+    {
+        $selectStatement->setFetchMode(PDO::FETCH_CLASS, self::DATA_NAMESPACE_PREFIX . $classToMap);
+        return $selectStatement;
     }
 
     /**

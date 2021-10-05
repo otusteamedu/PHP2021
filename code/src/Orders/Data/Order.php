@@ -23,15 +23,15 @@ final class Order
     private string $created_at;
 
     /**
-     * @param float $summ
-     * @param string $created_at
+     * @param float|null $summ
+     * @param string|null $created_at
      * @param int|null $id
      */
-    public function __construct(float $summ, string $created_at, ?int $id = null)
+    public function __construct(?int $id = null, ?float $summ = null, ?string $created_at = null)
     {
-        $this->id = $id;
-        $this->summ = $summ;
-        $this->created_at = $created_at;
+        $this->id = $id ?? $this->id;
+        $this->summ = $summ ?? $this->summ;
+        $this->created_at = $created_at ?? $this->created_at;
     }
 
     /**
@@ -44,19 +44,6 @@ final class Order
             'summ' => $this->summ,
             'created_at' => $this->created_at,
         ];
-    }
-
-    /**
-     * @param array $state
-     * @return Order
-     */
-    public static function fromState(array $state): Order
-    {
-        return new self(
-            floatval($state['summ']),
-            $state['created_at'],
-            intval($state['id'])
-        );
     }
 
     /**
