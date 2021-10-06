@@ -13,6 +13,12 @@ class Email
 //      https://www.php.net/manual/ru/function.file.php
         $this->emails = file($filename, FILE_IGNORE_NEW_LINES);
 
+        if (!file_exists($filename))
+        {
+//          https://www.php.net/manual/ru/reserved.constants.php
+            throw new Exception('Файл не существует' . PHP_EOL);
+        }
+
         if (empty($this->emails))
         {
 //          https://www.php.net/manual/ru/reserved.constants.php
