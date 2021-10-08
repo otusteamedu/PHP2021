@@ -1,0 +1,66 @@
+Отсортированный список (15 значений) самых больших по размеру объектов БД (таблицы, включая индексы, сами индексы)
+
+SELECT
+    nspname || '.' || relname as name,
+    pg_size_pretty(pg_total_relation_size(pg_class.oid)) as totalsize,
+    pg_size_pretty(pg_relation_size(pg_class.oid)) as relsize
+FROM pg_class
+LEFT JOIN pg_namespace ON (pg_namespace.oid = pg_class.relnamespace)
+WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY pg_total_relation_size(pg_class.oid) DESC
+    LIMIT 15;
+
+|name                          |totalsize|relsize|
+|------------------------------|---------|-------|
+|public.seats                  |1424 MB  |995 MB |
+|public.tickets                |935 MB   |651 MB |
+|public.seats_pkey             |429 MB   |428 MB |
+|public.tickets_pkey           |214 MB   |214 MB |
+|public.tickets_id_clients_idx |69 MB    |69 MB  |
+|public.sessions               |13 MB    |6672 kB|
+|public.clients                |3936 kB  |2976 kB|
+|public.sessions_pkey          |3352 kB  |3328 kB|
+|public.sessions_start_time_idx|2208 kB  |2208 kB|
+|public.clients_pkey           |920 kB   |896 kB |
+|public.sessions_id_movie_idx  |712 kB   |712 kB |
+|pg_toast.pg_toast_2618        |528 kB   |480 kB |
+|public.movies                 |224 kB   |120 kB |
+|pg_toast.pg_toast_2619        |72 kB    |24 kB  |
+|public.movies_pkey            |64 kB    |64 kB  |
+
+
+Отсортированный список (5 значений) самых часто используемых индексов
+
+SELECT
+    idx_stat.schemaname || '.' || idx_stat.relname table_name,
+    idx_stat.indexrelname index_name,
+    idx_stat.idx_scan
+FROM pg_stat_all_indexes idx_stat
+ORDER BY idx_scan DESC
+    LIMIT 5;
+
+|table_name     |index_name   |idx_scan|
+|---------------|-------------|--------|
+|public.halls   |halls_pkey   |20100004|
+|public.seats   |seats_pkey   |10009334|
+|public.sessions|sessions_pkey|10000054|
+|public.clients |clients_pkey |10000021|
+|public.movies  |movies_pkey  |100024  |
+
+Отсортированный список (5 значений) самых редко используемых индексов
+
+SELECT
+    idx_stat.schemaname || '.' || idx_stat.relname table_name,
+    idx_stat.indexrelname index_name,
+    idx_stat.idx_scan
+FROM pg_stat_all_indexes idx_stat
+ORDER BY idx_scan ASC
+    LIMIT 5;
+
+|table_name             |index_name          |idx_scan|
+|-----------------------|--------------------|--------|
+|pg_toast.pg_toast_58551|pg_toast_58551_index|0       |
+|pg_toast.pg_toast_58575|pg_toast_58575_index|0       |
+|pg_toast.pg_toast_58540|pg_toast_58540_index|0       |
+|pg_toast.pg_toast_58529|pg_toast_58529_index|0       |
+|pg_toast.pg_toast_58596|pg_toast_58596_index|0       |
