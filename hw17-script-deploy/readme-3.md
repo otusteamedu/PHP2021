@@ -80,8 +80,8 @@ LARADOCK_DIR=otus-laradock
 git clone https://github.com/laradock/laradock.git $LARADOCK_DIR
 cd $LARADOCK_DIR
 cp .env.example .env
-sed -i 's@APP_CODE_PATH_HOST=@APP_CODE_PATH_HOST=../project/@' .env
-#todo sed -i 's@PHP_VERSION=@PHP_VERSION=7.4@' .env
+#todo: sed -i 's@APP_CODE_PATH_HOST=@APP_CODE_PATH_HOST=../project/@' .env
+#todo: sed -i 's@PHP_VERSION=@PHP_VERSION=7.4@' .env
 docker-compose up -d nginx postgres
 ```
 
