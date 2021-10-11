@@ -1,3 +1,5 @@
+короткое описание с картинками - https://docs.google.com/document/d/10_SIm-UDDlzWylJ5VbgHNJH2QLsh-TfwBuREObgV5Vo/edit?usp=sharing
+
 ## создать облако (дроплет - digitalocean), завести ssh ключ для рута
 
 ## создать пользователя, которым можно будет ходить по ssh с локальной машины в облако
