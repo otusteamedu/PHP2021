@@ -26,6 +26,10 @@ ssh -i ~/.ssh/id_rsa_u3.pub u3@142.93.34.164
 
 # создадим ssh-private-key для репозиторя (github)
 ssh-keygen # /home/u3/.ssh/id_rsa_github ..(2)
+
+# чтобы github-action мог что-то деплоить в облако
+cat ~/.ssh/id_rsa_u3.pub ~/.ssh/authorized_keys2
+chmod 640 ~/.ssh/authorized_keys2
 ```
 
 ##repository (github)
@@ -46,7 +50,7 @@ cat ~/.ssh/id_rsa_github
 Ctrl-c Ctrl-v
 
 
-создаем 2 actions (джобы): https://github.com/repetitor/autodeploy-u3/tree/main/.github/workflows
+создаем action (тесты и автодеплой в продакшен): https://github.com/repetitor/autodeploy-u3/tree/main/.github/workflows
 ```
 
 ## поднимаем рабочее окружение в облаке
