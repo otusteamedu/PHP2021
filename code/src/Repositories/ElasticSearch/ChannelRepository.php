@@ -61,9 +61,9 @@ class ChannelRepository extends ElasticSearchAbstractRepository implements \Elas
         $params = [
             'index' => Channel::INDEX,
             'body' => [
-                'name' => $model->name,
-                'description' => $model->description,
-                'number_of_subscribers' => $model->numberOfSubscribers,
+                'name' => $model->getName(),
+                'description' => $model->getDescription(),
+                'number_of_subscribers' => $model->getNumberOfSubscribers(),
             ]
         ];
 

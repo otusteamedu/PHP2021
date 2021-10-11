@@ -6,12 +6,12 @@ use Elastic\Models\Contracts\Model;
 
 class Video implements Model
 {
-    public ?string $id;
-    public ?string $channelId;
-    public ?string $name;
-    public ?string $description;
-    public ?int $numberOfLikes;
-    public ?int $numberOfDislikes;
+    private ?string $id;
+    private ?string $channelId;
+    private ?string $name;
+    private ?string $description;
+    private ?int $numberOfLikes;
+    private ?int $numberOfDislikes;
 
     public const INDEX = 'video';
     public const SCHEMA = [
@@ -49,5 +49,55 @@ class Video implements Model
         $this->description = $videoData['description'] ?? null;
         $this->numberOfLikes = $videoData['number_of_likes'] ?? null;
         $this->numberOfDislikes = $videoData['number_of_dislikes'] ?? null;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getChannelId(): ?int
+    {
+        return $this->channelId;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getNumberOfLikes(): ?int
+    {
+        return $this->numberOfLikes;
+    }
+
+    public function setNumberOfLikes(int $numberOfLikes): void
+    {
+        $this->numberOfLikes = $numberOfLikes;
+    }
+
+    public function getNumberOfDislikes(): ?int
+    {
+        return $this->numberOfDislikes;
+    }
+
+    public function setNumberOfDislikes(int $numberOfDislikes): void
+    {
+        $this->numberOfDislikes = $numberOfDislikes;
     }
 }

@@ -7,10 +7,10 @@ use Elastic\Repositories\ElasticSearch\VideoRepository;
 
 class Channel implements Model
 {
-    public ?string $id;
-    public ?string $name;
-    public ?string $description;
-    public ?int $numberOfSubscribers;
+    private ?string $id;
+    private ?string $name;
+    private ?string $description;
+    private ?int $numberOfSubscribers;
 
     public const INDEX = 'channel';
     public const SCHEMA = [
@@ -38,6 +38,41 @@ class Channel implements Model
         $this->name = $channelData['name'] ?? null;
         $this->description = $channelData['description'] ?? null;
         $this->numberOfSubscribers = $channelData['number_of_subscribers'] ?? null;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getNumberOfSubscribers(): ?int
+    {
+        return $this->numberOfSubscribers;
+    }
+
+    public function setNumberOfSubscribers(int $numberOfSubscribers): void
+    {
+        $this->numberOfSubscribers = $numberOfSubscribers;
     }
 
     public function videos(): array

@@ -57,18 +57,18 @@ class VideoRepository extends ElasticSearchAbstractRepository implements \Elasti
     {
         $channelRepository = new ChannelRepository();
 
-        if (is_null($model->channelId) || !$channelRepository->exists($model->channelId)) {
+        if (is_null($model->getChannelId()) || !$channelRepository->exists($model->getChannelId())) {
             throw new ChannelDoesntExistsException();
         }
 
         $params = [
             'index' => Video::INDEX,
             'body' => [
-                'channel_id' => $model->channelId,
-                'name' => $model->name,
-                'description' => $model->description,
-                'number_of_likes' => $model->numberOfLikes,
-                'number_of_dislikes' => $model->numberOfDislikes,
+                'channel_id' => $model->getChannelId(),
+                'name' => $model->getName(),
+                'description' => $model->getDescription(),
+                'number_of_likes' => $model->getNumberOfLikes(),
+                'number_of_dislikes' => $model->getNumberOfDislikes(),
             ]
         ];
 
