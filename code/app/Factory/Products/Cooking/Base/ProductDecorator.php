@@ -10,6 +10,10 @@ use App\Factory\Products\ProductInterface;
 interface ProductDecorator extends ProductInterface
 {
 
+    /**
+     * @param ProductInterface $product
+     * @param Element $newElement
+     */
     public function __construct(ProductInterface $product, Element $newElement);
 
 }

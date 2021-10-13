@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory\Combos;
+namespace App\Factory\Orders;
 
 use App\Factory\ProductFactoryInterface;
 use App\Factory\Products\Cooking\Base\ProductToCookInterface;
@@ -18,6 +18,9 @@ final class CustomElementsBuilder implements ProductBuildInterface
         "сыр",
     ];
 
+    /**
+     * @return ProductToCookInterface
+     */
     public function build(): ProductToCookInterface
     {
 
@@ -32,6 +35,10 @@ final class CustomElementsBuilder implements ProductBuildInterface
 
     }
 
+    /**
+     * @param ProductFactoryInterface $factory
+     * @param SplObserver $observer
+     */
     public function __construct(private ProductFactoryInterface $factory, private SplObserver $observer)
     {
     }

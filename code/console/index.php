@@ -1,11 +1,9 @@
 <?php
 
 use App\Factory\BurgerFactory;
-use App\Factory\Combos\CustomElementsBuilder;
-use App\Factory\Combos\SimpleBuilder;
-use App\Factory\Combos\FourBurgersCombo;
-use App\Factory\Combos\SimpleOrder;
-use App\Factory\Combos\ThreeHotdogsCombo;
+use App\Factory\Orders\CustomElementsBuilder;
+use App\Factory\Orders\SimpleBuilder;
+use App\Factory\Orders\SimpleOrder;
 use App\Factory\HotdogFactory;
 use App\Factory\ProductsStatus;
 use App\Factory\SandwichFactory;

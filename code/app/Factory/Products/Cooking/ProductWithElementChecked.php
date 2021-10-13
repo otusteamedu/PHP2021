@@ -22,7 +22,7 @@ final class ProductWithElementChecked extends Observer implements ProductToCookI
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function getName(): string
     {
@@ -30,7 +30,7 @@ final class ProductWithElementChecked extends Observer implements ProductToCookI
     }
 
     /**
-     * @inheritDoc
+     * @return array
      */
     public function getElements(): array
     {
@@ -38,7 +38,7 @@ final class ProductWithElementChecked extends Observer implements ProductToCookI
     }
 
     /**
-     * @inheritDoc
+     * @return string
      */
     public function getStatus(): string
     {
@@ -70,10 +70,12 @@ final class ProductWithElementChecked extends Observer implements ProductToCookI
     private function checkProduct(): bool
     {
         $condition = rand(0, 2) % 2 == 0;
-        echo "condition = " . $condition . PHP_EOL;
         return $condition;
     }
 
+    /**
+     * @return bool
+     */
     public function create(): bool
     {
         $this->cook();

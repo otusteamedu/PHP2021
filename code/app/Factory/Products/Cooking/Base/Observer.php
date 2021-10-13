@@ -16,11 +16,17 @@ abstract class Observer implements SplSubject
         $this->observers = new SplObjectStorage();
     }
 
+    /**
+     * @param SplObserver $observer
+     */
     public function attach(SplObserver $observer)
     {
         $this->observers->attach($observer);
     }
 
+    /**
+     * @param SplObserver $observer
+     */
     public function detach(SplObserver $observer)
     {
         $this->observers->detach($observer);

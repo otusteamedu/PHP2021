@@ -16,6 +16,12 @@ abstract class ProductFactoryBase implements ProductFactoryInterface
 
     protected array $baseElements;
 
+    /**
+     * @param ProductInterface $product
+     * @param array $elements
+     * @param SplObserver|null $observer
+     * @return ProductToCookInterface
+     */
     protected function createProductBase(
         ProductInterface $product,
         array            $elements,

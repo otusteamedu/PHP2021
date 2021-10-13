@@ -28,6 +28,9 @@ abstract class Product implements ProductInterface
         return $this->name;
     }
 
+    /**
+     * @return array
+     */
     public function getElements(): array
     {
         return $this->elements;

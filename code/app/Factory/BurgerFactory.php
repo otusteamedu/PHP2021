@@ -25,7 +25,12 @@ final class BurgerFactory extends ProductFactoryBase
         $this->baseElements = self::ELEMENTS;
     }
 
-
+    /**
+     * @param string $name
+     * @param array $customElements
+     * @param SplObserver|null $observer
+     * @return ProductToCookInterface
+     */
     public function createProduct(
         string      $name,
         array       $customElements = [],

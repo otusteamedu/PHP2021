@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory\Combos;
+namespace App\Factory\Orders;
 
 use App\Factory\ProductFactoryInterface;
 use App\Factory\Products\Cooking\Base\ProductToCookInterface;
@@ -11,6 +11,9 @@ use SplObserver;
 final class SimpleBuilder implements ProductBuildInterface
 {
 
+    /**
+     * @return ProductToCookInterface
+     */
     public function build(): ProductToCookInterface
     {
 
@@ -23,6 +26,10 @@ final class SimpleBuilder implements ProductBuildInterface
 
     }
 
+    /**
+     * @param ProductFactoryInterface $factory
+     * @param SplObserver $observer
+     */
     public function __construct(private ProductFactoryInterface $factory, private SplObserver $observer)
     {
     }

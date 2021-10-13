@@ -12,7 +12,7 @@ final class ProductsStatus implements SplObserver
 {
 
     /**
-     * @param ProductInterface $subject
+     * @param SplSubject $subject
      */
     public function update(SplSubject $subject): void
     {
