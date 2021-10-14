@@ -1,0 +1,4 @@
+.idea
+/mysql/*
+/elasticsearch/*
+docker-compose.yml
