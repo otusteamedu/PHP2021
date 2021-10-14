@@ -11,6 +11,8 @@ use App\Factory\Products\Cooking\Base\ProductToCookInterface;
 final class ProductWithElementChecked extends Observer implements ProductToCookInterface
 {
 
+    use CookingFailTrait;
+
     private const MIN_ELEMENTS = 5;
 
     private string $status;
@@ -50,6 +52,8 @@ final class ProductWithElementChecked extends Observer implements ProductToCookI
         if (count($this->getElements()) >= self::MIN_ELEMENTS) {
             $this->status = StatusList::STATUS_IN_PROGRESS;
             $this->notify();
+        } else {
+            $this->throwRecipeException();
         }
     }
 

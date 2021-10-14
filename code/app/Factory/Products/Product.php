@@ -7,16 +7,11 @@ namespace App\Factory\Products;
 abstract class Product implements ProductInterface
 {
 
-    private array $elements = [];
-
-    private string $name;
-
     /**
      * @param string $name
      */
-    public function __construct(string $name)
+    public function __construct(private string $name, private $elements = [])
     {
-        $this->name = $name;
         $this->doBaseRecipe();
     }
 

@@ -16,6 +16,11 @@ interface ProductFactoryInterface
      * @param SplObserver $observer
      * @return ProductToCookInterface
      */
-    public function createProduct(string $name, array $customElements, SplObserver $observer): ProductToCookInterface;
+    public function createProduct(
+        string      $name,
+        array       $customElements,
+        SplObserver $observer,
+        bool        $isCustom = false
+    ): ProductToCookInterface;
 
 }

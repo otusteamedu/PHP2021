@@ -8,21 +8,21 @@ use App\Factory\ProductFactoryInterface;
 use App\Factory\Products\Cooking\Base\ProductToCookInterface;
 use SplObserver;
 
-final class SimpleBuilder implements ProductBuildInterface
+final class SimpleCheeseBuilder extends ProductBuilderBase
 {
 
+    private const NAME = "с сыром";
+
+    private const ELEMENTS = ["сыр"];
+
     /**
-     * @return ProductToCookInterface
+     * @return ProductToCookInterface|null
      */
-    public function build(): ProductToCookInterface
+    public function build(): ?ProductToCookInterface
     {
 
-        while (true) {
-            $burger = $this->factory->createProduct("чизбургер ", ["сыр"], $this->observer);
-            if ($burger->create()) {
-                return $burger;
-            }
-        }
+        $burger = $this->factory->createProduct(self::NAME, self::ELEMENTS, $this->observer);
+        return $this->tryToCreateProduct($burger);
 
     }
 

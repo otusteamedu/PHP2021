@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Factory\Orders;
 
 use App\Factory\Products\Cooking\Base\ProductToCookInterface;
+use App\Factory\Products\Element;
 
 final class SimpleOrder implements Order
 {
@@ -49,7 +50,16 @@ final class SimpleOrder implements Order
 
         /** @var ProductToCookInterface $product */
         foreach ($this->products as $product) {
-            echo $product->getName() . PHP_EOL;
+
+            if (!is_null($product)) {
+                echo "- " . $product->getName() . ":" . PHP_EOL;
+
+                /** @var Element $element */
+                foreach($product->getElements() as $element) {
+                    echo "- - " . $element->getName() . PHP_EOL;
+                }
+            }
+
         }
     }
 

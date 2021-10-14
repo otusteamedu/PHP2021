@@ -16,8 +16,8 @@ interface ProductBuildInterface
     public function __construct(ProductFactoryInterface $factory, SplObserver $observer);
 
     /**
-     * @return ProductToCookInterface
+     * @return ProductToCookInterface|null
      */
-    public function build(): ProductToCookInterface;
+    public function build(): ?ProductToCookInterface;
 
 }

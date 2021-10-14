@@ -6,40 +6,33 @@ namespace App\Factory\Orders;
 
 use App\Factory\ProductFactoryInterface;
 use App\Factory\Products\Cooking\Base\ProductToCookInterface;
+use LogicException;
 use SplObserver;
 
-final class CustomElementsBuilder implements ProductBuildInterface
+final class CustomElementsBuilder extends ProductBuilderBase
 {
 
-    private const CUSTOM_ELEMENTS = [
-        "лук",
-        "острый соус",
-        "куриная котлета",
-        "сыр",
-    ];
-
     /**
-     * @return ProductToCookInterface
+     * @return ProductToCookInterface|null
      */
-    public function build(): ProductToCookInterface
+    public function build(): ?ProductToCookInterface
     {
 
-        while (true) {
-            $randomElement = self::CUSTOM_ELEMENTS[rand(0, count(self::CUSTOM_ELEMENTS) - 1)];
-
-            $burger = $this->factory->createProduct("с доп. ингридиентами", [$randomElement], $this->observer);
-            if ($burger->create()) {
-                return $burger;
-            }
-        }
+        $burger = $this->factory->createProduct("(оригинальный рецепт)", $this->elements, $this->observer, true);
+        return $this->tryToCreateProduct($burger);
 
     }
 
     /**
      * @param ProductFactoryInterface $factory
      * @param SplObserver $observer
+     * @param array $elements
      */
-    public function __construct(private ProductFactoryInterface $factory, private SplObserver $observer)
+    public function __construct(
+        private ProductFactoryInterface $factory,
+        private SplObserver             $observer,
+        private array                   $elements = []
+    )
     {
     }
 

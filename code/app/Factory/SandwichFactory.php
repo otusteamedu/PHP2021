@@ -13,18 +13,6 @@ final class SandwichFactory extends ProductFactoryBase
 
     private const PRODUCT_NAME = 'Сэндвич ';
 
-    private const ELEMENTS = [
-        "Тосты для сендвича",
-        "Ветчина",
-        "Сыр",
-        "Майонез",
-    ];
-
-    public function __construct()
-    {
-        $this->baseElements = self::ELEMENTS;
-    }
-
     /**
      * @param string $name
      * @param array $customElements
@@ -34,12 +22,13 @@ final class SandwichFactory extends ProductFactoryBase
     public function createProduct(
         string      $name,
         array       $customElements = [],
-        SplObserver $observer = null
+        SplObserver $observer = null,
+        bool        $isCustom = false
     ): ProductToCookInterface
     {
         $sandwich = new SandwichProduct(self::PRODUCT_NAME . $name);
 
-        return $this->createProductBase($sandwich, $customElements, $observer);
+        return $this->createProductBase($sandwich, $customElements, $observer, $isCustom);
     }
 
 }

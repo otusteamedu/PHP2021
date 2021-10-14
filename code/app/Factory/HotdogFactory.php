@@ -13,18 +13,6 @@ final class HotdogFactory extends ProductFactoryBase
 
     private const PRODUCT_NAME = 'Хот-дог ';
 
-    private const ELEMENTS = [
-        "Булка для хот-дога",
-        "Сосиска",
-        "Кетчуп",
-        "Майонез",
-    ];
-
-    public function __construct()
-    {
-        $this->baseElements = self::ELEMENTS;
-    }
-
     /**
      * @param string $name
      * @param array $customElements
@@ -34,12 +22,13 @@ final class HotdogFactory extends ProductFactoryBase
     public function createProduct(
         string      $name,
         array       $customElements = [],
-        SplObserver $observer = null
+        SplObserver $observer = null,
+        bool        $isCustom = false
     ): ProductToCookInterface
     {
         $hotdog = new HotdogProduct(self::PRODUCT_NAME . $name);
 
-        return $this->createProductBase($hotdog, $customElements, $observer);
+        return $this->createProductBase($hotdog, $customElements, $observer, $isCustom);
     }
 
 }
