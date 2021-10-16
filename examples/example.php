@@ -4,4 +4,5 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Artemanoshin\Isibia\MyLibComposer;
 
-MyLibComposer::sayHi();
+$greetingUser = new MyLibComposer('Превед', 'Медвед');
+$greetingUser->sayHi();
