@@ -1,80 +1,80 @@
 --CREATE DATABASE kino;
 
-CREATE TABLE "Halls" (
-	"IdHall" serial NOT NULL,
-	"Name" varchar(255) NOT NULL,
-	CONSTRAINT "Halls_pk" PRIMARY KEY ("IdHall")
+CREATE TABLE hall (
+	idHall serial NOT NULL,
+	name varchar(255) NOT NULL,
+	CONSTRAINT hall_pk PRIMARY KEY (idHall)
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "Shows" (
-	"IdShow" serial NOT NULL,
-	"Name" varchar(255) NOT NULL,
-	CONSTRAINT "Shows_pk" PRIMARY KEY ("IdShow")
+CREATE TABLE show (
+	idShow serial NOT NULL,
+	name varchar(255) NOT NULL,
+	CONSTRAINT show_pk PRIMARY KEY (idShow)
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "Events" (
-	"IdEvent" serial NOT NULL,
-	"IdHall" bigint NOT NULL,
-	"IdShow" bigint NOT NULL,
-	"BeginTime" TIMESTAMP NOT NULL,
-	CONSTRAINT "Events_pk" PRIMARY KEY ("IdEvent")
+CREATE TABLE event (
+	idEvent serial NOT NULL,
+	idHall bigint NOT NULL,
+	idShow bigint NOT NULL,
+	beginTime TIMESTAMP NOT NULL,
+	CONSTRAINT event_pk PRIMARY KEY (idEvent)
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "Clients" (
-	"IdClient" serial NOT NULL,
-	"Name" varchar(255) NOT NULL,
-	"Email" varchar(255) NOT NULL,
-	CONSTRAINT "Clients_pk" PRIMARY KEY ("IdClient")
+CREATE TABLE client (
+	idClient serial NOT NULL,
+	name varchar(255) NOT NULL,
+	email varchar(255) NOT NULL,
+	CONSTRAINT client_pk PRIMARY KEY (idClient)
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "TicketRealization" (
-	"IdTicketRealization" serial NOT NULL,
-	"TimeRealization" TIMESTAMP NOT NULL,
-	"IdClient" bigint NOT NULL,
-	"IdEvent" bigint NOT NULL,
-	"IdPlace" bigint NOT NULL,
-	"Price" money NOT NULL,
-	CONSTRAINT "TicketRealization_pk" PRIMARY KEY ("IdTicketRealization")
+CREATE TABLE ticketRealization (
+	idTicketRealization serial NOT NULL,
+	timeRealization TIMESTAMP NOT NULL,
+	idClient bigint NOT NULL,
+	idEvent bigint NOT NULL,
+	idPlace bigint NOT NULL,
+	iPrice money NOT NULL,
+	CONSTRAINT ticketRealization_pk PRIMARY KEY (idTicketRealization)
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "Places" (
-	"IdPlace" serial NOT NULL,
-	"Row" varchar(10) NOT NULL,
-	"Seat" varchar(10) NOT NULL,
-	"IdHall" bigint NOT NULL,
-	CONSTRAINT "Places_pk" PRIMARY KEY ("IdPlace")
+CREATE TABLE place (
+	idPlace serial NOT NULL,
+	row varchar(10) NOT NULL,
+	seat varchar(10) NOT NULL,
+	idHall bigint NOT NULL,
+	CONSTRAINT place_pk PRIMARY KEY (idPlace)
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "TicketPrice" (
-	"IdTicket" serial NOT NULL,
-	"IdPlace" bigint NOT NULL,
-	"IdEvent" bigint NOT NULL,
-	"Price" money NOT NULL,
-	CONSTRAINT "TicketPrice_pk" PRIMARY KEY ("IdTicket")
+CREATE TABLE ticketPrice (
+	idTicket serial NOT NULL,
+	idPlace bigint NOT NULL,
+	idEvent bigint NOT NULL,
+	price money NOT NULL,
+	CONSTRAINT ticketPrice_pk PRIMARY KEY (idTicket)
 ) WITH (
   OIDS=FALSE
 );
@@ -83,18 +83,18 @@ CREATE TABLE "TicketPrice" (
 
 
 
-ALTER TABLE "Events" ADD CONSTRAINT "Events_fk0" FOREIGN KEY ("IdHall") REFERENCES "Halls"("IdHall");
-ALTER TABLE "Events" ADD CONSTRAINT "Events_fk1" FOREIGN KEY ("IdShow") REFERENCES "Shows"("IdShow");
+ALTER TABLE event ADD CONSTRAINT event_fk0 FOREIGN KEY (idHall) REFERENCES Hall(idHall);
+ALTER TABLE event ADD CONSTRAINT event_fk1 FOREIGN KEY (idShow) REFERENCES Show(idShow);
 
 
-ALTER TABLE "TicketRealization" ADD CONSTRAINT "TicketRealization_fk0" FOREIGN KEY ("IdClient") REFERENCES "Clients"("IdClient");
-ALTER TABLE "TicketRealization" ADD CONSTRAINT "TicketRealization_fk1" FOREIGN KEY ("IdEvent") REFERENCES "Events"("IdEvent");
-ALTER TABLE "TicketRealization" ADD CONSTRAINT "TicketRealization_fk2" FOREIGN KEY ("IdPlace") REFERENCES "Places"("IdPlace");
+ALTER TABLE ticketRealization ADD CONSTRAINT ticketRealization_fk0 FOREIGN KEY (idClient) REFERENCES client(idClient);
+ALTER TABLE ticketRealization ADD CONSTRAINT ticketRealization_fk1 FOREIGN KEY (idEvent) REFERENCES event(idEvent);
+ALTER TABLE ticketRealization ADD CONSTRAINT ticketRealization_fk2 FOREIGN KEY (idPlace) REFERENCES place(idPlace);
 
-ALTER TABLE "Places" ADD CONSTRAINT "Places_fk0" FOREIGN KEY ("IdHall") REFERENCES "Halls"("IdHall");
+ALTER TABLE place ADD CONSTRAINT Places_fk0 FOREIGN KEY (idHall) REFERENCES hall(idHall);
 
-ALTER TABLE "TicketPrice" ADD CONSTRAINT "TicketPrice_fk0" FOREIGN KEY ("IdPlace") REFERENCES "Places"("IdPlace");
-ALTER TABLE "TicketPrice" ADD CONSTRAINT "TicketPrice_fk1" FOREIGN KEY ("IdEvent") REFERENCES "Events"("IdEvent");
+ALTER TABLE ticketPrice ADD CONSTRAINT ticketPrice_fk0 FOREIGN KEY (idPlace) REFERENCES place(idPlace);
+ALTER TABLE ticketPrice ADD CONSTRAINT ticketPrice_fk1 FOREIGN KEY (idEvent) REFERENCES event(idEvent);
 
 
 
