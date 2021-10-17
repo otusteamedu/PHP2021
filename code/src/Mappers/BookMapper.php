@@ -3,6 +3,7 @@
 namespace App\Mappers;
 
 use App\Entities\Book;
+use App\IdentityMaps\BookIdentityMap;
 use PDO;
 use PDOStatement;
 
@@ -26,7 +27,7 @@ class BookMapper
     private PDOStatement $updateStatement;
     private PDOStatement $deleteStatement;
 
-    public function __construct(private PDO $connection)
+    public function __construct(private PDO $connection, private BookIdentityMap $bookIdentityMap)
     {
         $this->allStatement = $this->connection->prepare(self::QUERY_ALL);
         $this->findStatement = $this->connection->prepare(self::QUERY_FIND);
@@ -45,7 +46,7 @@ class BookMapper
         }
 
         return array_map(function ($row) {
-            return new Book([
+            $book = new Book([
                 'id' => $row['id'],
                 'title' => $row['title'],
                 'author' => $row['author'],
@@ -53,11 +54,19 @@ class BookMapper
                 'number_of_pages' => $row['number_of_pages'],
                 'price' => $row['price'],
             ]);
+
+            $this->bookIdentityMap->store($book);
+
+            return $book;
         }, $rows);
     }
 
     public function find(int $id): ?Book
     {
+        if ($book = $this->bookIdentityMap->find($id)) {
+            return $book;
+        }
+
         $this->findStatement->setFetchMode(PDO::FETCH_ASSOC);
         $this->findStatement->execute([$id]);
 
@@ -65,7 +74,7 @@ class BookMapper
             return null;
         }
 
-        return new Book([
+        $book = new Book([
             'id' => $row['id'],
             'title' => $row['title'],
             'author' => $row['author'],
@@ -73,22 +82,31 @@ class BookMapper
             'number_of_pages' => $row['number_of_pages'],
             'price' => $row['price'],
         ]);
+
+        $this->bookIdentityMap->store($book);
+        return $book;
     }
 
     public function insert(Book $book): bool
     {
-        return $this->insertStatement->execute([
+        $result = $this->insertStatement->execute([
             $book->getTitle(),
             $book->getAuthor(),
             $book->getYear(),
             $book->getNumberOfPages(),
             $book->getPrice(),
         ]);
+
+        if ($result) {
+            $this->bookIdentityMap->store($book);
+        }
+
+        return $result;
     }
 
     public function update(Book $book): bool
     {
-        return $this->updateStatement->execute([
+        $result = $this->updateStatement->execute([
             $book->getTitle(),
             $book->getAuthor(),
             $book->getYear(),
@@ -96,12 +114,24 @@ class BookMapper
             $book->getPrice(),
             $book->getId(),
         ]);
+
+        if ($result) {
+            $this->bookIdentityMap->update($book);
+        }
+
+        return $result;
     }
 
     public function delete(Book $book):bool
     {
-        return $this->deleteStatement->execute([
+        $result = $this->deleteStatement->execute([
             $book->getId(),
         ]);
+
+        if ($result) {
+            $this->bookIdentityMap->delete($book);
+        }
+
+        return $result;
     }
 }

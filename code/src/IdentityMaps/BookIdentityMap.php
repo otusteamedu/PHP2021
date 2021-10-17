@@ -9,58 +9,33 @@ class BookIdentityMap
 {
     private static array $books = [];
 
-    public function __construct(private BookMapper $bookMapper)
+    public function __construct()
     {
 
     }
 
     public function all(): array
     {
-        return static::$books = array_map(
-            function($book) {
-                return [$book->getId() => $book];
-            },
-            $this->bookMapper->all()
-        );
+        return static::$books;
     }
 
     public function find(int $id): ?Book
     {
-        if (!$book = static::$books[$id] ?? false) {
-            $book = $this->bookMapper->find($id);
-            static::$books[$id] = $book;
-        }
-
-        return $book;
+        return static::$books[$id] ?? null;
     }
 
-    public function store(Book $book): bool
+    public function store(Book $book): void
     {
-        if ($this->bookMapper->insert($book)) {
-            static::$books[$book->getId()] = $book;
-            return true;
-        }
-
-        return false;
+        static::$books[$book->getId()] = $book;
     }
 
-    public function update(Book $book): bool
+    public function update(Book $book): void
     {
-        if ($this->bookMapper->update($book)) {
-            static::$books[$book->getId()] = $book;
-            return true;
-        }
-
-        return false;
+        static::$books[$book->getId()] = $book;
     }
 
-    public function delete(Book $book): bool
+    public function delete(Book $book): void
     {
-        if ($this->bookMapper->delete($book)) {
-            unset(static::$books[$book->getId()]);
-            return true;
-        }
-
-        return false;
+        unset(static::$books[$book->getId()]);
     }
 }
