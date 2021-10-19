@@ -16,3 +16,6 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->post('/info', 'InfoController@create');
+$router->get('/info/{id}/status', 'InfoController@getStatus');
