@@ -28,6 +28,12 @@ services:
       - '11212:11211'
   mysql:
     image: mysql
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example
     ports:
       - '3307:3306'
 
