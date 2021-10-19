@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: ./docker/$APP_SCRIPTOR
+      args:
+        UID: $UID
+        USERNAME: $USER_NAME
+    image: ${BASIC_NAME}/${APP_SCRIPTOR}
+    working_dir: /app
+    volumes:
+      - $APP_PATH:/app
+      - $STORE_PATH/sock:/sock
+      - ./docker/$APP_SCRIPTOR/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+#      - ./docker/$APP_SCRIPTOR/xdebug298.ini:/usr/local/etc/php/conf.d/xdebug.ini
+#      - ./docker/$APP_SCRIPTOR/xdebug.ini:/etc/php/7.4/fpm/conf.d/20-xdebug.ini
+
+  nginx:
+    build:
+      context: ./docker/$NGINX_TYPE
+      args:
+        UID: $UID
+        USERNAME: $USER_NAME
+    image: ${BASIC_NAME}/${NGINX_TYPE}
+    working_dir: /app
+    volumes:
+      - $APP_PATH:/app
+      - $STORE_PATH/sock:/sock
+      - $STORE_PATH/logs/nginx:/var/log/nginx
+    networks:
+      app-network:
+        ipv4_address: "${NETWORK_ID}.2"
+
+networks:
+  app-network:
+    ipam:
+      config:
+        - subnet: "${NETWORK_ID}.0/24"
