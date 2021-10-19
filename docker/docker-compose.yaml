@@ -1,0 +1,37 @@
+version: '3.5'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - '8094:80'
+    volumes:
+      - ./www/:/var/www/
+      - ./conf/nginx:/etc/nginx/conf.d
+      - "phpsocket:/var/run"
+  php-fpm:
+    build:
+      context: ./php-fpm
+    restart: always
+#    ports:
+#      - 9501:9000
+#    extra_hosts:
+#      host.docker.internal: host-gateway
+    volumes:
+      - ./www:/var/www/
+      - ./conf/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - "phpsocket:/var/run"
+  redis:
+    image: redis
+    ports:
+      - '6340:6379'
+  memcached:
+    image: memcached
+    ports:
+      - '11212:11211'
+  mysql:
+    image: mysql
+    ports:
+      - '3307:3306'
+
+volumes:
+  phpsocket:
