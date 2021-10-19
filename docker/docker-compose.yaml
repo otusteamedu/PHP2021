@@ -7,19 +7,17 @@ services:
     volumes:
       - ./www/:/var/www/
       - ./conf/nginx:/etc/nginx/conf.d
-      - "phpsocket:/var/run"
+#      - "phpsocket:/var/run"
   php-fpm:
     build:
       context: ./php-fpm
     restart: always
-#    ports:
-#      - 9501:9000
 #    extra_hosts:
 #      host.docker.internal: host-gateway
     volumes:
       - ./www:/var/www/
-      - ./conf/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - "phpsocket:/var/run"
+#      - ./conf/php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+#      - "phpsocket:/var/run"
   redis:
     image: redis
     ports:
@@ -33,5 +31,5 @@ services:
     ports:
       - '3307:3306'
 
-volumes:
-  phpsocket:
+#volumes:
+#  phpsocket:
