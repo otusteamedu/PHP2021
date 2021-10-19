@@ -1,0 +1,103 @@
+version: '3'
+
+services:
+  balancer:
+    build:
+      context: docker/nginx-balancer
+    image: $BASIC_NAME/nginx-balancer
+    ports:
+      - $BALANCER_PORT:80
+    volumes:
+      - ./docker/nginx-balancer/nginx.conf:/etc/nginx/nginx.conf
+      - $STORE_PATH/nginx-balancer-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.2"
+
+  server1-unix-socket:
+    build:
+      context: docker/nginx-node-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: $BASIC_NAME/nginx-node-unix-socket
+    volumes:
+      - ./docker/nginx-node-unix-socket/default.conf:/etc/nginx/sites-enabled/default
+      - $STORE_PATH/sock1:/sock
+      - $STORE_PATH/nginx-node1-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.3"
+
+  app1-unix-socket:
+    build:
+      context: docker/php-fpm-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: $BASIC_NAME/php-fpm-unix-socket
+    volumes:
+      - ./app1:/data/site.default
+      - $STORE_PATH/sock1:/sock
+    networks:
+      memcached-1-network:
+        ipv4_address: "${MEMCACHED1_NETWORK_ID}.3"
+
+  server2-unix-socket:
+    build:
+      context: docker/nginx-node-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: $BASIC_NAME/nginx-node-unix-socket
+    volumes:
+      - ./docker/nginx-node-unix-socket/default.conf:/etc/nginx/sites-enabled/default
+      - $STORE_PATH/sock2:/sock
+      - $STORE_PATH/nginx-node2-log:/var/log/nginx
+    networks:
+      balancer-network:
+        ipv4_address: "${BALANCER_NETWORK_ID}.4"
+
+  app2-unix-socket:
+    build:
+      context: docker/php-fpm-unix-socket
+      args:
+        UID: $UID
+        NGINX_PHP_USER: $NGINX_PHP_USER
+    image: $BASIC_NAME/php-fpm-unix-socket
+    volumes:
+      - ./app2:/data/site.default
+      - $STORE_PATH/sock2:/sock
+    networks:
+      memcached-2-network:
+        ipv4_address: "${MEMCACHED2_NETWORK_ID}.3"
+
+  memcached-service-1:
+    image: bitnami/memcached:1.6.9
+    environment:
+      - MEMCACHED_CACHE_SIZE=128
+    networks:
+      memcached-1-network:
+        ipv4_address: "${MEMCACHED1_NETWORK_ID}.2"
+
+  memcached-service-2:
+    image: bitnami/memcached:1.6.9
+    environment:
+      - MEMCACHED_CACHE_SIZE=128
+    networks:
+      memcached-2-network:
+        ipv4_address: "${MEMCACHED2_NETWORK_ID}.2"
+
+networks:
+  balancer-network:
+    ipam:
+      config:
+        - subnet: "${BALANCER_NETWORK_ID}.0/24"
+  memcached-1-network:
+    ipam:
+      config:
+        - subnet: "${MEMCACHED1_NETWORK_ID}.0/24"
+  memcached-2-network:
+    ipam:
+      config:
+        - subnet: "${MEMCACHED2_NETWORK_ID}.0/24"
