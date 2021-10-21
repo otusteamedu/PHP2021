@@ -1,0 +1,33 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+provider: virtualbox
+name: otus_vm
+
+authorize: C:/Users/silen/.ssh/id_rsa.pub
+
+keys:
+    - C:/Users/silen/.ssh/id_rsa
+
+folders:
+    - map: D:/otus/homestead/project
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webriver: false
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
