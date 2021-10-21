@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./project:/data/myapp.local
+      - ./phpsocket:/var/run
+      - ./php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    networks:
+      - otus-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: nginx
+    ports:
+      - "8086:80"
+      - "443:443"
+    volumes:
+      - ./project:/data/myapp.local
+      - ./phpsocket:/var/run
+    networks:
+      - otus-network
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: mysql
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - otus-network
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+#    ports:
+#      - "6390:6390"
+
+  memcached:
+    image: memcached:1.6-alpine
+    container_name: memcached
+#    ports:
+#      - "11211:11211"
+
+networks:
+  otus-network:
+    driver: bridge
