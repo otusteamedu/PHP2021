@@ -16,3 +16,8 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+//Reports
+$router->group(['prefix' => 'reports'], function () use ($router) {
+    $router->post('', 'ReportController@request');
+});
