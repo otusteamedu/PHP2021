@@ -1,0 +1,72 @@
+version: "3.4"
+
+services:
+  #контейнер с php
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: dockerapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+           
+  #контейнер с Nginx
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: dockerapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/data/mysite.local
+         #  /var/run/php7-fpm.sock
+    networks:
+      - app-network
+    
+  # контейнер с MySQL
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    ports:
+      - "3306:3306"
+        # описываем, какую БД мы создаём
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql  
+    networks:
+      - app-network
+      
+  #контейнер с Redis
+  redis:
+    images: redis:latest
+    container_name: dockerapp/redis
+    restart: always
+    volumes:
+      - ./storage/redis/data:/data
+    ports:
+      - "6380:6380"
+    networks:
+      - app-network
+     
+  #контейнер с Memcached
+  memcached:
+    images: docker.io/bitnami/memcached:1
+    container_name: dockerapp/memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+    
+    
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
