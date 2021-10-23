@@ -1,6 +1,0 @@
-FROM ubuntu:latest  
-RUN apt-get update  
-RUN apt-get install -y nginx
-WORKDIR /data  
-VOLUME /data  
-/etc/nginx/sites-enabled/mysite.local.conf
