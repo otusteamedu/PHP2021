@@ -1,0 +1,37 @@
+---
+ip: "192.168.10.10"
+memory: 4096
+cpus: 4
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/Documents/education/PHP2021/hw1/vb/public
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code
+
+databases:
+    - otus_hs_db
+
+features:
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+services:
+    - enabled:
+          - "mysql"
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
