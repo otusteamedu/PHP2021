@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: dmsk_app
+    volumes:
+      - ./code:/data/dmsk.local
+    networks:
+      - dmsk-network
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: dmsk_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/data/dmsk.local
+    networks:
+      - dmsk-network
+
+  db:
+    image: mysql:5.7.22
+    container_name: dmsk_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - dmsk-network
+
+  redis:
+    image: redis
+    volumes:
+      - ./redis/data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - dmsk-network
+    container_name: dmskredis
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+    networks:
+      - dmsk-network
+    container_name: dmsk_memcached
+
+networks:
+  dmsk-network:
+    driver: bridge
