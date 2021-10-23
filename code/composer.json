@@ -1,0 +1,17 @@
+{
+    "name": "root/youtube.local",
+    "autoload": {
+        "psr-4": {
+            "Root\\YoutubeLocal\\": "src/",
+            "App\\": "src",
+            "Youtube\\": "src/youtube",
+            "Models\\": "src/models",
+            "Elastic\\": "src/elastic",
+            "Repositories\\": "src/repositories",
+            "Statistics\\" : "src/statistics"
+        }
+    },
+    "require": {
+        "elasticsearch/elasticsearch": "^7.15"
+    }
+}
