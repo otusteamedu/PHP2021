@@ -1,0 +1,79 @@
+version: '3'
+
+services:
+  # PHP
+  app:
+    build:
+      context: ./deploy/fpm
+      dockerfile: Dockerfile
+    image: otus/php2021/app/php
+    container_name: otus-php2021-app
+    environment:
+      LOCAL_HOST: ${LOCAL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_ROOT_USER}
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MEMCACHED_PORT: ${MEMCACHED_PORT}
+      REDIS_PORT: ${REDIS_PORT}
+    volumes:
+       - ./src:/var/www/application.local
+    networks:
+      - app-network
+
+  # Nginx
+  webserver:
+    build:
+      context: ./deploy/nginx
+      dockerfile: Dockerfile
+    image: otus/php2021/app/nginx
+    container_name: otus-php2021-webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/var/www/application.local
+    networks:
+      - app-network
+
+  # MySQL
+  db:
+    image: mysql:5.7.22
+    container_name: otus-php2021-db
+    ports:
+      - "3306:${MYSQL_PORT}"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql  
+    networks:
+      - app-network
+
+  # Redis
+  redis:
+    image: redis:latest
+    container_name: otus-php2021-redis
+    ports:
+      - "6379:${REDIS_PORT}"
+    command: redis-server
+    volumes:
+      - ./rdata:/data
+    networks:
+      - app-network
+
+  # Memcached
+  memcached:
+    image: memcached:latest
+    container_name: otus-php2021-memcached
+    ports:
+      - "11211:${MEMCACHED_PORT}"
+    environment:
+      MEMCACHED_CACHE_SIZE: ${MEMCACHED_CACHE_SIZE}
+    networks:
+        - app-network
+
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge

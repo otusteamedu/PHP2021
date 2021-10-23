@@ -1,0 +1,7 @@
+.idea
+.env
+*.ini
+/homestead
+/dbdata
+/rdata
+/vendor
