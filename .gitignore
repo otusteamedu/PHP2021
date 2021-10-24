@@ -1,0 +1,14 @@
+.env
+.idea
+
+node_modules
+vendor
+
+**/db/mysql/*
+!**/db/mysql/.gitkeep
+
+**/log/*
+!**/log/.gitkeep
+
+**/static_data/*
+!**/static_data/.gitkeep
