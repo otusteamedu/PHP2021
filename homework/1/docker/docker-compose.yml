@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  proxy:
+    image: nginx:stable
+    restart: unless-stopped
+    ports:
+     - "9080:80"
+     - "9443:443"
+    volumes:
+     - ./code:/usr/share/nginx/html/app
+     - ./nginx:/etc/nginx/conf.d
+     - "phpsocket:/var/run"
+     - ./log/nginx:/var/log/nginx
+
+  fpm:
+    image: php:7.4-fpm-alpine
+    restart: unless-stopped
+    volumes:
+     - ./pool.d:/etc/php/7.4/fpm/pool.d
+     - ./code:/usr/share/nginx/html/app
+     - ./zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+     - "phpsocket:/var/run"
+     - ./log/php:/var/log/php
+
+  redis:
+    image: redis
+    ports:
+     - "6379:6379"
+    volumes:
+     - ./redis/static_data:/data
+
+  memcached:
+    image: memcached
+    ports:
+     - "11211:11211"
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "9111:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+
+volumes:
+    phpsocket:
