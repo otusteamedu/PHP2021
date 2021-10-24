@@ -11,8 +11,12 @@ class Videos
     private Elastic $elastic;
     private $videolInfo;
 
+    public function __construct($videolInfo)
+    {
+        $this->addVideo($videolInfo);
+    }
+
     public function addVideo($videolInfo) {
-        $this->videolInfo = $videolInfo;
         $this->videolInfo = $videolInfo;
         $this->video = new Video($this->videolInfo);
     

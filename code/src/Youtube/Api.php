@@ -5,6 +5,7 @@ namespace Youtube;
 class Api {
 
     private $googleKey;
+    private $channelInfo;
 
     public function __construct($googleKey)
     {
@@ -14,10 +15,14 @@ class Api {
     public function informationAboutTheChannel($idChannel) {
         $json_result = file_get_contents("https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails,statistics&id=$idChannel&key=$this->googleKey");
         $obj = json_decode($json_result);
-        return $obj;
+        $this->channelInfo = $obj;
+
+        return $this->channelInfo;
     }
 
-    public function allIdVideo($idUploads, $videoCount) {
+    public function allIdVideo() {
+        $idUploads = $this->channelInfo->items[0]->contentDetails->relatedPlaylists->uploads;
+        $videoCount = $this->channelInfo->items[0]->statistics->videoCount;
         $maxResults = '50';
         
         $countPasses = ceil($videoCount / $maxResults);
@@ -50,13 +55,6 @@ class Api {
     public function informationAboutTheVideo($idVideo) {
         $json_result = file_get_contents("https://youtube.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=$idVideo&key=$this->googleKey");
         $obj = json_decode($json_result);
-
-        // $informationVideo = [
-        //     "title" => $obj->items[0]->snippet->title,
-        //     "viewCount" => $obj->items[0]->statistics->viewCount,
-        //     "likeCount" => $obj->items[0]->statistics->likeCount,
-        //     "dislikeCount" => $obj->items[0]->statistics->dislikeCount
-        // ];
 
         return $obj;
     }

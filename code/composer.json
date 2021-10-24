@@ -8,7 +8,9 @@
             "Models\\": "src/models",
             "Elastic\\": "src/elastic",
             "Repositories\\": "src/repositories",
-            "Statistics\\" : "src/statistics"
+            "Statistics\\" : "src/statistics",
+            "Parse\\" : "src/parse",
+            "Adding\\" : "src/adding"
         }
     },
     "require": {

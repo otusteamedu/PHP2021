@@ -10,6 +10,28 @@ class Statistics {
     private $allDislikeCount;
     private $allChannelsStatistics;
 
+    public function sortAllChannelsStatistics()
+    {
+        $allChannelsStatistics = $this->allChannelsStatistics();
+        $countChannels = count($allChannelsStatistics);
+
+        for ($i=0; $i < $countChannels; $i++) { 
+            $allLikeCount = $allChannelsStatistics[$i]['all_like_count'];
+            $allDislikeCount = $allChannelsStatistics[$i]['all_dislike_count'];
+            $rating = $allLikeCount/$allDislikeCount;
+            $sortAllChannelsStatistics[$i]['rating'] = $rating;
+            $sortAllChannelsStatistics[$i]['statistics'] = $allChannelsStatistics[$i];
+        }
+
+        uasort ( $sortAllChannelsStatistics , function ($a, $b) {
+                return ($a['rating'] < $b['rating']);
+            }
+        );
+
+        return $sortAllChannelsStatistics;
+    }
+
+
     public function allChannelsStatistics()
     {
         $this->elastic = new Elastic('elasticsearch:9200');
@@ -65,7 +87,6 @@ class Statistics {
             'all_dislike_count' => $this->allDislikeCount,
         ];
 
-        
         return $statisChannel;
     }
 

@@ -9,13 +9,15 @@ class Channels
 {
     private Channel $channel;
     private Elastic $elastic;
-    private $channelInfo;
-    
-    public function addChannels($channelInfo) {
 
-        $this->channelInfo = $channelInfo;
-        $this->channel = new Channel($this->channelInfo);
-        
+    public function __construct($channelInfo)
+    {
+        $this->addChannels($channelInfo);
+    }
+    
+    public function addChannels($channelInfo) { 
+
+        $this->channel = new Channel($channelInfo);
         $channelId = $this->channel->getId();
         $channelUploads = $this->channel->getUploads();
         $channelSubscriberCount = $this->channel->getSubscriberCount();
@@ -33,11 +35,7 @@ class Channels
         curl_close($ch);
 
         $this->elastic = new Elastic('elasticsearch:9200');
-        // $indexParams = [
-        //     'size' => '1000',
-        //     'index' => $index
-        // ];
-        // $response = $this->elastic->search($indexParams);
+
         if (!$availabilityIndex) {
             $indexParams = $this->channel->schemaChannels;
             $response = $this->elastic->createIndex($indexParams);
@@ -85,8 +83,6 @@ class Channels
             ];
             $response = $this->elastic->update($indexParams);
         }
-
-        return $response;
     }
 
 }
