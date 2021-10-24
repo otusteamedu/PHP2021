@@ -12,3 +12,7 @@ vendor
 
 **/static_data/*
 !**/static_data/.gitkeep
+
+homework/1/homestead/*
+!homework/1/homestead/Homestead.yaml
+!homework/1/homestead/code
