@@ -1,0 +1,42 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: homestead_otus_php2021
+
+folders:
+    - map: E:\PHP2021\src
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code
+
+databases:
+    - homestead
+
+features:
+    - redis: true
+    - memcached: true
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+services:
+    - enabled:
+          - "mysql"
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
+    - send: 6379
+      to: 6379
+    - send: 11211
+      to: 11211
+    - send: 3306
+      to: 3306
