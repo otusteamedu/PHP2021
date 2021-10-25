@@ -10,7 +10,8 @@
             "Repositories\\": "src/repositories",
             "Statistics\\" : "src/statistics",
             "Parse\\" : "src/parse",
-            "Adding\\" : "src/adding"
+            "Adding\\" : "src/adding",
+            "Display\\" : "src/display"
         }
     },
     "require": {
