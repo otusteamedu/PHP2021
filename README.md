@@ -14,6 +14,8 @@ init.bat
 
 cp ../Homestead.yaml Homestead.yaml
 
+// add line '192.168.10.10 application.local' to hosts file
+
 vagrant up
 ```
 
