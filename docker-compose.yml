@@ -54,15 +54,6 @@ services:
     networks:
       - app-network
 
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - app-network
-
   memcached:
     image: memcached
     container_name: memcached
