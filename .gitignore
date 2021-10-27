@@ -1,0 +1,4 @@
+.env
+/homestead
+/db_data
+/redis_data
