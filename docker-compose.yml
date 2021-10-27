@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+  server:
+    container_name: server
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    volumes:
+      - ./:/home/code/PHP2021
+      - ./tmp:/tmp
+
+  client:
+    container_name: client
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    volumes:
+      - ./:/home/code/PHP2021
+      - ./tmp:/tmp
+
+#  app:
+#    container_name: app
+#    build:
+#      context: ./fpm
+#      dockerfile: Dockerfile
+#    networks:
+#      - app-network
+#    volumes:
+#      - ./:/home/code/PHP2021
+
+#  nginx:
+#    container_name: nginx
+#    image: nginx
+#    ports:
+#      - "80:80"
+#    networks:
+#      - app-network
+#    volumes:
+#      - ./host/docker.application.local.conf:/etc/nginx/sites-enabled/docker.application.local.conf
+#      - ./host/docker.application.local.conf:/etc/nginx/conf.d/docker.application.local.conf
+#      - ./:/home/code/PHP2021
+#    links:
+#      - app
+
+#  redis:
+#    image: redis
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - app-network
+#    links:
+#      - app
+#
+#  memcached:
+#    image: memcached
+#    container_name: memcached
+#    ports:
+#      - "11211:11211"
+#    networks:
+#      - app-network
+#    links:
+#      - app
+
+networks:
+  app-network:
+    driver: bridge

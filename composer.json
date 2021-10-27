@@ -1,0 +1,23 @@
+{
+    "name": "akirael/php2021-hw4",
+    "description": "hw4",
+    "type": "project",
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Project\\": "src/"
+        }
+    },
+    "version": "1.0.0",
+    "authors": [
+      {
+        "name": "Aleksandr Borisov",
+        "email": "borisov.aleksandr.al@gmail.com",
+        "role": "Developer"
+      }
+    ],
+    "minimum-stability": "stable",
+    "license": "MIT"
+}
