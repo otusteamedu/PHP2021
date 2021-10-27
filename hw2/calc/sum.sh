@@ -1,9 +1,4 @@
 #!/bin/bash
-if ! (which bc &> /dev/null;) then
-    echo 'There is no bc package installed! Please install it!';
-    exit;
-fi
-
 if [ $# -eq 0 ]; then
     echo 'Usage: sum.sh {first_number} {second_number}, where the {first_number} and the {second_number} are numeric values';
     exit;
@@ -20,4 +15,9 @@ if ! [[ $2 =~ ^-*0*[0-9]*\.{0,1}[0-9]*$ ]]; then
     exit;
 fi
 
-echo $1+$2 | bc;
+if  which bc &> /dev/null; then
+    echo $1+$2 | bc;
+    exit;
+fi
+
+echo "$1 $2" | awk '{print $1 + $2}';
