@@ -1,0 +1,22 @@
+old_sound_rabbit_mq:
+    connections:
+        default:
+            url: '%env(RABBITMQ_URL)%'
+
+    producers:
+        tweet.published:
+            connection: default
+            exchange_options: {name: 'old_sound_rabbit_mq.tweet.published', type: direct}
+
+    consumers:
+        tweet.published:
+            connection: default
+            exchange_options: {name: 'old_sound_rabbit_mq.tweet.published', type: direct}
+            queue_options: {name: 'old_sound_rabbit_mq.consumer.tweet.published'}
+            callback: App\Consumer\TweetPublishedConsumer\Consumer
+            idle_timeout: 300
+            idle_timeout_exit_code: 0
+            graceful_max_execution:
+                timeout: 1800
+                exit_code: 0
+            qos_options: {prefetch_size: 0, prefetch_count: 1, global: false}

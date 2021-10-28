@@ -1,0 +1,141 @@
+﻿{
+  "type": "graph",
+  "title": "Panel Title",
+  "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 20
+  },
+  "id": 2,
+  "targets": [
+    {
+      "refId": "A",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_0)",
+      "refCount": 0
+    },
+    {
+      "refId": "B",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_1)",
+      "refCount": 0
+    },
+    {
+      "refId": "C",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_2)",
+      "refCount": 0
+    },
+    {
+      "refId": "D",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_3)",
+      "refCount": 0
+    },
+    {
+      "refId": "E",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_4)",
+      "refCount": 0
+    },
+    {
+      "refId": "F",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_5)",
+      "refCount": 0
+    },
+    {
+      "refId": "G",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_6)",
+      "refCount": 0
+    },
+    {
+      "refId": "H",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_7)",
+      "refCount": 0
+    },
+    {
+      "refId": "I",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_8)",
+      "refCount": 0
+    },
+    {
+      "refId": "J",
+      "target": "sumSeries(stats_counts.my_app.update_feed_received_9)",
+      "refCount": 0
+    }
+  ],
+  "options": {
+    "alertThreshold": true
+  },
+  "fieldConfig": {
+    "defaults": {
+      "custom": {}
+    },
+    "overrides": []
+  },
+  "pluginVersion": "7.2.0",
+  "renderer": "flot",
+  "yaxes": [
+    {
+      "label": null,
+      "show": true,
+      "logBase": 1,
+      "min": null,
+      "max": null,
+      "format": "short"
+    },
+    {
+      "label": null,
+      "show": true,
+      "logBase": 1,
+      "min": null,
+      "max": null,
+      "format": "short"
+    }
+  ],
+  "xaxis": {
+    "show": true,
+    "mode": "time",
+    "name": null,
+    "values": [],
+    "buckets": null
+  },
+  "yaxis": {
+    "align": false,
+    "alignLevel": null
+  },
+  "lines": true,
+  "fill": 1,
+  "linewidth": 1,
+  "dashLength": 10,
+  "spaceLength": 10,
+  "pointradius": 2,
+  "legend": {
+    "show": true,
+    "values": true,
+    "min": true,
+    "max": true,
+    "current": true,
+    "total": false,
+    "avg": false,
+    "rightSide": true,
+    "alignAsTable": true
+  },
+  "nullPointMode": "null",
+  "tooltip": {
+    "value_type": "individual",
+    "shared": true,
+    "sort": 0
+  },
+  "aliasColors": {},
+  "seriesOverrides": [],
+  "thresholds": [],
+  "timeRegions": [],
+  "fillGradient": 0,
+  "dashes": false,
+  "hiddenSeries": false,
+  "points": false,
+  "bars": false,
+  "stack": false,
+  "percentage": false,
+  "steppedLine": false,
+  "timeFrom": null,
+  "timeShift": null,
+  "datasource": null
+}
