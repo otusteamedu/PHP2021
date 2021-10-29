@@ -1,0 +1,21 @@
+stages:
+  - deploy
+
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - export DIR=~/www/stage
+
+deploy_server1:
+  stage: deploy
+  environment:
+    name: server
+    url: $SERVER
+  script:
+    - git clone https://deploy:key@gitlab.com $DIR &&
+      sudo chown www-root:www-root -R $DIR &&
+      cd $DIR &&
+      sh ./deploy.sh $SERVER $DATABASE_ROOT_PASSWORD $DATABASE_HOST $DATABASE_USER $DATABASE_PASSWORD $DATABASE_NAME $APP_ENV 
+  only:
+    - master
