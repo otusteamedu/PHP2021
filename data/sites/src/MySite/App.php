@@ -2,6 +2,9 @@
 
 namespace MySite;
 
+use MySite\Http\Emitter;
+use MySite\Http\Request;
+use MySite\Features\Payment\App as Payment;
 
 /**
  * Class App
@@ -15,6 +18,8 @@ class App
      */
     public function run(): void
     {
-        echo 1;
+        $request = new Request();
+        $response = (new Payment())->run($request);
+        (new Emitter())->emit($response);
     }
 }
