@@ -1,0 +1,39 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: homestead_otus_igor
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: /Users/igor/Homestead/code
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code
+
+databases:
+    - homestead
+
+features:
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+services:
+    - enabled:
+          - "mysql"
+
+ports:
+    - send : 80
+      to : 80
+    - send: 33060 # MySQL/MariaDB
+      to: 3306
