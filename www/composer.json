@@ -1,0 +1,9 @@
+{
+    "name": "loremercer/www",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src"
+        }
+    },
+    "require": {}
+}
