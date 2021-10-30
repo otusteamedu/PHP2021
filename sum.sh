@@ -6,7 +6,8 @@ if [ -n "$I" ] #проверяем что нашли строку со стат�
 then
    echo "$INT1 + $INT2 = " #выводим результат
 else
-   echo "bc not installed"
+   echo "bc not installed, need install it"
+   exit 1
 fi
 INT=$(echo "$INT1 + $INT2" | bc)
 re='^-?[0-9]+([.][0-9]+)?'
