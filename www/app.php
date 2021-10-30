@@ -1,5 +1,4 @@
 <?php
-
 require_once './vendor/autoload.php';
 
 use Src\App;
@@ -7,6 +6,6 @@ use Src\App;
 try {
     $app = new App();
     $app->run();
-}
-catch(Exception $e){
+} catch(Exception $exception){
+    echo $exception;
 }
