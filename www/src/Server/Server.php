@@ -10,7 +10,7 @@ class Server
     private function initializeSocket()
     {
         $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if (!socket_bind($this->socket, SOCKET_DIR . '/' . SOCKET_NAME . '.sock')) {
+        if (!socket_bind($this->socket, SOCKET_PATH . '.sock')) {
             throw new \Exception('Не удалось привязать имя к сокету');
         }
         if (!socket_listen($this->socket)) {
@@ -46,9 +46,7 @@ class Server
         if ($input) {
             if($input == 'exit')
             {
-                socket_write($client, "exit");
-                socket_shutdown($client);
-                socket_close($this->socket);
+                $this->shutDown($client);
                 return false;
             }
             $input = trim($input);
@@ -60,9 +58,20 @@ class Server
         }
     }
 
+    private function shutDown($client)
+    {
+        socket_write($client, "exit");
+        socket_shutdown($client);
+        socket_close($this->socket);
+    }
+
     public function run()
     {
+        if (file_exists(SOCKET_PATH . '.sock')) {
+            unlink(SOCKET_PATH . '.sock');
+        }
         $this->initializeSocket();
         $this->initializeConnections();
+        unlink(SOCKET_PATH . '.sock');
     }
 }
