@@ -3,8 +3,6 @@ namespace Src\Server;
 
 class Server
 {
-    const SOCKET_NAME = '555';
-    const SOCKET_DIR = '/tmp';
     const INPUT_LENGTH = 1024;
 
     private $socket;
@@ -12,7 +10,7 @@ class Server
     private function initializeSocket()
     {
         $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if (!socket_bind($this->socket, $this::SOCKET_DIR . '/' . $this::SOCKET_NAME . '.sock')) {
+        if (!socket_bind($this->socket, SOCKET_DIR . '/' . SOCKET_NAME . '.sock')) {
             throw new \Exception('Не удалось привязать имя к сокету');
         }
         if (!socket_listen($this->socket)) {

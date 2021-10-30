@@ -1,4 +1,5 @@
 <?php
+
 namespace Src;
 
 use Src\Server\Server;
