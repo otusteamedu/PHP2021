@@ -15,21 +15,21 @@ services:
     volumes:
       - ./php-fpm/php8.0.ini:/usr/local/etc/php/php.ini
       - ./www:/var/www/
-  redis:
-    image: redis
-    ports:
-      - '6340:6379'
-  memcached:
-    image: memcached
-    ports:
-      - '11212:11211'
-  mysql:
-    image: mysql
-    volumes:
-      - ./db:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - '3307:3306'
+#  redis:
+#    image: redis
+#    ports:
+#      - '6340:6379'
+#  memcached:
+#    image: memcached
+#    ports:
+#      - '11212:11211'
+#  mysql:
+#    image: mysql
+#    volumes:
+#      - ./db:/var/lib/mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#    ports:
+#      - '3307:3306'
