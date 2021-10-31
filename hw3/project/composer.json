@@ -1,0 +1,16 @@
+{
+    "name": "silentavt/homework3",
+    "description": "Otus homework 3",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "silentvat",
+            "email": "silent.avt@gmail.com"
+        }
+    ],
+    "require": {}
+}

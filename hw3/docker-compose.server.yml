@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  sockets-server:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile-server
+    image: sockets/server
+    container_name: sockets-server
+    volumes:
+      - ./project:/data
+      - ./socket:/tmp
+
