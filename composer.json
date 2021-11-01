@@ -1,0 +1,19 @@
+{
+    "name": "ez/php-sockets",
+    "type": "package",
+    "authors": [
+        {
+            "name": "EZ"
+        }
+    ],
+    "require": {
+        "php": "7.4.*",
+        "ext-json": "*",
+        "ext-sockets": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
