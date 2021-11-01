@@ -4,7 +4,7 @@ services:
   sockets-client:
     build:
       context: ./php-fpm
-      dockerfile: Dockerfile-client
+      dockerfile: Dockerfile
     image: sockets/client
     container_name: sockets-client
     volumes:

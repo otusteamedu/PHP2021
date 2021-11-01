@@ -2,6 +2,8 @@
 
 namespace App\Classes\Sockets;
 
+use App\Classes\Exceptions\ForkingErrorException;
+use App\Classes\Exceptions\TerminatedException;
 use App\Traits\ConfigurableTrait;
 
 abstract class SocketHandler
@@ -12,10 +14,11 @@ abstract class SocketHandler
 
     use ConfigurableTrait;
 
-    public function run()
+    public function run(): void
     {
         try {
             $this->socketPath = $this->config->getValue('socket.path');
+            $this->initializeSignalHandler();
             $this->initializeSocket();
             $this->initializeConnection();
             $this->handle();
@@ -26,11 +29,38 @@ abstract class SocketHandler
         }
     }
 
-    protected function initializeSocket(): void
+    protected function initializeSignalHandler(): void
     {
-        echo 'Socket initializing...';
-        $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        echo 'done' . PHP_EOL;
+        $signals = [
+            SIGINT,
+            SIGHUP,
+            SIGTERM,
+            SIGQUIT,
+            SIGABRT,
+        ];
+
+        foreach ($signals as $signal) {
+            pcntl_signal(
+                $signal,
+                function ($signal, $signalInfo) {
+
+                    throw new TerminatedException();
+                }
+            );
+        }
+
+        $pid = pcntl_fork();
+        if ($pid == -1) {
+
+            throw new ForkingErrorException();
+        }
+
+        if ($pid) {
+            while (true) {
+                usleep(1000);
+                pcntl_signal_dispatch();
+            }
+        }
     }
 
     protected function closeConnectionAndSocket(): void
@@ -44,6 +74,18 @@ abstract class SocketHandler
         }
         unlink($this->socketPath);
         echo 'done' . PHP_EOL;
+    }
+
+    protected function initializeSocket(): void
+    {
+        echo 'Socket initializing...';
+        $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        echo 'done' . PHP_EOL;
+    }
+
+    protected function sendMessage(string $message, $socket): void
+    {
+        socket_write($socket, $message, strlen($message));
     }
 
     abstract protected function initializeConnection(): void;

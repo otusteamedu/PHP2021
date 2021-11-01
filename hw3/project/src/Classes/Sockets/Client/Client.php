@@ -23,16 +23,11 @@ class Client extends SocketHandler
     {
         do {
             $message = readline('Waiting for input...');
-            $this->sendMessage($message);
+            $this->sendMessage($message, $this->socket);
             echo 'Waiting for confirmation...';
             $message = socket_read($this->socket, 1024);
             echo 'done' . PHP_EOL;
             echo $message . PHP_EOL;
         } while (true);
-    }
-
-    private function sendMessage(string $message)
-    {
-        socket_write($this->socket, $message, strlen($message));
     }
 }

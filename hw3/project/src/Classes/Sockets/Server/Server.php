@@ -41,12 +41,7 @@ class Server extends SocketHandler
         do {
             $message = socket_read($this->connection, 1024);
             echo $message . PHP_EOL;
-            $this->sendMessage('Received ' . strlen($message) . ' bytes');
+            $this->sendMessage('Received ' . strlen($message) . ' bytes', $this->connection);
         } while (true);
-    }
-
-    private function sendMessage(string $message)
-    {
-        socket_write($this->connection, $message, strlen($message));
     }
 }
