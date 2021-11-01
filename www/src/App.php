@@ -19,5 +19,6 @@ class App {
                 $server = new Client();
                 $server->run();
         }
+        return $server;
     }
 }

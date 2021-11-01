@@ -1,42 +1,44 @@
 <?php
 namespace Src\Server;
 
+use Src\Exceptions\SocketException;
+
 class Server
 {
     const INPUT_LENGTH = 1024;
 
-    private $socket;
+    private $serverSocket;
+    private $clientSockets = [];
 
     private function initializeSocket()
     {
-        $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if (!socket_bind($this->socket, SOCKET_PATH . '.sock')) {
+        $this->serverSocket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        if (!socket_bind($this->serverSocket, SOCKET_PATH . '.sock')) {
             throw new \Exception('Не удалось привязать имя к сокету');
         }
-        if (!socket_listen($this->socket)) {
+        if (!socket_listen($this->serverSocket)) {
             throw new \Exception('Не удалось начать прослушивать соединение');
         }
     }
 
     private function initializeConnections()
     {
-        $clientSockets = [];
         $abort = false;
         $NULL = null;
-        $read = array($this->socket);
+        $read = array($this->serverSocket);
 
         while (!$abort) {
             $numChanged = socket_select($read, $NULL, $NULL , 0);
             if ($numChanged) {
-                $clientSockets[]= socket_accept($this->socket);
+                $this->clientSockets[]= socket_accept($this->serverSocket);
                 echo "Принято новое подключение", PHP_EOL;
             }
 
-            foreach($clientSockets as $key => $client)
+            foreach($this->clientSockets as $key => $client)
             {
                 if ($this->acceptClientMessage($client) === false) $abort = true;
             }
-            $read[] = $this->socket;
+            $read[] = $this->serverSocket;
         }
     }
 
@@ -46,23 +48,26 @@ class Server
         if ($input) {
             if($input == 'exit')
             {
-                $this->shutDown($client);
+                $this->shutDown();
                 return false;
             }
             $input = trim($input);
             echo $input, PHP_EOL;
             if (!socket_write($client, "Вы сказали: $input\n") )
             {
-                socket_close($client);
+                throw new SocketException();
             }
         }
     }
 
-    private function shutDown($client)
+    public function shutDown()
     {
-        socket_write($client, "exit");
-        socket_shutdown($client);
-        socket_close($this->socket);
+        foreach ($this->clientSockets as $clientSocket) {
+            socket_write($clientSocket, "exit");
+            socket_shutdown($clientSocket);
+        }
+        socket_close($this->serverSocket);
+        unlink(SOCKET_PATH . '.sock');
     }
 
     public function run()
@@ -71,7 +76,11 @@ class Server
             unlink(SOCKET_PATH . '.sock');
         }
         $this->initializeSocket();
-        $this->initializeConnections();
-        unlink(SOCKET_PATH . '.sock');
+        try {
+            $this->initializeConnections();
+        } catch (SocketException) {
+            $this->shutDown();
+            return false;
+        }
     }
 }
