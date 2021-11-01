@@ -30,5 +30,7 @@ numberOne=$( input "Enter_first_number:" );
 numberTwo=$( input "Enter_second_number:" );
 
 sleep 1
-echo "Summa between $numberOne and $numberTwo:"
-echo "$numberOne + $numberTwo" | bc -l
+
+result=`awk "BEGIN {print $numberOne+$numberTwo; exit}"`
+
+echo "Summa - $result"
