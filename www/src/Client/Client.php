@@ -16,7 +16,10 @@ class Client
 
         do {
             $output = readline('');
-            socket_write($this->socket, $output);
+            if (!socket_write($this->socket, $output)) {
+                var_dump(123);
+                exit();
+            };
             $input = socket_read($this->socket, 1024);
             echo $input;
         } while ($input != 'exit' && $input);

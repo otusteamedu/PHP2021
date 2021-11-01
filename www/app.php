@@ -15,6 +15,4 @@ try {
     $app->run();
 } catch(Exception $exception){
     echo $exception;
-} catch (HttpSocketException $exception) {
-
 }
