@@ -1,0 +1,49 @@
+version: '3.5'
+
+services:
+  balancer:
+    build:
+      context: ./nginx
+    ports:
+      - '8094:80'
+    volumes:
+      - ./www:/var/www/
+      - ./conf/balancer:/etc/nginx/conf.d
+    environment:
+      - NGINX_PORT=80
+  nginx1:
+    build:
+      context: ./nginx
+    volumes:
+      - ./www:/var/www/
+      - ./conf/nginx1:/etc/nginx/conf.d
+  nginx2:
+    build:
+      context: ./nginx
+    volumes:
+      - ./www:/var/www/
+      - ./conf/nginx2:/etc/nginx/conf.d
+  php1:
+    build:
+      context: ./php-fpm
+    restart: always
+    volumes:
+      - ./www:/var/www/
+  php2:
+    build:
+      context: ./php-fpm
+    restart: always
+    volumes:
+      - ./www:/var/www/
+  memcached:
+    image: memcached
+  mysql:
+    image: mysql
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - '3307:3306'
