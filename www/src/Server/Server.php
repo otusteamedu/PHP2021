@@ -2,35 +2,38 @@
 namespace Src\Server;
 
 use Src\Exceptions\SocketException;
+use Src\SocketServer;
 
-class Server
+class Server extends SocketServer
 {
-    const INPUT_LENGTH = 1024;
-
-    private $serverSocket;
-    private $clientSockets = [];
-
-    private function initializeSocket()
+    public function __construct()
     {
-        $this->serverSocket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if (!socket_bind($this->serverSocket, SOCKET_PATH . '.sock')) {
+        if (file_exists(SOCKET_PATH . '.sock')) {
+            unlink(SOCKET_PATH . '.sock');
+        }
+    }
+
+    protected function initializeConnection()
+    {
+        $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        if (!socket_bind($this->socket, SOCKET_PATH . '.sock')) {
             throw new \Exception('Не удалось привязать имя к сокету');
         }
-        if (!socket_listen($this->serverSocket)) {
+        if (!socket_listen($this->socket)) {
             throw new \Exception('Не удалось начать прослушивать соединение');
         }
     }
 
-    private function initializeConnections()
+    protected function acceptMessages()
     {
         $abort = false;
         $NULL = null;
-        $read = array($this->serverSocket);
+        $read = array($this->socket);
 
         while (!$abort) {
             $numChanged = socket_select($read, $NULL, $NULL , 0);
             if ($numChanged) {
-                $this->clientSockets[]= socket_accept($this->serverSocket);
+                $this->clientSockets[]= socket_accept($this->socket);
                 echo "Принято новое подключение", PHP_EOL;
             }
 
@@ -38,8 +41,14 @@ class Server
             {
                 if ($this->acceptClientMessage($client) === false) $abort = true;
             }
-            $read[] = $this->serverSocket;
+            $read[] = $this->socket;
         }
+    }
+
+    protected function closeConnection()
+    {
+        parent::closeConnection();
+        unlink(SOCKET_PATH . '.sock');
     }
 
     private function acceptClientMessage($client)
@@ -48,8 +57,7 @@ class Server
         if ($input) {
             if($input == 'exit')
             {
-                $this->shutDown();
-                return false;
+                throw new SocketException();
             }
             $input = trim($input);
             echo $input, PHP_EOL;
@@ -57,30 +65,6 @@ class Server
             {
                 throw new SocketException();
             }
-        }
-    }
-
-    public function shutDown()
-    {
-        foreach ($this->clientSockets as $clientSocket) {
-            socket_write($clientSocket, "exit");
-            socket_shutdown($clientSocket);
-        }
-        socket_close($this->serverSocket);
-        unlink(SOCKET_PATH . '.sock');
-    }
-
-    public function run()
-    {
-        if (file_exists(SOCKET_PATH . '.sock')) {
-            unlink(SOCKET_PATH . '.sock');
-        }
-        $this->initializeSocket();
-        try {
-            $this->initializeConnections();
-        } catch (SocketException) {
-            $this->shutDown();
-            return false;
         }
     }
 }
