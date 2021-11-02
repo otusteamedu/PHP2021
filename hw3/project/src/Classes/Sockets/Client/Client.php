@@ -22,10 +22,20 @@ class Client extends SocketHandler
     protected function handle(): void
     {
         do {
-            $message = readline('Waiting for input...');
+            pcntl_signal_dispatch();
+            echo 'Waiting for input...' . PHP_EOL;
+            $resource = STDIN;
+            do {
+                pcntl_signal_dispatch();
+                $read = [$resource];
+                $write = null;
+                $except = null;
+            } while (stream_select($read, $write, $except, 0) < 1);
+            $message = stream_get_line($resource, 1024, "\n");
             $this->sendMessage($message, $this->socket);
             echo 'Waiting for confirmation...';
-            $message = socket_read($this->socket, 1024);
+            $sockets = $this->waitForSocketEvent([$this->socket]);
+            $message = socket_read(current($sockets), 1024);
             echo 'done' . PHP_EOL;
             echo $message . PHP_EOL;
         } while (true);

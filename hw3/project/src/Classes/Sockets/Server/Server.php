@@ -24,9 +24,9 @@ class Server extends SocketHandler
             throw new SocketListeningErrorException();
         }
         echo 'done' . PHP_EOL;
-
         echo 'Waiting for connection...' . PHP_EOL;
-        $this->connection = socket_accept($this->socket);
+        $sockets = $this->waitForSocketEvent([$this->socket]);
+        $this->connection = socket_accept(current($sockets));
         if (! $this->connection) {
 
             throw new ConnectionStartingErrorException();
@@ -39,7 +39,9 @@ class Server extends SocketHandler
     {
         echo 'Waiting for messages...' . PHP_EOL;
         do {
-            $message = socket_read($this->connection, 1024);
+            pcntl_signal_dispatch();
+            $connections = $this->waitForSocketEvent([$this->connection]);
+            $message = socket_read(current($connections), 1024);
             echo $message . PHP_EOL;
             $this->sendMessage('Received ' . strlen($message) . ' bytes', $this->connection);
         } while (true);

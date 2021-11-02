@@ -3,6 +3,7 @@
 namespace App\Classes\Sockets;
 
 use App\Classes\Exceptions\ForkingErrorException;
+use App\Classes\Exceptions\SocketWriteErrorException;
 use App\Classes\Exceptions\TerminatedException;
 use App\Traits\ConfigurableTrait;
 
@@ -48,19 +49,6 @@ abstract class SocketHandler
                 }
             );
         }
-
-        $pid = pcntl_fork();
-        if ($pid == -1) {
-
-            throw new ForkingErrorException();
-        }
-
-        if ($pid) {
-            while (true) {
-                usleep(1000);
-                pcntl_signal_dispatch();
-            }
-        }
     }
 
     protected function closeConnectionAndSocket(): void
@@ -85,7 +73,22 @@ abstract class SocketHandler
 
     protected function sendMessage(string $message, $socket): void
     {
-        socket_write($socket, $message, strlen($message));
+        if (socket_write($socket, $message, strlen($message)) === false) {
+
+            throw new SocketWriteErrorException();
+        }
+    }
+
+    protected function waitForSocketEvent($sockets)
+    {
+        do {
+            pcntl_signal_dispatch();
+            $read = $sockets;
+            $write = null;
+            $except = null;
+        } while (socket_select($read, $write, $except, 0) < 1);
+
+        return $read;
     }
 
     abstract protected function initializeConnection(): void;
