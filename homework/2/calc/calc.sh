@@ -11,14 +11,6 @@ if ! [[ $2 =~ $re ]] ; then
    exit 1;
 fi
 
-I=`bc -v`;
-if ! [ -n "$I" ]
-then
-   echo "error: Install bc!";
-   exit 1;
-fi
-
-result=$(echo "$1+$2" | bc);
-echo $result;
+awk "BEGIN {print $1 + $2}"
 
 exit 0;
