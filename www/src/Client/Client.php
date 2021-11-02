@@ -6,13 +6,6 @@ use Src\SocketServer;
 
 class Client extends SocketServer
 {
-    public function run()
-    {
-        $this->initializeConnection();
-        $this->acceptMessages();
-        $this->closeConnection();
-    }
-
     protected function initializeConnection()
     {
         if (!file_exists(SOCKET_PATH . '.sock')) {
