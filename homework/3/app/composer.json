@@ -1,0 +1,17 @@
+{
+    "name": "cosmo.engineer/socket-chat",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+           "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alex Vasechkin",
+            "email": "vasechkin.alex.v@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
