@@ -1,0 +1,5 @@
+.env
+.idea/
+data/sites/vendor/
+mysql/
+nginx/certs/
