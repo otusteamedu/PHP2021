@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: as/php 
+    container_name: app_chat_server
+    environment:
+      SERVER_SOCKET: ${SERVER_SOCKET}
+      SERVER_PORT: ${SERVER_PORT}
+    volumes:
+       - ./code:/data
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: as/php 
+    container_name: app_chat_client
+    environment:
+      CLIENT_SOCKET: ${CLIENT_SOCKET}
+      CLIENT_PORT: ${CLIENT_PORT}
+    volumes:
+       - ./code:/data
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

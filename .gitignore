@@ -1,0 +1,9 @@
+.git
+.idea
+.DS_Store
+.env
+
+composer.phar
+
+chat/code/vendor
+validator/code/vendor

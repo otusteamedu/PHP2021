@@ -1,0 +1,22 @@
+{
+	"name": "acya-skulskaya/hw4-chat",
+	"description": "Home Work 4: Chat",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Acya Skulskaya",
+			"email": "onestepclosertome@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"HW4\\": "./src/HW4/"
+		}
+	},
+	"require": {
+		"php": ">=7.4.0",
+		"ext-sockets": "*"
+	}
+}
+	
