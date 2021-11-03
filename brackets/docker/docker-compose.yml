@@ -1,0 +1,26 @@
+version: '3.0'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    image: nginx
+    ports:
+      - 127.0.0.1:80:80
+    volumes:
+      - ../code/public:/var/www/public
+    networks:
+      - app-network
+  app:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    image: app
+    volumes:
+      - ../code:/var/www/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
