@@ -1,5 +1,8 @@
 version: '3.5'
 
+volumes:
+  phpsocket:
+
 services:
   balancer:
     build:
@@ -33,6 +36,11 @@ services:
     build:
       context: ./php-fpm
     restart: always
+    volumes:
+      - ./www:/var/www/
+  workspace:
+    build:
+      context: ./workspace
     volumes:
       - ./www:/var/www/
   memcached:
