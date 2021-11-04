@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+       - ./code:/var/www/otus1.local
+       - ./nginx/hosts:/etc/nginx/sites-enabled
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php
+    volumes:
+       - ./code:/var/www/otus1.local
+    networks:
+      - app-network
+
+  mysqldb:
+    image: mysql:5.7.22
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql  
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    networks:
+      - app-network
+    volumes:
+      - ./redis-data:/var/lib/data
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - 11211:11211
+    networks:
+      - app-network
+      
+networks:
+  app-network:
+    driver: bridge
