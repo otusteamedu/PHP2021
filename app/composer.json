@@ -1,0 +1,19 @@
+{
+    "name": "fazer/otus-hw3",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kovernik Alexey"
+        }
+    ],
+    "require": {
+        "php": "~8.0",
+        "ext-sockets": "*",
+        "ext-json": "*"
+    }
+}
