@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 regular='^[+-]?[0-9]+([.][0-9]+)?$'
 if ! [[ $1 =~ $regular ]]; then
@@ -11,4 +11,4 @@ if ! [[ $2 =~ $regular ]]; then
   exit 1
 fi
 
-echo "Result:" $(($1 + $2))
+echo $1 $2 | awk '{print "Result: " $1 + $2}'
