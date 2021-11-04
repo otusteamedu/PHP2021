@@ -4,57 +4,57 @@ volumes:
   phpsocket:
 
 services:
-  balancer:
-    build:
-      context: ./nginx
-    ports:
-      - '8094:80'
-    volumes:
-      - ./www:/var/www/
-      - ./conf/balancer:/etc/nginx/conf.d
-    environment:
-      - NGINX_PORT=80
-  nginx1:
-    build:
-      context: ./nginx
-    volumes:
-      - ./www:/var/www/
-      - ./conf/nginx1:/etc/nginx/conf.d
-  nginx2:
-    build:
-      context: ./nginx
-    volumes:
-      - ./www:/var/www/
-      - ./conf/nginx2:/etc/nginx/conf.d
-  php1:
-    build:
-      context: ./php-fpm
-    restart: always
-    volumes:
-      - ./www:/var/www/
-  php2:
-    build:
-      context: ./php-fpm
-    restart: always
-    volumes:
-      - ./www:/var/www/
-  workspace:
-    build:
-      context: ./workspace
-    volumes:
-      - ./www:/var/www/
-  memcached:
-    image: memcached
-  mysql:
-    image: mysql
-    volumes:
-      - ./db:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - '3307:3306'
+#  balancer:
+#    build:
+#      context: ./nginx
+#    ports:
+#      - '8094:80'
+#    volumes:
+#      - ./www:/var/www/
+#      - ./conf/balancer:/etc/nginx/conf.d
+#    environment:
+#      - NGINX_PORT=80
+#  nginx1:
+#    build:
+#      context: ./nginx
+#    volumes:
+#      - ./www:/var/www/
+#      - ./conf/nginx1:/etc/nginx/conf.d
+#  nginx2:
+#    build:
+#      context: ./nginx
+#    volumes:
+#      - ./www:/var/www/
+#      - ./conf/nginx2:/etc/nginx/conf.d
+#  php1:
+#    build:
+#      context: ./php-fpm
+#    restart: always
+#    volumes:
+#      - ./www:/var/www/
+#  php2:
+#    build:
+#      context: ./php-fpm
+#    restart: always
+#    volumes:
+#      - ./www:/var/www/
+#  workspace:
+#    build:
+#      context: ./workspace
+#    volumes:
+#      - ./www:/var/www/
+#  memcached:
+#    image: memcached
+#  mysql:
+#    image: mysql
+#    volumes:
+#      - ./db:/var/lib/mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#    ports:
+#      - '3307:3306'
 #  kibana:
 #    image: kibana:7.14.2
 #    ports:
@@ -78,17 +78,14 @@ services:
 #      - "9201:9200"
 #      - "9301:9300"
   filebeat:
-    image: olinicola/filebeat:1.2.3
-#    build:
-#      context: ./filebeat
-    depends_on:
-      - balancer
-      - elk
+    build:
+      context: ./elk
+    user: root
     volumes:
-      - './logs:/etc/logs/nginx/'
+      - './logs:/mnt/log/'
       - './filebeat:/etc/filebeat'
-      - './filebeat/tmp:/tmp/filebeat'
-    links:
+      - './filebeat/tmp:/var/log/mybeat'
+    depends_on:
       - elk
   elk:
     image: sebp/elk

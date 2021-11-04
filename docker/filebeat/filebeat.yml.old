@@ -1,0 +1,16 @@
+prospectors:
+  -
+    paths:
+      - "/etc/logs/nginx/access.log"
+    document_type: nginx-access
+    scan_frequency: 1s
+  -
+    paths:
+      - "/var/log/nginx/error.log"
+    document_type: nginx-error
+    scan_frequency: 1s
+output:
+  logstash:
+    hosts: ["logstash:5044"]
+  file:
+    path: "/tmp/filebeat"
