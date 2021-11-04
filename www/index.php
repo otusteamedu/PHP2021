@@ -1,7 +1,13 @@
 <?php
-spl_autoload_register(function ($name) {
-    include $name . '.php';
-});
 
-$requestValidator = new RequestValidator();
-echo $requestValidator->validate();
+use Src\App;
+
+require_once('vendor/autoload.php');
+
+try {
+    $app = new App();
+    $app->run();
+}
+catch(Exception $e){
+
+}
