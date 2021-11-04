@@ -1,6 +1,6 @@
 <?php
 
-namespace Src;
+namespace Src\Validators;
 
 use Src\Request\Request;
 

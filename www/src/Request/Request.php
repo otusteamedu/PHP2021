@@ -1,7 +1,7 @@
 <?php
 namespace Src\Request;
 
-use Src\RequestValidator;
+use Src\Validators\RequestValidator;
 
 class Request
 {
