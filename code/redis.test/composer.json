@@ -6,8 +6,15 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/redis": "^8.62",
-        "laravel/lumen-framework": "^8.0"
+        "darkaonline/swagger-lume": "8.*",
+        "dusterio/lumen-passport": "^0.3.4",
+        "flipbox/lumen-generator": "^8.2",
+        "guzzlehttp/guzzle": "^7.4",
+        "illuminate/redis": "^8.69",
+        "laravel/lumen-framework": "^8.0",
+        "swiftmailer/swiftmailer": "^6.3",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.3",
+        "zircote/swagger-php": "3.*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

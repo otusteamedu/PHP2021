@@ -17,14 +17,36 @@ services:
     networks:
       - app-network
 
-  #Контейнер для redis
-  redis:
-    container_name: redis
-    build: ./redis
-    volumes:
-      - ./redis:/data
+  #Контейнер с мускулем
+  db:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: mysql_57
+    environment:
+      - MYSQL_DATABASE=docker_demo
+      - MYSQL_ROOT_PASSWORD=root123
+    restart: always
+    # проброс портов
     ports:
-      - "6379:6379"
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  #Контейнер для RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.9.8-management
+    working_dir: /rabbitmq
+    hostname: rabbit-mq
+    container_name: 'rabbit-mq'
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
     networks:
       - app-network
 
@@ -42,7 +64,8 @@ services:
       - ./code:/data/redis.local
     depends_on:
       - app
-      - redis
+      - rabbitmq
+      - db
     networks:
       - app-network
 
