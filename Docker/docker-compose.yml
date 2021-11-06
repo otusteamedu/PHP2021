@@ -1,0 +1,112 @@
+version: '3'
+
+services:
+  php-server:
+    container_name: php-server
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: socketchat/php-server
+    volumes:
+      - ../www:/var/www/socket-chat.application.local
+      - phpsocket:/var/run
+    networks:
+      - socket-chat-network
+    environment:
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      REDIS_PORT: ${REDIS_PORT}
+      MEMCACHED_PORT: ${MEMCACHED_PORT}
+
+  php-client:
+    container_name: php-client
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: socketchat/php-client
+    volumes:
+      - ../www:/var/www/socket-chat.application.local
+      - phpsocket:/var/run
+    networks:
+      - socket-chat-network
+    environment:
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      REDIS_PORT: ${REDIS_PORT}
+      MEMCACHED_PORT: ${MEMCACHED_PORT}
+
+  nginx-server:
+    container_name: nginx-server
+    image: socketchat/nginx-server
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "81:80"
+    volumes:
+      - ../www:/var/www/socket-chat.application.local
+      - phpsocket:/var/run
+    links:
+      - php-server
+    networks:
+      - socket-chat-network
+
+  nginx-client:
+    container_name: nginx-client
+    image: socketchat/nginx-client
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "82:80"
+    volumes:
+      - ../www:/var/www/socket-chat.application.local
+      - phpsocket:/var/run
+    links:
+      - php-client
+    networks:
+      - socket-chat-network
+
+  db:
+    image: mysql:latest
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - socket-chat-network
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    networks:
+      - socket-chat-network
+    links:
+      - nginx-server
+      - nginx-client
+
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    ports:
+      - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
+    networks:
+      - socket-chat-network
+    links:
+      - nginx-server
+      - nginx-client
+
+networks:
+  socket-chat-network:
+    driver: bridge
+
+volumes:
+  phpsocket:

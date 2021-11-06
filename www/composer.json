@@ -1,0 +1,19 @@
+{
+  "name": "taschan23/www",
+  "type": "package",
+  "authors": [
+    {
+      "name": "EvgenyBakalov"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-sockets": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  }
+}
