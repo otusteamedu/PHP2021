@@ -23,7 +23,7 @@ class App
      * Назвнаие сервиса
      * @var string
      */
-    private string $_serviceName;
+    private string $serviceName;
 
     /**
      * App constructor.
@@ -31,7 +31,7 @@ class App
      */
     public function __construct(string $serviceName)
     {
-        $this->_serviceName = $serviceName;
+        $this->serviceName = $serviceName;
 
         set_time_limit(0);
         ob_implicit_flush();
@@ -42,7 +42,7 @@ class App
      */
     public function run()
     {
-        $serviceName = $this->_serviceName;
+        $serviceName = $this->serviceName;
 
         switch ($serviceName) {
             case self::SERVICE_SERVER:

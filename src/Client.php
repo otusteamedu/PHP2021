@@ -22,14 +22,14 @@ class Client
     /**
      * @var SocketService
      */
-    private SocketService $_socketService;
+    private SocketService $socketService;
 
     /**
      * Server constructor.
      */
     public function __construct()
     {
-        $this->_socketService = new SocketService();
+        $this->socketService = new SocketService();
     }
 
     /**
@@ -53,7 +53,7 @@ class Client
      */
     private function execute()
     {
-        $socketService = $this->_socketService;
+        $socketService = $this->socketService;
 
         do {
             $message = $socketService->getMessage();
@@ -67,6 +67,14 @@ class Client
             if (empty($message) === false) {
                 $socketService->sendMessage($message);
             }
+
+            if (
+                $message === 'q!' ||
+                $message === 'exit'
+            ) {
+                $this->close();
+                break;
+            }
         } while (true);
     }
 
@@ -76,7 +84,7 @@ class Client
      */
     private function initialize()
     {
-        $socketService = $this->_socketService;
+        $socketService = $this->socketService;
 
         $socketService->initialize();
         $socketService->connect();
@@ -87,7 +95,7 @@ class Client
      */
     private function close()
     {
-        $socketClient = $this->_socketService;
+        $socketClient = $this->socketService;
 
         $socketClient->close();
     }

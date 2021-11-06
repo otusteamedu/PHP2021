@@ -23,14 +23,14 @@ class Server
     /**
      * @var SocketService
      */
-    private SocketService $_socketService;
+    private SocketService $socketService;
 
     /**
      * Server constructor.
      */
     public function __construct()
     {
-        $this->_socketService = new SocketService();
+        $this->socketService = new SocketService();
     }
 
     /**
@@ -52,7 +52,7 @@ class Server
      */
     private function execute()
     {
-        $socketService = $this->_socketService;
+        $socketService = $this->socketService;
 
         do {
             $connect = $socketService->accept();
@@ -76,9 +76,7 @@ class Server
                 }
 
                 if ($message === 'exit') {
-                    $client->close();
-                    echo 'Отключение сервера' . PHP_EOL;
-
+                    $this->close();
                     break 2;
                 }
 
@@ -86,6 +84,8 @@ class Server
                 echo $message . PHP_EOL;
             } while (true);
         } while (true);
+
+        echo 'Отключение сервера' . PHP_EOL;
     }
 
     /**
@@ -94,7 +94,7 @@ class Server
      */
     private function initialize()
     {
-        $socketService = $this->_socketService;
+        $socketService = $this->socketService;
 
         $socketService->initialize();
         $socketService->listen();
@@ -106,7 +106,7 @@ class Server
     private function close()
     {
         $this
-            ->_socketService
+            ->socketService
             ->close();
     }
 }

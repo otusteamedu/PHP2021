@@ -22,7 +22,7 @@ class SocketHelper
     /**
      * @var resource
      */
-    private $_socket;
+    private $socket;
 
     /**
      * SocketConnect constructor.
@@ -30,7 +30,7 @@ class SocketHelper
      */
     public function __construct($socket)
     {
-        $this->_socket = $socket;
+        $this->socket = $socket;
     }
 
     /**
@@ -39,7 +39,7 @@ class SocketHelper
      */
     public function write(string $message)
     {
-        $socket = $this->_socket;
+        $socket = $this->socket;
 
         socket_write($socket, $message, strlen($message));
     }
@@ -51,7 +51,7 @@ class SocketHelper
      */
     public function read(): string
     {
-        $socket = $this->_socket;
+        $socket = $this->socket;
 
         $message = socket_read($socket, 1024);
         if ($message === false) {
@@ -66,7 +66,7 @@ class SocketHelper
      */
     public function close()
     {
-        $socket = $this->_socket;
+        $socket = $this->socket;
 
         if ($socket !== null) {
             socket_close($socket);

@@ -22,15 +22,15 @@ class SocketService
     /**
      * @var null|resource
      */
-    private $_socket;
+    private $socket;
     /**
      * @var SocketHelper|null
      */
-    private ?SocketHelper $_socketHelper;
+    private ?SocketHelper $socketHelper;
     /**
      * @var string
      */
-    private $_socketAddress;
+    private $socketAddress;
 
     /**
      * SocketService constructor.
@@ -44,7 +44,7 @@ class SocketService
             throw new Exception('Адрес сокета не задан');
         }
 
-        $this->_socketAddress = $config['socket_address'];
+        $this->socketAddress = $config['socket_address'];
     }
 
     /**
@@ -54,8 +54,8 @@ class SocketService
     {
         $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
 
-        $this->_socket = $socket;
-        $this->_socketHelper = new SocketHelper($socket);
+        $this->socket = $socket;
+        $this->socketHelper = new SocketHelper($socket);
     }
 
     /**
@@ -64,9 +64,9 @@ class SocketService
      */
     public function listen()
     {
-        $socket = $this->_socket;
+        $socket = $this->socket;
 
-        if (socket_bind($socket, $this->_socketAddress) === false) {
+        if (socket_bind($socket, $this->socketAddress) === false) {
             throw new Exception("Не удалось привязать имя к сокету");
         }
 
@@ -81,9 +81,9 @@ class SocketService
      */
     public function connect()
     {
-        $socket = $this->_socket;
+        $socket = $this->socket;
 
-        if (socket_connect($socket, $this->_socketAddress) === false) {
+        if (socket_connect($socket, $this->socketAddress) === false) {
             throw new Exception("Не удалось присоединиться к серверу");
         }
     }
@@ -94,11 +94,11 @@ class SocketService
     public function close()
     {
         $this
-            ->_socketHelper
+            ->socketHelper
             ->close();
 
-        if (file_exists($this->_socketAddress) === true) {
-            unlink($this->_socketAddress);
+        if (file_exists($this->socketAddress) === true) {
+            unlink($this->socketAddress);
         }
     }
 
@@ -109,7 +109,7 @@ class SocketService
      */
     public function accept()
     {
-        $socket = $this->_socket;
+        $socket = $this->socket;
         $connect = socket_accept($socket);
 
         if ($connect === false) {
@@ -127,7 +127,7 @@ class SocketService
     public function getMessage(): string
     {
         return $this
-            ->_socketHelper
+            ->socketHelper
             ->read();
     }
 
@@ -138,7 +138,7 @@ class SocketService
     public function sendMessage(string $message)
     {
         $this
-            ->_socketHelper
+            ->socketHelper
             ->write($message);
     }
 }
