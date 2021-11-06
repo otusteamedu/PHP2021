@@ -14,6 +14,5 @@ try {
     $app = new App($nameService);
     $app->run();
 } catch (Exception $e) {
-    // todo Перехват исключений
     echo $e->getMessage(). PHP_EOL;
 }
