@@ -1,9 +1,9 @@
 {
-  "name": "dmitrykirillov/otus-php-sockets",
+  "name": "taschan23/www",
   "type": "package",
   "authors": [
     {
-      "name": "DmitryKirillov"
+      "name": "EvgenyBakalov"
     }
   ],
   "require": {
