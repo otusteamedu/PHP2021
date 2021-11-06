@@ -1,7 +1,0 @@
-filebeat.prospectors:
-  - input_type: log
-    paths:
-      - /mnt/log/*.log
-
-output.logstash:
-  hosts: ['elk:123']
