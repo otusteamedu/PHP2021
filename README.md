@@ -14,6 +14,7 @@ composer install
 php artisan migrate:refresh --path=./database/migrations/2021_11_05_201901_create_requests_table.php
 php artisan queue:work
 
-#Тест Пример запроса: POST http://redis.local/reports {"priority": 10, "conditions": { "param1": 1 }, "event": "event2233", "replyType": "email", "replyTo": "some_email@mailhost.com", "subject": "testtest"}
+##Тест
+http://redis.local/api/documentation
 
 ####replyTo - сюда указать e-mail, куда ответ отправлять
