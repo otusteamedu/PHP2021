@@ -1,4 +1,4 @@
-FROM php:latest
+FROM php:8.0-fpm
 
 # ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
         mysqli  \
         pdo_mysql  \
         zip \
+        sockets \
 	    && docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
         && pecl install memcached\
