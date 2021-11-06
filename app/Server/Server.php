@@ -2,6 +2,7 @@
 
 namespace App\Server;
 
+use App\Constants\Socket;
 use App\Services\SocketService;
 
 class Server
@@ -51,8 +52,7 @@ class Server
                     continue;
                 }
 
-                if ($message === 'exit') {
-                    $this->socketService->close();
+                if ($message === Socket::EXIT) {
                     echo 'Serve is down' . PHP_EOL;
 
                     break 2;

@@ -2,6 +2,7 @@
 
 namespace App\Client;
 
+use App\Constants\Socket;
 use App\Services\SocketService;
 
 class Client
@@ -41,6 +42,10 @@ class Client
 
             if (!empty($message)) {
                 $this->socketService->sendMessage($message);
+
+                if (trim(preg_replace('/\s\s+/',' ', $message)) === Socket::EXIT) {
+                    break;
+                }
             }
         } while (true);
     }

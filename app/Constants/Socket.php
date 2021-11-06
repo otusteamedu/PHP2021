@@ -4,6 +4,6 @@ namespace App\Constants;
 
 class Socket
 {
-    public const PATH = './storage/php-sockets.sock';
+    public const PATH = '/tmp/php-sockets.sock';
     public const EXIT = 'exit';
 }
