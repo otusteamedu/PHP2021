@@ -1,11 +1,13 @@
-FROM ubuntu:latest
+FROM nginx:latest
 
 RUN apt-get update \
-    && apt-get install -y nginx \
+    && apt-get install -y  \
+    nginx  \
+    mc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 
-COPY hosts/socket-chat-server.local.conf /etc/nginx/sites-enabled/socket-chat.local.conf
+COPY hosts/socket-chat.local.conf /etc/nginx/sites-enabled/socket-chat.local.conf
 
 WORKDIR /var/www
 

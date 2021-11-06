@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     image: socketchat/php-server
     volumes:
-      - ../code:/var/www/socket-chat.application.local
+      - ../www:/var/www/socket-chat.application.local
       - phpsocket:/var/run
     networks:
       - socket-chat-network
@@ -26,7 +26,7 @@ services:
       dockerfile: Dockerfile
     image: socketchat/php-client
     volumes:
-      - ../code:/var/www/socket-chat.application.local
+      - ../www:/var/www/socket-chat.application.local
       - phpsocket:/var/run
     networks:
       - socket-chat-network
@@ -46,7 +46,7 @@ services:
     ports:
       - "81:80"
     volumes:
-      - ../code:/var/www/socket-chat.application.local
+      - ../www:/var/www/socket-chat.application.local
       - phpsocket:/var/run
     links:
       - php-server
@@ -62,7 +62,7 @@ services:
     ports:
       - "82:80"
     volumes:
-      - ../code:/var/www/socket-chat.application.local
+      - ../www:/var/www/socket-chat.application.local
       - phpsocket:/var/run
     links:
       - php-client
