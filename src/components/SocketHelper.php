@@ -64,7 +64,7 @@ class SocketHelper
     /**
      * Закрывает соединение
      */
-    public function close()
+    public function disconnect()
     {
         $socket = $this->socket;
 

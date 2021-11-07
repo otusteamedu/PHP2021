@@ -42,7 +42,7 @@ class Client
             $this->initialize();
             $this->execute();
         } finally {
-            $this->close();
+            $this->disconnect();
         }
 
         echo 'Клинет отключен' . PHP_EOL;
@@ -63,6 +63,7 @@ class Client
             }
 
             $message = fgets(STDIN);
+            $message = trim($message);
 
             if (empty($message) === false) {
                 $socketService->sendMessage($message);
@@ -72,7 +73,6 @@ class Client
                 $message === 'q!' ||
                 $message === 'exit'
             ) {
-                $this->close();
                 break;
             }
         } while (true);
@@ -93,10 +93,10 @@ class Client
     /**
      * Закрывает сокет соединение
      */
-    private function close()
+    private function disconnect()
     {
         $socketClient = $this->socketService;
 
-        $socketClient->close();
+        $socketClient->disconnect();
     }
 }

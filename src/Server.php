@@ -53,6 +53,7 @@ class Server
     private function execute()
     {
         $socketService = $this->socketService;
+        echo 'Сервер запущен' . PHP_EOL;
 
         do {
             $connect = $socketService->accept();
@@ -69,14 +70,11 @@ class Server
                 }
 
                 if ($message === 'q!') {
-                    $client->close();
                     echo 'Клиент отключен' . PHP_EOL;
-
                     break;
                 }
 
                 if ($message === 'exit') {
-                    $this->close();
                     break 2;
                 }
 

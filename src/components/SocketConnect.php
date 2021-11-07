@@ -55,14 +55,4 @@ class SocketConnect
             ->socketHelper
             ->write($message);
     }
-
-    /**
-     * Закрывает сокет соединение
-     */
-    public function close()
-    {
-        $this
-            ->socketHelper
-            ->close();
-    }
 }

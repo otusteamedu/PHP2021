@@ -93,13 +93,21 @@ class SocketService
      */
     public function close()
     {
-        $this
-            ->socketHelper
-            ->close();
+        $this->disconnect();
 
         if (file_exists($this->socketAddress) === true) {
             unlink($this->socketAddress);
         }
+    }
+
+    /**
+     * Отключение от сервера
+     */
+    public function disconnect()
+    {
+        $this
+            ->socketHelper
+            ->disconnect();
     }
 
     /**
