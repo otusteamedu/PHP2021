@@ -1,0 +1,4 @@
+/vendor
+ini config
+node_modules
+.idea
