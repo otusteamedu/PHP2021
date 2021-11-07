@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  # Socket-Server
+  server:
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile
+    image: otus/php2021/socket/server
+    container_name: otus-php2021-socket-server
+    volumes:
+      - .:/var/www/app
+
+  # Socket-Client
+  client:
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile
+    image: otus/php2021/socket/client
+    container_name: otus-php2021-socket-client
+    volumes:
+      - .:/var/www/app
