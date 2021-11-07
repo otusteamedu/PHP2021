@@ -19,9 +19,6 @@ services:
       dockerfile: Dockerfile
     image: myapp/server-nginx
     container_name: server1
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
       - ./code:/data/mysite.local
     networks:
@@ -35,9 +32,6 @@ services:
       dockerfile: Dockerfile
     image: myapp/server-nginx
     container_name: server2
-    ports:
-      - "81:80"
-      - "4431:443"
     volumes:
       - ./code:/data/mysite.local
     networks:
