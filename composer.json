@@ -1,0 +1,21 @@
+{
+  "name": "i_rozinsky/php2021",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "itily",
+      "email": "ilyha_roza@mail.ru"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "src"
+    }
+  }
+}
