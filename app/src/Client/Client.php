@@ -40,7 +40,7 @@ class Client
         } catch (Exception $e) {
             echo $e->getMessage() . PHP_EOL;
         } finally {
-            $this->socketService->closeSocket();
+            $this->socketService->closeSocketAndConnection();
         }
     }
 
@@ -52,8 +52,7 @@ class Client
     {
         echo "Начинаем отправку сообщений..." . PHP_EOL;
         do {
-            $message = fgets(STDIN);
-            $message = trim($message);
+            $message = readline('Сообщение: ');
             if (!empty($message)) {
                 $this->socketService->writeMessage($message);
             }

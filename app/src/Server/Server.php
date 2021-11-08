@@ -41,9 +41,7 @@ class Server
         } catch (Exception $e) {
             echo $e->getMessage() . PHP_EOL;
         } finally {
-            $this->socketService->closeConnection();
-            $this->socketService->closeSocket();
-            $this->socketService->deleteSocketFile();
+            $this->socketService->closeSocketAndConnection();
         }
     }
 

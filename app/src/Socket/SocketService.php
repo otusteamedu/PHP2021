@@ -27,6 +27,8 @@ class SocketService
      */
     public function initializeSocket(): void
     {
+//        $this->closeSocketAndConnection();
+
         echo "Инициализирую сокет..." . PHP_EOL;
         $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
 
@@ -87,27 +89,34 @@ class SocketService
         }
     }
 
-    public function closeConnection(): void
+    public function closeSocketAndConnection(): void
+    {
+        $this->closeConnection();
+        $this->closeSocket();
+        $this->deleteSocketFile();
+    }
+
+    private function closeConnection(): void
     {
         if ($this->connection) {
             socket_close($this->connection);
+            echo "Соединение закрыто" . PHP_EOL;
         }
-        echo "Соединение закрыто" . PHP_EOL;
     }
 
-    public function closeSocket(): void
+    private function closeSocket(): void
     {
         if ($this->socket) {
             socket_close($this->socket);
+            echo "Сокет закрыт" . PHP_EOL;
         }
-        echo "Сокет закрыт" . PHP_EOL;
     }
 
-    public function deleteSocketFile(): void
+    private function deleteSocketFile(): void
     {
         if (file_exists($this->socketPath)) {
             unlink($this->socketPath);
+            echo "Сокет файл удален" . PHP_EOL;
         }
-        echo "Сокет файл удален" . PHP_EOL;
     }
 }
