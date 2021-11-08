@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  app-server:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: otusapp/php
+    container_name: app-server
+    volumes:
+      - ./app:/var/www
+      - ./docker/socket:/tmp
+    networks:
+      - app-network
+
+  app-client:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: otusapp/php
+    container_name: app-client
+    volumes:
+      - ./app:/var/www
+      - ./docker/socket:/tmp
+    networks:
+      - app-network
+    depends_on:
+      - app-server
+
+networks:
+  app-network:
+    driver: bridge

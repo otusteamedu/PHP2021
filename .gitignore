@@ -1,0 +1,6 @@
+# PHPStorm files
+*.iml
+.idea
+
+.env
+/app/vendor
