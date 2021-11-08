@@ -18,62 +18,30 @@ use InvalidArgumentException;
 class App
 {
     /**
-     * App constructor.
-     */
-    public function __construct()
-    {
-        header("Access-Control-Allow-Origin: *");
-        header("Content-Type: application/json; charset=UTF-8");
-    }
-
-    /**
      *
      */
     public function run()
     {
         try {
-            http_response_code(200);
+            $this->validateRequestParams();
 
-            $response = $this->getValidateFormResponse();
+            Response::sendSuccess('OK');
         } catch (InvalidArgumentException $exception) {
-            http_response_code(400);
-
-            $response = [
-                'message' => $exception->getMessage(),
-            ];
+            Response::sendBadRequest($exception->getMessage());
         } catch (Exception $exception) {
-            http_response_code(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-            ];
+            Response::sendFailure($exception->getMessage());
         }
-
-        $this->renderResponse($response);
     }
 
     /**
-     * Ответ от формы валидации
-     * @return array
+     * Валидирует параметры запроса
      */
-    private function getValidateFormResponse(): array
+    private function validateRequestParams()
     {
         $rawData = file_get_contents("php://input");
         $params = (array)json_decode($rawData);
 
         $form = new StringValidateForm($params);
-        return $form->execute();
-    }
-
-    /**
-     * @param array $response
-     */
-    private function renderResponse(array $response)
-    {
-        $response = array_merge($response, [
-            'status' => http_response_code(),
-        ]);
-
-        echo json_encode($response);
+        $form->execute();
     }
 }

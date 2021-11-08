@@ -33,12 +33,11 @@ class StringValidateForm
     }
 
     /**
-     * @return array
+     *
      */
-    public function execute(): array
+    public function execute()
     {
         $this->validate();
-        return $this->createResponse();
     }
 
     /**
@@ -77,15 +76,5 @@ class StringValidateForm
         if (empty($value) === false) {
             throw new InvalidArgumentException('Содеримое параметра String не корректно');
         }
-    }
-
-    /**
-     * Создает ответ
-     */
-    private function createResponse(): array
-    {
-        return [
-            'message' => 'OK',
-        ];
     }
 }
