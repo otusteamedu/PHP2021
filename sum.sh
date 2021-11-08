@@ -1,5 +1,4 @@
 #!/bin/bash
-apt-get install -y bc
 
 reg='^[+-]?[0-9]+([.][0-9]+)?$'
 
@@ -8,8 +7,8 @@ if [ $# -lt 2 ]
     echo Not enough arguments passed; exit 1
 fi
 
-if ! [[ $1 =~ $reg ]]; then
-   echo One of the arguments not a number; exit 1
+if ! [[ $1 =~ $reg ]] || ! [[ $2 =~ $reg ]]; then
+   echo One of the arguments is not a number; exit 1
 fi
 
-echo "$1+$2" | bc;
+awk -v first="$1" -v second="$2" 'BEGIN{print first+second}';
