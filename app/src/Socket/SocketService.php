@@ -104,7 +104,7 @@ class SocketService
         }
     }
 
-    private function closeSocket(): void
+    public function closeSocket(): void
     {
         if ($this->socket) {
             socket_close($this->socket);

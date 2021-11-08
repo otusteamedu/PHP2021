@@ -40,7 +40,7 @@ class Client
         } catch (Exception $e) {
             echo $e->getMessage() . PHP_EOL;
         } finally {
-            $this->socketService->closeSocketAndConnection();
+            $this->socketService->closeSocket();
         }
     }
 
