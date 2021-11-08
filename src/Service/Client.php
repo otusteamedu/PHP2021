@@ -1,25 +1,22 @@
 <?php
 
-namespace App\Client;
+namespace App\Service;
 
 use Exception;
 
-class Client
+class Client implements Service
 {
-    private const SOCKET_PATH = '/var/www/app/app.sock';
-    private const EXIT = 'выход';
-
     /** @var false|resource */
     private $socket;
 
-    public function run()
+    public function run(): void
     {
         try {
             $this->connectToSocket();
 
             $this->sendMessages();
         } catch (Exception $e) {
-            echo sprintf('Error: %s.%s', $e->getMessage(), PHP_EOL);
+            printf('Error: %s.%s', $e->getMessage(), PHP_EOL);
         } finally {
             $this->closeSocket();
         }
@@ -53,7 +50,7 @@ class Client
             $message = trim(fgets($stdin));
             $this->sendMessage($message);
             echo $this->getMessage() . PHP_EOL;
-        } while ($message != self::EXIT);
+        } while ($message !== self::EXIT);
     }
 
     /**

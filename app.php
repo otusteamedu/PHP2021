@@ -8,5 +8,5 @@ try {
     $app = new App($argv[1] ?? null);
     $app->run();
 } catch (Exception $e) {
-    echo sprintf('Error: %s.%s', $e->getMessage(), PHP_EOL);
+    printf('Error: %s.%s', $e->getMessage(), PHP_EOL);
 }

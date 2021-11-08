@@ -2,8 +2,9 @@
 
 namespace App;
 
-use App\Client\Client;
-use App\Server\Server;
+use App\Service\Client;
+use App\Service\Service;
+use App\Service\Server;
 use Exception;
 
 class App
@@ -11,7 +12,7 @@ class App
     private const SERVER = 'server';
     private const CLIENT = 'client';
 
-    private ?string $type = null;
+    private Service $service;
 
     /**
      * App constructor.
@@ -22,11 +23,16 @@ class App
      */
     public function __construct(?string $type)
     {
-        if ($type !== self::SERVER && $type != self::CLIENT) {
-            throw new Exception('unknown application type');
+        switch ($type) {
+            case self::SERVER:
+                $this->service = new Server();
+                break;
+            case self::CLIENT:
+                $this->service = new Client();
+                break;
+            default:
+                throw new Exception('unknown service type');
         }
-
-        $this->type = $type;
     }
 
     public function run(): void
@@ -34,14 +40,6 @@ class App
         set_time_limit(0);
         ob_implicit_flush();
 
-        if ($this->type === self::SERVER) {
-            $server = new Server();
-            $server->run();
-        }
-
-        if ($this->type === self::CLIENT) {
-            $client = new Client();
-            $client->run();
-        }
+        $this->service->run();
     }
 }

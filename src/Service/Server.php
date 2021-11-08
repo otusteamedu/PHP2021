@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Server;
+namespace App\Service;
 
 use Exception;
 
-class Server
+class Server implements Service
 {
-    private const SOCKET_PATH = '/var/www/app/app.sock';
-    private const EXIT = 'выход';
-
     /** @var false|resource */
     private $socket;
 
     /** @var false|resource */
     private $connection;
 
-    public function run()
+    public function run(): void
     {
         try {
             $this->initializeSocket();
@@ -23,7 +20,7 @@ class Server
 
             $this->acceptMessages();
         } catch (Exception $e) {
-            echo sprintf('Error: %s.%s', $e->getMessage(), PHP_EOL);
+            printf('Error: %s.%s', $e->getMessage(), PHP_EOL);
         } finally {
             $this->closeConnectionAndSocket();
         }
