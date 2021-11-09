@@ -27,8 +27,8 @@ class FormValide{/*Start Class*/
 	protected function valideString($string){
 
 		$counter = 0;
-		$openBracket = ['(','{','['];
-		$closedBracket = [')','}',']'];
+		$openBracket = ['(',];
+		$closedBracket = [')',];
 
 		$length = strlen($string);
 
