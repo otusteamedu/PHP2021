@@ -1,19 +1,24 @@
 {
-    "name": "root/youtube.local",
+    "name": "root/redis.local",
     "autoload": {
         "psr-4": {
-            "Root\\YoutubeLocal\\": "src/",
+            "Root\\RedisLocal\\": "src/",
             "App\\": "src",
-            "Youtube\\": "src/youtube",
-            "Models\\": "src/models",
-            "Elastic\\": "src/elastic",
-            "Repositories\\": "src/repositories",
-            "Statistics\\" : "src/statistics",
-            "Parse\\" : "src/parse",
-            "Adding\\" : "src/adding"
+            "AddEvent\\": "src/add",
+            "AddCacheEvent\\": "src/add",
+            "AddCacheAllEvent\\": "src/add",
+            "AddCacheAllConditions\\": "src/add",
+            "DelEvent\\": "src/del",
+            "GetEvent\\": "src/get",
+            "GetCacheEvent\\": "src/get",
+            "GetAllEvent\\": "src/get",
+            "GetCacheAllEvent\\": "src/get",
+            "GetAllConditions\\": "src/get",
+            "GetCacheAllConditions\\": "src/get",
+            "ConnectRedis\\": "src/redis",
+            "ConnectCacheRedis\\": "src/redis"
+
         }
     },
-    "require": {
-        "elasticsearch/elasticsearch": "^7.15"
-    }
+    "require": {}
 }
