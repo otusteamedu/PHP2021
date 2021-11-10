@@ -8,20 +8,33 @@ use Exception;
 
 class App
 {
-    private const RESPONCE_CODE_BAD_REQUEST = 400;
+    private ResponseService $responseService;
+
+    public function __construct()
+    {
+        $this->responseService = new ResponseService();
+    }
 
     public function run(): void
     {
         try {
-            if (empty($_REQUEST['string'])) {
+            if ($this->isEmptyParam()) {
                 throw new Exception('String is empty');
             }
 
-            $validatorBrackets = new ValidatorBrackets($_REQUEST['string']);
-            $validatorBrackets->validate();
+            $validatorBrackets = new ValidatorBrackets($_POST['string']);
+            if (false === $validatorBrackets->validate()) {
+                throw new Exception($validatorBrackets->getReason());
+            }
+
+            $this->responseService->sendOkResponse('Bracket correct');
         } catch (Exception $e) {
-            http_response_code(self::RESPONCE_CODE_BAD_REQUEST);
-            echo $e->getMessage();
+            $this->responseService->sendBadResponse($e->getMessage());
         }
+    }
+
+    private function isEmptyParam()
+    {
+        return empty($_POST['string']);
     }
 }

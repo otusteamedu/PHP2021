@@ -8,6 +8,8 @@ class ValidatorBrackets
 {
     private string $brackets;
 
+    private string $reason;
+
     /**
      * ValidatorBrackets constructor.
      *
@@ -24,39 +26,44 @@ class ValidatorBrackets
      */
     public function validate()
     {
-        $this->checkChars();
-        $this->checkCorrect();
+        if (false === $this->isValidChars()) {
+            $this->reason = 'String is wrong';
+            return false;
+        }
 
-        echo 'Bracket correct';
+        if (false === $this->isValidBrackets()) {
+            $this->reason = 'Brackets are not correct';
+            return false;
+        }
 
+        return true;
     }
 
-    /**
-     * @throws Exception
-     */
-    private function checkCorrect(): void
+    private function isValidBrackets(): bool
     {
         $stack = [];
         for ($i = 0; $i < strlen($this->brackets); $i++) {
             if ($this->brackets[$i] == '(') {
                 array_push($stack, $this->brackets[$i]);
             } elseif (empty($stack) || array_pop($stack) != '(') {
-                throw new Exception('Brackets are not correct');
+                return false;
             }
         }
 
         if (!empty($stack)) {
-            throw new Exception('Brackets are not correct');
+            return false;
         }
+
+        return true;
     }
 
-    /**
-     * @throws Exception
-     */
-    private function checkChars(): void
+    private function isValidChars(): bool
     {
-        if (preg_match('/^[()]+$/', $this->brackets) == false) {
-            throw new Exception('String is wrong');
-        }
+        return !!preg_match('/^[()]+$/', $this->brackets);
+    }
+
+    public function getReason(): string
+    {
+        return $this->reason;
     }
 }
