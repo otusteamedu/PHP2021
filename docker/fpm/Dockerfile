@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y \
         curl \
@@ -11,12 +11,10 @@ RUN apt-get update && apt-get install -y \
 	    libzip-dev \
 	    libmcrypt-dev \
 	    libmemcached-dev \
-    && pecl install mcrypt-1.0.4 \
+    && pecl install mcrypt-1.0.3 \
         && docker-php-ext-enable mcrypt \
     && pecl install memcached \
         && docker-php-ext-enable memcached \
-    && pecl install memcache \
-        && docker-php-ext-enable memcache \
     && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
