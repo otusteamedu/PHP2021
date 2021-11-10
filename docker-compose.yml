@@ -1,0 +1,96 @@
+version: '3'
+
+services:
+
+  balancer:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: otusapp/nginx
+    container_name: webserver
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker/nginx/hosts/balancer.local.conf:/etc/nginx/sites-enabled/mysite.local.conf
+    depends_on:
+      - nginx1
+      - nginx2
+    networks:
+      - app-network
+
+  nginx1:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: otusapp/nginx
+    container_name: nginx1
+    ports:
+      - 8081:80
+    volumes:
+      - ./app:/data/mysite.local
+      - ./docker/nginx/hosts/mysite.local.conf:/etc/nginx/sites-enabled/mysite.local.conf
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: otusapp/nginx
+    container_name: nginx2
+    ports:
+      - 8082:80
+    volumes_from:
+      - nginx1
+    networks:
+      - app-network
+
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: otusapp/php # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+      - ./app:/data/mysite.local
+      - ./docker/fpm/config/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: otusapp/php
+    container_name: app2
+    volumes_from:
+      - app1
+    networks:
+      - app-network
+
+  db:
+    image: mysql
+    container_name: db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./docker/dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcache
+    ports:
+      - 11212:11211
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
