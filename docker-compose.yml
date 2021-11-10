@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  php-fpm:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www
+    links:
+      - mysql
+    networks:
+      - app-network
+  mysql:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d/:ro
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
