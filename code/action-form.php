@@ -25,7 +25,9 @@ class FormValide{/*Start Class*/
 	*Верификация строки со скобками
 	*/
 	protected function valideString($string){
-
+		
+		$string = $this->testInput($string);
+		
 		$counter = 0;
 		$openBracket = ['(',];
 		$closedBracket = [')',];
