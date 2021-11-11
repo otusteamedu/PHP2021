@@ -8,8 +8,11 @@ services:
     image: myapp/balancer-nginx
     container_name: web-balancer
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
+    depends_on:
+      - server1
+      - server2
     networks:
       - app-network
 
@@ -23,8 +26,8 @@ services:
       - ./code:/data/mysite.local
     networks:
       - app-network
-    depends_on:
-      - balancer
+    ports:
+    - 8082:80
 
   server2:
     build:
@@ -36,8 +39,8 @@ services:
       - ./code:/data/mysite.local
     networks:
       - app-network
-    depends_on:
-      - balancer
+    ports:
+      - 8081:80
 
   app1:
     build:
@@ -79,6 +82,8 @@ services:
     container_name: memcache
     ports:
       - 11212:11211
+    networks:
+      - app-network
 
 networks:
   app-network:
