@@ -14,7 +14,7 @@ class EmailValidator
             return false;
         }
 
-        if (!$this->checkMX($email)) {
+        if (!$this->checkMx($email)) {
             return false;
         }
 
@@ -26,7 +26,7 @@ class EmailValidator
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
-    private function checkMX(string $email): bool
+    private function checkMx(string $email): bool
     {
         $host = substr($email, strpos($email, '@') + 1);
         return checkdnsrr($host, 'MX');
