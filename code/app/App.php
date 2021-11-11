@@ -2,36 +2,27 @@
 
 namespace App;
 
-use App\Constants\CliCommands;
-use App\Services\ResponseService;
-use App\Services\ValidateRequestService;
+use App\Services\ValidateEmailService;
 
 class App
 {
-    private array $postParams;
-    private ResponseService $responseService;
-
-    public function __construct()
-    {
-        $this->postParams = $_POST;
-        $this->responseService = new ResponseService();
-    }
+    private const PATH_FILE='storage/emails';
 
     public function handle()
     {
-        $validateService = new ValidateRequestService($this->postParams['string']);
+        $this->validateEmail = new ValidateEmailService();
+        $this->emails = file(self::PATH_FILE, FILE_IGNORE_NEW_LINES);
 
-        $isValid = empty($this->postParams['deep_validate'])
-            ? $validateService->isValid()
-            : $validateService->isBalance($this->postParams['string']);
-
-        $isValid
-            ? $this->responseService->success()
-            : $this->responseService->isNotValidateData();
-    }
-
-    public function isNotEmptyParams()
-    {
-        return !empty($this->postParams['string']);
+        foreach ($this->emails as $email)
+        {
+            try {
+                $this->validateEmail->handle($email);
+                echo "$email is correct <br>";
+            } catch (\Exception $exception) {
+                if ($exception->getCode() === 400) {
+                    echo "$email is wrong <br>";
+                }
+            }
+        }
     }
 }

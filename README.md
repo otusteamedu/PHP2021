@@ -16,11 +16,3 @@ Install composer dependencies and start server and client:
 docker exec -it $(docker ps | awk ' /app1/ { print $1 }') bash
 cd mysite.local/ && composer install
 ```
-
-Test validate:
-```bash
-curl http://mysite.local
-curl --data "string=(()()())&deep_validate=0" http://mysite.local
-curl --data "string=(()()(){}[[])&deep_validate=0" http://mysite.local
-curl --data "string=(()()(){}[[]])&deep_validate=1" http://mysite.local
-```
