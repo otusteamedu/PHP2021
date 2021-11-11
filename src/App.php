@@ -8,6 +8,8 @@
 
 namespace app;
 
+use app\components\BracketStringValidate;
+use app\services\EmailVerifyService;
 use Exception;
 use InvalidArgumentException;
 
@@ -23,7 +25,8 @@ class App
     public function run()
     {
         try {
-            $this->validateRequestParams();
+//            $this->bracketStringValidate();
+            $this->emailsVerify();
 
             Response::sendSuccess('OK');
         } catch (InvalidArgumentException $exception) {
@@ -34,14 +37,34 @@ class App
     }
 
     /**
-     * Валидирует параметры запроса
+     * POST параметры
+     * @return array
      */
-    private function validateRequestParams()
+    private static function getRequestPostData(): array
     {
         $rawData = file_get_contents("php://input");
-        $params = (array)json_decode($rawData);
+        return (array)json_decode($rawData);
+    }
 
-        $form = new StringValidateForm($params);
+    /**
+     * Валидирует параметры запроса
+     */
+    private function bracketStringValidate()
+    {
+        $params = self::getRequestPostData();
+
+        $form = new BracketStringValidate($params);
         $form->execute();
+    }
+
+    /**
+     * Верификация Email адресов
+     */
+    private function emailsVerify()
+    {
+        $params = self::getRequestPostData();
+
+        $verifyService = EmailVerifyService::fromRequest($params);
+        $verifyService->verify();
     }
 }

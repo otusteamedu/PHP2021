@@ -6,17 +6,17 @@
  * Time: 13:19
  */
 
-namespace app;
+namespace app\components;
 
 use InvalidArgumentException;
 
 /**
- * Сервис валидации строки
+ * Сервис валидации строки скобок
  *
- * Class StringValidateForm
+ * Class BracketStringValidate
  * @package app
  */
-class StringValidateForm
+class BracketStringValidate
 {
     /**
      * @var array
@@ -24,7 +24,7 @@ class StringValidateForm
     private array $data;
 
     /**
-     * StringValidateForm constructor.
+     * BracketStringValidate constructor.
      * @param array $data
      */
     public function __construct(array $data)
