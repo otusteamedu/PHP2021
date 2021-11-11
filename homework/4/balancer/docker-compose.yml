@@ -26,6 +26,26 @@ services:
     networks:
       - app-network
 
+  fpm1:
+    build:
+      context: ./docker-resources/fpm
+      dockerfile: Dockerfile
+    container_name: fpm1
+    volumes:
+       - ./code:/app/code
+    networks:
+      - app-network
+
+  fpm2:
+    build:
+      context: ./docker-resources/fpm
+      dockerfile: Dockerfile
+    container_name: fpm2
+    volumes:
+       - ./code:/app/code
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
