@@ -1,7 +1,7 @@
 .idea
 .env
-/code/vendor
 /code/css
+/code/vendor
 /dbdata
 
 
