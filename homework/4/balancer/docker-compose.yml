@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  balancer:
+    image: nginx:stable
+    ports:
+     - "6080:80"
+    volumes:
+     - ./docker-resources/nginx/balancer:/etc/nginx/conf.d
+    networks:
+      - app-network
+
+  front1:
+    image: nginx:stable
+    volumes:
+     - ./docker-resources/nginx/front:/etc/nginx/conf.d
+     - ./code:/app/code
+    networks:
+      - app-network
+
+  front2:
+    image: nginx:stable
+    volumes:
+     - ./docker-resources/nginx/front:/etc/nginx/conf.d
+     - ./code:/app/code
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
