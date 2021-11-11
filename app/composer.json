@@ -1,0 +1,17 @@
+{
+    "name": "fazer/otus-hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kovernik Alexey"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    }
+}
