@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Response;
+use App\Services\CommonHelpers as ch;
 
 class App
 {
@@ -51,26 +52,13 @@ class App
 
     private function checkBrackets(string $target): bool
     {
-        $source = $target;
+        $resultString = ch::clearPairedBrackets($target, $this->mode);
 
-        do {
-            $stepResult = str_replace('()', '', $source);
-
-            if ($this->mode === 'cli') {
-                echo sprintf('%s -> %s', $source, $stepResult) . PHP_EOL;                
-            }
-
-            $needStop = ($source === $stepResult) || ($stepResult === '');
-
-            $source = $stepResult;
-
-        } while (! $needStop);
-
-        if ($stepResult !== '') {
+        if ($resultString !== '') {
             $this->response->setMessage('ошибка: скобки не закрыты!');
         }
 
-        return ($stepResult === '');
+        return ($resultString === '');
     }
 
 
