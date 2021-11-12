@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  nginx:
+    container_name: otus-nginx
+    build:
+      context: ./docker/nginx
+    image: image_otus-nginx
+    ports:
+      - 8001:80
+    depends_on:
+      - php
+    volumes:
+      - ./docker/nginx/config:/etc/nginx/conf.d
+      - ./www:/var/www/html
+      - "phpsocket:/var/run"
+    networks:
+      - otus-1
+  
+  php:
+    container_name: otus-php
+    build:
+      context: ./docker/php
+    image: image_otus-php
+    volumes:
+      - "phpsocket:/var/run"
+      - ./docker/php/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./www:/var/www/html
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - MEMCACHED_HOST=${MEMCACHED_HOST}
+      - MEMCACHED_PORT=${MEMCACHED_PORT}
+    networks:
+      - otus-1
+    
+  redis:
+    container_name: ${REDIS_HOST}
+    build:
+      context: ./docker/redis
+    image: image_otus-redis
+    volumes:
+      - ./docker/redis/data:/data
+    networks:
+      - otus-1
+    command: ["sh", "-c", "exec redis-server --requirepass \"${REDIS_PASSWORD}\""]
+#    ports:
+#      - 63791:${REDIS_PORT}
+
+  memcached:
+    container_name: ${MEMCACHED_HOST}
+    build:
+      context: ./docker/memcached
+    image: image_otus-memcached
+    networks:
+      - otus-1
+volumes:
+  phpsocket:
+    
+networks:
+  otus-1:
+    driver: bridge
