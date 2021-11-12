@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+  balancer:
+    image: nginx:stable
+    ports:
+     - "6080:80"
+    volumes:
+     - ./docker-resources/nginx/balancer:/etc/nginx/conf.d
+    networks:
+      - app-network
+
+  front1:
+    image: nginx:stable
+    volumes:
+     - ./docker-resources/nginx/front:/etc/nginx/conf.d
+     - ./code:/app/code
+    networks:
+      - app-network
+
+  front2:
+    image: nginx:stable
+    volumes:
+     - ./docker-resources/nginx/front:/etc/nginx/conf.d
+     - ./code:/app/code
+    networks:
+      - app-network
+
+  fpm1:
+    build:
+      context: ./docker-resources/fpm
+      dockerfile: Dockerfile
+    container_name: fpm1
+    volumes:
+       - ./code:/app/code
+    networks:
+      - app-network
+
+  fpm2:
+    build:
+      context: ./docker-resources/fpm
+      dockerfile: Dockerfile
+    container_name: fpm2
+    volumes:
+       - ./code:/app/code
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - 11212:11211
+
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./db/mysql:/var/lib/mysql  
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
