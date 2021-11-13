@@ -1,0 +1,23 @@
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - export NEW_APP_DIR=$(date +build_%Y%m%d%H%M%S)
+
+deploy_server1:
+  stage: deploy
+  script:
+    - ssh $REMOTE_SERVER_USER@$REMOTE_SERVER_HOST "cd /var/www/test_project &&
+      rm -rf ./settings/ &&
+      git clone git@gitlab.com:Alexander-d/hw18_settings.git settings &&
+      git clone git@gitlab.com:Alexander-d/hw18.git $NEW_APP_DIR &&
+      cd $NEW_APP_DIR &&
+      sh ./install.sh $NEW_APP_DIR &&
+      rm -rf ../settings/
+      "
+  only:
+    - main
