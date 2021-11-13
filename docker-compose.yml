@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile
+    image: php-server-2
+    container_name: php-server-socket
+    volumes:
+      - .:/var/www/app
+
+  client:
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile
+    image: php-client-2
+    container_name: php-client-socket
+    volumes:
+      - .:/var/www/app
