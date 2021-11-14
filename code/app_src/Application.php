@@ -8,13 +8,6 @@ class Application
     private $openBracket = '(';
     private $closeBracket = ')';
 
-    public static function validateRequest()
-    {
-        if($_SERVER['REQUEST_METHOD'] != 'POST') {
-            throw new \Exception('Wrong request method');
-        }
-    }
-
     public function __construct()
     {
         $this->request = $_POST;
@@ -58,7 +51,6 @@ class Application
         if ($openBracketsCounter) {
             throw new \Exception('Brackets not paired');
         }
-        header('HTTP/1.0 200 Ok');
-        echo 'Everything is fine'.PHP_EOL;
+        throw new \Exception('Everything is fine');
     }
 }

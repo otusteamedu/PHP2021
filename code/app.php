@@ -1,14 +1,16 @@
 <?php 
 
 use App\Application;
+use App\Response;
 require_once('vendor/autoload.php');
 
 try {
-    App\Application::validateRequest();
+    if($_SERVER['REQUEST_METHOD'] != 'POST') {
+        throw new \Exception('Wrong request method');
+    }
     $app = new Application();
     $app->checkString();
 }
 catch(Exception $e) {
-    header('HTTP/1.0 400 Bad Request');
-	echo $e->getMessage().PHP_EOL;
+    App\Response::generateResponse($e->getMessage());
 }
