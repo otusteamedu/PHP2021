@@ -1,3 +1,2 @@
 # PHP2021
-
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+curl --location --request POST 'http://otus.local' --form 'string="(((()))())wdadwwad"'
