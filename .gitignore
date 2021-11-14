@@ -1,2 +1,4 @@
 /code/vendor
 /code/.idea
+.env
+/dbdata
