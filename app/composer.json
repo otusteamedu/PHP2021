@@ -1,0 +1,18 @@
+{
+    "name": "fazer/otus-hw6",
+    "autoload": {
+        "psr-4": {
+            "Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexey Kovernik",
+            "email": "regafazer@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "fazer/testing-packagist": "^1.0"
+    }
+}
