@@ -8,7 +8,7 @@ class App
     public function run(): void
     {
         $string = $_POST['string'];
-        if (!empty($string) && $string[0] !== ')' && $string[strlen($string)-1] !== '('
+        if (!empty($string) && (strpos($string,')') > strpos($string,'('))
             && (strrpos($string,'(') < strrpos($string,')'))) {
             $countBrackets = array_count_values(str_split($string));
             if ($countBrackets['('] === $countBrackets[')']) {
