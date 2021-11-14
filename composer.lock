@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0d636fa457e2325373ee0de886f3006d",
+    "packages": [
+        {
+            "name": "ez-otus/php-helper",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webwrestler/php-helper.git",
+                "reference": "491ffd10d04d9824a23ea52a27dc6c2eea3d8c3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webwrestler/php-helper/zipball/491ffd10d04d9824a23ea52a27dc6c2eea3d8c3b",
+                "reference": "491ffd10d04d9824a23ea52a27dc6c2eea3d8c3b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "EZ",
+                    "email": "ez@gmail.com"
+                }
+            ],
+            "description": "Php helper",
+            "support": {
+                "issues": "https://github.com/webwrestler/php-helper/issues",
+                "source": "https://github.com/webwrestler/php-helper/tree/1.0.0"
+            },
+            "time": "2021-11-14T14:31:46+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
