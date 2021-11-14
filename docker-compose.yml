@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  web_balancer:
+    image: nginx
+    container_name: web_balancer
+    depends_on:
+      - web_1
+      - web_2
+    volumes:
+      - ./nginx/balancer.local.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  web_1:
+    image: nginx
+    container_name: web_1
+    volumes_from:
+      - app_1
+    volumes:
+      - ./nginx/mysite.local.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8081:80"
+    networks:
+      - app-network
+
+  web_2:
+    image: nginx
+    container_name: web_2
+    volumes_from:
+      - web_1
+    ports:
+      - "8082:80"
+    networks:
+      - app-network
+
+  app_1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: app_1
+    image: otus/php_fpm
+    volumes:
+      - .:/home/mysite.local
+    networks:
+      - app-network
+
+  app_2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: app_2
+    image: otus/php_fpm
+    volumes_from:
+      - app_1
+    networks:
+      - app-network
+
+#  memcache:
+#    image: memcached
+#    container_name: memcache
+#    networks:
+#      - app-network
+
+  memcache_1:
+    image: oktec/repcached
+    container_name: memcache_1
+    environment:
+      - SLAVE=memcache_2
+    networks:
+      - app-network
+
+  memcache_2:
+    image: oktec/repcached
+    container_name: memcache_2
+    environment:
+      - SLAVE=memcache_1
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

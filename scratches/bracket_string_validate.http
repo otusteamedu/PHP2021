@@ -1,0 +1,7 @@
+### Send POST request with json body
+POST http://mysite.local
+Content-Type: application/json
+
+{
+  "string": "(()()()()))((((()()()))(()()()(((()))))))"
+}
