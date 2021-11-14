@@ -8,8 +8,8 @@
 
 namespace app\services;
 
-use app\components\EmailVerify;
 use InvalidArgumentException;
+use Razmik\EmailVerify;
 
 /**
  * Верификация Email
