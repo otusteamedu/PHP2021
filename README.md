@@ -1,1 +1,4 @@
-# PHP2021
+### Installation
+```bash
+composer require fazer/testing-packagist
+```

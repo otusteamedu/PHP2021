@@ -1,0 +1,62 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0ed26e0c7f70d88ff63b4fc508213e2f",
+    "packages": [
+        {
+            "name": "fazer/testing-packagist",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fazer/testing-packagist.git",
+                "reference": "47025c4a6119b0069b2943a82ef2d5b5237226e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fazer/testing-packagist/zipball/47025c4a6119b0069b2943a82ef2d5b5237226e2",
+                "reference": "47025c4a6119b0069b2943a82ef2d5b5237226e2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexey Kovernik",
+                    "email": "regafazer@gmail.com"
+                }
+            ],
+            "description": "Otus home work 6",
+            "homepage": "https://github.com/fazer/testing-packagist",
+            "support": {
+                "issues": "https://github.com/fazer/testing-packagist/issues",
+                "source": "https://github.com/fazer/testing-packagist/tree/1.0.0"
+            },
+            "time": "2021-11-14T17:34:16+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
