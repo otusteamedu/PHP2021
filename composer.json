@@ -1,0 +1,5 @@
+{
+  "require": {
+    "ez-otus/php-helper": "^1.0"
+  }
+}
