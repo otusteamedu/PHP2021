@@ -8,30 +8,31 @@ class Application
 
     public function __construct()
     {
+        if (!RequestValidator::checkRequestType('POST')) {
+            throw new \Exception('Wrong request method');
+        }
+        if (RequestValidator::checkRequestIsEmpty($_POST)) {
+            throw new \Exception('Empty request');
+        }
         $this->request = $_POST;
-        if ($this->checkRequestIsEmpty()) {
-            throw new \Exception('No arguments passed');
-        }
     }
 
-    private function checkRequestIsEmpty()
-    {
-        if (!isset($this->request['EMAIL_LIST']) || empty($this->request['EMAIL_LIST'])) {
-            return true;
-        }
-    }
-
-    public function checkMailList()
+    public function run()
     {
         $mailValidator = new MailValidator();
         $result = '';
         foreach ($this->request['EMAIL_LIST'] as $mailAddress) {
+            if($mailAddress == '')
+                continue;
             if ($mailValidator->validate($mailAddress)) {
                 $result .= "$mailAddress is valid and MX record found </br>".PHP_EOL;
                 continue;
             }
             $result .="$mailAddress is invalid </br>".PHP_EOL;
         }
-        return $result;
+        if($result == '') {
+            throw new \Exception('No data generated');
+        }
+        Response::generateOkResponse($result);
     }
 }
