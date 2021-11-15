@@ -1,5 +1,5 @@
 {
     "require": {
-        "r-gimranov/test-package": "^1.0"
+        "r-gimranov/test-package": "^2.0"
     }
 }
