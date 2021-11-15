@@ -1,15 +1,10 @@
 <?php 
 
-use App\Application;
-use App\Response;
 require_once('vendor/autoload.php');
 
 try {
-    if($_SERVER['REQUEST_METHOD'] != 'POST') {
-        throw new \Exception('Wrong request method');
-    }
-    $app = new Application();
-    $app->checkString();
+    $app = new App\Application();
+    $app->run();
 }
 catch(Exception $e) {
     App\Response::generateResponse($e->getMessage());

@@ -10,18 +10,16 @@ class Application
 
     public function __construct()
     {
-        $this->request = $_POST;
-        if ($this->checkRequestIsEmpty) {
-            throw new \Exception('No arguments passed');
+        if (!RequestValidator::checkRequestType('POST')) {
+            throw new \Exception('Wrong request method');
         }
+        if (RequestValidator::checkRequestIsEmpty($_POST)) {
+            throw new \Exception('Empty request');
+        }
+        $this->request = $_POST;
     }
 
-    private function checkRequestIsEmpty()
-    {
-        return empty($this->request) ? true : false;
-    }
-
-    public function checkString()
+    public function run()
     {
         if (!isset($this->request['STRING_TO_CHECK']) || empty($this->request['STRING_TO_CHECK'])) {
             throw new \Exception('No string passed');
