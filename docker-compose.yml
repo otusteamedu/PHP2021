@@ -50,9 +50,7 @@ services:
 
   memcached:
     container_name: ${MEMCACHED_HOST}
-    build:
-      context: ./docker/memcached
-    image: image_otus-memcached
+    image: memcached:1.6.12-alpine
     networks:
       - otus-1
 volumes:
