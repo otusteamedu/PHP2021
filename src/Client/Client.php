@@ -20,11 +20,7 @@ class Client
      */
     public function runClient()
     {
-        try {
-
-            // Инициализируем сокет
-            //$this->initializeSocket();
-            
+        try {            
             // Инициализируем соединение
             $this->initializeConnection();
 
@@ -34,14 +30,6 @@ class Client
             echo $e->getMessage().PHP_EOL;
 
         }
-    }
-    
-    private function initializeSocket(): void
-    {
-        echo "Инициализирую сокет...".PHP_EOL;
-        $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        $this->simpleconnection = socket_connect($this->socket, self::SOCKET_PATH);
-        echo "Сокет инициализирован".PHP_EOL;
     }
     
     private function initializeConnection(){
