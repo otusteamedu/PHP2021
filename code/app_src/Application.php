@@ -20,19 +20,6 @@ class Application
     public function run()
     {
         $mailValidator = new MailValidator();
-        $result = '';
-        foreach ($this->request['EMAIL_LIST'] as $mailAddress) {
-            if($mailAddress == '')
-                continue;
-            if ($mailValidator->validate($mailAddress)) {
-                $result .= "$mailAddress is valid and MX record found </br>".PHP_EOL;
-                continue;
-            }
-            $result .="$mailAddress is invalid </br>".PHP_EOL;
-        }
-        if($result == '') {
-            throw new \Exception('No data generated');
-        }
-        Response::generateOkResponse($result);
+        $mailValidator->validateEmailList($this->request['EMAIL_LIST']);
     }
 }
