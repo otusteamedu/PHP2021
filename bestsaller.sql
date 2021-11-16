@@ -1,1 +1,1 @@
-SELECT name FROM films WHERE id = (SELECT film_id FROM sessions GROUP BY film_id ORDER BY SUM(price) DESC LIMIT 1)
+SELECT name FROM films WHERE id = (SELECT sessions.film_id FROM buyed_tickets INNER JOIN sessions ON buyed_tickets.session_id = sessions.id GROUP BY sessions.film_id ORDER BY SUM(sessions.price) DESC LIMIT 1)
