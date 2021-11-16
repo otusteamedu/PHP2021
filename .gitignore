@@ -1,0 +1,9 @@
+# PHPStorm files
+*.iml
+.idea
+
+# Project-specific files
+vendor
+
+# Other files
+.DS_Store
