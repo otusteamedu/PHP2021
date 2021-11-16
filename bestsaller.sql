@@ -1,0 +1,1 @@
+SELECT name FROM films WHERE id = (SELECT film_id FROM sessions GROUP BY film_id ORDER BY SUM(price) DESC LIMIT 1)
