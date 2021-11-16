@@ -1,6 +1,7 @@
 <?php
 
-namespace ConnectCacheRedis;
+namespace App\Redis;
+
 use Redis;
 
 class ConnectCacheRedis

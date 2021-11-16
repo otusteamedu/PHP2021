@@ -1,10 +1,10 @@
 <?php
 
-namespace GetAllEvent;
+namespace App\Get;
 
-use ConnectRedis\ConnectRedis;
-use GetCacheAllEvent\GetCacheAllEvent;
-use AddCacheAllEvent\AddCacheAllEvent;
+use App\Redis\ConnectRedis;
+use App\Get\GetCacheAllEvent;
+use App\Add\AddCacheAllEvent;
 
 class GetAllEvent
 {
@@ -17,6 +17,14 @@ class GetAllEvent
 
         $this->suitableAllEvent = (new GetCacheAllEvent())->GetCacheAllEvent();
 
+        $this->Search();
+
+        $this->Output();
+    
+    }
+
+    private function Search()
+    {
         if (!$this->suitableAllEvent) {
 
             $this->redis = (new ConnectRedis())->Connect();
@@ -32,11 +40,13 @@ class GetAllEvent
 
             new AddCacheAllEvent($this->suitableAllEvent);
         }
+    }
 
+    private function Output()
+    {
         foreach ($this->suitableAllEvent as $event) {
             echo $event . "\n";
         }
-    
     }
 
 }

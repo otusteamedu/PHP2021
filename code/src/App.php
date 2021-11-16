@@ -1,11 +1,11 @@
 <?php
 
 namespace App;
-use AddEvent\AddEvent;
-use DelEvent\DelEvent;
-use GetEvent\GetEvent;
-use GetAllEvent\GetAllEvent;
-use GetAllConditions\GetAllConditions;
+use App\Add\AddEvent;
+use App\Del\DelEvent;
+use App\Get\GetEvent;
+use App\Get\GetAllEvent;
+use App\Get\GetAllConditions;
 
 class App
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace GetEvent;
+namespace App\Get;
 
-use ConnectRedis\ConnectRedis;
-use GetCacheEvent\GetCacheEvent;
-use AddCacheEvent\AddCacheEvent;
+use App\Redis\ConnectRedis;
+use App\Get\GetCacheEvent;
+use App\Add\AddCacheEvent;
 
 class GetEvent
 {
@@ -21,13 +21,26 @@ class GetEvent
         $this->conditions = $_POST['conditions'];
         $this->conditions = explode(',', $this->conditions);
 
+        $this->GettingParameters();
+
+        $this->suitableEvent = (new GetCacheEvent())->GetCacheEvent($this->parameters);
+        
+        $this->SearchSuitableEvent();
+
+        $this->Output();
+        
+    }
+
+    private function GettingParameters()
+    {
         foreach ($this->conditions as $searchParameters) {
             $searchParameters = explode(':', $searchParameters);
             $this->parameters[trim($searchParameters[0])] = trim($searchParameters[1]);
         }
+    }
 
-        $this->suitableEvent = (new GetCacheEvent())->GetCacheEvent($this->parameters);
-        
+    private function SearchSuitableEvent()
+    {
         if (!$this->suitableEvent) {
 
             $this->redis = (new ConnectRedis())->Connect();
@@ -67,8 +80,10 @@ class GetEvent
             new AddCacheEvent($this->parameters, $this->suitableEvent);
 
         }
+    }
 
+    private function Output()
+    {
         echo $this->suitableEvent;
-        
     }
 }

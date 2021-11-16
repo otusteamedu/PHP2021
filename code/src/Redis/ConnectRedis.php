@@ -1,6 +1,7 @@
 <?php
 
-namespace ConnectRedis;
+namespace App\Redis;
+
 use Redis;
 
 class ConnectRedis
@@ -12,6 +13,6 @@ class ConnectRedis
         $redis->connect('redis', 6379);
         $redis->select(0);
 
-        return($redis);
+        return $redis;
     }
 }

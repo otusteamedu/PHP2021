@@ -1,8 +1,8 @@
 <?php
 
-namespace AddEvent;
+namespace App\Add;
 
-use ConnectRedis\ConnectRedis;
+use App\Redis\ConnectRedis;
 
 class AddEvent 
 {
@@ -25,6 +25,27 @@ class AddEvent
         $this->conditions = $_POST['conditions'];
         $this->event = $_POST['event'];
 
+        $this->GettingСondition();
+        
+        $this->redis = (new ConnectRedis())->Connect();
+        $this->keys = $this->redis->keys('event_*');
+
+        $this->CreatingKeys();
+        $this->newKey = "event_" . $this->newKey;
+        
+        $this->criterion = [
+            'priority' => $this->priority,
+            'conditions' => $this->condition,
+            'event' => $this->event
+        ];
+
+        $this->Add();
+
+    }
+
+    private function GettingСondition()
+    {
+        
         $this->conditions = explode(',', $this->conditions);
         $this->countConditions = count($this->conditions);
 
@@ -35,10 +56,10 @@ class AddEvent
             $this->condition[trim($this->param[0])] = trim($this->param[1]); 
 
         }
-        
-        $this->redis = (new ConnectRedis())->Connect();
-        $this->keys = $this->redis->keys('event_*');
+    }
 
+    private function CreatingKeys()
+    {
         if ($this->keys) {
 
             foreach ($this->keys as $key) {
@@ -54,16 +75,16 @@ class AddEvent
             $this->newKey = '0';
         }
 
-        $this->newKey = "event_" . $this->newKey;
-        $this->criterion = [
-            'priority' => $this->priority,
-            'conditions' => $this->condition,
-            'event' => $this->event
-        ];
+    }
 
+    private function Add()
+    {
+        
         $this->criterion = json_encode($this->criterion, JSON_UNESCAPED_UNICODE);
 
         $this->redis->set($this->newKey, $this->criterion);
     }
+
+
 
 }

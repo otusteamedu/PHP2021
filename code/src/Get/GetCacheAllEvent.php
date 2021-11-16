@@ -1,8 +1,8 @@
 <?php
 
-namespace GetCacheAllEvent;
+namespace App\Get;
 
-use ConnectCacheRedis\ConnectCacheRedis;
+use App\Redis\ConnectCacheRedis;
 
 class GetCacheAllEvent
 {

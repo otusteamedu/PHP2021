@@ -1,8 +1,8 @@
 <?php
 
-namespace AddCacheEvent;
+namespace App\Add;
 
-use ConnectCacheRedis\ConnectCacheRedis;
+use App\Redis\ConnectCacheRedis;
 
 class AddCacheEvent 
 {
@@ -18,7 +18,11 @@ class AddCacheEvent
     {
         $this->parameters = $parameters;
         $this->suitableEvent = $suitableEvent;
-
+        $this->Add();
+    }
+    
+    private function Add()
+    {
         $this->redisCache = (new ConnectCacheRedis())->Connect();
         $this->keys = $this->redisCache->keys('event_cache_*');
 
@@ -47,5 +51,4 @@ class AddCacheEvent
 
         $this->redisCache->set($this->newKey, $this->data, 600);
     }
-    
 }

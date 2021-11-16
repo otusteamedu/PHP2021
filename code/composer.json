@@ -3,21 +3,7 @@
     "autoload": {
         "psr-4": {
             "Root\\RedisLocal\\": "src/",
-            "App\\": "src",
-            "AddEvent\\": "src/add",
-            "AddCacheEvent\\": "src/add",
-            "AddCacheAllEvent\\": "src/add",
-            "AddCacheAllConditions\\": "src/add",
-            "DelEvent\\": "src/del",
-            "GetEvent\\": "src/get",
-            "GetCacheEvent\\": "src/get",
-            "GetAllEvent\\": "src/get",
-            "GetCacheAllEvent\\": "src/get",
-            "GetAllConditions\\": "src/get",
-            "GetCacheAllConditions\\": "src/get",
-            "ConnectRedis\\": "src/redis",
-            "ConnectCacheRedis\\": "src/redis"
-
+            "App\\": "src"
         }
     },
     "require": {}

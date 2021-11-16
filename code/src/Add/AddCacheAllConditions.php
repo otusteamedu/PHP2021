@@ -1,21 +1,27 @@
 <?php
 
-namespace AddCacheAllConditions;
+namespace App\Add;
 
-use ConnectCacheRedis\ConnectCacheRedis;
+use App\Redis\ConnectCacheRedis;
 
 class AddCacheAllConditions 
 { 
+    private $allConditions;
     private $redisCache;
     private $date;
     private $key;
 
     public function __construct($allConditions)
     {
-        $this->redisCache = (new ConnectCacheRedis())->Connect();
+        $this->allConditions = $allConditions;
+        $this->Add();
+    }
 
+    private function Add()
+    {
+        $this->redisCache = (new ConnectCacheRedis())->Connect();
         $this->key = "all_conditions_cache";
-        $this->data = $allConditions;
+        $this->data = $this->allConditions;
 
         $this->data = json_encode($this->data, JSON_UNESCAPED_UNICODE);
 

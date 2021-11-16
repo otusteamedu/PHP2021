@@ -1,8 +1,8 @@
 <?php
 
-namespace DelEvent;
+namespace App\Del;
 
-use ConnectRedis\ConnectRedis;
+use App\Redis\ConnectRedis;
 
 class DelEvent
 {

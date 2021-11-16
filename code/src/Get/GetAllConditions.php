@@ -1,10 +1,10 @@
 <?php
 
-namespace GetAllConditions;
+namespace App\Get;
 
-use ConnectRedis\ConnectRedis;
-use AddCacheAllConditions\AddCacheAllConditions;
-use GetCacheAllConditions\GetCacheAllConditions;
+use App\Redis\ConnectRedis;
+use App\Add\AddCacheAllConditions;
+use App\Get\GetCacheAllConditions;
 
 class GetAllConditions
 {
@@ -18,6 +18,13 @@ class GetAllConditions
 
         $this->suitableAllСondition = (new GetCacheAllConditions())->GetCacheAllConditions();
 
+        $this->Search();
+        
+        $this->Output();
+    }
+
+    private function Search()
+    {
         if (!$this->suitableAllСondition) {
             $this->redis = (new ConnectRedis())->Connect();
             $this->allKeys = $this->redis->keys('event_*');
@@ -49,10 +56,12 @@ class GetAllConditions
             new AddCacheAllConditions($this->suitableAllСondition);
 
         }
+    }
 
+    private function Output()
+    {
         foreach ($this->suitableAllСondition as $condition) {
             echo $condition . "\n";
         }
-
     }
 }
