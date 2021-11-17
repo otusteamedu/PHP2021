@@ -1,0 +1,10 @@
+
+services:
+    php:
+        container_name: php
+        build:
+            context: .docker/php
+            dockerfile: Dockerfile
+        volumes:
+            - .:/var/www/html
+        tty: true
