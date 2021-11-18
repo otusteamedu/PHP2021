@@ -32,4 +32,19 @@ class EmailCheckerService
                 && self::checkEmailByMX($emailAddress)
         );
     }
+
+    /**
+     * @param string[] $emailAddressList
+     * @return true|string
+     */
+    public static function checkEmailList(array $emailAddressList)
+    {
+        foreach ($emailAddressList as $emailAddress) {
+            if (! self::checkEmail($emailAddress)) {
+                return $emailAddress;
+            }
+        }
+
+        return true;
+    }
 }
