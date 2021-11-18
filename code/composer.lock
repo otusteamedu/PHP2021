@@ -1,0 +1,62 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "22df5c24b274db593065a094c4eaa820",
+    "packages": [
+        {
+            "name": "apinyansky/mail_validator",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MadFisherman/MailValidator.git",
+                "reference": "b46f8a3064ccade179a10fb13fb785ac69e053fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MadFisherman/MailValidator/zipball/b46f8a3064ccade179a10fb13fb785ac69e053fc",
+                "reference": "b46f8a3064ccade179a10fb13fb785ac69e053fc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-sockets": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "MadFisherman",
+                    "email": "apinyansky@enex.market"
+                }
+            ],
+            "description": "This package is intended for validation email addresses and MX records for specified domain",
+            "support": {
+                "issues": "https://github.com/MadFisherman/MailValidator/issues",
+                "source": "https://github.com/MadFisherman/MailValidator/tree/v1.0.2"
+            },
+            "time": "2021-11-18T18:23:09+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-sockets": "*"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
