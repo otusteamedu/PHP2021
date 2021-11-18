@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  fpm:
+    image: webdevops/php-nginx-dev:7.4-alpine
+    ports:
+     - "6080:80"
+     - "9103:9003"
+    environment:
+      - PHP_DEBUGGER=xdebug
+      - XDEBUG_MODE=debug
+      - XDEBUG_CLIENT_HOST=host.docker.internal
+      - XDEBUG_CLIENT_PORT=9003
+      - XDEBUG_IDE_KEY=PHP_IDE_CONFIG
+    volumes:
+     - ./code:/app/code
+     - ./docker-resources/nginx:/etc/nginx/conf.d
