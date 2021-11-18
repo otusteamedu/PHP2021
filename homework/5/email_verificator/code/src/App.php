@@ -29,7 +29,7 @@ class App
             ;
         } else {
             $this->response
-                ->setResult($checkResult)
+                ->setResult(false)
                 ->setMessage(sprintf('Address %s is incorrect', $checkResult))
             ;
         }
