@@ -1,0 +1,12 @@
+{
+  "require": {
+    "php": ">=7.4",
+    "elasticsearch/elasticsearch": "^7.0"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Elastic\\": "src/"
+    }
+  }
+}
