@@ -11,15 +11,11 @@ class App
 
     public function run() : void
     {
-        try{
+        try {
             $this->setParams();
-            if (Validator::checkBrackets($this->strParam)) {
-                Response::setResponse(Response::STATUS_OK);
-            } else {
-                Response::setResponse(Response::STATUS_BAD_REQUEST);
-            }
+            Validator::validate($this->strParam);
         } catch(\Exception $e) {
-            Response::setResponse(Response::STATUS_UNSUPPORTED_TYPE, $e->getMessage());
+            Response::setResponse($e->getCode(), $e->getMessage());
         }
     }
 
@@ -32,7 +28,7 @@ class App
         if (isset($param) && !empty($param)) {
             $this->strParam = $param;
         } else {
-            throw new \Exception('Empty or missing string parameter');
+            throw new \Exception('Empty or missing string parameter', Response::STATUS_UNSUPPORTED_TYPE);
         }
     }
 }

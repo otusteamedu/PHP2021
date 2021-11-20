@@ -2,6 +2,8 @@
 
 namespace App\Validation;
 
+use App\Http\Response;
+
 class Validator
 {
     const OPEN_BRACKET = '(';
@@ -10,12 +12,25 @@ class Validator
 
     /**
      * @param string $string
+     * @throws \Exception
+     */
+    public static function validate(string $string) : void
+    {
+        if (self::checkBrackets($string)) {
+            throw new \Exception("", Response::STATUS_OK);
+        } else {
+            throw new \Exception('', Response::STATUS_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * @param string $string
      * @return bool
      * Проверка на:
      *  - Корректность кол-ва открытых и закрытых скобок
      *  - Соответствие скобок должно быть и с точки зрения скобок. Тест ")(" не должен проходить
      */
-    static public function checkBrackets(string $string) : bool
+    private static function checkBrackets(string $string) : bool
     {
         if ((strlen($string) % 2) !== 0) {
             return false;
