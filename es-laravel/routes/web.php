@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', \App\Http\Controllers\Youtubechannel\IndexController::class);
+Route::get('/youtubechannel/{youtubechannel}', \App\Http\Controllers\Youtubechannel\ShowController::class)->name('youtubechannels.show');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
