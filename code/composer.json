@@ -1,8 +1,8 @@
 {
-    "name": "root/redis.local",
+    "name": "root/patterns.local",
     "autoload": {
         "psr-4": {
-            "Root\\RedisLocal\\": "src/",
+            "Root\\PatternsLocal\\": "src/",
             "App\\": "src"
         }
     },

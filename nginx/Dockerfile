@@ -3,7 +3,7 @@ FROM ubuntu:latest
 RUN apt-get update  
 RUN apt-get install -y nginx  
 
-WORKDIR /var/www/youtube.local
+WORKDIR /var/www/patterns.local
  
 EXPOSE 80
 
