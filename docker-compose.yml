@@ -13,6 +13,7 @@ services:
       - "443:443"
     volumes:
        - ./code:/data/app.local
+       - ./nginx/hosts/balancer.conf:/etc/nginx/sites-enabled/balancer.conf
     networks:
       - app-network
 
@@ -22,10 +23,9 @@ services:
       dockerfile: Dockerfile
     image: myapp/nginx
     container_name: webserver1
-    ports:
-      - "81:80"
     volumes:
        - ./code:/data/app.local
+       - ./nginx/hosts/app.local.conf:/etc/nginx/sites-enabled/app.local.conf
     networks:
       - app-network
 
@@ -35,10 +35,9 @@ services:
       dockerfile: Dockerfile
     image: myapp/nginx
     container_name: webserver2
-    ports:
-      - "82:80"
     volumes:
        - ./code:/data/app.local
+       - ./nginx/hosts/app.local.conf:/etc/nginx/sites-enabled/app.local.conf
     networks:
       - app-network
 
