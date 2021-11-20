@@ -1,10 +1,13 @@
+
+
 --
 -- Структура таблицы `buyed_tickets`
 --
 
 CREATE TABLE `buyed_tickets` (
                                  `id` int(11) NOT NULL,
-                                 `session_id` int(11) NOT NULL
+                                 `session_id` int(11) NOT NULL,
+                                 `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -25,7 +28,8 @@ CREATE TABLE `films` (
 --
 
 CREATE TABLE `halls` (
-    `id` int(11) NOT NULL
+                         `id` int(11) NOT NULL,
+                         `name` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -38,7 +42,6 @@ CREATE TABLE `sessions` (
                             `id` int(11) NOT NULL,
                             `hall_id` int(11) NOT NULL,
                             `film_id` int(11) NOT NULL,
-                            `price` bigint(20) NOT NULL,
                             `time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
