@@ -13,7 +13,7 @@ services:
       - "443:443"
     volumes:
        - ./code:/data/app.local
-       - ./nginx/hosts/balancer.conf:/etc/nginx/sites-enabled/balancer.conf
+       - ./nginx/hosts/balancer.conf:/etc/nginx/sites-enabled/default
     networks:
       - app-network
 
@@ -25,7 +25,7 @@ services:
     container_name: webserver1
     volumes:
        - ./code:/data/app.local
-       - ./nginx/hosts/app.local.conf:/etc/nginx/sites-enabled/app.local.conf
+       - ./nginx/hosts/app.local.conf:/etc/nginx/sites-enabled/default
     networks:
       - app-network
 
@@ -37,7 +37,7 @@ services:
     container_name: webserver2
     volumes:
        - ./code:/data/app.local
-       - ./nginx/hosts/app.local.conf:/etc/nginx/sites-enabled/app.local.conf
+       - ./nginx/hosts/app.local.conf:/etc/nginx/sites-enabled/default
     networks:
       - app-network
 
