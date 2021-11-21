@@ -1,0 +1,13 @@
+{
+    "type": "package",
+    "require": {
+      "php": ">=7.4",
+      "ext-json": "*",
+      "ext-sockets": "*"
+    },
+    "autoload": {
+      "psr-4": {
+        "App\\": "app"
+      }
+    }
+  }
