@@ -4,4 +4,8 @@ use App\App;
 
 require_once 'vendor/autoload.php';
 
-$app = new App();
+try {
+    (new App())->run();
+} catch(Exception $e) {
+    echo $e->getMessage();
+}

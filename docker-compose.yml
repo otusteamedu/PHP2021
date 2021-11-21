@@ -9,7 +9,7 @@ services:
     image: myapp/nginx
     container_name: web
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     volumes:
        - ./public_html:/data/app.local
