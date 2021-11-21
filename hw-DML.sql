@@ -1,11 +1,11 @@
 # Вывод самого прибыльного фильма
-SELECT film_id, name, sum
+SELECT id, name, film_sum
 FROM (
-	SELECT cinema_session.film_id, film.name, SUM(price) AS sum
+	SELECT film.id, film.name, SUM(tickets.total_price) AS film_sum
 	FROM tickets
 		LEFT JOIN cinema_session ON tickets.session_id = cinema_session.id 
 		LEFT JOIN film ON film_id = film.id
-	GROUP BY film_id
-	ORDER BY sum DESC
-) AS film_sum
-LIMIT 1
+	GROUP BY film.id
+	ORDER BY film_sum DESC
+) AS res
+LIMIT 1;

@@ -7,8 +7,15 @@ CREATE TABLE cinema_hall (
 CREATE TABLE film (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR(150),
-	price NUMERIC(14,2) NOT NULL,
+	price NUMERIC(6,2) NOT NULL,
 	duration INT UNSIGNED NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE tariff (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(150) NOT NULL UNIQUE,
+	ratio NUMERIC(3,2) NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -16,10 +23,12 @@ CREATE TABLE cinema_session (
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	hall_id INT UNSIGNED NOT NULL,
 	film_id INT UNSIGNED NOT NULL,
+	tariff_id INT UNSIGNED NOT NULL,
 	start_time DATETIME NOT NULL,
 	PRIMARY KEY(id),
 	FOREIGN KEY(hall_id) REFERENCES cinema_hall(id),
 	FOREIGN KEY(film_id) REFERENCES film(id),
+	FOREIGN KEY(tariff_id) REFERENCES tariff(id),
 	CONSTRAINT unique_hall_film_start
 	UNIQUE KEY(hall_id, film_id, start_time)
 );
@@ -45,6 +54,7 @@ CREATE TABLE tickets (
 	user_id INT UNSIGNED NOT NULL,
 	seat_id INT UNSIGNED NOT NULL,
 	session_id INT UNSIGNED NOT NULL,
+	total_price NUMERIC(6,2) NOT NULL,
 	PRIMARY KEY(id),
 	FOREIGN KEY(user_id) REFERENCES user(id),
 	FOREIGN KEY(seat_id) REFERENCES hall_seat(id),
