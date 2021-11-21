@@ -1,5 +1,4 @@
 
-
 --
 -- Структура таблицы `buyed_tickets`
 --
@@ -7,7 +6,7 @@
 CREATE TABLE `buyed_tickets` (
                                  `id` int(11) NOT NULL,
                                  `session_id` int(11) NOT NULL,
-                                 `price` int(11) NOT NULL
+                                 `actual_price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -42,6 +41,7 @@ CREATE TABLE `sessions` (
                             `id` int(11) NOT NULL,
                             `hall_id` int(11) NOT NULL,
                             `film_id` int(11) NOT NULL,
+                            `price` int(11) NOT NULL,
                             `time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -121,7 +121,3 @@ ALTER TABLE `sessions`
     ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`),
   ADD CONSTRAINT `sessions_ibfk_2` FOREIGN KEY (`film_id`) REFERENCES `films` (`id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
