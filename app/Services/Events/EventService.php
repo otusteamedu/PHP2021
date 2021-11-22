@@ -13,6 +13,15 @@ class EventService
     }
 
     public function addEvent($request){
-        
+        $this->eventRepository->addEvent(new Event(0,[],''));
     }
+
+    public function findEvent(){
+        return $this->eventRepository->getEvent([]);
+    }
+
+    public function clear(){
+        $this->eventRepository->clearEvents();
+    }
+
 }

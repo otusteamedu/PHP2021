@@ -3,22 +3,23 @@
 namespace App\Services\Events\Repositories;
 
 use App\Services\Events\Event;
+use Illuminate\Support\Facades\Redis;
 
 class RedisEventRepository implements EventRepository
 {
 
     public function addEvent(Event $event)
     {
-        // TODO: Implement addEvent() method.
+        Redis::set('name', 'Taylor');
     }
 
     public function clearEvents()
     {
-        // TODO: Implement clearEvents() method.
+        Redis::flushAll();
     }
 
     public function getEvent(array $request)
     {
-        // TODO: Implement getEvent() method.
+        return Redis::get('name');
     }
 }
