@@ -13,13 +13,11 @@ class App
         $this->response = Response::success();
     }
 
-    public function run()
+    /**
+     * @param string[] $emailAddressList
+     */
+    public function run(array $emailAddressList)
     {
-        $emailAddressList = [
-            'aaaavs@yandex.ru',
-            'andfbne@domen-domenovich.zone',
-        ];
-
         $checkResult = EmailCheckerService::checkEmailList($emailAddressList);
 
         if ($checkResult === true) {

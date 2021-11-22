@@ -7,7 +7,13 @@ use App\App;
 $app = new App();
 
 try {
-    $response = $app->run();
+    $emailAddressList = [
+        'aaaavs@yandex.ru',
+        'andfbne@domen-domenovich.zone',
+    ];
+
+    $response = $app->run($emailAddressList);
+
     echo $response->getMessage() . PHP_EOL;
 } catch (Exception $e) {
     echo $e->getMessage();
