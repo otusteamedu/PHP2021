@@ -1,0 +1,47 @@
+version: '3.2'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/hw-9
+    env_file:
+      - .env
+    volumes:
+      - ./data/sites:/data/
+    networks:
+      - app-network
+    restart: always
+
+  nginx:
+    image: nginx:1.13
+    networks:
+      - app-network
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/sites:/data
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/vhosts:/etc/nginx/vhosts
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      - app
+    restart: always
+
+  elasticsearch:
+    image: elasticsearch:7.9.3
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+    depends_on:
+          - app
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
