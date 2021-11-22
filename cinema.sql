@@ -4,9 +4,10 @@
 --
 
 CREATE TABLE `buyed_tickets` (
-                                 `id` int(11) NOT NULL,
                                  `session_id` int(11) NOT NULL,
-                                 `actual_price` int(11) NOT NULL
+                                 `actual_price` int(11) NOT NULL,
+                                 `raw` int(11) NOT NULL,
+                                 `seat` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -34,13 +35,25 @@ CREATE TABLE `halls` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `hall_zones`
+--
+
+CREATE TABLE `hall_zones` (
+                              `id` int(11) NOT NULL,
+                              `hall_id` int(11) NOT NULL,
+                              `name` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `sessions`
 --
 
 CREATE TABLE `sessions` (
                             `id` int(11) NOT NULL,
-                            `hall_id` int(11) NOT NULL,
                             `film_id` int(11) NOT NULL,
+                            `hall_zone_id` int(11) NOT NULL,
                             `price` int(11) NOT NULL,
                             `time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -53,7 +66,7 @@ CREATE TABLE `sessions` (
 -- Индексы таблицы `buyed_tickets`
 --
 ALTER TABLE `buyed_tickets`
-    ADD PRIMARY KEY (`id`),
+    ADD PRIMARY KEY (`session_id`,`raw`,`seat`),
   ADD KEY `session_id` (`session_id`);
 
 --
@@ -69,22 +82,23 @@ ALTER TABLE `halls`
     ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `hall_zones`
+--
+ALTER TABLE `hall_zones`
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `hall_id` (`hall_id`);
+
+--
 -- Индексы таблицы `sessions`
 --
 ALTER TABLE `sessions`
     ADD PRIMARY KEY (`id`),
   ADD KEY `film_id` (`film_id`),
-  ADD KEY `hall_id` (`hall_id`) USING BTREE;
+  ADD KEY `hall_zone_id` (`hall_zone_id`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
 --
-
---
--- AUTO_INCREMENT для таблицы `buyed_tickets`
---
-ALTER TABLE `buyed_tickets`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `films`
@@ -96,6 +110,12 @@ ALTER TABLE `films`
 -- AUTO_INCREMENT для таблицы `halls`
 --
 ALTER TABLE `halls`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `hall_zones`
+--
+ALTER TABLE `hall_zones`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -115,9 +135,19 @@ ALTER TABLE `buyed_tickets`
     ADD CONSTRAINT `buyed_tickets_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`);
 
 --
+-- Ограничения внешнего ключа таблицы `hall_zones`
+--
+ALTER TABLE `hall_zones`
+    ADD CONSTRAINT `hall_zones_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`);
+
+--
 -- Ограничения внешнего ключа таблицы `sessions`
 --
 ALTER TABLE `sessions`
-    ADD CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`),
-  ADD CONSTRAINT `sessions_ibfk_2` FOREIGN KEY (`film_id`) REFERENCES `films` (`id`);
+    ADD CONSTRAINT `sessions_ibfk_2` FOREIGN KEY (`film_id`) REFERENCES `films` (`id`),
+  ADD CONSTRAINT `sessions_ibfk_3` FOREIGN KEY (`hall_zone_id`) REFERENCES `hall_zones` (`id`);
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
