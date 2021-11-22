@@ -18,10 +18,9 @@ class EventAddController extends Controller
 
     public function __invoke(Request $request){
 
-
         $textEvent = $request['textEvent'];
         if (!empty($textEvent)) {
-            $this->eventService->addEvent('');
+            $this->eventService->addEvent($textEvent);
             flash('События добавлены')->important()->success();
         } else {
             flash('Пустой запрос')->important()->warning();
