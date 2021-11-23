@@ -10,7 +10,8 @@ class RedisEventRepository implements EventRepository
 
     public function addEvent(Event $event)
     {
-        Redis::set('name', 'Taylor');
+        $add = Redis::zadd($event->getCondition(), $event->getPriority(), $event->getEvent());
+        return $add > 0;
     }
 
     public function clearEvents()
@@ -18,8 +19,10 @@ class RedisEventRepository implements EventRepository
         Redis::flushAll();
     }
 
-    public function getEvent(array $request)
+    public function getEvent(string $key)
     {
-        return Redis::get('name');
+       $event = Redis::zpopmax($key);
+       Redis::zadd($key, $event);
+       return $event;
     }
 }

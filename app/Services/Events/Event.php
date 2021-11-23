@@ -2,21 +2,25 @@
 
 namespace App\Services\Events;
 
+
+
+use Illuminate\Support\Collection;
+
 class Event
 {
     private int $priority;
-    private array $conditions;
+    private string $condition;
     private string $event;
 
     /**
      * @param int $priority
-     * @param array $conditions
+     * @param Collection $conditions
      * @param string $event
      */
-    public function __construct(int $priority, array $conditions , string $event)
+    public function __construct(int $priority, string $condition , string $event)
     {
         $this->priority = $priority;
-        $this->conditions = $conditions;
+        $this->condition = $condition;
         $this->event = $event;
     }
 
@@ -29,11 +33,11 @@ class Event
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getConditions(): array
+    public function getCondition(): string
     {
-        return $this->conditions;
+        return $this->condition;
     }
 
     /**

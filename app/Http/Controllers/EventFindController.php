@@ -20,8 +20,9 @@ class EventFindController extends Controller
     {
         $findEvent = $request['findEvent'];
         if (!empty($findEvent)) {
-            $this->eventService->findEvent($findEvent);
-            flash('Подобраны следующие события:')->important();
+           $event = $this->eventService->findEvent($findEvent);
+
+            flash('Подобраны следующие события:'.$event)->important();
 
         } else {
             flash('Пустой запрос')->important()->warning();

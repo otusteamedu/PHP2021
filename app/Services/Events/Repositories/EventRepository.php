@@ -10,6 +10,6 @@ interface EventRepository
 
     public function clearEvents();
 
-    public function getEvent(array $request);
+    public function getEvent(string $key);
 
 }
