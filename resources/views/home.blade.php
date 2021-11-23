@@ -62,12 +62,20 @@
                           "conditions":{ "param1":1},
                           "event":"event"
                          },
-                         {"priority":2000,
-                          "conditions":{
-                          "param2":2
-                         },
-                          "event":"event2"
-                         }
+                        {"priority":2000,
+                        "conditions":{
+                        "param1":2,
+                        "param2":2
+                        },
+                        "event":"event2"
+                        },
+                        {"priority":3000,
+                        "conditions":{
+                        "param1":1,
+                        "param2":2
+                        },
+                        "event":"event3"
+                        }
                         ]
                     </div>
                 </div>
@@ -79,7 +87,7 @@
 
                     <div class="card-body">
                         {
-                        params: {
+                        "params": {
                         "param1" : 1,
                         "param2" : 2
                         }
