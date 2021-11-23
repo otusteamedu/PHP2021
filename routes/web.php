@@ -1,9 +1,5 @@
 <?php
 
-use App\Http\Controllers\EventAddController;
-use App\Http\Controllers\EventClearController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\EventFindController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', EventController::class);
-Route::get('/clear', EventClearController::class);
-Route::post('/findEven', EventFindController::class);
-Route::post('/addEven', EventAddController::class);
-
+Route::get('/', function () {
+    return view('welcome');
+});
