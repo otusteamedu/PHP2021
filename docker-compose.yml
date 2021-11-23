@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  app:
+    build: ./php-fpm
+    image: php
+    volumes:
+      - ./code:/var/www/patterns.local
+    networks:
+      - app-network
+
+  webserver:
+    build: ./nginx
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./code:/var/www/patterns.local
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=stage
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
