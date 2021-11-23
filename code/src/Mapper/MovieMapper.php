@@ -39,26 +39,26 @@ class MovieMapper
 
     }
 
-    public function all()
+    public function all(): array
     {
         $this->all->execute();
         $results = $this->all->fetchAll();
         
         foreach ($results as $result) {
             $movie[] = new Movie(
-                $result[0],
-                $result[1],
-                $result[2],
-                $result[3],
-                $result[4],
-                $result[5]
+                $result['id'],
+                $result['start_time'],
+                $result['start_end'],
+                $result['id_hall'],
+                $result['movie'],
+                $result['price']
             );
         }
 
         return $movie;
     }
 
-    public function search($id)
+    public function search(int $id): Movie
     {
 
         $this->select->execute([$id]);
@@ -75,7 +75,7 @@ class MovieMapper
 
     }
 
-    public function insert($rawData)
+    public function insert(array $rawData): Movie
     {
         $this->insert->execute([
             $rawData['start_time'],
@@ -95,7 +95,7 @@ class MovieMapper
         );
     }
 
-    public function update($movie)
+    public function update(Movie $movie): bool
     {
         return $this->update->execute([
             $movie->getStartTime(),
@@ -107,7 +107,7 @@ class MovieMapper
         ]);
     }
 
-    public function delete($movie)
+    public function delete(Movie $movie): bool
     {
         return $this->delete->execute([
             $movie->getId(),
