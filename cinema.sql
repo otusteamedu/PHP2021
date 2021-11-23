@@ -6,8 +6,7 @@
 CREATE TABLE `buyed_tickets` (
                                  `session_id` int(11) NOT NULL,
                                  `actual_price` int(11) NOT NULL,
-                                 `raw` int(11) NOT NULL,
-                                 `seat` int(11) NOT NULL
+                                 `seat_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -47,6 +46,19 @@ CREATE TABLE `hall_zones` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `seats`
+--
+
+CREATE TABLE `seats` (
+                         `id` int(11) NOT NULL,
+                         `hall_zone_id` int(11) NOT NULL,
+                         `row` int(11) NOT NULL,
+                         `seat` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `sessions`
 --
 
@@ -66,8 +78,9 @@ CREATE TABLE `sessions` (
 -- Индексы таблицы `buyed_tickets`
 --
 ALTER TABLE `buyed_tickets`
-    ADD PRIMARY KEY (`session_id`,`raw`,`seat`),
-  ADD KEY `session_id` (`session_id`);
+    ADD PRIMARY KEY (`session_id`,`seat_id`),
+  ADD KEY `session_id` (`session_id`),
+  ADD KEY `seat_id` (`seat_id`);
 
 --
 -- Индексы таблицы `films`
@@ -87,6 +100,13 @@ ALTER TABLE `halls`
 ALTER TABLE `hall_zones`
     ADD PRIMARY KEY (`id`),
   ADD KEY `hall_id` (`hall_id`);
+
+--
+-- Индексы таблицы `seats`
+--
+ALTER TABLE `seats`
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `hall_zone_id` (`hall_zone_id`);
 
 --
 -- Индексы таблицы `sessions`
@@ -119,6 +139,12 @@ ALTER TABLE `hall_zones`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT для таблицы `seats`
+--
+ALTER TABLE `seats`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT для таблицы `sessions`
 --
 ALTER TABLE `sessions`
@@ -132,13 +158,20 @@ ALTER TABLE `sessions`
 -- Ограничения внешнего ключа таблицы `buyed_tickets`
 --
 ALTER TABLE `buyed_tickets`
-    ADD CONSTRAINT `buyed_tickets_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`);
+    ADD CONSTRAINT `buyed_tickets_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`),
+  ADD CONSTRAINT `buyed_tickets_ibfk_2` FOREIGN KEY (`seat_id`) REFERENCES `seats` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `hall_zones`
 --
 ALTER TABLE `hall_zones`
     ADD CONSTRAINT `hall_zones_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`);
+
+--
+-- Ограничения внешнего ключа таблицы `seats`
+--
+ALTER TABLE `seats`
+    ADD CONSTRAINT `seats_ibfk_1` FOREIGN KEY (`hall_zone_id`) REFERENCES `hall_zones` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `sessions`
