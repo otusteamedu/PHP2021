@@ -2,3 +2,6 @@
 /.idea
 /vendor
 /node_modules
+/sockets/.idea
+/sockets/code/vendor
+/sockets/code/tmp
