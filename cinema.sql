@@ -1,186 +1,192 @@
 
 --
--- Структура таблицы `buyed_tickets`
+-- SQLINES DEMO *** � таблицы `buyed_tickets`
 --
 
-CREATE TABLE `buyed_tickets` (
-                                 `session_id` int(11) NOT NULL,
-                                 `actual_price` int(11) NOT NULL,
-                                 `seat_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+CREATE TABLE buyed_tickets (
+                               session_id int NOT NULL,
+                               actual_price int NOT NULL,
+                               seat_id int NOT NULL
+) ;
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `films`
---
-
-CREATE TABLE `films` (
-                         `id` int(11) NOT NULL,
-                         `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
+-- SQLINES DEMO *** ---------------------------------------
 
 --
--- Структура таблицы `halls`
+-- SQLINES DEMO *** � таблицы `films`
 --
 
-CREATE TABLE `halls` (
-                         `id` int(11) NOT NULL,
-                         `name` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+CREATE TABLE films (
+                       id int NOT NULL,
+                       name varchar(255) NOT NULL
+) ;
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `hall_zones`
---
-
-CREATE TABLE `hall_zones` (
-                              `id` int(11) NOT NULL,
-                              `hall_id` int(11) NOT NULL,
-                              `name` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
+-- SQLINES DEMO *** ---------------------------------------
 
 --
--- Структура таблицы `seats`
+-- SQLINES DEMO *** � таблицы `halls`
 --
 
-CREATE TABLE `seats` (
-                         `id` int(11) NOT NULL,
-                         `hall_zone_id` int(11) NOT NULL,
-                         `row` int(11) NOT NULL,
-                         `seat` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+CREATE TABLE halls (
+                       id int NOT NULL,
+                       name varchar(256) NOT NULL
+) ;
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `sessions`
---
-
-CREATE TABLE `sessions` (
-                            `id` int(11) NOT NULL,
-                            `film_id` int(11) NOT NULL,
-                            `hall_zone_id` int(11) NOT NULL,
-                            `price` int(11) NOT NULL,
-                            `time` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- SQLINES DEMO *** ---------------------------------------
 
 --
--- Индексы сохранённых таблиц
+-- SQLINES DEMO *** � таблицы `hall_zones`
 --
 
---
--- Индексы таблицы `buyed_tickets`
---
-ALTER TABLE `buyed_tickets`
-    ADD PRIMARY KEY (`session_id`,`seat_id`),
-  ADD KEY `session_id` (`session_id`),
-  ADD KEY `seat_id` (`seat_id`);
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+CREATE TABLE hall_zones (
+                            id int NOT NULL,
+                            hall_id int NOT NULL,
+                            name varchar(256) NOT NULL
+) ;
+
+-- SQLINES DEMO *** ---------------------------------------
 
 --
--- Индексы таблицы `films`
+-- SQLINES DEMO *** � таблицы `seats`
 --
-ALTER TABLE `films`
-    ADD UNIQUE KEY `id` (`id`);
+
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+CREATE TABLE seats (
+                       id int NOT NULL,
+                       hall_zone_id int NOT NULL,
+                       row int NOT NULL,
+                       seat int NOT NULL
+) ;
+
+-- SQLINES DEMO *** ---------------------------------------
 
 --
--- Индексы таблицы `halls`
+-- SQLINES DEMO *** � таблицы `sessions`
 --
-ALTER TABLE `halls`
-    ADD PRIMARY KEY (`id`);
+
+-- SQLINES LICENSE FOR EVALUATION USE ONLY
+CREATE TABLE sessions (
+                          id int NOT NULL,
+                          film_id int NOT NULL,
+                          hall_zone_id int NOT NULL,
+                          price int NOT NULL,
+                          time time(0) NOT NULL
+) ;
 
 --
--- Индексы таблицы `hall_zones`
---
-ALTER TABLE `hall_zones`
-    ADD PRIMARY KEY (`id`),
-  ADD KEY `hall_id` (`hall_id`);
-
---
--- Индексы таблицы `seats`
---
-ALTER TABLE `seats`
-    ADD PRIMARY KEY (`id`),
-  ADD KEY `hall_zone_id` (`hall_zone_id`);
-
---
--- Индексы таблицы `sessions`
---
-ALTER TABLE `sessions`
-    ADD PRIMARY KEY (`id`),
-  ADD KEY `film_id` (`film_id`),
-  ADD KEY `hall_zone_id` (`hall_zone_id`);
-
---
--- AUTO_INCREMENT для сохранённых таблиц
+-- SQLINES DEMO *** охранённых таблиц
 --
 
 --
--- AUTO_INCREMENT для таблицы `films`
+-- SQLINES DEMO *** аблицы `buyed_tickets`
 --
-ALTER TABLE `films`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE buyed_tickets
+    ADD PRIMARY KEY (session_id,seat_id),
+  ADD KEY `session_id` (session_id),
+  ADD KEY `seat_id` (seat_id);
 
 --
--- AUTO_INCREMENT для таблицы `halls`
+-- SQLINES DEMO *** аблицы `films`
 --
-ALTER TABLE `halls`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE films
+    ADD CONSTRAINT id UNIQUE  (id);
 
 --
--- AUTO_INCREMENT для таблицы `hall_zones`
+-- SQLINES DEMO *** аблицы `halls`
 --
-ALTER TABLE `hall_zones`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE halls
+    ADD PRIMARY KEY (id);
 
 --
--- AUTO_INCREMENT для таблицы `seats`
+-- SQLINES DEMO *** аблицы `hall_zones`
 --
-ALTER TABLE `seats`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE hall_zones
+    ADD PRIMARY KEY (id),
+  ADD KEY `hall_id` (hall_id);
 
 --
--- AUTO_INCREMENT для таблицы `sessions`
+-- SQLINES DEMO *** аблицы `seats`
 --
-ALTER TABLE `sessions`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE seats
+    ADD PRIMARY KEY (id),
+  ADD KEY `hall_zone_id` (hall_zone_id);
 
 --
--- Ограничения внешнего ключа сохраненных таблиц
+-- SQLINES DEMO *** аблицы `sessions`
+--
+ALTER TABLE sessions
+    ADD PRIMARY KEY (id),
+  ADD KEY `film_id` (film_id),
+  ADD KEY `hall_zone_id` (hall_zone_id);
+
+--
+-- SQLINES DEMO *** ля сохранённых таблиц
 --
 
 --
--- Ограничения внешнего ключа таблицы `buyed_tickets`
+-- SQLINES DEMO *** ля таблицы `films`
 --
-ALTER TABLE `buyed_tickets`
-    ADD CONSTRAINT `buyed_tickets_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`),
-  ADD CONSTRAINT `buyed_tickets_ibfk_2` FOREIGN KEY (`seat_id`) REFERENCES `seats` (`id`);
+ALTER TABLE films
+    MODIFY id cast(11 as int) NOT NULL AUTO_INCREMENT;
 
 --
--- Ограничения внешнего ключа таблицы `hall_zones`
+-- SQLINES DEMO *** ля таблицы `halls`
 --
-ALTER TABLE `hall_zones`
-    ADD CONSTRAINT `hall_zones_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`);
+ALTER TABLE halls
+    MODIFY id cast(11 as int) NOT NULL AUTO_INCREMENT;
 
 --
--- Ограничения внешнего ключа таблицы `seats`
+-- SQLINES DEMO *** ля таблицы `hall_zones`
 --
-ALTER TABLE `seats`
-    ADD CONSTRAINT `seats_ibfk_1` FOREIGN KEY (`hall_zone_id`) REFERENCES `hall_zones` (`id`);
+ALTER TABLE hall_zones
+    MODIFY id cast(11 as int) NOT NULL AUTO_INCREMENT;
 
 --
--- Ограничения внешнего ключа таблицы `sessions`
+-- SQLINES DEMO *** ля таблицы `seats`
 --
-ALTER TABLE `sessions`
-    ADD CONSTRAINT `sessions_ibfk_2` FOREIGN KEY (`film_id`) REFERENCES `films` (`id`),
-  ADD CONSTRAINT `sessions_ibfk_3` FOREIGN KEY (`hall_zone_id`) REFERENCES `hall_zones` (`id`);
+ALTER TABLE seats
+    MODIFY id cast(11 as int) NOT NULL AUTO_INCREMENT;
+
+--
+-- SQLINES DEMO *** ля таблицы `sessions`
+--
+ALTER TABLE sessions
+    MODIFY id cast(11 as int) NOT NULL AUTO_INCREMENT;
+
+--
+-- SQLINES DEMO *** �ия внешнего ключа сохраненных таблиц
+--
+
+--
+-- SQLINES DEMO *** �ия внешнего ключа таблицы `buyed_tickets`
+--
+ALTER TABLE buyed_tickets
+    ADD CONSTRAINT buyed_tickets_ibfk_1 FOREIGN KEY (session_id) REFERENCES sessions (id),
+  ADD CONSTRAINT buyed_tickets_ibfk_2 FOREIGN KEY (seat_id) REFERENCES `seats` (id);
+
+--
+-- SQLINES DEMO *** �ия внешнего ключа таблицы `hall_zones`
+--
+ALTER TABLE hall_zones
+    ADD CONSTRAINT hall_zones_ibfk_1 FOREIGN KEY (hall_id) REFERENCES halls (id);
+
+--
+-- SQLINES DEMO *** �ия внешнего ключа таблицы `seats`
+--
+ALTER TABLE seats
+    ADD CONSTRAINT seats_ibfk_1 FOREIGN KEY (hall_zone_id) REFERENCES hall_zones (id);
+
+--
+-- SQLINES DEMO *** �ия внешнего ключа таблицы `sessions`
+--
+ALTER TABLE sessions
+    ADD CONSTRAINT sessions_ibfk_2 FOREIGN KEY (film_id) REFERENCES films (id),
+  ADD CONSTRAINT sessions_ibfk_3 FOREIGN KEY (hall_zone_id) REFERENCES `hall_zones` (id);
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/* SQLINES DEMO *** ER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/* SQLINES DEMO *** ER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/* SQLINES DEMO *** ON_CONNECTION=@OLD_COLLATION_CONNECTION */;
