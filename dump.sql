@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.2
--- Dumped by pg_dump version 12.2
+-- Dumped from database version 12.7
+-- Dumped by pg_dump version 12.7
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -39,12 +39,14 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.attribute_values (
-    id integer DEFAULT nextval('public.attribute_value_id'::regclass) NOT NULL,
-    attribute_id integer NOT NULL,
-    val_date date,
-    val_text character varying,
-    film_id integer NOT NULL,
-    val_boolean boolean
+                                         id integer DEFAULT nextval('public.attribute_value_id'::regclass) NOT NULL,
+                                         attribute_id integer NOT NULL,
+                                         val_date date,
+                                         val_text character varying,
+                                         film_id integer NOT NULL,
+                                         val_boolean boolean,
+                                         val_integer integer,
+                                         val_numeric numeric(8,4)
 );
 
 
@@ -69,8 +71,8 @@ ALTER TABLE public.films_id OWNER TO postgres;
 --
 
 CREATE TABLE public.films (
-    id smallint DEFAULT nextval('public.films_id'::regclass) NOT NULL,
-    name character(256) NOT NULL
+                              id smallint DEFAULT nextval('public.films_id'::regclass) NOT NULL,
+                              name character(256) NOT NULL
 );
 
 
@@ -81,15 +83,15 @@ ALTER TABLE public.films OWNER TO postgres;
 --
 
 CREATE VIEW public.actual_tasks AS
- SELECT attribute_values.id,
-        CASE
-            WHEN (attribute_values.val_date = (CURRENT_DATE)::timestamp without time zone) THEN attribute_values.val_text
-            ELSE ''::character varying
-        END AS today_tasks,
+SELECT attribute_values.id,
+       CASE
+           WHEN (attribute_values.val_date = (CURRENT_DATE)::timestamp without time zone) THEN attribute_values.val_text
+           ELSE ''::character varying
+END AS today_tasks,
         CASE
             WHEN (attribute_values.val_date = ((CURRENT_DATE)::timestamp without time zone + '20 days'::interval)) THEN attribute_values.val_text
             ELSE ''::character varying
-        END AS twenty_day_tasks
+END AS twenty_day_tasks
    FROM (public.attribute_values
      JOIN public.films ON ((attribute_values.film_id = films.id)));
 
@@ -129,8 +131,8 @@ ALTER TABLE public.attribute_type_id OWNER TO postgres;
 --
 
 CREATE TABLE public.attribute_types (
-    id integer DEFAULT nextval('public.attribute_type_id'::regclass) NOT NULL,
-    name character varying(256) NOT NULL
+                                        id integer DEFAULT nextval('public.attribute_type_id'::regclass) NOT NULL,
+                                        name character varying(256) NOT NULL
 );
 
 
@@ -141,9 +143,9 @@ ALTER TABLE public.attribute_types OWNER TO postgres;
 --
 
 CREATE TABLE public.attributes (
-    id integer DEFAULT nextval('public.attribute_id'::regclass) NOT NULL,
-    name character varying(256) NOT NULL,
-    attribute_type_id integer NOT NULL
+                                   id integer DEFAULT nextval('public.attribute_id'::regclass) NOT NULL,
+                                   name character varying(256) NOT NULL,
+                                   attribute_type_id integer NOT NULL
 );
 
 
@@ -154,10 +156,34 @@ ALTER TABLE public.attributes OWNER TO postgres;
 --
 
 CREATE VIEW public.attributes_inf AS
- SELECT films.name AS film_name,
-    attribute_types.name AS attr_type,
-    attributes.name AS attr_name,
-    (attribute_values.val_text)::text AS attr_value
+SELECT films.name AS film_name,
+       attribute_types.name AS attr_type,
+       attributes.name AS attr_name,
+       ((((
+           CASE
+               WHEN (attribute_values.val_text IS NOT NULL) THEN ((attribute_values.val_text)::text || ' '::text)
+    ELSE ''::text
+END ||
+        CASE
+            WHEN (attribute_values.val_integer IS NOT NULL) THEN ((attribute_values.val_integer)::text || ' '::text)
+            ELSE ''::text
+END) ||
+        CASE
+            WHEN (attribute_values.val_numeric IS NOT NULL) THEN ((attribute_values.val_numeric)::text || ' '::text)
+            ELSE ''::text
+END) ||
+        CASE
+            WHEN (attribute_values.val_boolean IS NOT NULL) THEN
+            CASE
+                WHEN (attribute_values.val_boolean = true) THEN 'Да '::text
+                ELSE 'Нет '::text
+END
+ELSE ''::text
+END) ||
+        CASE
+            WHEN (attribute_values.val_date IS NOT NULL) THEN (to_char((attribute_values.val_date)::timestamp with time zone, 'DD.MM.YYYY HH24:MI:SS'::text) || ' '::text)
+            ELSE ''::text
+END) AS attr_value
    FROM (((public.attribute_values
      JOIN public.attributes ON ((attribute_values.attribute_id = attributes.id)))
      JOIN public.attribute_types ON ((attributes.attribute_type_id = attribute_types.id)))
@@ -165,6 +191,77 @@ CREATE VIEW public.attributes_inf AS
 
 
 ALTER TABLE public.attributes_inf OWNER TO postgres;
+
+--
+-- Data for Name: attribute_types; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attribute_types (id, name) FROM stdin;
+1	текстовое значение
+3	логическое значение
+2	дата
+\.
+
+
+--
+-- Data for Name: attribute_values; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attribute_values (id, attribute_id, val_date, val_text, film_id, val_boolean, val_integer, val_numeric) FROM stdin;
+1	1	\N	Леонардо Ди Каприо	1	\N	\N	\N
+2	4	2021-11-30	Актуальная через неделю дата	1	\N	\N	\N
+3	2	2021-11-23	Актуальная через 4 дня дата	1	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: attributes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.attributes (id, name, attribute_type_id) FROM stdin;
+1	рецензия	1
+3	премия	3
+2	важная дата	2
+4	служебная дата	2
+\.
+
+
+--
+-- Data for Name: films; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.films (id, name) FROM stdin;
+1	ff
+\.
+
+
+--
+-- Name: attribute_id; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attribute_id', 4, true);
+
+
+--
+-- Name: attribute_type_id; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attribute_type_id', 3, true);
+
+
+--
+-- Name: attribute_value_id; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.attribute_value_id', 3, true);
+
+
+--
+-- Name: films_id; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.films_id', 0, true);
+
 
 --
 -- Name: attribute_types attribute_types_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
