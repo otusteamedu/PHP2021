@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PatientRowGateway;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/getall', PatientController::class)->name('getall');
+Route::get('/rowgateway', PatientRowGateway::class)->name('rowgateway');
