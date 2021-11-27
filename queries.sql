@@ -20,10 +20,9 @@ SELECT halls.name FROM sessions
     JOIN halls on halls.id = hall_zones.hall_id
     WHERE price < 300
 
--- Составной индекс
-SELECT sessions.id, price FROM sessions
+SELECT COUNT(sessions.id) FROM sessions
     JOIN films ON sessions.film_id = films.id
-    WHERE films.name != 'Мстители'
+WHERE films.name != 'Мстители'
 
 
 
