@@ -1,1 +1,0 @@
-SELECT name FROM films WHERE id = (SELECT sessions.film_id FROM buyed_tickets INNER JOIN sessions ON buyed_tickets.session_id = sessions.id GROUP BY sessions.film_id ORDER BY SUM(buyed_tickets.actual_price) DESC LIMIT 1)
