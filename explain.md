@@ -1,21 +1,20 @@
-### 1. Получение всех фильмов, которые не является фильмом "Мстители"
+### 1. Получение фильма "Мстители"
 #### запрос
 ```
 EXPLAIN ANALYZE
-SELECT id FROM films WHERE name != 'Мстители';
+SELECT id FROM films WHERE name = 'Мстители';
 ```
 
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/1_10000.png)
 
-#### план на БД до 10000000 строк
-![alt text](md_screenshots/1_10000000.png)
-
 #### перечень оптимизаций с пояснениями
 ```
-ALTER TABLE `films` ADD INDEX(`name`);
+CREATE INDEX name ON public.films USING btree (name);
 ```
-Добавление индекса лишь уменьшило стоимость запроса и он был выполнен на 100 мсекунд быстрее
+Добавление индекса уменьшило стоимость запроса, т.к данные теперь беруться из таблицы индексов,
+а запись с необходимым аттрибутом уникальна, поэтому в таблице индексов
+поиск произошел быстро
 
 ### 2. Получение цены сеансов, которые стоят дешевле 300
 #### запрос
@@ -24,24 +23,29 @@ EXPLAIN ANALYZE
 SELECT price FROM sessions WHERE price < 300 ORDER BY price;
 ```
 
-#### план на БД до 10000000 строк
-![alt text](md_screenshots/2_10000000.png)
+#### план на БД до 10000 строк
+![alt text](md_screenshots/2_10000.png)
 
 #### перечень оптимизаций с пояснениями
 ```
-ALTER TABLE `films` ADD INDEX(`price`);
+CREATE INDEX price ON public.sessions USING btree (price);
 ```
-Добавление 
+Добавление индекса сократило время выполнения с поиском по полю цены
 
-### 3. Получение времени в сеансах дороже 300 рублей
+### 3. Получение названий фильмов с названием длиной в 8 символов
 #### запрос
 ```
 EXPLAIN ANALYZE 
-SELECT time FROM sessions WHERE price > 300;
+SELECT name FROM films WHERE length(name) = 8;
 ```
 
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/3_10000.png)
+
+```
+CREATE INDEX name_len ON public.films USING btree (length(name)) INCLUDE (name);
+```
+Добавление покрывающего индекса сократило время выполнения с поиском по длине аттрибута
 
 ### 4. Получение сессий с суммарной ценой фильма за все сессии
 #### запрос
@@ -68,11 +72,13 @@ SELECT halls.name FROM sessions
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/5_10000.png)
 
-### 5. Получение кол-ва сессий, в которых показывают не фильм "Мстители"
+### 6. Получение кол-ва мест в зонах залов, в которых показывают не фильм "Мстители"
 #### запрос
 ```
 EXPLAIN ANALYZE 
-SELECT COUNT(sessions.id) FROM sessions
+SELECT COUNT(seats.id) FROM seats
+    JOIN hall_zones on seats.hall_zone_id = hall_zones.id
+    JOIN sessions on sessions.hall_zone_id = hall_zones.id
     JOIN films ON sessions.film_id = films.id
 WHERE films.name != 'Мстители'
 ```

@@ -1,34 +1,33 @@
 -- Simple Queries
 
--- Получение всех фильмов, которые не является фильмом "Мстители"
-SELECT id FROM films WHERE name != 'Мстители';
+    -- Получение фильма "Мстители"
+    SELECT id FROM films WHERE name = 'Мстители';
 
--- Получение сеансов, которые стоят дешевле 300
-SELECT price FROM sessions WHERE price < 300 ORDER BY price;
+    -- Получение сеансов, которые стоят дешевле 300
+    SELECT price FROM sessions WHERE price < 300 ORDER BY price;
 
--- Получение времени в сессиях дороже 300 рублей
-SELECT time FROM sessions WHERE price > 300;
--- SELECT id FROM seats WHERE row = 4; Поменять
+    -- Получение названий фильмов с названием длиной в 8 символов
+    SELECT name FROM films WHERE length(name) = 8;
 
 -- Difficult Queries
 
--- функциональный индекс
--- Получение сессий с суммарной ценой фильма за все сессии
-SELECT sessions.id, films.name, sum(price) OVER w
-FROM films JOIN sessions ON sessions.film_id = films.id
-    WINDOW w AS (PARTITION BY film_id);
+    -- функциональный индекс
+    -- Получение сессий с суммарной ценой фильма за все сессии
+    SELECT sessions.id, films.name, sum(price) OVER w
+    FROM films JOIN sessions ON sessions.film_id = films.id
+        WINDOW w AS (PARTITION BY film_id);
 
--- индекс цены
--- Получение залов, в которых сессии не дороже 300 рублей
-SELECT halls.name FROM sessions
-    JOIN hall_zones on sessions.hall_zone_id = hall_zones.id
-    JOIN halls on halls.id = hall_zones.hall_id
-    WHERE price < 300
+    -- индекс цены
+    -- Получение залов, в которых сессии не дороже 300 рублей
+    SELECT halls.name FROM sessions
+        JOIN hall_zones on sessions.hall_zone_id = hall_zones.id
+        JOIN halls on halls.id = hall_zones.hall_id
+        WHERE price < 300
 
--- Получение кол-ва сессий, в которых показывают не фильм "Мстители"
-SELECT COUNT(sessions.id) FROM sessions
-    JOIN films ON sessions.film_id = films.id
-WHERE films.name != 'Мстители'
+    -- Получение кол-ва сессий, в которых показывают не фильм "Мстители"
+    SELECT COUNT(sessions.id) FROM sessions
+        JOIN films ON sessions.film_id = films.id
+    WHERE films.name != 'Мстители'
 
 
 

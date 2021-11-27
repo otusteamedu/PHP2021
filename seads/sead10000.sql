@@ -2,7 +2,10 @@ BEGIN;
     -- films
 
     INSERT INTO "public"."films" ("id", "name")
-    SELECT gs.id, random_string(10) FROM generate_series(1, 10000) as gs(id);
+    SELECT 1, 'Мстители';
+
+    INSERT INTO "public"."films" ("id", "name")
+    SELECT gs.id, random_string(10) FROM generate_series(2, 10000) as gs(id);
 
     -- halls
 

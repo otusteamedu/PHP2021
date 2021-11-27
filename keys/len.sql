@@ -1,0 +1,1 @@
+CREATE INDEX name_len ON public.films USING btree (length(name));
