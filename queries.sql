@@ -4,20 +4,31 @@ SELECT id FROM films WHERE name != 'Мстители';
 
 SELECT id FROM sessions WHERE price < 300 ORDER BY price;
 
-SELECT id FROM seats WHERE row = 4;
+SELECT time FROM sessions WHERE price > 300;
+-- SELECT id FROM seats WHERE row = 4; Поменять
 
 -- Difficult Queries
 
+-- функциональный индекс
 SELECT films.name, sum(price) OVER w
 FROM sessions JOIN films ON sessions.film_id = films.id
     WINDOW w AS (PARTITION BY film_id);
 
-SELECT seats.row, seats.seat, hall_zones.name as hall_zone_name FROM seats
-    LEFT JOIN buyed_tickets ON seats.id = seat_id
-    JOIN hall_zones ON seats.hall_zone_id = hall_zones.id
-    WHERE seat_id IS NULL;
+-- индекс цены
+SELECT halls.name FROM sessions
+    JOIN hall_zones on sessions.hall_zone_id = hall_zones.id
+    JOIN halls on halls.id = hall_zones.hall_id
+    WHERE price < 300
 
-SELECT session_id, sum(actual_price) FROM buyed_tickets GROUP BY session_id;
+-- Составной индекс
+SELECT sessions.id, price FROM sessions
+    JOIN films ON sessions.film_id = films.id
+    WHERE films.name != 'Мстители'
+
+
+
+
+
 
 
 
