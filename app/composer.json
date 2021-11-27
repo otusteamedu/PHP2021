@@ -1,0 +1,5 @@
+{
+    "require": {
+        "sempom/packagist_test": "^1.1"
+    }
+}
