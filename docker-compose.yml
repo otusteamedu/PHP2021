@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  mysql:
+    image: mysql:8.0.19
+    networks:
+      - my-network
+    environment:
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.2
+    networks:
+      - my-network
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: PMA_HOST
+    depends_on:
+      - mysql
+
+networks:
+  my-network:
