@@ -8,10 +8,16 @@ SELECT id FROM films WHERE name = 'Мстители';
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/1_10000.png)
 
+#### план на БД до 10000000 строк
+![alt text](md_screenshots/1_10000000.png)
+
 #### перечень оптимизаций
 ```
 CREATE INDEX name ON public.films USING btree (name);
 ```
+Добавление индекса значительно ускорило выполнение запроса,
+тк мы получили указатель на строку таблицы, не просматривая таблицу
+
 
 ### 2. Получение цены сеансов, которые стоят дешевле 300
 #### запрос
@@ -23,10 +29,16 @@ SELECT price FROM sessions WHERE price < 300 ORDER BY price;
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/2_10000.png)
 
+#### план на БД до 10000000 строк
+![alt text](md_screenshots/2_10000000.png)
+
 #### перечень оптимизаций
 ```
-CREATE INDEX price ON public.sessions USING btree (price);
+CREATE INDEX cheap_price ON public.sessions USING btree (price)
+WHERE price > 300;
 ```
+Добавление фильтрованного индекса позволило получить сразу из индекса список
+всех билетов дешевле 300 и сократить время получения ответа
 
 ### 3. Получение названий фильмов с названием длиной в 8 символов
 #### запрос

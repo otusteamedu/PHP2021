@@ -25,7 +25,7 @@ BEGIN;
     SELECT gs.id,
      (random() * gs.id + 1)::int,
     (random() * gs.id + 1)::int,
-    gs.id + random() * 10 + 1,
+    (random() * 1000 + 1)::int,
      '14:00'
     FROM generate_series(1, 10000) as gs(id);
 

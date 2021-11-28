@@ -1,1 +1,2 @@
-CREATE INDEX name_len ON public.films USING btree (length(name));
+CREATE INDEX cheap_price ON public.sessions USING btree (price)
+WHERE price > 300;
