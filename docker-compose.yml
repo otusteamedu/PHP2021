@@ -12,9 +12,6 @@ services:
       - "443:443"
     volumes:
       - ./code:/var/www/application.local
-    depends_on:
-      - nginx1
-      - nginx2
     networks:
       - app-network
 

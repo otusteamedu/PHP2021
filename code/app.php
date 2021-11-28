@@ -8,5 +8,5 @@ try {
     $app->run();
 }
 catch(Exception $e) {
-    App\Response::generateResponse($e->getMessage());
+    echo $e->getMessage();
 }
