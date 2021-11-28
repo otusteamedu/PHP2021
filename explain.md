@@ -38,7 +38,7 @@ CREATE INDEX cheap_price ON public.sessions USING btree (price)
 WHERE price > 300;
 ```
 Добавление фильтрованного индекса позволило получить сразу из индекса список
-всех билетов дешевле 300 и сократить время получения ответа
+всех сеансов дешевле 300 и сократить время получения ответа
 
 ### 3. Получение названий фильмов с названием длиной в 8 символов
 #### запрос
@@ -77,8 +77,11 @@ FROM films JOIN sessions ON sessions.film_id = films.id
 
 #### перечень оптимизаций
 ```
-CREATE INDEX fild_id ON public.sessions USING btree (fild_id); ///
+CREATE INDEX film_id ON public.sessions USING btree (film_id);
+CREATE INDEX id ON public.films USING btree (id);
 ```
+Добавление индексов для внешнего ключа и ключа для id внешней таблицы 
+позволило ускорить запрос, тк эти аттрибуты теперь беруться из таблицы индексов
 
 
 ### 5. Получение залов, в которых сессии не дороже 300 рублей
@@ -92,8 +95,11 @@ SELECT halls.name FROM sessions
 ```
 #### перечень оптимизаций
 ```
-CREATE INDEX price ON public.sessions USING btree (price);
+CREATE INDEX cheap_price ON public.sessions USING btree (price)
+WHERE price < 300;
 ```
+Добавление фильтрованного индекса позволило получить сразу из индекса список
+всех сеансов дешевле 300 и сократить время получения ответа
 
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/5_10000.png)
