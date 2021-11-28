@@ -50,10 +50,15 @@ SELECT name FROM films WHERE length(name) = 8;
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/3_10000.png)
 
+#### план на БД до 10000000 строк
+![alt text](md_screenshots/3_10000000.png)
+
 #### перечень оптимизаций
 ```
 CREATE INDEX name_len ON public.films USING btree (length(name)) INCLUDE (name);
 ```
+Использование покрывающего функционального индекса позволило нам получить ответ на
+запрос прямо из таблицы индексов, что позволило ускорить запрос
 
 ### 4. Получение сессий с суммарной ценой фильма за все сессии
 #### запрос
@@ -67,9 +72,12 @@ FROM films JOIN sessions ON sessions.film_id = films.id
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/4_10000.png)
 
+#### план на БД до 10000000 строк
+![alt text](md_screenshots/4_10000000.png)
+
 #### перечень оптимизаций
 ```
-CREATE INDEX fild_id ON public.sessions USING btree (fild_id);
+CREATE INDEX fild_id ON public.sessions USING btree (fild_id); ///
 ```
 
 
@@ -90,6 +98,9 @@ CREATE INDEX price ON public.sessions USING btree (price);
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/5_10000.png)
 
+#### план на БД до 10000000 строк
+![alt text](md_screenshots/5_10000000.png)
+
 ### 6. Получение кол-ва мест в зонах залов, в которых показывают не фильм "Мстители"
 #### запрос
 ```
@@ -103,6 +114,9 @@ WHERE films.name != 'Мстители'
 
 #### план на БД до 10000 строк
 ![alt text](md_screenshots/6_10000.png)
+
+#### план на БД до 10000000 строк
+![alt text](md_screenshots/6_10000000.png)
 
 #### перечень оптимизаций
 ```
