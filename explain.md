@@ -115,7 +115,7 @@ SELECT COUNT(seats.id) FROM seats
     JOIN hall_zones on seats.hall_zone_id = hall_zones.id
     JOIN sessions on sessions.hall_zone_id = hall_zones.id
     JOIN films ON sessions.film_id = films.id
-WHERE films.name != 'Мстители'
+WHERE films.name != 'Мстители' AND seats.hall_zone_id != 3
 ```
 
 #### план на БД до 10000 строк
@@ -127,4 +127,6 @@ WHERE films.name != 'Мстители'
 #### перечень оптимизаций
 ```
 CREATE INDEX name ON public.films USING btree (name);
+CREATE INDEX seat_hall_zone_id ON public.seats USING btree (hall_zone_id);
 ```
+Добавление индексов ускорило выполнение запросов
