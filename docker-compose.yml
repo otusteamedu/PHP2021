@@ -1,0 +1,89 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    container_name: nginx-balancer
+    image: nginx-balancer
+    ports:
+      - "83:80"
+      - "443:443"
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+  nginx-webserver1:
+    build:
+      context: ./nginx-webserver
+      dockerfile: Dockerfile
+    container_name: nginx1
+    image: nginx-webserver
+    ports:
+      - "8081:80"
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+  nginx-webserver2:
+    build:
+      context: ./nginx-webserver
+      dockerfile: Dockerfile
+    container_name: nginx2
+    image: nginx-webserver
+    ports:
+      - "8082:80"
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+  php1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: php1
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+  php2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php
+    container_name: php2
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - app-network
+
+  mysqldb:
+    image: mariadb
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: hw-memcached
+    ports:
+      - 11211:11211
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
