@@ -114,7 +114,7 @@ WHERE price < 300;
 #### план на БД до 10000000 строк
 ![alt text](md_screenshots/5_10000000.png)
 
-### 6. Получение кол-ва мест в зонах залов, в которых показывают не фильм "Мстители" и зона зала не имеет id 3
+### 6. Получение кол-ва мест в зонах залов, в которых показывают фильм "Мстители" и зона зала имеет id 3
 #### запрос
 ```
 EXPLAIN ANALYZE 
@@ -122,7 +122,7 @@ SELECT COUNT(seats.id) FROM seats
     JOIN hall_zones on seats.hall_zone_id = hall_zones.id
     JOIN sessions on sessions.hall_zone_id = hall_zones.id
     JOIN films ON sessions.film_id = films.id
-WHERE films.name != 'Мстители' AND seats.hall_zone_id != 3
+WHERE films.name = 'Мстители' AND seats.hall_zone_id = 3
 ```
 
 #### план на БД до 10000 строк
@@ -136,4 +136,7 @@ WHERE films.name != 'Мстители' AND seats.hall_zone_id != 3
 CREATE INDEX name ON public.films USING btree (name);
 CREATE INDEX seat_hall_zone_id ON public.seats USING btree (hall_zone_id);
 ```
-Добавление индексов ускорило выполнение запросов
+Добавление индексов ускорило выполнение запросов, тк субд делает выбор в пользу
+прохождения по таблице индексов с именеем фильма, тк фильм с таким именем один, та же ситуация
+в зоной зала. Если бы мы указали !=, то прохождение по таблице индексов не имело бы смысла, тк
+это больше половины записей и такие неравенства не имеют практически уникальности
