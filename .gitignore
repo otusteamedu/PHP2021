@@ -2,4 +2,4 @@
 .env
 .DS_Store
 .idea/
-code/vendor
+code/vendor/
