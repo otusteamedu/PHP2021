@@ -18,9 +18,12 @@ CREATE TABLE "film_attribute_values" (
     "id" SERIAL PRIMARY KEY,
     "film_id" int,
     "film_attribute_id" int,
-    "varchar_value" varchar,
-    "int_value" int,
-    "timestamp_value" timestamp
+    "int_value" int DEFAULT NULL,
+    "boolean_value" BOOLEAN DEFAULT FALSE,
+    "float_value" decimal(10,2) DEFAULT NULL,
+    "string_value" varchar(255) DEFAULT NULL,
+    "date_value" date DEFAULT NULL,
+    "text_value" text DEFAULT NULL
 );
 
 ALTER TABLE "film_attribute_values" ADD FOREIGN KEY ("film_id") REFERENCES "films" ("id");

@@ -1,14 +1,14 @@
 CREATE VIEW "service_view" AS
 SELECT
     films.name,
-    array_agg(CASE WHEN t.timestamp_value=CURRENT_DATE::TIMESTAMP THEN t.name ELSE '' END) today_tasks,
-    array_agg(CASE WHEN t.timestamp_value=(CURRENT_DATE + INTERVAL '20 DAY')::TIMESTAMP THEN t.name ELSE '' END) after_20_days_tasks
+    array_agg(CASE WHEN t.date_value=CURRENT_DATE::TIMESTAMP THEN t.name ELSE '' END) today_tasks,
+    array_agg(CASE WHEN t.date_value=(CURRENT_DATE + INTERVAL '20 DAY')::TIMESTAMP THEN t.name ELSE '' END) after_20_days_tasks
 FROM films
          LEFT JOIN (
     SELECT fav.*, fa.name FROM film_attribute_values  fav
        INNER JOIN film_attributes fa ON fa.id=fav.film_attribute_id
        INNER JOIN film_attribute_types fat on fa.film_attribute_type_id = fat.id
-    WHERE fav.timestamp_value IN (CURRENT_DATE::TIMESTAMP, (CURRENT_DATE + INTERVAL '20 DAY')::TIMESTAMP)
+    WHERE fav.date_value IN (CURRENT_DATE::TIMESTAMP, (CURRENT_DATE + INTERVAL '20 DAY')::TIMESTAMP)
       AND fat.id=3
 ) t ON t.film_id=films.id
 GROUP BY films.id
@@ -21,9 +21,12 @@ SELECT
     fat.name film_attribute_type_name,
     fa.name film_attribute_name,
     (
-            CASE WHEN fav.varchar_value IS NOT NULL THEN fav.varchar_value || ' ' ELSE '' END
+            CASE WHEN fav.string_value IS NOT NULL THEN fav.string_value || ' ' ELSE '' END
             || CASE WHEN fav.int_value IS NOT NULL THEN fav.int_value || ' ' ELSE '' END
-            || CASE WHEN fav.timestamp_value IS NOT NULL THEN to_char(fav.timestamp_value, 'DD.MM.YYYY HH24:MI:SS') || ' ' ELSE '' END
+            || CASE WHEN fav.float_value IS NOT NULL THEN fav.float_value || ' ' ELSE '' END
+            || CASE WHEN fav.float_value IS NOT NULL THEN fav.float_value || ' ' ELSE '' END
+            || CASE WHEN fav.text_value IS NOT NULL THEN fav.text_value || ' ' ELSE '' END
+            || CASE WHEN fav.date_value IS NOT NULL THEN to_char(fav.date_value, 'DD.MM.YYYY HH24:MI:SS') || ' ' ELSE '' END
         ) film_attribute_value
 FROM film_attributes fa
          INNER JOIN film_attribute_types fat ON fat.id = fa.film_attribute_type_id
