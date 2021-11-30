@@ -8,60 +8,31 @@ use App\Get\GetCacheAllConditions;
 
 class GetAllConditions
 {
+
     private $suitableAllСondition;
-    private $redis;
-    private $allKeys;
-    private $conditions;
+    private object $redis;
+    private array $allKeys;
+    private array $allСondition;
 
-    public function __construct()
-    {  
-
+    public function GetAllConditions(): array
+    {
         $this->suitableAllСondition = (new GetCacheAllConditions())->GetCacheAllConditions();
 
-        $this->Search();
-        
-        $this->Output();
-    }
-
-    private function Search()
-    {
         if (!$this->suitableAllСondition) {
             $this->redis = (new ConnectRedis())->Connect();
-            $this->allKeys = $this->redis->keys('event_*');
+            $this->allKeys = $this->redis->keys('*');
 
-            foreach ($this->allKeys as $key) 
-            { 
-                $get = $this->redis->get($key);
-                $obj = json_decode($get);
-                $this->conditions[] = $obj->conditions;
+            foreach ($this->allKeys as $key){
+                $events = $this->redis->zRange($key, 0, -1);
+                $events = str_replace(" ", "", $events);
+                $this->allСondition[] = $events[0];
             }
 
-            $condition = (array) $this->conditions[0];
-            $this->suitableAllСondition = array_keys($condition);
-            
-            for ($i=1; $i < count($this->conditions); $i++) { 
-                $keys = (array) $this->conditions[$i];
-                $keys = array_keys($keys);
-                $result = array_diff_assoc($keys, $this->suitableAllСondition);
-
-                if ($result) {
-                    $keys = array_keys($result);
-                    foreach ($keys as $key) {
-                        $newCondition = $result[$key];
-                        $this->suitableAllСondition[] = $newCondition;
-                    }  
-                }
-            }
-
-            new AddCacheAllConditions($this->suitableAllСondition);
-
+            (new AddCacheAllConditions($this->allСondition))->AddCacheAllConditions();
+        } else {
+            $this->allСondition = $this->suitableAllСondition;
         }
-    }
 
-    private function Output()
-    {
-        foreach ($this->suitableAllСondition as $condition) {
-            echo $condition . "\n";
-        }
+        return $this->allСondition ;
     }
 }

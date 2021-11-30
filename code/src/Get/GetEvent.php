@@ -8,82 +8,54 @@ use App\Add\AddCacheEvent;
 
 class GetEvent
 {
-    private $conditions;
-    private $parameters;
+    private string $conditions;
+    private array $arrayСonditions;
+    private object $redis;
+    private array $allEvent;
     private $suitableEvent;
-    private $redis;
-    private $allKeys;
-    private $allEvent;
-
+    
     public function __construct()
     {   
-
+        
         $this->conditions = $_POST['conditions'];
-        $this->conditions = explode(',', $this->conditions);
 
-        $this->GettingParameters();
-
-        $this->suitableEvent = (new GetCacheEvent())->GetCacheEvent($this->parameters);
-        
-        $this->SearchSuitableEvent();
-
-        $this->Output();
-        
     }
 
-    private function GettingParameters()
+    public function GetEvent(): string
     {
-        foreach ($this->conditions as $searchParameters) {
-            $searchParameters = explode(':', $searchParameters);
-            $this->parameters[trim($searchParameters[0])] = trim($searchParameters[1]);
-        }
-    }
+        $this->suitableEvent = (new GetCacheEvent($this->conditions))->GetCacheEvent();
 
-    private function SearchSuitableEvent()
-    {
         if (!$this->suitableEvent) {
-
             $this->redis = (new ConnectRedis())->Connect();
-            $this->allKeys = $this->redis->keys('event_*');
+            $this->arrayСonditions = explode(',', $this->conditions);
 
-            foreach ($this->allKeys as $key) 
-            {
-                $get = $this->redis->get($key);
-                $obj = json_decode($get);
-                $arrConditions = (array) $obj->conditions;
+            foreach ($this->arrayСonditions as $condition) {
+                $condition = trim($condition);
+                $keys = $this->redis->keys('*' . $condition);
+                
+                foreach ($keys as $key) {
+                    $events = $this->redis->zRange($key, 0, -1);
+                    $score = $this->redis->zScore($key, $events[0]);
 
-                $countParameters = count($this->parameters);
-                $countArrConditions = count($arrConditions);
-
-                if ($countParameters == $countArrConditions) {
-                    $result = array_diff_assoc($arrConditions, $this->parameters);
-
-                    if (!$result) {
-                        $event = [
-                            'event' => $obj->event
-                        ];
-                        $priority = $obj->priority;
-                        $this->allEvent[$priority] = $event;
-                        
+                    if ($this->conditions == $events[1]) {
+                        $this->allEvent[$score] = $events[0];
                     }
+
                 }
 
-                if (isset($this->allEvent)) {
-                    $keys = array_keys($this->allEvent);
-                    $keys = [max($keys)];
-                    $this->suitableEvent = array_intersect_key($this->allEvent, array_flip($keys));
-                    $this->suitableEvent = $this->suitableEvent[$keys[0]]['event'];
-                }
+                $maxScore = array_keys($this->allEvent);
+                $maxScore = [max($maxScore)];
+                $this->suitableEvent = array_intersect_key($this->allEvent, array_flip($maxScore));
+                $this->suitableEvent = $this->suitableEvent[$maxScore[0]];
+                
+                
+                $cache = (new AddCacheEvent($this->conditions, $this->suitableEvent))->AddCacheEvent();
             }
-
-            
-            new AddCacheEvent($this->parameters, $this->suitableEvent);
-
+        
         }
+        
+        return $this->suitableEvent;
+        
     }
 
-    private function Output()
-    {
-        echo $this->suitableEvent;
-    }
 }

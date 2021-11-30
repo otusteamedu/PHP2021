@@ -7,12 +7,14 @@ use Redis;
 class ConnectCacheRedis
 {
 
-    public function Connect()
-    {
-        $redis = new Redis();
-        $redis->connect('redis', 6379);
-        $redis->select(1);
+    private Redis $redis;
 
-        return $redis;
+    public function Connect(): Redis
+    {
+        $this->redis = new Redis();
+        $this->redis->connect('redis', 6379);
+        $this->redis->select(1);
+
+        return $this->redis;
     }
 }

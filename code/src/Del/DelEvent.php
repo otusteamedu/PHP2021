@@ -8,7 +8,7 @@ class DelEvent
 {
     private $redis;
 
-    public function __construct()
+    public function Del()
     {
         $this->redis = (new ConnectRedis())->Connect();
         

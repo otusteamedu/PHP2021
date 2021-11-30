@@ -13,19 +13,19 @@ class App
     {
         $url = $_SERVER['REQUEST_URI'];
         if ($url == '/add') {
-            new AddEvent();
+            (new AddEvent())->AddEvent();
         }
         if ($url == '/del') {
-            new DelEvent();
+            (new DelEvent())->Del();
         }
         if ($url == '/event') {
-            new GetEvent();
+            (new GetEvent())->GetEvent();
         }
         if ($url == '/all_events') {
-            new GetAllEvent();
+            (new GetAllEvent())->GetAllEvent();
         }
         if ($url == '/all_conditions') {
-            new GetAllConditions();
+            (new GetAllConditions())->GetAllConditions();
         }
     }
 }

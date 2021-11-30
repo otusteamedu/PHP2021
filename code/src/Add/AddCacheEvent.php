@@ -6,49 +6,23 @@ use App\Redis\ConnectCacheRedis;
 
 class AddCacheEvent 
 {
-    private $redisCache;
-    private $parameters;
-    private $suitableEvent;
-    private $keys;
-    private $allNumberKey;
-    private $newKey;
-    private $date;
+    private object $redisCache;
+    private string $conditions;
+    private string $suitableEvent;
+    private array $arrayСonditions;
+    private string $key;
 
-    public function __construct($parameters, $suitableEvent)
+    public function __construct(string $conditions, string $suitableEvent)
     {
-        $this->parameters = $parameters;
+        $this->conditions = $conditions;
         $this->suitableEvent = $suitableEvent;
-        $this->Add();
     }
-    
-    private function Add()
+
+    public function AddCacheEvent()
     {
+        $this->conditions = str_replace(" ", "", $this->conditions);
+        $this->key = str_replace(",", ":", $this->conditions);
         $this->redisCache = (new ConnectCacheRedis())->Connect();
-        $this->keys = $this->redisCache->keys('event_cache_*');
-
-        if ($this->keys) {
-
-            foreach ($this->keys as $key) {
-                $numberKey = explode('_', $key);
-                $numberKey = $numberKey[2];
-                $this->allNumberKey[] = $numberKey;
-            }
-
-            $this->newKey = max($this->allNumberKey);
-            $this->newKey++;
-            
-        } else {
-            $this->newKey = '0';
-        }
-
-        $this->newKey = "event_cache_" . $this->newKey;
-        $this->data = [
-            'conditions' => $this->parameters,
-            'event' => $this->suitableEvent
-        ];
-
-        $this->data = json_encode($this->data, JSON_UNESCAPED_UNICODE);
-
-        $this->redisCache->set($this->newKey, $this->data, 600);
+        $this->redisCache->set($this->key, $this->suitableEvent, 600);
     }
 }

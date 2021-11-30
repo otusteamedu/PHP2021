@@ -9,44 +9,30 @@ use App\Add\AddCacheAllEvent;
 class GetAllEvent
 {
     private $suitableAllEvent;
-    private $redis;
-    private $allKeys;
+    private object $redis;
+    private array $allKeys;
+    private array $allEvents;
 
-    public function __construct()
-    {  
-
+    public function GetAllEvent(): array
+    {
         $this->suitableAllEvent = (new GetCacheAllEvent())->GetCacheAllEvent();
 
-        $this->Search();
-
-        $this->Output();
-    
-    }
-
-    private function Search()
-    {
         if (!$this->suitableAllEvent) {
-
             $this->redis = (new ConnectRedis())->Connect();
+            $this->allKeys = $this->redis->keys('*');
 
-            $this->allKeys = $this->redis->keys('event_*');
-
-            foreach ($this->allKeys as $key) 
-            { 
-                $get = $this->redis->get($key);
-                $obj = json_decode($get);
-                $this->suitableAllEvent[] = $obj->event;
+            foreach ($this->allKeys as $key){
+                $events = $this->redis->zRange($key, 0, -1);
+                $events = str_replace(" ", "", $events);
+                $this->allEvents[] = $events[1];
             }
 
-            new AddCacheAllEvent($this->suitableAllEvent);
+            (new AddCacheAllEvent($this->allEvents))->AddCacheAllEvent();
+        } else {
+            $this->allEvents = $this->suitableAllEvent;
         }
-    }
 
-    private function Output()
-    {
-        foreach ($this->suitableAllEvent as $event) {
-            echo $event . "\n";
-        }
+        return $this->allEvents ;
     }
 
 }

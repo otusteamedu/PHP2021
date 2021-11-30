@@ -6,13 +6,14 @@ use Redis;
 
 class ConnectRedis
 {
+    private Redis $redis;
 
-    public function Connect()
+    public function Connect(): Redis
     {
-        $redis = new Redis();
-        $redis->connect('redis', 6379);
-        $redis->select(0);
+        $this->redis = new Redis();
+        $this->redis->connect('redis', 6379);
+        $this->redis->select(0);
 
-        return $redis;
+        return $this->redis;
     }
 }

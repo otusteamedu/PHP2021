@@ -6,8 +6,9 @@ use App\Redis\ConnectCacheRedis;
 
 class GetCacheAllConditions
 { 
-    private $redisCache;
-    private $allKeys;
+    private object $redisCache;
+    private array $allKeys;
+    private $allConditions;
 
     public function GetCacheAllConditions()
     {  
@@ -15,9 +16,9 @@ class GetCacheAllConditions
         $this->allKeys = $this->redisCache->keys('all_conditions_cache');
 
         if ($this->allKeys) {
-            $get = $this->redisCache->get($this->allKeys[0]);
-            $obj = json_decode($get);
-            return $obj;
+            $this->allConditions = $this->redisCache->get($this->allKeys[0]);
+            $this->allConditions = json_decode($this->allConditions);
+            return $this->allConditions;
         }
     }
 }
