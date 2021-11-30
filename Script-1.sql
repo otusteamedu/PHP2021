@@ -1,0 +1,1 @@
+SELECT films.name, SUM(films.cost) FROM films LEFT JOIN "session" ON films.id = "session".film LEFT JOIN tickets ON "session".id = tickets."session" GROUP BY films.name ORDER BY films.cost DESC LIMIT 1;
