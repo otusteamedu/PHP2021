@@ -3,10 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Channel;
+use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VideoFactory extends Factory
 {
+    protected $model = Video::class;
     /**
      * Define the model's default state.
      *

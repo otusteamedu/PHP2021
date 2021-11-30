@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Database\Factories\VideoFactory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class Video extends Seeder
 {
@@ -14,6 +15,7 @@ class Video extends Seeder
      */
     public function run()
     {
-        VideoFactory::factoryForModel(\App\Models\Video::class)->count(1000);
+        DB::table('videos')->truncate();
+        \App\Models\Video::factory(10)->create();
     }
 }

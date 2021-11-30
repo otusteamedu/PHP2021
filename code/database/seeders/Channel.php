@@ -15,6 +15,7 @@ class Channel extends Seeder
      */
     public function run()
     {
-        ChannelFactory::factoryForModel(\App\Models\Channel::class)->count(1000);
+        DB::table('channels')->truncate();
+        \App\Models\Channel::factory(10)->create();
     }
 }

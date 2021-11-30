@@ -16,6 +16,7 @@ class CreateVideosTable extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->integer('likes');
             $table->integer('dislikes');
             $table->foreignIdFor(Channel::class)->index();
