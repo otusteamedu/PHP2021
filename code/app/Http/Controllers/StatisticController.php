@@ -15,6 +15,21 @@ class StatisticController extends Controller
 
     public function sumOfLikesAndDislikes(Request $request)
     {
-        dd($this->elasticSearchRepository->search($request->get('name')));
+        $videos = $this->elasticSearchRepository->search($request->get('name'));
+        $likesSum = $videos->sum(function ($video) {
+            return $video['likes'];
+        });
+        $dislikesSum = $videos->sum(function ($video) {
+            return $video['dislikes'];
+        });
+        return [
+            'likes' => $likesSum,
+            'dislikes' => $dislikesSum,
+        ];
+    }
+
+    public function bestChannels()
+    {
+dd($videos = $this->elasticSearchRepository->search());
     }
 }

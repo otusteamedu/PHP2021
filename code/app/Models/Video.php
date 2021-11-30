@@ -22,7 +22,7 @@ class Video extends Model
             'name' => $this->name,
             'likes' => $this->likes,
             'dislikes' => $this->dislikes,
-            'channel' => $channel->id . ': ' . $channel->name,
+            'channel' => $channel->name,
         ];
     }
 }

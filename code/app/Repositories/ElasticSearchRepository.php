@@ -17,28 +17,19 @@ class ElasticSearchRepository
     public function search(string $query = '')
     {
         $items = $this->searchOnElasticsearch($query);
-        return $items;
+        return $this->buildCollection($items);
     }
 
     private function searchOnElasticsearch(string $query = ''): array
     {
         $model = new Video();
         $items = $this->elasticsearch->search([
-//            'index' => $model->getSearchIndex(),
             'type' => $model->getSearchType(),
             'body' => [
                 'query' => [
-                    'match' => [
-                        'query' => json_encode(['channel' => '10: Abe Bogisich'])
+                    "match" => [
+                        "channel" => $query
                     ]
-//                    'multi_match' => [
-//                        'fields' => ['title^5', 'body', 'tags'],
-//                        'query' =>
-//                            ["term" =>
-//                                ["channel" => "курткa"]
-//                            ],
-//                            $query,
-//                    ],
                 ],
             ],
         ]);
@@ -46,10 +37,8 @@ class ElasticSearchRepository
     }
     private function buildCollection(array $items)
     {
-        $ids = Arr::pluck($items['hits']['hits'], '_id');
-//        return Article::findMany($ids)
-//            ->sortBy(function ($article) use ($ids) {
-//                return array_search($article->getKey(), $ids);
-//            });
+        return collect($items['hits']['hits'])->map(function ($video) {
+            return $video['_source'];
+        });
     }
 }
