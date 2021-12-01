@@ -21,11 +21,10 @@ SELECT
     fat.name film_attribute_type_name,
     fa.name film_attribute_name,
     (
-            CASE WHEN fav.string_value IS NOT NULL THEN fav.string_value || ' ' ELSE '' END
+            CASE WHEN fav.text_value IS NOT NULL THEN fav.text_value || ' ' ELSE '' END
             || CASE WHEN fav.int_value IS NOT NULL THEN fav.int_value || ' ' ELSE '' END
             || CASE WHEN fav.float_value IS NOT NULL THEN fav.float_value || ' ' ELSE '' END
             || CASE WHEN fav.float_value IS NOT NULL THEN fav.float_value || ' ' ELSE '' END
-            || CASE WHEN fav.text_value IS NOT NULL THEN fav.text_value || ' ' ELSE '' END
             || CASE WHEN fav.date_value IS NOT NULL THEN to_char(fav.date_value, 'DD.MM.YYYY HH24:MI:SS') || ' ' ELSE '' END
         ) film_attribute_value
 FROM film_attributes fa

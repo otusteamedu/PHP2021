@@ -21,7 +21,6 @@ CREATE TABLE "film_attribute_values" (
     "int_value" int DEFAULT NULL,
     "boolean_value" BOOLEAN DEFAULT FALSE,
     "float_value" decimal(10,2) DEFAULT NULL,
-    "string_value" varchar(255) DEFAULT NULL,
     "date_value" date DEFAULT NULL,
     "text_value" text DEFAULT NULL
 );
