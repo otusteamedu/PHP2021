@@ -1,6 +1,6 @@
 ﻿/*
 Created: 29.11.2021
-Modified: 30.11.2021
+Modified: 01.12.2021
 Model: PostgreSQL 12
 Database: PostgreSQL 12
 */
@@ -76,7 +76,7 @@ CREATE TABLE "attribute_value"
   "value_text" Text,
   "value_date" Date,
   "value_bool" Boolean,
-  "value_num" Numeric(20,2),
+  "value_float" Double precision,
   "attribute_id" Integer NOT NULL,
   "movie_id" Integer NOT NULL
 )
@@ -93,7 +93,7 @@ COMMENT ON COLUMN "attribute_value"."value_date" IS 'Значение date'
 ;
 COMMENT ON COLUMN "attribute_value"."value_bool" IS 'Значение bool'
 ;
-COMMENT ON COLUMN "attribute_value"."value_num" IS 'Значение numeric'
+COMMENT ON COLUMN "attribute_value"."value_float" IS 'Значение float'
 ;
 COMMENT ON COLUMN "attribute_value"."attribute_id" IS 'ID атрибута'
 ;

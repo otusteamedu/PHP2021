@@ -7,7 +7,7 @@ CREATE VIEW marketing (movie, attribute_type, attribute, value) AS
 	, a.name
 	, CASE 
 		WHEN at.id = 1 THEN av.value_int::text
-		WHEN at.id = 2 THEN to_char(av.value_num, '99999999999999999999D99S')
+		WHEN at.id = 2 THEN av.value_float::text
 		WHEN at.id = 3 THEN (CASE WHEN av.value_bool=true THEN 'Y' ELSE 'N' END)
 		WHEN at.id = 4 THEN av.value_text
 		WHEN at.id = 5 THEN av.value_date::text
