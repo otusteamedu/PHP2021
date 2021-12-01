@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [StatisticController::class, 'sumOfLikesAndDislikes']);
+Route::get('/sum', [StatisticController::class, 'sum']);
 Route::get('/best', [StatisticController::class, 'bestChannels']);
 
 //Route::get('/', function () {
