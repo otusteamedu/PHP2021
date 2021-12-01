@@ -10,6 +10,17 @@ CREATE TABLE "halls" (
                          "name" varchar
 );
 
+CREATE TABLE "film_types" (
+  "id" SERIAL PRIMARY KEY,
+  "name" varchar
+);
+
+
+CREATE TABLE "order_statuses" (
+                                  "id" SERIAL PRIMARY KEY,
+                                  "name" varchar
+);
+
 CREATE TABLE "seats" (
                          "id" SERIAL PRIMARY KEY,
                          "hall_id" int NOT NULL,
@@ -21,7 +32,7 @@ CREATE TABLE "seats" (
 CREATE TABLE "films" (
                          "id" SERIAL PRIMARY KEY,
                          "name" varchar NOT NULL,
-                         "type" varchar NOT NULL,
+                         "type_id" int NOT NULL,
                          "description" varchar NOT NULL,
                          "duration" int NOT NULL
 );
@@ -53,7 +64,7 @@ CREATE TABLE "orders" (
                           "customer_id" int NOT NULL,
                           "session_id" int NOT NULL,
                           "seat_number" int NOT NULL,
-                          "status" varchar NOT NULL,
+                          "order_status_id" int NOT NULL,
                           "price" int NOT NULL
 );
 
@@ -74,3 +85,7 @@ ALTER TABLE "prices" ADD FOREIGN KEY ("session_type_id") REFERENCES "session_typ
 ALTER TABLE "orders" ADD FOREIGN KEY ("customer_id") REFERENCES "customers" ("id");
 
 ALTER TABLE "orders" ADD FOREIGN KEY ("session_id") REFERENCES "sessions" ("id");
+
+ALTER TABLE "orders" ADD FOREIGN KEY ("order_status_id") REFERENCES "order_statuses" ("id");
+
+ALTER TABLE "films" ADD FOREIGN KEY ("type_id") REFERENCES "film_types" ("id");
