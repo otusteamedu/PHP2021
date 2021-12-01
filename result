@@ -1,0 +1,398 @@
+### 1. заказы, для показа с ID = 50 и места  с ID = 1641
+#### запрос
+```
+EXPLAIN ANALYZE
+SELECT
+     `orders`.`id`
+FROM `orders`
+WHERE
+    `screening` = 50
+     AND
+     `seat` = 1641
+;
+
+```
+
+#### план на БД до 10000 строк
+```
+-> Filter: ((orders.seat = 1641) and (orders.screening = 50))  (cost=0.62 rows=1) (actual time=0.107..0.135 rows=2 loops=1)
+    -> Index range scan on orders using intersect(seat,screening)  (cost=0.62 rows=1) (actual time=0.105..0.132 rows=2 loops=1)
+```
+
+#### план на БД до 10000000 строк
+```
+-> Filter: ((orders.seat = 1641) and (orders.screening = 50))  (cost=7.63 rows=1) (actual time=4.356..4.356 rows=0 loops=1)
+    -> Index range scan on orders using intersect(screening,seat)  (cost=7.63 rows=1) (actual time=4.354..4.354 rows=0 loops=1)
+```
+
+#### план на БД до 10000000 строк, что удалось улучшить
+```
+-> Index lookup on orders using screening_2 (screening=50, seat=1641)  (cost=1.10 rows=1) (actual time=0.024..0.024 rows=0 loops=1)
+```
+
+#### перечень оптимизаций с пояснениями
+```
+ALTER TABLE `orders` ADD INDEX(`screening`, `seat`);
+```
+При создании таблицы уже были отдельные индексы на столбцы `screening` и `seat`, добавление индекса на 2 столца значательно снизило стоимость запроса.
+
+Стоимость конечно снизилась, но смысла в таких выборках в целом нет никакого, в реальной ситуации на один показ будет одно место только куплено, а на тестовых данных т.к. заполнение рандомное, могут быть повторы.
+
+
+### 2. залы, в которых проходили показы 2000-01-06
+#### запрос
+```
+EXPLAIN ANALYZE
+SELECT
+    DISTINCT(`hall`)
+FROM `screenings`
+WHERE `ts_start` LIKE '2000-01-06%'
+;
+
+```
+
+#### план на БД до 10000 строк
+```
+-> Group (no aggregates)  (cost=11.36 rows=11) (actual time=0.198..0.232 rows=5 loops=1)
+    -> Filter: (screenings.ts_start like '2000-01-06%')  (cost=10.25 rows=11) (actual time=0.187..0.225 rows=14 loops=1)
+        -> Index scan on screenings using hall  (cost=10.25 rows=100) (actual time=0.170..0.185 rows=100 loops=1)
+```
+
+#### план на БД до 10000000 строк
+```
+-> Group (no aggregates)  (cost=1168.77 rows=1144) (actual time=18.082..57.279 rows=5 loops=1)
+    -> Filter: (screenings.ts_start like '2000-01-06%')  (cost=1054.40 rows=1144) (actual time=3.569..57.250 rows=10 loops=1)
+        -> Index scan on screenings using hall  (cost=1054.40 rows=10294) (actual time=1.595..51.511 rows=10000 loops=1)
+```
+
+#### план на БД до 10000000 строк, что удалось улучшить
+```
+-> Group (no aggregates)  (cost=1150.02 rows=1144) (actual time=12.149..31.723 rows=5 loops=1)
+    -> Filter: (screenings.ts_start like '2000-01-06%')  (cost=1035.65 rows=1144) (actual time=5.108..31.687 rows=10 loops=1)
+        -> Index scan on screenings using hall  (cost=1035.65 rows=10294) (actual time=4.471..29.583 rows=10000 loops=1)
+```
+
+#### перечень оптимизаций с пояснениями
+```
+ALTER TABLE `screenings` ADD INDEX(`ts_start`);
+```
+В талице уже был индекс на `hall`. Добавление индекса на `ts_start` никак не повлияло на стоимость запроса.
+
+В данной ситуации было бы заметно улучшение при создании частичного индекса, но MySQL не поддерживает частичные индексы.
+
+
+### 3. ценовые диапазоны и время для фильма с ID = 1 в зале  с ID = 2
+#### запрос
+```
+EXPLAIN ANALYZE
+SELECT
+    `price_range`, `ts_start`
+FROM `screenings`
+WHERE
+    `hall` = 2
+    AND
+    `movie` = 1
+;
+```
+
+#### план на БД до 10000 строк
+```
+-> Filter: (screenings.movie = 1)  (cost=1.26 rows=5) (actual time=0.101..0.106 rows=3 loops=1)
+    -> Index lookup on screenings using hall (hall=2)  (cost=1.26 rows=22) (actual time=0.099..0.102 rows=22 loops=1)
+```
+
+#### план на БД до 10000000 строк
+```
+-> Filter: (screenings.hall = 2)  (cost=57.12 rows=384) (actual time=1.196..16.014 rows=412 loops=1)
+    -> Index lookup on screenings using movie (movie=1)  (cost=57.12 rows=1970) (actual time=1.193..15.811 rows=1970 loops=1)
+```
+
+#### план на БД до 10000000 строк, что удалось улучшить
+```
+-> Index lookup on screenings using hall_2 (hall=2, movie=1)  (cost=59.95 rows=412) (actual time=0.366..0.902 rows=412 loops=1)
+```
+
+#### перечень оптимизаций с пояснениями
+```
+ALTER TABLE `screenings` ADD INDEX(`hall`, `movie`);
+```
+Добавление индекса значительно ускорило запрос.
+
+
+
+### 4. самый прибыльный фильм
+#### запрос
+```
+EXPLAIN ANALYZE
+SELECT
+	`movies`.`title`,
+	SUM( `price_types_price_ranges`.`value` ) as `total`
+
+FROM
+	`orders`
+	INNER JOIN `seats` ON  `seats`.`id` = `orders`.`seat`
+	INNER JOIN `screenings` ON  `screenings`.`id` = `orders`.`screening`
+	INNER JOIN `movies` ON `movies`.`id` = `screenings`.`movie`
+	,
+	`price_types_price_ranges`
+
+WHERE
+	`seats`.`type` = `price_types_price_ranges`.`type`
+	AND
+	`screenings`.`price_range` = `price_types_price_ranges`.`range`
+
+GROUP BY `screenings`.`movie`
+
+ORDER BY `total` DESC
+
+LIMIT 1
+;
+```
+
+#### план на БД до 10000 строк
+```
+-> Limit: 1 row(s)  (actual time=219.219..219.219 rows=1 loops=1)
+    -> Sort: total DESC, limit input to 1 row(s) per chunk  (actual time=219.218..219.218 rows=1 loops=1)
+        -> Table scan on <temporary>  (actual time=0.002..0.002 rows=5 loops=1)
+            -> Aggregate using temporary table  (actual time=219.199..219.200 rows=5 loops=1)
+                -> Nested loop inner join  (cost=20514.50 rows=10000) (actual time=0.500..176.239 rows=10000 loops=1)
+                    -> Nested loop inner join  (cost=6014.50 rows=10000) (actual time=0.372..43.501 rows=10000 loops=1)
+                        -> Nested loop inner join  (cost=2514.50 rows=10000) (actual time=0.362..19.181 rows=10000 loops=1)
+                            -> Nested loop inner join  (cost=14.50 rows=100) (actual time=0.145..0.510 rows=100 loops=1)
+                                -> Table scan on movies  (cost=0.75 rows=5) (actual time=0.076..0.086 rows=5 loops=1)
+                                -> Filter: (screenings.price_range is not null)  (cost=1.15 rows=20) (actual time=0.032..0.082 rows=20 loops=5)
+                                    -> Index lookup on screenings using movie (movie=movies.id)  (cost=1.15 rows=20) (actual time=0.032..0.049 rows=20 loops=5)
+                            -> Index lookup on orders using screening (screening=screenings.id)  (cost=15.10 rows=100) (actual time=0.141..0.176 rows=100 loops=100)
+                        -> Single-row index lookup on seats using PRIMARY (id=orders.seat)  (cost=0.25 rows=1) (actual time=0.002..0.002 rows=1 loops=10000)
+                    -> Filter: (price_types_price_ranges.`type` = seats.`type`)  (cost=0.75 rows=1) (actual time=0.011..0.013 rows=1 loops=10000)
+                        -> Index lookup on price_types_price_ranges using range (range=screenings.price_range)  (cost=0.75 rows=7) (actual time=0.010..0.012 rows=7 loops=10000)
+```
+
+#### план на БД до 10000000 строк
+```
+-> Limit: 1 row(s)  (actual time=993061.714..993061.714 rows=1 loops=1)
+    -> Sort: total DESC, limit input to 1 row(s) per chunk  (actual time=993061.713..993061.713 rows=1 loops=1)
+        -> Table scan on <temporary>  (actual time=0.003..0.004 rows=5 loops=1)
+            -> Aggregate using temporary table  (actual time=993059.292..993059.294 rows=5 loops=1)
+                -> Nested loop inner join  (cost=23871755.92 rows=8463682) (actual time=243.449..748784.203 rows=9998524 loops=1)
+                    -> Nested loop inner join  (cost=11599417.18 rows=8463682) (actual time=243.416..586875.448 rows=10000000 loops=1)
+                        -> Nested loop inner join  (cost=8637128.52 rows=8463682) (actual time=243.399..561597.621 rows=10000000 loops=1)
+                            -> Nested loop inner join  (cost=1405.90 rows=10294) (actual time=1.059..70.949 rows=10000 loops=1)
+                                -> Table scan on movies  (cost=1.50 rows=5) (actual time=0.713..1.443 rows=5 loops=1)
+                                -> Filter: (screenings.price_range is not null)  (cost=116.18 rows=2059) (actual time=1.010..13.540 rows=2000 loops=5)
+                                    -> Index lookup on screenings using movie (movie=movies.id)  (cost=116.18 rows=2059) (actual time=1.009..11.930 rows=2000 loops=5)
+                            -> Index lookup on orders using screening (screening=screenings.id)  (cost=756.70 rows=822) (actual time=7.344..56.044 rows=1000 loops=10000)
+                        -> Single-row index lookup on seats using PRIMARY (id=orders.seat)  (cost=0.25 rows=1) (actual time=0.002..0.002 rows=1 loops=10000000)
+                    -> Filter: (price_types_price_ranges.`type` = seats.`type`)  (cost=0.75 rows=1) (actual time=0.013..0.016 rows=1 loops=10000000)
+                        -> Index lookup on price_types_price_ranges using range (range=screenings.price_range)  (cost=0.75 rows=7) (actual time=0.012..0.014 rows=7 loops=10000000)
+```
+
+#### план на БД до 10000000 строк, что удалось улучшить
+```
+-> Limit: 1 row(s)  (actual time=145400.588..145400.588 rows=1 loops=1)
+    -> Sort: total DESC, limit input to 1 row(s) per chunk  (actual time=145400.573..145400.573 rows=1 loops=1)
+        -> Table scan on <temporary>  (actual time=0.001..0.002 rows=5 loops=1)
+            -> Aggregate using temporary table  (actual time=145400.552..145400.554 rows=5 loops=1)
+                -> Nested loop inner join  (cost=29362634.36 rows=12136286) (actual time=21.298..79543.652 rows=9998524 loops=1)
+                    -> Nested loop inner join  (cost=8730948.58 rows=84954000) (actual time=16.414..37025.803 rows=70047192 loops=1)
+                        -> Nested loop inner join  (cost=39212.45 rows=72058) (actual time=13.331..297.637 rows=70052 loops=1)
+                            -> Nested loop inner join  (cost=1124.65 rows=10294) (actual time=8.925..69.245 rows=10000 loops=1)
+                                -> Table scan on movies  (cost=1.50 rows=5) (actual time=3.717..3.766 rows=5 loops=1)
+                                -> Filter: (screenings.price_range is not null)  (cost=59.93 rows=2059) (actual time=2.517..12.779 rows=2000 loops=5)
+                                    -> Index lookup on screenings using movie (movie=movies.id)  (cost=59.93 rows=2059) (actual time=2.515..10.775 rows=2000 loops=5)
+                            -> Index lookup on price_types_price_ranges using range (range=screenings.price_range)  (cost=3.00 rows=7) (actual time=0.016..0.022 rows=7 loops=10000)
+                        -> Index lookup on orders using screening_2 (screening=screenings.id)  (cost=2.73 rows=1179) (actual time=0.085..0.446 rows=1000 loops=70052)
+                    -> Filter: (seats.`type` = price_types_price_ranges.`type`)  (cost=0.14 rows=0) (actual time=0.000..0.000 rows=0 loops=70047190)
+                        -> Single-row index lookup on seats using PRIMARY (id=orders.seat)  (cost=0.14 rows=1) (actual time=0.000..0.000 rows=1 loops=70047190)
+```
+
+#### перечень оптимизаций с пояснениями
+```
+ALTER TABLE `screenings` ADD INDEX(`id`, `movie`);
+```
+Добавление индекса значительно ускорило запрос.
+
+
+
+### 5. средняя цена проданных билетов по каждому залу
+#### запрос
+```
+EXPLAIN ANALYZE
+SELECT
+	`halls`.`title`,
+	AVG( `price_types_price_ranges`.`value` ) as `avg_price`
+
+FROM
+	`orders`
+	INNER JOIN `seats` ON  `seats`.`id` = `orders`.`seat`
+	INNER JOIN `screenings` ON  `screenings`.`id` = `orders`.`screening`
+	INNER JOIN `halls` ON `halls`.`id` = `screenings`.`hall`
+	,
+	`price_types_price_ranges`
+
+WHERE
+	`seats`.`type` = `price_types_price_ranges`.`type`
+	AND
+	`screenings`.`price_range` = `price_types_price_ranges`.`range`
+
+GROUP BY `screenings`.`hall`
+
+ORDER BY `halls`.`title`
+
+;
+
+```
+
+#### план на БД до 10000 строк
+```
+-> Sort: halls.title  (actual time=210.944..210.945 rows=5 loops=1)
+    -> Table scan on <temporary>  (actual time=0.002..0.003 rows=5 loops=1)
+        -> Aggregate using temporary table  (actual time=210.918..210.919 rows=5 loops=1)
+            -> Nested loop inner join  (cost=20514.50 rows=10000) (actual time=0.167..148.219 rows=10000 loops=1)
+                -> Nested loop inner join  (cost=6014.50 rows=10000) (actual time=0.152..37.470 rows=10000 loops=1)
+                    -> Nested loop inner join  (cost=2514.50 rows=10000) (actual time=0.148..16.595 rows=10000 loops=1)
+                        -> Nested loop inner join  (cost=14.50 rows=100) (actual time=0.056..0.286 rows=100 loops=1)
+                            -> Table scan on halls  (cost=0.75 rows=5) (actual time=0.022..0.030 rows=5 loops=1)
+                            -> Filter: (screenings.price_range is not null)  (cost=1.15 rows=20) (actual time=0.024..0.048 rows=20 loops=5)
+                                -> Index lookup on screenings using hall (hall=halls.id)  (cost=1.15 rows=20) (actual time=0.024..0.041 rows=20 loops=5)
+                        -> Index lookup on orders using screening (screening=screenings.id)  (cost=15.10 rows=100) (actual time=0.127..0.155 rows=100 loops=100)
+                    -> Single-row index lookup on seats using PRIMARY (id=orders.seat)  (cost=0.25 rows=1) (actual time=0.002..0.002 rows=1 loops=10000)
+                -> Filter: (price_types_price_ranges.`type` = seats.`type`)  (cost=0.75 rows=1) (actual time=0.009..0.011 rows=1 loops=10000)
+                    -> Index lookup on price_types_price_ranges using range (range=screenings.price_range)  (cost=0.75 rows=7) (actual time=0.008..0.010 rows=7 loops=10000)
+```
+
+#### план на БД до 10000000 строк
+```
+-> Sort: halls.title  (actual time=430827.515..430827.520 rows=5 loops=1)
+    -> Table scan on <temporary>  (actual time=0.001..0.021 rows=5 loops=1)
+        -> Aggregate using temporary table  (actual time=430822.693..430822.715 rows=5 loops=1)
+            -> Nested loop inner join  (cost=24991223.72 rows=8463682) (actual time=205.118..341125.995 rows=9998524 loops=1)
+                -> Nested loop inner join  (cost=12718884.98 rows=8463682) (actual time=205.056..205869.595 rows=10000000 loops=1)
+                    -> Nested loop inner join  (cost=7640675.85 rows=8463682) (actual time=205.008..181506.908 rows=10000000 loops=1)
+                        -> Nested loop inner join  (cost=1405.90 rows=10294) (actual time=35.412..128.266 rows=10000 loops=1)
+                            -> Table scan on halls  (cost=1.50 rows=5) (actual time=24.064..25.657 rows=5 loops=1)
+                            -> Filter: (screenings.price_range is not null)  (cost=116.18 rows=2059) (actual time=4.184..19.884 rows=2000 loops=5)
+                                -> Index lookup on screenings using hall (hall=halls.id)  (cost=116.18 rows=2059) (actual time=4.181..17.939 rows=2000 loops=5)
+                        -> Index lookup on orders using screening (screening=screenings.id)  (cost=659.90 rows=822) (actual time=2.127..18.023 rows=1000 loops=10000)
+                    -> Single-row index lookup on seats using PRIMARY (id=orders.seat)  (cost=0.50 rows=1) (actual time=0.002..0.002 rows=1 loops=10000000)
+                -> Filter: (price_types_price_ranges.`type` = seats.`type`)  (cost=0.75 rows=1) (actual time=0.011..0.013 rows=1 loops=10000000)
+                    -> Index lookup on price_types_price_ranges using range (range=screenings.price_range)  (cost=0.75 rows=7) (actual time=0.010..0.012 rows=7 loops=10000000)
+```
+
+#### план на БД до 10000000 строк, что удалось улучшить
+##### после добавления индекса для запроса 4
+```
+-> Sort: halls.title  (actual time=130021.845..130021.848 rows=5 loops=1)
+    -> Table scan on <temporary>  (actual time=0.002..0.005 rows=5 loops=1)
+        -> Aggregate using temporary table  (actual time=130020.251..130020.254 rows=5 loops=1)
+            -> Nested loop inner join  (cost=20237258.54 rows=12136286) (actual time=49.858..72946.106 rows=9998524 loops=1)
+                -> Nested loop inner join  (cost=8707787.08 rows=84954000) (actual time=46.775..32494.659 rows=70047192 loops=1)
+                    -> Nested loop inner join  (cost=16050.95 rows=72058) (actual time=40.147..935.999 rows=70052 loops=1)
+                        -> Nested loop inner join  (cost=1124.65 rows=10294) (actual time=39.600..729.184 rows=10000 loops=1)
+                            -> Table scan on halls  (cost=1.50 rows=5) (actual time=17.087..17.151 rows=5 loops=1)
+                            -> Filter: (screenings.price_range is not null)  (cost=59.93 rows=2059) (actual time=128.410..142.115 rows=2000 loops=5)
+                                -> Index lookup on screenings using hall (hall=halls.id)  (cost=59.93 rows=2059) (actual time=128.408..140.255 rows=2000 loops=5)
+                        -> Index lookup on price_types_price_ranges using range (range=screenings.price_range)  (cost=0.75 rows=7) (actual time=0.014..0.020 rows=7 loops=10000)
+                    -> Index lookup on orders using screening_2 (screening=screenings.id)  (cost=2.73 rows=1179) (actual time=0.050..0.375 rows=1000 loops=70052)
+                -> Filter: (seats.`type` = price_types_price_ranges.`type`)  (cost=0.04 rows=0) (actual time=0.000..0.000 rows=0 loops=70047190)
+                    -> Single-row index lookup on seats using PRIMARY (id=orders.seat)  (cost=0.04 rows=1) (actual time=0.000..0.000 rows=1 loops=70047190)
+```
+##### после добавления индекса `id`, `hall`
+```
+-> Sort: halls.title  (actual time=121911.345..121911.345 rows=5 loops=1)
+    -> Table scan on <temporary>  (actual time=0.002..0.003 rows=5 loops=1)
+        -> Aggregate using temporary table  (actual time=121911.321..121911.323 rows=5 loops=1)
+            -> Nested loop inner join  (cost=23271329.23 rows=12136286) (actual time=22.694..67670.675 rows=9998524 loops=1)
+                -> Nested loop inner join  (cost=8707786.33 rows=84954000) (actual time=19.407..28403.023 rows=70047192 loops=1)
+                    -> Nested loop inner join  (cost=16050.20 rows=72058) (actual time=17.881..261.963 rows=70052 loops=1)
+                        -> Nested loop inner join  (cost=1123.90 rows=10294) (actual time=16.009..59.587 rows=10000 loops=1)
+                            -> Table scan on halls  (cost=0.75 rows=5) (actual time=0.082..0.095 rows=5 loops=1)
+                            -> Filter: (screenings.price_range is not null)  (cost=59.93 rows=2059) (actual time=5.007..11.629 rows=2000 loops=5)
+                                -> Index lookup on screenings using hall (hall=halls.id)  (cost=59.93 rows=2059) (actual time=5.004..9.824 rows=2000 loops=5)
+                        -> Index lookup on price_types_price_ranges using range (range=screenings.price_range)  (cost=0.75 rows=7) (actual time=0.014..0.019 rows=7 loops=10000)
+                    -> Index lookup on orders using screening_2 (screening=screenings.id)  (cost=2.73 rows=1179) (actual time=0.032..0.328 rows=1000 loops=70052)
+                -> Filter: (seats.`type` = price_types_price_ranges.`type`)  (cost=0.07 rows=0) (actual time=0.000..0.000 rows=0 loops=70047190)
+                    -> Single-row index lookup on seats using PRIMARY (id=orders.seat)  (cost=0.07 rows=1) (actual time=0.000..0.000 rows=1 loops=70047190)
+```
+
+
+#### перечень оптимизаций с пояснениями
+1. После добавления индекса для запроса 4, заметно сильно уменьшение стоимости выполнения запроса на присоединении таблицы `screenings`.
+2.
+```
+ALTER TABLE `screenings` ADD INDEX(`id`, `hall`);
+```
+Добаление еще одного индекса, после индекса, добавленного в 4 запросе, немного уменишило стоимость при присоединении таблицы `halls`.
+
+
+
+### 6. количество билетов, проданных на сеансы каждого дня, когда проводились показы (по дням показов)
+#### запрос
+```
+EXPLAIN ANALYZE
+SELECT
+	COUNT(`orders`.`id`) AS `count_orders`,
+	DATE( `screenings`.`ts_start` ) as `YYYY-MM-DD`
+
+FROM
+	`orders`
+	INNER JOIN `screenings` ON  `screenings`.`id` = `orders`.`screening`
+
+GROUP BY `YYYY-MM-DD`
+
+ORDER BY `YYYY-MM-DD`
+;
+```
+
+#### план на БД до 10000 строк
+```
+-> Sort: `YYYY-MM-DD`  (actual time=7.478..7.479 rows=7 loops=1)
+    -> Table scan on <temporary>  (actual time=0.001..0.002 rows=7 loops=1)
+        -> Aggregate using temporary table  (actual time=7.457..7.458 rows=7 loops=1)
+            -> Nested loop inner join  (cost=1037.66 rows=10000) (actual time=0.056..3.726 rows=10000 loops=1)
+                -> Table scan on screenings  (cost=10.25 rows=100) (actual time=0.034..0.063 rows=100 loops=1)
+                -> Index lookup on orders using screening (screening=screenings.id)  (cost=0.37 rows=100) (actual time=0.014..0.028 rows=100 loops=100)
+
+```
+
+#### план на БД до 10000000 строк
+```
+-> Sort: `YYYY-MM-DD`  (actual time=9602.508..9602.579 rows=952 loops=1)
+    -> Table scan on <temporary>  (actual time=0.001..0.138 rows=952 loops=1)
+        -> Aggregate using temporary table  (actual time=9601.398..9601.597 rows=952 loops=1)
+            -> Nested loop inner join  (cost=865115.11 rows=8463682) (actual time=4.195..5257.729 rows=10000000 loops=1)
+                -> Table scan on screenings  (cost=1054.40 rows=10294) (actual time=3.931..21.971 rows=10000 loops=1)
+                -> Index lookup on orders using screening (screening=screenings.id)  (cost=1.73 rows=822) (actual time=0.115..0.444 rows=1000 loops=10000)
+```
+
+#### план на БД до 10000000 строк, что удалось улучшить
+```
+-> Sort: `YYYY-MM-DD`  (actual time=10219.708..10219.775 rows=952 loops=1)
+    -> Table scan on <temporary>  (actual time=0.001..0.054 rows=952 loops=1)
+        -> Aggregate using temporary table  (actual time=10219.405..10219.522 rows=952 loops=1)
+            -> Nested loop inner join  (cost=862173.83 rows=8463682) (actual time=5.164..6653.401 rows=10000000 loops=1)
+                -> Index scan on screenings using ts_start  (cost=1035.65 rows=10294) (actual time=3.157..12.071 rows=10000 loops=1)
+                -> Index lookup on orders using screening (screening=screenings.id)  (cost=1.44 rows=822) (actual time=0.201..0.593 rows=1000 loops=10000)
+```
+###### после удаления индекса `ts_start`
+```
+-> Sort: `YYYY-MM-DD`  (actual time=8426.556..8426.649 rows=952 loops=1)
+    -> Table scan on <temporary>  (actual time=0.001..0.078 rows=952 loops=1)
+        -> Aggregate using temporary table  (actual time=8425.997..8426.184 rows=952 loops=1)
+            -> Nested loop inner join  (cost=862173.83 rows=8463682) (actual time=1.280..4824.515 rows=10000000 loops=1)
+                -> Table scan on screenings  (cost=1035.65 rows=10294) (actual time=0.026..8.377 rows=10000 loops=1)
+                -> Index lookup on orders using screening (screening=screenings.id)  (cost=1.44 rows=822) (actual time=0.105..0.412 rows=1000 loops=10000)
+```
+
+#### перечень оптимизаций с пояснениями
+```
+ALTER TABLE `screenings` DROP INDEX `ts_start`;
+```
+Для запроса 2 был добавлен индекс на `ts_start`, тут заметно, что стоимость сканирования по таблице и индексу одинаковая. Индекс бессмысленный, удаляем его.
+
+
+
+### Выводы
+Таблицы уже были созданны с сильной связанностью внешними ключами, на каждый из которых был индекс.
+
+MySQL к сожалению не поддерживает частичные индексы, с ними можно было бы наблюдать более интересные результаты оптимизиций.
