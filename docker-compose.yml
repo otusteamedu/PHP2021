@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: pg_cinema
+    environment:
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
