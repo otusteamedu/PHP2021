@@ -11,7 +11,6 @@ CREATE TABLE films (
                        name TEXT(256),
                        description TEXT,
                        duration INTEGER,
-                       cost INTEGER,
                        CONSTRAINT id PRIMARY KEY (id)
 );
 
@@ -20,7 +19,7 @@ CREATE TABLE "session" (
                            date NUMERIC,
                            time NUMERIC,
                            hall INTEGER,
-                           film INTEGER,
+                           film INTEGER, cost INTEGER,
                            CONSTRAINT id PRIMARY KEY (id),
                            CONSTRAINT "session" FOREIGN KEY (hall) REFERENCES halls(id),
                            CONSTRAINT film FOREIGN KEY (film) REFERENCES films(id)
@@ -30,8 +29,6 @@ CREATE TABLE tickets (
                          id INTEGER,
                          "session" INTEGER,
                          dateTime NUMERIC,
-                         "row" INTEGER,
-                         place INTEGER,
                          CONSTRAINT id PRIMARY KEY (id),
-                         CONSTRAINT "session" FOREIGN KEY ("session") REFERENCES "session"(id)
+                         CONSTRAINT FK_tickets_session FOREIGN KEY ("session") REFERENCES "session"(id)
 );
