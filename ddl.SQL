@@ -76,7 +76,7 @@ CREATE TABLE "attribute_value"
   "value_text" Text,
   "value_date" Date,
   "value_bool" Boolean,
-  "value_float" Double precision,
+  "value_float" Float,
   "attribute_id" Integer NOT NULL,
   "movie_id" Integer NOT NULL
 )
