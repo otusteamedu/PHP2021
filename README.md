@@ -4,7 +4,6 @@
 
 #### - перейти в laradock и запустить
 ````
-docker-compose up php-fpm nginx postgres elasticsearch kibana workspace
-docker-compose up php-fpm nginx mysql elasticsearch kibana workspace phpmyadmin
+docker-compose up php-fpm nginx mysql elasticsearch kibana workspace
 ````
 

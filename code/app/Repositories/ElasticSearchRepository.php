@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Video;
 use Elasticsearch\Client;
-use Illuminate\Support\Arr;
 
 class ElasticSearchRepository
 {
@@ -16,13 +15,13 @@ class ElasticSearchRepository
         $this->elasticsearch = $elasticsearch;
     }
 
-    public function search(string $query = '')
+    public function searchSumOfGrades(string $query = '')
     {
         $items = $this->searchOnElasticsearch($query);
         return $this->buildCollection($items);
     }
 
-    public function searchTop()
+    public function searchTop($limit)
     {
         $model = new Video();
 
@@ -52,7 +51,7 @@ class ElasticSearchRepository
                 ]
             ]
         );
-        return $this->buildBucketsCollection($items, 'video_channel_agg');
+        return $this->buildBucketsCollection($items, $limit);
     }
 
     private function searchOnElasticsearch(string $query = ''): array
@@ -75,21 +74,31 @@ class ElasticSearchRepository
 
     private function buildCollection(array $items)
     {
-        return collect($items['hits']['hits'])->map(function ($video) {
+        $videos = collect($items['hits']['hits'])->map(function ($video) {
             return $video['_source'];
         });
+        $likesSum = $videos->sum(function ($video) {
+            return $video['likes'];
+        });
+        $dislikesSum = $videos->sum(function ($video) {
+            return $video['dislikes'];
+        });
+        return [
+            'likes' => $likesSum,
+            'dislikes' => $dislikesSum,
+        ];
     }
 
-    private function buildBucketsCollection(array $items, $aggrname)
+    private function buildBucketsCollection(array $items, $limit)
     {
-        return collect($items['aggregations'][$aggrname]['buckets'])
+        return collect($items['aggregations']['video_channel_agg']['buckets'])
             ->mapWithKeys(function ($channel) {
             return [$channel['key'] => [
                 'difference' => $channel['sum_likes']['value'] / $channel['sum_dislikes']['value']]
             ];
         })
             ->sortByDesc('difference')
-            ->take(5)
+            ->take($limit)
             ->keys();
     }
 }

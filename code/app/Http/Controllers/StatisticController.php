@@ -22,22 +22,17 @@ class StatisticController extends Controller
         if ($validator->fails()) {
             return response($validator->errors(),400);
         }
-
-        $videos = $this->elasticSearchRepository->search($request->get('name'));
-        $likesSum = $videos->sum(function ($video) {
-            return $video['likes'];
-        });
-        $dislikesSum = $videos->sum(function ($video) {
-            return $video['dislikes'];
-        });
-        return [
-            'likes' => $likesSum,
-            'dislikes' => $dislikesSum,
-        ];
+        return $this->elasticSearchRepository->searchSumOfGrades($request->get('name'));
     }
 
-    public function bestChannels()
+    public function bestChannels(Request $request)
     {
-        return $this->elasticSearchRepository->searchTop();
+        $validator = Validator::make($request->all(), [
+            'limit' => 'required|integer',
+        ]);
+        if ($validator->fails()) {
+            return response($validator->errors(),400);
+        }
+        return $this->elasticSearchRepository->searchTop($request->get('limit'));
     }
 }
