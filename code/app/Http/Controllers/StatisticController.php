@@ -22,6 +22,7 @@ class StatisticController extends Controller
         if ($validator->fails()) {
             return response($validator->errors(),400);
         }
+
         $videos = $this->elasticSearchRepository->search($request->get('name'));
         $likesSum = $videos->sum(function ($video) {
             return $video['likes'];
@@ -37,6 +38,6 @@ class StatisticController extends Controller
 
     public function bestChannels()
     {
-dd($videos = $this->elasticSearchRepository->searchTop());
+        return $this->elasticSearchRepository->searchTop();
     }
 }

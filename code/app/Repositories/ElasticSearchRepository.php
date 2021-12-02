@@ -26,44 +26,33 @@ class ElasticSearchRepository
     {
         $model = new Video();
 
-        $items = $this->elasticsearch->search([
-            "size" => 0,
-            'type' => $model->getSearchType(),
-            'body' => [
-                'aggs' => [
-                    'video_channel_agg' => [
-                        'terms' => [
-                            'field' => 'channel',
-                        ],
-                        'aggs' => [
-                            'sum_likes' => [
-                                'sum' => [
-                                    'field' => 'likes',
-                                ],
+        $items = $this->elasticsearch->search(
+            [
+                'type' => $model->getSearchType(),
+                'body' => [
+                    'aggs' => [
+                        'video_channel_agg' => [
+                            'terms' => [
+                                'field' => 'channel.keyword',
                             ],
-                            'sum_dislikes' => [
-                                'sum' => [
-                                    'field' => 'dislikes',
+                            'aggs' => [
+                                'sum_likes' => [
+                                    'sum' => [
+                                        'field' => 'likes',
+                                    ],
+                                ],
+                                'sum_dislikes' => [
+                                    'sum' => [
+                                        'field' => 'dislikes',
+                                    ]
                                 ]
                             ],
-                        ],
-//                        'value' => [
-//                            'bucket_script' => [
-//                                'buckets_path' => [
-//                                    'sum_likes' => 'sum_likes',
-//                                    'sum_dislikes' => 'sum_dislikes',
-//                                ],
-//                                'script' => 'params.sum_likes/params.sum_dislikes'
-//                            ]
-//                        ]
-
-                    ],
-
+                        ]
+                    ]
                 ]
             ]
-        ]);
-
-        return $this->buildCollection($items);
+        );
+        return $this->buildBucketsCollection($items, 'video_channel_agg');
     }
 
     private function searchOnElasticsearch(string $query = ''): array
@@ -89,5 +78,18 @@ class ElasticSearchRepository
         return collect($items['hits']['hits'])->map(function ($video) {
             return $video['_source'];
         });
+    }
+
+    private function buildBucketsCollection(array $items, $aggrname)
+    {
+        return collect($items['aggregations'][$aggrname]['buckets'])
+            ->mapWithKeys(function ($channel) {
+            return [$channel['key'] => [
+                'difference' => $channel['sum_likes']['value'] / $channel['sum_dislikes']['value']]
+            ];
+        })
+            ->sortByDesc('difference')
+            ->take(5)
+            ->keys();
     }
 }
