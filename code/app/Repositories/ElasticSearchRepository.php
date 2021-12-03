@@ -17,8 +17,31 @@ class ElasticSearchRepository
 
     public function searchSumOfGrades(string $query = '')
     {
-        $items = $this->searchOnElasticsearch($query);
-        return $this->buildCollection($items);
+        $model = new Video();
+
+        $items = $this->elasticsearch->search([
+            'type' => $model->getSearchType(),
+            'body' => [
+                'query' => [
+                    "match" => [
+                        "channel" => $query
+                    ]
+                ],
+                'aggs' => [
+                    'sum_likes' => [
+                        'sum' => [
+                            'field' => 'likes',
+                        ],
+                    ],
+                    'sum_dislikes' => [
+                        'sum' => [
+                            'field' => 'dislikes',
+                        ]
+                    ]
+                ],
+            ],
+        ]);
+        return $this->buildSumCollection($items);
     }
 
     public function searchTop($limit)
@@ -51,45 +74,18 @@ class ElasticSearchRepository
                 ]
             ]
         );
-        return $this->buildBucketsCollection($items, $limit);
+        return $this->buildBucketsDifferenceCollection($items, $limit);
     }
 
-    private function searchOnElasticsearch(string $query = ''): array
+    private function buildSumCollection(array $items)
     {
-        $model = new Video();
-
-        $items = $this->elasticsearch->search([
-            'type' => $model->getSearchType(),
-            'body' => [
-                'query' => [
-                    "match" => [
-                        "channel" => $query
-                    ]
-                ],
-            ],
-        ]);
-        return $items;
+        return collect($items['aggregations'])
+            ->mapWithKeys(function ($value, $key) {
+                return [$key => $value['value']];
+            });
     }
 
-
-    private function buildCollection(array $items)
-    {
-        $videos = collect($items['hits']['hits'])->map(function ($video) {
-            return $video['_source'];
-        });
-        $likesSum = $videos->sum(function ($video) {
-            return $video['likes'];
-        });
-        $dislikesSum = $videos->sum(function ($video) {
-            return $video['dislikes'];
-        });
-        return [
-            'likes' => $likesSum,
-            'dislikes' => $dislikesSum,
-        ];
-    }
-
-    private function buildBucketsCollection(array $items, $limit)
+    private function buildBucketsDifferenceCollection(array $items, $limit)
     {
         return collect($items['aggregations']['video_channel_agg']['buckets'])
             ->mapWithKeys(function ($channel) {
