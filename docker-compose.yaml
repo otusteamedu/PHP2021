@@ -1,62 +1,24 @@
 version: '3.8'
 
 services:
-  webserver:
-    image: nginx:alpine
-    container_name: otusapp-nginx
-    ports:
-      - ${NGINX_HTTP_PORT}:80
-    volumes:
-      - ./nginx/templates:/etc/nginx/templates
-      - ./code:/data
-    environment:
-      NGINX_HOST: ${NGINX_HOST}
-    networks:
-      - otusapp-network
-    depends_on:
-      - backend
-
-  backend:
+  backend-server:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-  # image: otusapp/php
-    container_name: otusapp-php
+    container_name: otusapp-php-server
     volumes:
       - ./code:/data
+      - otusapp-tmp-data:/tmp
     networks:
       - otusapp-network
-    depends_on:
-      - database
-      - memcached
-      - redis
-
-  database:
-    image: mysql:5.7.22
-    container_name: otusapp-database
-    ports:
-      - ${MYSQL_PORT}:3306
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  backend-client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: otusapp-php-client
     volumes:
-      - otusapp-database-data:/var/lib/mysql
-    networks:
-      - otusapp-network
-
-  memcached:
-    image: memcached:alpine
-    container_name: otusapp-memcached
-    ports:
-      - ${MEMCACHED_PORT}:11211
-    networks:
-      - otusapp-network
-
-  redis:
-    image: redis:alpine
-    container_name: otusapp-redis
-    ports:
-      - ${REDIS_PORT}:6379
+      - ./code:/data
+      - otusapp-tmp-data:/tmp
     networks:
       - otusapp-network
 
@@ -65,4 +27,4 @@ networks:
     driver: bridge
 
 volumes:
-  otusapp-database-data:
+  otusapp-tmp-data:
