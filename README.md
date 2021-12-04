@@ -1,3 +1,7 @@
-# PHP2021
+# 1. Example
+`./sum.sh 4 5`
+`./sum.sh 4 5.4`
+`./sum.sh 4.3 5.4`
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# 2. Sort string from sort.txt
+`./sort.sh`
