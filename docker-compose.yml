@@ -1,0 +1,191 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    container_name: otus-nginx-balancer
+    image: nginx:1.20.2
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/balancer.conf:/etc/nginx/conf.d/balancer.conf
+      - ./data:/var/web/otus_balancer
+    networks:
+      - app-network
+    depends_on:
+      - nginx-node-1
+      - nginx-node-2
+
+  nginx-node-1:
+    container_name: otus-nginx-node-1
+    image: nginx:1.20.2
+    ports:
+      - 80
+    volumes:
+      - ./nginx/nodes.conf:/etc/nginx/conf.d/nodes.conf
+      - ./data:/var/web/otus_balancer
+    networks:
+      - app-network
+    depends_on:
+      - php-node-1
+      - php-node-2
+
+  nginx-node-2:
+    container_name: otus-nginx-node-2
+    image: nginx:1.20.2
+    ports:
+      - 80
+    volumes:
+      - ./nginx/nodes.conf:/etc/nginx/conf.d/nodes.conf
+      - ./data:/var/web/otus_balancer
+    networks:
+      - app-network
+    depends_on:
+      - php-node-1
+      - php-node-2
+
+  php-node-1:
+    container_name: otus-fpm-node-1
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/var/web/otus_balancer
+    depends_on:
+      - redis-sentinel-1
+      - postgres
+    networks:
+      - app-network
+
+  php-node-2:
+    container_name: otus-fpm-node-2
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/var/web/otus_balancer
+    depends_on:
+      - redis-sentinel-1
+      - postgres
+    networks:
+      - app-network
+
+  redis-master:
+    image: bitnami/redis:6.0.16
+    container_name: otus-redis-master
+    ports:
+      - 6379
+    volumes:
+      - "./redis/data/master:/bitnami/redis/data"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - app-network
+
+  redis-slave-1:
+    image: bitnami/redis:6.0.16
+    container_name: otus-redis-slave-1
+    ports:
+      - 6379
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=redis-master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - ALLOW_EMPTY_PASSWORD=yes
+    depends_on:
+      - redis-master
+    networks:
+      - app-network
+
+  redis-slave-2:
+    image: bitnami/redis:6.0.16
+    container_name: otus-redis-slave-2
+    ports:
+      - 6379
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=redis-master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - ALLOW_EMPTY_PASSWORD=yes
+    depends_on:
+      - redis-master
+      - redis-slave-1
+    networks:
+      - app-network
+
+  redis-sentinel-1:
+    container_name: otus-redis-sentinel-1
+    image: bitnami/redis-sentinel:6.2.6
+    depends_on:
+      - redis-master
+      - redis-slave-1
+    environment:
+      - REDIS_MASTER_HOST=redis-master
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_SENTINEL_QUORUM=2
+      - REDIS_SENTINEL_DOWN_AFTER_MILLISECONDS=2000
+      - REDIS_SENTINEL_FAILOVER_TIMEOUT=2000
+    ports:
+      - 26379
+    networks:
+      - app-network
+
+  redis-sentinel-2:
+    container_name: otus-redis-sentinel-2
+    image: bitnami/redis-sentinel:6.2.6
+    depends_on:
+      - redis-master
+      - redis-slave-1
+      - redis-sentinel-1
+    environment:
+      - REDIS_MASTER_HOST=redis-master
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_SENTINEL_QUORUM=2
+      - REDIS_SENTINEL_DOWN_AFTER_MILLISECONDS=2000
+      - REDIS_SENTINEL_FAILOVER_TIMEOUT=2000
+    ports:
+      - 26379
+    networks:
+      - app-network
+
+  haproxy-1:
+    container_name: otus-haproxy-1
+    build: ./haproxy
+    depends_on:
+      - redis-master
+      - redis-slave-1
+      - redis-sentinel-1
+      - redis-sentinel-2
+    ports:
+      - 6379
+    networks:
+      - app-network
+
+  haproxy-2:
+    container_name: otus-haproxy-2
+    build: ./haproxy
+    depends_on:
+      - redis-master
+      - redis-slave-1
+      - redis-sentinel-1
+      - redis-sentinel-2
+      - haproxy1
+    ports:
+      - 6379
+    networks:
+      - app-network
+
+  postgres:
+    container_name: otus-postgres
+    image: postgres:14.1
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+    name: network-otus-hw4

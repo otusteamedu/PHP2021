@@ -1,0 +1,3 @@
+.idea
+./redis/data/master/*
+/vendor

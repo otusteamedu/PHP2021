@@ -1,3 +1,15 @@
-# PHP2021
+# Settings
+add host http://otus_balancer.local in /etc/hosts file
+# RUN
+docker-compose up -d
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# Usage
+GET and POST with param `string`
+
+# Example
+
+GET `Success` GET http://otus_balancer.local/?string=(()()()())((((()()()))))(((())))()
+
+GET `Erorr` http://otus_balancer.local/?string=(()()()()))((((()()()))(()()()(((()))))))
+
+
