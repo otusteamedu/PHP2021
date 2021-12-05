@@ -9,6 +9,13 @@ $repository = new \App\Repositories\Redis();
 $repository->addEvent(1000, [
     'param1' => 1
 ], 'event1');
-$repository->addEvent(2000, [2, 2], 'event2');
-$repository->addEvent(3000, [1, 2], 'event3');
-$repository->findByCondition(['param1' => 1,'param2' => 2]);
+$repository->addEvent(2000, [
+    'param1' => 2,
+    'param2' => 2
+], 'event2');
+$repository->addEvent(3000, [
+    'param1' => 1,
+    'param2' => 2
+], 'event3');
+echo $repository->findByCondition(['param1' => 2,'param2' => 2]);
+$repository->deleteAllEvents();

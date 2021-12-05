@@ -42,13 +42,18 @@ class Redis implements NoSqlRepositoryInterface
             $priorityEvents[$eventRating] = $eventId;
         }
         sort($priorityEvents);
-        $mostPriorityEvent = last($priorityEvents);
+        $mostPriorityEvent = end($priorityEvents);
         return $this->client->get('event_names:' . $mostPriorityEvent);
     }
 
     public function deleteAllEvents()
     {
-
+        $eventIds = $this->client->zRange('events', 0, -1);
+        foreach ($eventIds as $eventId) {
+            $this->client->del('event_names:'.$eventId);
+        }
+        $this->client->del('event_conditions');
+        $this->client->del('events');
     }
 
     private function parseHashTable($hashTable)
