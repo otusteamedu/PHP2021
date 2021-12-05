@@ -23,7 +23,7 @@ class Redis
                 ->client
                 ->hset('event_conditions', $id . ' conditions param' . $i, $conditions[$i - 1]);
         }
-        $this->client->hset('events', $id. ' event', $event);
+        $this->client->set('event_names:' . $id, $event);
         $this->client->exec();
     }
 
@@ -31,6 +31,7 @@ class Redis
     {
 //        print_r($this->client->hgetall('event_conditions'));
         print_r($this->client->zscore('events', '61acefe369360'));
+        print_r($this->client->get('event_names:61acefe369360'));
 //        echo 123;
     }
 }
