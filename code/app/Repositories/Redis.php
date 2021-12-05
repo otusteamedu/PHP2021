@@ -42,7 +42,7 @@ class Redis implements NoSqlRepositoryInterface
             $priorityEvents[$eventRating] = $eventId;
         }
         sort($priorityEvents);
-        $mostPriorityEvent = end($priorityEvents);
+        $mostPriorityEvent = array_pop($priorityEvents);
         return $this->client->get('event_names:' . $mostPriorityEvent);
     }
 
