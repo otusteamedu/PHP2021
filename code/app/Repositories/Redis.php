@@ -29,6 +29,8 @@ class Redis
 
     public function findByCondition($condition)
     {
-        print_r($this->client->hgetall('event_conditions'));
+//        print_r($this->client->hgetall('event_conditions'));
+        print_r($this->client->zscore('events', '61acefe369360'));
+//        echo 123;
     }
 }
