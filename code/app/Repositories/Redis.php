@@ -19,9 +19,16 @@ class Redis
         $this->client->multi();
         $this->client->zadd('events', [$id => $priority]);
         for ($i = 1; $i <= count($conditions); $i++) {
-            $this->client->hset('events:' . $id, 'conditions param' . $i, $conditions[$i - 1]);
+            $this
+                ->client
+                ->hset('event_conditions', $id . ' conditions param' . $i, $conditions[$i - 1]);
         }
-        $this->client->hset('events:' . $id, 'event', $event);
+        $this->client->hset('events', $id. ' event', $event);
         $this->client->exec();
+    }
+
+    public function findByCondition($condition)
+    {
+        print_r($this->client->hgetall('event_conditions'));
     }
 }
