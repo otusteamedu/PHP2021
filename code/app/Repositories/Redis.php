@@ -2,33 +2,33 @@
 
 namespace App\Repositories;
 
-use Predis\Client;
+use App\Interfaces\NoSqlRepositoryInterface;
 
-class Redis
+class Redis implements NoSqlRepositoryInterface
 {
     private $client;
 
     public function __construct()
     {
         $this->client = new \Redis();
-        $this->client->connect('localhost', '6379');
+        $this->client->connect(REDIS_HOST, REDIS_PORT);
     }
 
-    public function addEvent($priority, array $conditions, $event)
+    public function addEvent(int $priority, array $conditions, string $event)
     {
         $id = uniqid();
         $this->client->multi();
         $this->client->zAdd('events', [], $priority, $id);
-        for ($i = 1; $i <= count($conditions); $i++) {
+        foreach ($conditions as $conditionName => $conditionValue) {
             $this
                 ->client
-                ->hSet('event_conditions', $id . ' param' . $i, $conditions[$i - 1]);
+                ->hSet('event_conditions', $id . ' ' . $conditionName, $conditionValue);
         }
         $this->client->set('event_names:' . $id, $event);
         $this->client->exec();
     }
 
-    public function findByCondition($conditions)
+    public function findByCondition(array $conditions)
     {
         $events = $this->parseHashTable($this->client->hGetAll('event_conditions'));
         $events = array_filter($events, function ($event) use ($conditions){
@@ -36,23 +36,28 @@ class Redis
                 if (!empty($event[$conditionName]) && $event[$conditionName] == $conditionValue) return true;
             }
         });
-        $priority = [];
+        $priorityEvents = [];
         foreach ($events as $eventId => $eventContaining) {
             $eventRating = $this->client->zScore('events', $eventId);
-            $priority[$eventRating] = $eventId;
+            $priorityEvents[$eventRating] = $eventId;
         }
-        sort($priority);
-        $mostPriority = last($priority);
-        return $this->client->get('event_names:' . $mostPriority);
+        sort($priorityEvents);
+        $mostPriorityEvent = last($priorityEvents);
+        return $this->client->get('event_names:' . $mostPriorityEvent);
+    }
+
+    public function deleteAllEvents()
+    {
+
     }
 
     private function parseHashTable($hashTable)
     {
-        $parsedTabble = [];
+        $parsedTable = [];
         foreach ($hashTable as $hashRow => $hashValue) {
             $hashRow = explode(' ', $hashRow);
-            $parsedTabble[$hashRow[0]][$hashRow[1]] = $hashValue;
+            $parsedTable[$hashRow[0]][$hashRow[1]] = $hashValue;
         }
-        return $parsedTabble;
+        return $parsedTable;
     }
 }
