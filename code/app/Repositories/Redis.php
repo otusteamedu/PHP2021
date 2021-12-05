@@ -13,13 +13,15 @@ class Redis
         $this->client = new Client('tcp://redis:6379');
     }
 
-    public function addEvent()
+    public function addEvent($priority, array $conditions, $event)
     {
-        $this->client->multi();
         $id = uniqid();
-        $this->client->zadd('events', [$id => 1000]);
-        $this->client->hset('events:' . $id, 'conditions param1', 1);
-        $this->client->hset('events:' . $id, 'conditions param2', 2);
+        $this->client->multi();
+        $this->client->zadd('events', [$id => $priority]);
+        for ($i = 1; $i <= count($conditions); $i++) {
+            $this->client->hset('events:' . $id, 'conditions param' . $i, $conditions[$i - 1]);
+        }
+        $this->client->hset('events:' . $id, 'event', $event);
         $this->client->exec();
     }
 }
