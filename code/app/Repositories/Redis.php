@@ -43,10 +43,7 @@ class Redis
         }
         sort($priority);
         $mostPriority = last($priority);
-        var_dump($this->client->get($mostPriority));
-        print_r($this->client->zscore('events', '61acefe369360'));
-        print_r($this->client->get('event_names:61acefe369360'));
-        exit();
+        return $this->client->get('event_names:' . $mostPriority);
     }
 
     private function parseHashTable($hashTable)
