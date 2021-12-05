@@ -5,5 +5,6 @@
 #### - перейти в laradock и запустить
 ````
 docker-compose up php-fpm nginx redis
+docker run -v redisinsight:/db -p 8001:8001 redislabs/redisinsight:latest
 ````
 
