@@ -1,3 +1,5 @@
-# PHP2021
+# Install
+`composer install`
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# Tests
+`./vendor/bin/phpunit` or `composer tests`

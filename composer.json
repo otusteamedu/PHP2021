@@ -1,0 +1,32 @@
+{
+    "name": "yu2ry/hw5",
+    "authors": [
+        {
+            "name": "Yury Borisov",
+            "email": "yu2ry@rambler.ru"
+        }
+    ],
+    "description": "Function for future reference",
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "files": [
+            "helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "tests": [
+            "./vendor/bin/phpunit -v --coverage-text --colors=always"
+        ]
+    }
+}
