@@ -11,6 +11,7 @@ class CommandBuilder
 {
     /**
      * @param string $name
+     * @param Config $config
      *
      * @return Command
      * @throws CommandException

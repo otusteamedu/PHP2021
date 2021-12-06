@@ -20,12 +20,7 @@ class Config
         $this->config = $config;
     }
 
-    /**
-     * @param string $configName
-     *
-     * @return mixed|null
-     */
-    public function get(string $configName)
+    public function get(string $configName): ?string
     {
         return $this->config[$configName] ?? null;
     }
