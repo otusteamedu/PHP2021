@@ -1,0 +1,19 @@
+{
+    "name": "yu2ry/hw6",
+    "authors": [
+        {
+            "name": "Yury Borisov",
+            "email": "yu2ry@rambler.ru"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/yu2ry/notification-handler"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0",
+        "yu2ry/notification-handler": "^1.0"
+    }
+}
