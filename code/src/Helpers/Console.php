@@ -9,6 +9,11 @@ class Console
         return trim(fgets(STDIN));
     }
 
+    public static function echo(string $message = ''): void
+    {
+        echo $message;
+    }
+
     public static function line(string $message = ''): void
     {
         echo $message . PHP_EOL;

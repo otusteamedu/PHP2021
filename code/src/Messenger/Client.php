@@ -59,7 +59,7 @@ class Client
         Console::info('Можете писать сообщения.' . PHP_EOL);
 
         do {
-            echo '> ';
+            Console::echo('> ');
             if ($input = Console::read()) {
                 $this->send($input);
             }
