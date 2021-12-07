@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: aemets-chat/php
+    container_name: client
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: aemets-chat/php
+    container_name: server
+    volumes:
+       - ./code:/code
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
