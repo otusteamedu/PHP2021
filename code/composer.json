@@ -1,7 +1,7 @@
 {
     "require": {
-        "predis/predis": "^1.1",
-        "mongodb/mongodb": "^1.8"
+        "mongodb/mongodb": "^1.8",
+      "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

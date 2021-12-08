@@ -5,6 +5,7 @@ namespace App\Repositories;
 use MongoDB\BSON\ObjectId;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Manager;
+use MongoDB\Driver\Query;
 use Predis\Client;
 
 class MongoDB
@@ -27,13 +28,20 @@ class MongoDB
             'conditions' => $conditions
         ];
         $bulk->insert($event);
-//        var_dump($this->client->executeBulkWrite('db.collection', $bulk));
-//        exit();
     }
 
     public function findByCondition($conditions)
     {
-        $client = new \MongoDB\Client();
-        var_dump($client);
+        $connection = $this->client;
+        $filter = ['$or' => [["conditions.param1" => 1], ["conditions.param1" => 2]]];
+
+        $query = new Query($filter,[]);
+
+        $documents = $connection->executeQuery('db.collection' /*dbname.collection_name*/,$query);
+
+        foreach($documents as $document){
+            $document = json_decode(json_encode($document),true);
+            var_dump($document);
+        }
     }
 }
