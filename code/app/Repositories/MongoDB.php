@@ -35,13 +35,13 @@ class MongoDB implements NoSqlRepositoryInterface
     {
         $queryConditions = [];
         foreach ($conditions as $conditionName => $conditionValue) {
-            $queryConditions["conditions." . $conditionName] = $conditionValue;
+            $queryConditions[]["conditions." . $conditionName] = $conditionValue;
         }
         unset($conditions);
         $filter = [
-            '$or' => [
+            '$or' => 
                 $queryConditions
-            ]
+
         ];
         $query = new Query($filter,[
             'sort' => ['priority' => -1],
