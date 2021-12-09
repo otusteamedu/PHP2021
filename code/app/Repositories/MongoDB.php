@@ -17,7 +17,7 @@ class MongoDB implements NoSqlRepositoryInterface
         $this->client = new Manager('mongodb://' . config('nosql.host') . ':' . config('nosql.port'));
     }
 
-    public function addEvent($priority, array $conditions, $event)
+    public function addEvent(string $event, array $conditions, int $priority)
     {
         $bulk = new BulkWrite();
         $event = [

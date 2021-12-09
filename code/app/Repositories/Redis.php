@@ -14,7 +14,7 @@ class Redis implements NoSqlRepositoryInterface
         $this->client->connect(config('nosql.host'), config('nosql.port'));
     }
 
-    public function addEvent(int $priority, array $conditions, string $event):void
+    public function addEvent(string $event, array $conditions, int $priority):void
     {
         $id = uniqid();
         $this->client->multi();
