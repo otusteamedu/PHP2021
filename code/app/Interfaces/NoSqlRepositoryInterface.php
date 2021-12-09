@@ -3,9 +3,9 @@ namespace App\Interfaces;
 
 interface NoSqlRepositoryInterface
 {
-    public function addEvent(int $priority, array $conditions, string $event);
+    public function addEvent(int $priority, array $conditions, string $event):void;
 
-    public function findByCondition(array $conditions);
+    public function findByCondition(array $conditions):string;
 
-    public function deleteAllEvents();
+    public function deleteAllEvents():void;
 }

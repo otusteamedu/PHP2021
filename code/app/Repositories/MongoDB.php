@@ -30,7 +30,7 @@ class MongoDB implements NoSqlRepositoryInterface
         $this->client->executeBulkWrite('db.events', $bulk);
     }
 
-    public function findByCondition($conditions)
+    public function findByCondition($conditions):string
     {
         $queryConditions = [];
         foreach ($conditions as $conditionName => $conditionValue) {
@@ -45,9 +45,7 @@ class MongoDB implements NoSqlRepositoryInterface
             'limit' => 1
         ]);
         $documents = $this->client->executeQuery('db.events',$query)->toArray();
-        if ($documents) {
-            return $documents[0]->event;
-        }
+        return !empty($documents[0]) ? $documents[0]->event : '';
     }
 
     public function deleteAllEvents()

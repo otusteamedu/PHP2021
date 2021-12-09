@@ -14,7 +14,7 @@ class Redis implements NoSqlRepositoryInterface
         $this->client->connect(config('nosql.host'), config('nosql.port'));
     }
 
-    public function addEvent(int $priority, array $conditions, string $event)
+    public function addEvent(int $priority, array $conditions, string $event):void
     {
         $id = uniqid();
         $this->client->multi();
@@ -28,7 +28,7 @@ class Redis implements NoSqlRepositoryInterface
         $this->client->exec();
     }
 
-    public function findByCondition(array $conditions)
+    public function findByCondition(array $conditions):string
     {
         $events = $this->parseHashTable($this->client->hGetAll('event_conditions'));
         $events = array_filter($events, function ($event) use ($conditions){
@@ -46,7 +46,7 @@ class Redis implements NoSqlRepositoryInterface
         return $this->client->get('event_names:' . $mostPriorityEvent);
     }
 
-    public function deleteAllEvents()
+    public function deleteAllEvents():void
     {
         $eventIds = $this->client->zRange('events', 0, -1);
         foreach ($eventIds as $eventId) {
@@ -56,7 +56,7 @@ class Redis implements NoSqlRepositoryInterface
         $this->client->del('events');
     }
 
-    private function parseHashTable($hashTable)
+    private function parseHashTable($hashTable):array
     {
         $parsedTable = [];
         foreach ($hashTable as $hashRow => $hashValue) {
