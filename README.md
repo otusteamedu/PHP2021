@@ -7,17 +7,17 @@
 docker-compose up php-fpm nginx redis
 docker run -v redisinsight:/db -p 8001:8001 redislabs/redisinsight:latest
 ````
-1) В папке laravel были добавлены сиды для наполнения NoSQl бд:
-laravel/database/seeders
+1) В папке code были добавлены сиды для наполнения NoSQl бд:
+code/database/seeders
 
 2) Были добавлены репозитории для nosql бд:
-laravel/app/Repositories
+code/app/Repositories
 
 3) Был добавлен интерфейс nosql бд:
-laravel/app/Interfaces
+code/app/Interfaces
 
 4) Добавлена инверсия зависимостей для интерфейса nosql хранилища:
-laravel/app/Providers/AppServiceProvider.php
+code/app/Providers/AppServiceProvider.php
 
 5) Добавлен конфиг для nosql:
-laravel/config/nosql.php
+code/config/nosql.php
