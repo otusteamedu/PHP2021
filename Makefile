@@ -13,3 +13,6 @@ delete-base-images:
 
 bash-webserver:
 	docker-compose exec webserver sh
+
+bash-backend:
+	docker-compose exec backend bash
