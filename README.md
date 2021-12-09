@@ -21,3 +21,6 @@ code/app/Providers/AppServiceProvider.php
 
 5) Добавлен конфиг для nosql:
 code/config/nosql.php
+
+6) Добавлен контроллер для поиска по репозиторию:
+   code/app/Http/Controllers/EventController.php
