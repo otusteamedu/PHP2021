@@ -17,7 +17,7 @@ class MongoDB implements NoSqlRepositoryInterface
         $this->client = new Manager('mongodb://' . config('nosql.host') . ':' . config('nosql.port'));
     }
 
-    public function addEvent(string $event, array $conditions, int $priority)
+    public function addEvent(string $event, array $conditions, int $priority):void
     {
         $bulk = new BulkWrite();
         $event = [
@@ -32,6 +32,7 @@ class MongoDB implements NoSqlRepositoryInterface
 
     public function findByCondition($conditions):string
     {
+        if (!$conditions) return '';
         $queryConditions = [];
         foreach ($conditions as $conditionName => $conditionValue) {
             $queryConditions[]["conditions." . $conditionName] = $conditionValue;
@@ -48,7 +49,7 @@ class MongoDB implements NoSqlRepositoryInterface
         return !empty($documents[0]) ? $documents[0]->event : '';
     }
 
-    public function deleteAllEvents()
+    public function deleteAllEvents():void
     {
         $bulk = new BulkWrite();
         $bulk->delete([]);

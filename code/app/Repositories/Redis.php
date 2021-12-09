@@ -30,6 +30,7 @@ class Redis implements NoSqlRepositoryInterface
 
     public function findByCondition(array $conditions):string
     {
+        if (!$conditions) return '';
         $events = $this->parseHashTable($this->client->hGetAll('event_conditions'));
         $events = array_filter($events, function ($event) use ($conditions){
             foreach ($conditions as $conditionName => $conditionValue) {
