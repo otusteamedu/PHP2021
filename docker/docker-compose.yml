@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: otus-nginx-hw5
+    image: nginx:1.20.2
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/locale.conf:/etc/nginx/conf.d/locale.conf
+      - ../:/var/web/hw5
+    depends_on:
+      - php
+    networks:
+      - app-network
+
+  php:
+    container_name: otus-php-hw5
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/var/web/hw5
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+    name: network-otus-hw5
