@@ -17,6 +17,7 @@
     "require": {
         "ext-sockets": "*",
         "ext-mbstring": "*",
-        "ext-readline": "*"
+        "ext-readline": "*",
+        "ext-memcached": "*"
     }
 }
