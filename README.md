@@ -2,9 +2,9 @@
 add host http://otus_balancer.local in /etc/hosts file
 
 # RUN
-docker-compose up
+`docker-compose up`
 
-#Composer
+# Composer
 
 `docker exec otus-fpm-node-1 composer install`
 
