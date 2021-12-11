@@ -1,3 +1,4 @@
-# PHP2021
+Массовое получение информации через репозитарий  http://php2021.test/getall
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+
+RowDataGetway http://php2021.test/rowgateway
