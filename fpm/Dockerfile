@@ -9,7 +9,10 @@ RUN apt-get update && apt-get install -y \
       libpng-dev \
       libonig-dev \
       libzip-dev \
+      libmemcached-dev \
+    && pecl install memcached \
     && pecl install xdebug \
+    && docker-php-ext-enable memcached \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \

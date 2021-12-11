@@ -2,6 +2,8 @@ create-env:
 	cp .env.example .env
 up:
 	docker-compose up --remove-orphans -d
+up-top:
+	docker-compose up --remove-orphans
 down:
 	docker-compose down --rmi local --remove-orphans --volumes
 start:

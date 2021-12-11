@@ -1,38 +1,103 @@
 version: '3.8'
 
 services:
-  webserver:
+  balancer:
     image: nginx:alpine
-    container_name: otusapp-nginx
+    container_name: otusapp-nginx-balancer
     ports:
       - ${NGINX_HTTP_PORT}:80
+    volumes:
+      - ./balancer/templates:/etc/nginx/templates
+    networks:
+      - otusapp-network
+    depends_on:
+      - webserver-1
+      - webserver-2
+
+  webserver-1:
+    image: nginx:alpine
+    container_name: otusapp-nginx-1
     volumes:
       - ./nginx/templates:/etc/nginx/templates
       - ./code:/data
     networks:
       - otusapp-network
     depends_on:
-      - backend
+      - backend-1
+      - backend-2
 
-  backend:
+  webserver-2:
+    image: nginx:alpine
+    container_name: otusapp-nginx-2
+    volumes:
+      - ./nginx/templates:/etc/nginx/templates
+      - ./code:/data
+    networks:
+      - otusapp-network
+    depends_on:
+      - backend-1
+      - backend-2
+
+  backend-1:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    container_name: otusapp-php
+    container_name: otusapp-php-1
     volumes:
       - ./code:/data
       - ./fpm/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ./fpm/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+      - ./fpm/conf.d/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./fpm/conf.d/memcached.ini:/usr/local/etc/php/conf.d/memcached.ini
     networks:
       - otusapp-network
     depends_on:
-      - memcached
+      - mcrouter
 
-  memcached:
-    image: memcached:alpine
-    container_name: otusapp-memcached
+  backend-2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: otusapp-php-2
+    volumes:
+      - ./code:/data
+      - ./fpm/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./fpm/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+      - ./fpm/conf.d/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./fpm/conf.d/memcached.ini:/usr/local/etc/php/conf.d/memcached.ini
+    networks:
+      - otusapp-network
+    depends_on:
+      - mcrouter
+
+  mcrouter:
+    image: studiosol/mcrouter
+    links:
+      - memcached-1:memcached-1
+      - memcached-2:memcached-2
+    container_name: otusapp-mcrouter
+    command: mcrouter --config-str='{"pools":{"A":{"servers":["memcached-1:11211","memcached-2:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"delete":"AllMajorityRoute|Pool|A","get":"MissFailoverRoute|Pool|A","gets":"MissFailoverRoute|Pool|A","set":"AllMajorityRoute|Pool|A","add":"AllMajorityRoute|Pool|A"}}}' -p 11211
     ports:
       - ${MEMCACHED_PORT}:11211
+    networks:
+      - otusapp-network
+    depends_on:
+      - memcached-1
+      - memcached-2
+
+  memcached-1:
+    image: memcached:alpine
+    container_name: otusapp-memcached-1
+    ports:
+      - "11212:11211"
+    networks:
+      - otusapp-network
+
+  memcached-2:
+    image: memcached:alpine
+    container_name: otusapp-memcached-2
+    ports:
+      - "11213:11211"
     networks:
       - otusapp-network
 
