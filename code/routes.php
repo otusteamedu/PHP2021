@@ -8,6 +8,8 @@ return [
         '/' => [BracketsController::class, 'check'],
     ],
     'get' => [
-        '/session' => [InfrastructureController::class, 'getSessionInfo']
+        '/session' => [InfrastructureController::class, 'getSessionInfo'],
+        '/cache/set' => [InfrastructureController::class, 'setToCache'],
+        '/cache/get' => [InfrastructureController::class, 'getFromCache'],
     ],
 ];

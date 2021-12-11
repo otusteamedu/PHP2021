@@ -1,23 +1,36 @@
-POST http://localhost HTTP/1.1
+### 1. Корректная строка
+
+POST http://localhost
 Content-Type: application/x-www-form-urlencoded
 
 string=(((()))()())
 
-###
+### 2. Некорректная строка (лишняя скобка, из ДЗ)
 
-POST http://localhost HTTP/1.1
+POST http://localhost
 Content-Type: application/x-www-form-urlencoded
 
-strin=(()()()()))((((()()()))(()()()(((()))))))
+string=(()()()()))((((()()()))(()()()(((()))))))
 
-###
+### 3. Корректная строка (пустая)
 
-GET http://localhost/test HTTP/1.1
+POST http://localhost
+Content-Type: application/x-www-form-urlencoded
 
-###
+string=
 
-GET http://localhost/unknown HTTP/1.1
+### 4. Должен вернуть 404
 
-###
+GET http://localhost/unknown
+
+### 5. Должен вернуть информацию о сессии
 
 GET http://localhost/session
+
+### 6. Установит в cache ключ otus-key со значением otus-value
+
+GET http://localhost/cache/set
+
+### 7. Вернёт из cache ключ otus-key
+
+GET http://localhost/cache/get
