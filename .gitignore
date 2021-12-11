@@ -1,3 +1,4 @@
 .idea
 ./redis/data/master/*
-/vendor
+data/vendor
+data/.phpunit.result.cache

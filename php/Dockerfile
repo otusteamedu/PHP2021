@@ -14,7 +14,12 @@ RUN apt-get update && apt-get install -y \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
      && pecl install redis && \
-        docker-php-ext-enable redis
+        docker-php-ext-enable redis && \
+     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+EXPOSE 9000
+
+WORKDIR /var/web/otus_balancer
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/php-custum.ini
 
