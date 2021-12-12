@@ -1,0 +1,7 @@
+code/
+dbdata/
+nginx-balancer/
+nginx-webserver/
+.env
+.DS_Store
+.idea/
