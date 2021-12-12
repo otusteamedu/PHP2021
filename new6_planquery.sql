@@ -282,35 +282,42 @@ WHERE "film"."id_film">100 AND "film"."id_film"<2500;
 (18 rows)
 
 /*==План на 100тыс.строк, с улучшениями==*/
-                                                                        QUERY PLAN
+QUERY PLAN
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
- Gather  (cost=1236.38..5556.60 rows=2477 width=371) (actual time=9.325..142.953 rows=2475 loops=1)
+ Gather  (cost=1236.38..5556.60 rows=2477 width=371) (actual time=8.399..109.486 rows=2475 loops=1)
    Workers Planned: 1
    Workers Launched: 1
-   ->  Nested Loop  (cost=236.38..4308.90 rows=1457 width=371) (actual time=8.052..124.597 rows=1238 loops=2)
-         ->  Nested Loop  (cost=236.09..3587.74 rows=1457 width=324) (actual time=7.999..105.020 rows=1238 loops=2)
-               ->  Hash Join  (cost=235.79..3019.45 rows=1457 width=223) (actual time=7.931..85.974 rows=1238 loops=2)
+   ->  Nested Loop  (cost=236.38..4308.90 rows=1457 width=371) (actual time=7.378..94.712 rows=1238 loops=2)
+         ->  Nested Loop  (cost=236.09..3587.74 rows=1457 width=324) (actual time=7.342..81.586 rows=1238 loops=2)
+               ->  Hash Join  (cost=235.79..3019.45 rows=1457 width=223) (actual time=7.301..67.677 rows=1238 loops=2)
                      Hash Cond: (film_attr_value.film_id = film.id_film)
-                     ->  Parallel Seq Scan on film_attr_value  (cost=0.00..2629.24 rows=58824 width=126) (actual time=0.026..28.273 rows=50000 loops=2)
-                     ->  Hash  (cost=204.83..204.83 rows=2477 width=105) (actual time=7.601..7.603 rows=2399 loops=2)
+                     ->  Parallel Seq Scan on film_attr_value  (cost=0.00..2629.24 rows=58824 width=126) (actual time=0.049..22.199 rows=50000 loops=2)
+                     ->  Hash  (cost=204.83..204.83 rows=2477 width=105) (actual time=6.972..6.974 rows=2399 loops=2)
                            Buckets: 4096  Batches: 1  Memory Usage: 360kB
-                           ->  Index Scan using req4_idfilm on film  (cost=0.29..204.83 rows=2477 width=105) (actual time=0.086..4.413 rows=2399 loops=2)
+                           ->  Index Scan using req4_idfilm on film  (cost=0.29..204.83 rows=2477 width=105) (actual time=0.106..4.244 rows=2399 loops=2)
                                  Index Cond: ((id_film > 100) AND (id_film < 2500))
-               ->  Index Scan using film_attr_pk on film_attr  (cost=0.29..0.39 rows=1 width=109) (actual time=0.012..0.012 rows=1 loops=2475)
+               ->  Index Scan using film_attr_pk on film_attr  (cost=0.29..0.39 rows=1 width=109) (actual time=0.009..0.009 rows=1 loops=2475)
                      Index Cond: (id_attr = film_attr_value.attr_id)
-         ->  Index Scan using film_attr_type_pk on film_attr_type  (cost=0.29..0.49 rows=1 width=55) (actual time=0.013..0.013 rows=1 loops=2475)
+         ->  Index Scan using film_attr_type_pk on film_attr_type  (cost=0.29..0.49 rows=1 width=55) (actual time=0.008..0.008 rows=1 loops=2475)
                Index Cond: (id_type = film_attr.type_id)
- Planning Time: 3.308 ms
- Execution Time: 144.466 ms
+ Planning Time: 3.211 ms
+ Execution Time: 110.287 ms
 (18 rows)
+
+
 
 
 /*==Пречень оптимизаций с пояснениями==
 *
-*1.Добавляем индекс на внешний ключ, по которому идет сортировка
+*1.Добавляем индекс на внешний ключ, по которому идет сортировка и связь JOIN
 *CREATE INDEX req4_idFilm ON film(id_film);
-*2. Как оптимизировать дальше, не понимаю
+*CREATE INDEX req4_filmId ON film_attr_value(film_id);
+*CREATE INDEX req4_attrID ON film_attr_value(attr_id);
+*CREATE INDEX req4_typeID ON film_attr(type_id);
+*
+*Уменьшилось время на обработку запроса
 */
+
 
 
 
@@ -359,36 +366,70 @@ INNER JOIN "film_attr_type" ON  "film_attr"."type_id"= "film_attr_type"."id_type
 /*==План на 100тыс.строк==*/
  QUERY PLAN
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
- Gather  (cost=20207.97..42053.55 rows=100000 width=285) (actual time=655.703..792.883 rows=100000 loops=1)
+ Gather  (cost=20207.97..42053.55 rows=100000 width=285) (actual time=909.747..1165.689 rows=100000 loops=1)
    Workers Planned: 1
    Workers Launched: 1
-   ->  Parallel Hash Join  (cost=19207.97..31053.55 rows=58824 width=285) (actual time=626.811..711.136 rows=50000 loops=2)
+   ->  Parallel Hash Join  (cost=19207.97..31053.55 rows=58824 width=285) (actual time=900.936..1068.352 rows=50000 loops=2)
          Hash Cond: (film_attr_value.attr_id = film_attr.id_attr)
-         ->  Parallel Hash Join  (cost=6629.50..12289.16 rows=58824 width=223) (actual time=163.729..241.871 rows=50000 loops=2)
+         ->  Parallel Hash Join  (cost=6629.50..12289.16 rows=58824 width=223) (actual time=255.408..376.877 rows=50000 loops=2)
                Hash Cond: (film_attr_value.film_id = film.id_film)
-               ->  Parallel Seq Scan on film_attr_value  (cost=0.00..2629.24 rows=58824 width=126) (actual time=0.008..30.576 rows=50000 loops=2)
-               ->  Parallel Hash  (cost=5416.67..5416.67 rows=41667 width=105) (actual time=66.960..66.961 rows=50000 loops=2)
+               ->  Parallel Seq Scan on film_attr_value  (cost=0.00..2629.24 rows=58824 width=126) (actual time=0.011..50.193 rows=50000 loops=2)
+               ->  Parallel Hash  (cost=5416.67..5416.67 rows=41667 width=105) (actual time=122.913..122.915 rows=50000 loops=2)
                      Buckets: 32768  Batches: 4  Memory Usage: 3840kB
-                     ->  Parallel Seq Scan on film  (cost=0.00..5416.67 rows=41667 width=105) (actual time=0.018..20.916 rows=50000 loops=2)
-         ->  Parallel Hash  (cost=10521.16..10521.16 rows=58824 width=156) (actual time=299.258..299.261 rows=50000 loops=2)
+                     ->  Parallel Seq Scan on film  (cost=0.00..5416.67 rows=41667 width=105) (actual time=0.068..57.274 rows=50000 loops=2)
+         ->  Parallel Hash  (cost=10521.16..10521.16 rows=58824 width=156) (actual time=424.165..424.169 rows=50000 loops=2)
                Buckets: 32768  Batches: 8  Memory Usage: 2688kB
-               ->  Parallel Hash Join  (cost=5692.50..10521.16 rows=58824 width=156) (actual time=178.066..228.811 rows=50000 loops=2)
+               ->  Parallel Hash Join  (cost=5692.50..10521.16 rows=58824 width=156) (actual time=236.242..345.047 rows=50000 loops=2)
                      Hash Cond: (film_attr.type_id = film_attr_type.id_type)
-                     ->  Parallel Seq Scan on film_attr  (cost=0.00..2313.24 rows=58824 width=109) (actual time=0.010..29.376 rows=50000 loops=2)
-                     ->  Parallel Hash  (cost=4764.67..4764.67 rows=41667 width=55) (actual time=99.181..99.182 rows=50000 loops=2)
+                     ->  Parallel Seq Scan on film_attr  (cost=0.00..2313.24 rows=58824 width=109) (actual time=0.017..43.399 rows=50000 loops=2)
+                     ->  Parallel Hash  (cost=4764.67..4764.67 rows=41667 width=55) (actual time=115.952..115.954 rows=50000 loops=2)
                            Buckets: 65536  Batches: 4  Memory Usage: 2688kB
-                           ->  Parallel Seq Scan on film_attr_type  (cost=0.00..4764.67 rows=41667 width=55) (actual time=0.025..40.897 rows=50000 loops=2)
- Planning Time: 1.469 ms
- Execution Time: 803.579 ms
+                           ->  Parallel Seq Scan on film_attr_type  (cost=0.00..4764.67 rows=41667 width=55) (actual time=0.088..54.571 rows=50000 loops=2)
+ Planning Time: 1.919 ms
+ Execution Time: 1188.032 ms
 (21 rows)
 
+
+
 /*==План на 100тыс.строк, с улучшениями==*/
+  QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=20207.97..42053.55 rows=100000 width=285) (actual time=383.867..498.108 rows=100000 loops=1)
+   Workers Planned: 1
+   Workers Launched: 1
+   ->  Parallel Hash Join  (cost=19207.97..31053.55 rows=58824 width=285) (actual time=374.949..448.725 rows=50000 loops=2)
+         Hash Cond: (film_attr_value.attr_id = film_attr.id_attr)
+         ->  Parallel Hash Join  (cost=6629.50..12289.16 rows=58824 width=223) (actual time=99.711..149.658 rows=50000 loops=2)
+               Hash Cond: (film_attr_value.film_id = film.id_film)
+               ->  Parallel Seq Scan on film_attr_value  (cost=0.00..2629.24 rows=58824 width=126) (actual time=0.007..19.214 rows=50000 loops=2)
+               ->  Parallel Hash  (cost=5416.67..5416.67 rows=41667 width=105) (actual time=48.807..48.808 rows=50000 loops=2)
+                     Buckets: 32768  Batches: 4  Memory Usage: 3840kB
+                     ->  Parallel Seq Scan on film  (cost=0.00..5416.67 rows=41667 width=105) (actual time=0.037..22.459 rows=50000 loops=2)
+         ->  Parallel Hash  (cost=10521.16..10521.16 rows=58824 width=156) (actual time=182.197..182.200 rows=50000 loops=2)
+               Buckets: 32768  Batches: 8  Memory Usage: 2688kB
+               ->  Parallel Hash Join  (cost=5692.50..10521.16 rows=58824 width=156) (actual time=103.884..149.047 rows=50000 loops=2)
+                     Hash Cond: (film_attr.type_id = film_attr_type.id_type)
+                     ->  Parallel Seq Scan on film_attr  (cost=0.00..2313.24 rows=58824 width=109) (actual time=0.014..17.012 rows=50000 loops=2)
+                     ->  Parallel Hash  (cost=4764.67..4764.67 rows=41667 width=55) (actual time=57.041..57.041 rows=50000 loops=2)
+                           Buckets: 65536  Batches: 4  Memory Usage: 2720kB
+                           ->  Parallel Seq Scan on film_attr_type  (cost=0.00..4764.67 rows=41667 width=55) (actual time=0.082..26.864 rows=50000 loops=2)
+ Planning Time: 3.465 ms
+ Execution Time: 507.572 ms
+(21 rows)
+
+
+
+
 /*==Пречень оптимизаций с пояснениями==
+*1.Добавляем индекс на внешний ключ, по которому идет связь JOIN
 *
+*CREATE INDEX req5_idType ON film_attr_type(id_type);
+*CREATE INDEX req5_idAttr ON film_attr(id_attr);
+*CREATE INDEX req5_filmId ON film_attr_value(film_id);
 *
-*
-*
+*Время выполнения запроса сократилось
 */
+
 
 
 
@@ -458,13 +499,99 @@ QUERY PLAN
                        ->  Index Scan using film_attr_pk on film_attr film_attr_2  (cost=0.29..8.30 rows=1 width=105) (actual time=0.006..0.006 rows=1 loops=10000)
 ...
 /*==План на 100тыс.строк==*/
-На 100 тыс завис
+ QUERY PLAN                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=4146804.67..4147054.67 rows=100000 width=169) (actual time=3455.298..3533.295 rows=63226 loops=1)
+   Sort Key: film.title_film
+   Sort Method: external merge  Disk: 17328kB
+   ->  Group  (cost=22828.98..4129952.85 rows=100000 width=169) (actual time=1159.056..3222.599 rows=63226 loops=1)
+         Group Key: film.id_film
+         ->  Merge Join  (cost=22828.98..32185.03 rows=100000 width=105) (actual time=1158.789..1364.099 rows=100000 loops=1)
+               Merge Cond: (film.id_film = film_attr_value.film_id)
+               ->  Index Scan using req4_idfilm on film  (cost=0.29..7607.29 rows=100000 width=105) (actual time=0.061..105.235 rows=100000 loops=1)
+               ->  Sort  (cost=22828.13..23078.13 rows=100000 width=4) (actual time=422.158..448.981 rows=100000 loops=1)
+                     Sort Key: film_attr_value.film_id
+                     Sort Method: external sort  Disk: 1768kB
+                     ->  Hash Join  (cost=8611.29..14523.31 rows=100000 width=4) (actual time=120.862..313.958 rows=100000 loops=1)
+                           Hash Cond: (film_attr.type_id = film_attr_type.id_type)
+                           ->  Hash Join  (cost=4366.00..8842.51 rows=100000 width=8) (actual time=53.646..160.691 rows=100000 loops=1)
+                                 Hash Cond: (film_attr_value.attr_id = film_attr.id_attr)
+                                 ->  Seq Scan on film_attr_value  (cost=0.00..3041.00 rows=100000 width=8) (actual time=0.023..24.619 rows=100000 loops=1)
+                                 ->  Hash  (cost=2725.00..2725.00 rows=100000 width=8) (actual time=53.183..53.185 rows=100000 loops=1)
+                                       Buckets: 131072  Batches: 2  Memory Usage: 2976kB
+                                       ->  Seq Scan on film_attr  (cost=0.00..2725.00 rows=100000 width=8) (actual time=0.008..22.593 rows=100000 loops=1)
+                           ->  Hash  (cost=2604.29..2604.29 rows=100000 width=4) (actual time=66.688..66.689 rows=100000 loops=1)
+                                 Buckets: 131072  Batches: 2  Memory Usage: 2781kB
+                                 ->  Index Only Scan using req5_idtype on film_attr_type  (cost=0.29..2604.29 rows=100000 width=4) (actual time=0.029..27.749 rows=100000 loops=1)
+                                       Heap Fetches: 0
+         SubPlan 1
+           ->  Aggregate  (cost=20.48..20.49 rows=1 width=32) (actual time=0.009..0.010 rows=1 loops=63226)
+                 ->  Nested Loop  (cost=4.60..20.47 rows=1 width=101) (actual time=0.008..0.008 rows=0 loops=63226)
+                       ->  Bitmap Heap Scan on film_attr_value film_attr_value_1  (cost=4.31..12.16 rows=1 width=4) (actual time=0.006..0.006 rows=0 loops=63226)
+                             Recheck Cond: (film_id = film.id_film)
+                             Filter: (date(value_date) = CURRENT_DATE)
+                             Rows Removed by Filter: 2
+                             Heap Blocks: exact=99970
+                             ->  Bitmap Index Scan on req5_filmid  (cost=0.00..4.31 rows=2 width=0) (actual time=0.003..0.003 rows=2 loops=63226)
+                                   Index Cond: (film_id = film.id_film)
+                       ->  Index Scan using req5_idattr on film_attr film_attr_1  (cost=0.29..8.31 rows=1 width=105) (never executed)
+                             Index Cond: (id_attr = film_attr_value_1.attr_id)
+         SubPlan 2
+           ->  Aggregate  (cost=20.48..20.49 rows=1 width=32) (actual time=0.017..0.018 rows=1 loops=63226)
+                 ->  Nested Loop  (cost=4.60..20.48 rows=1 width=101) (actual time=0.010..0.013 rows=2 loops=63226)
+:
+
 /*==План на 100тыс.строк, с улучшениями==*/
+  QUERY PLAN                                                               
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=4146804.67..4147054.67 rows=100000 width=169) (actual time=2920.631..2996.641 rows=63226 loops=1)
+   Sort Key: film.title_film
+   Sort Method: external merge  Disk: 17328kB
+   ->  Group  (cost=22828.98..4129952.85 rows=100000 width=169) (actual time=843.965..2708.632 rows=63226 loops=1)
+         Group Key: film.id_film
+         ->  Merge Join  (cost=22828.98..32185.03 rows=100000 width=105) (actual time=843.791..993.779 rows=100000 loops=1)
+               Merge Cond: (film.id_film = film_attr_value.film_id)
+               ->  Index Scan using req4_idfilm on film  (cost=0.29..7607.29 rows=100000 width=105) (actual time=0.013..54.420 rows=100000 loops=1)
+               ->  Sort  (cost=22828.13..23078.13 rows=100000 width=4) (actual time=408.964..435.178 rows=100000 loops=1)
+                     Sort Key: film_attr_value.film_id
+                     Sort Method: external sort  Disk: 1768kB
+                     ->  Hash Join  (cost=8611.29..14523.31 rows=100000 width=4) (actual time=117.002..308.121 rows=100000 loops=1)
+                           Hash Cond: (film_attr.type_id = film_attr_type.id_type)
+                           ->  Hash Join  (cost=4366.00..8842.51 rows=100000 width=8) (actual time=64.037..173.866 rows=100000 loops=1)
+                                 Hash Cond: (film_attr_value.attr_id = film_attr.id_attr)
+                                 ->  Seq Scan on film_attr_value  (cost=0.00..3041.00 rows=100000 width=8) (actual time=0.029..25.734 rows=100000 loops=1)
+                                 ->  Hash  (cost=2725.00..2725.00 rows=100000 width=8) (actual time=63.486..63.487 rows=100000 loops=1)
+                                       Buckets: 131072  Batches: 2  Memory Usage: 2976kB
+                                       ->  Seq Scan on film_attr  (cost=0.00..2725.00 rows=100000 width=8) (actual time=0.024..28.068 rows=100000 loops=1)
+                           ->  Hash  (cost=2604.29..2604.29 rows=100000 width=4) (actual time=52.506..52.507 rows=100000 loops=1)
+                                 Buckets: 131072  Batches: 2  Memory Usage: 2781kB
+                                 ->  Index Only Scan using req5_idtype on film_attr_type  (cost=0.29..2604.29 rows=100000 width=4) (actual time=0.027..20.335 rows=100000 loops=1)
+                                       Heap Fetches: 0
+         SubPlan 1
+           ->  Aggregate  (cost=20.48..20.49 rows=1 width=32) (actual time=0.009..0.009 rows=1 loops=63226)
+                 ->  Nested Loop  (cost=4.60..20.47 rows=1 width=101) (actual time=0.007..0.007 rows=0 loops=63226)
+                       ->  Bitmap Heap Scan on film_attr_value film_attr_value_1  (cost=4.31..12.16 rows=1 width=4) (actual time=0.005..0.005 rows=0 loops=63226)
+                             Recheck Cond: (film_id = film.id_film)
+                             Filter: (date(value_date) = CURRENT_DATE)
+                             Rows Removed by Filter: 2
+                             Heap Blocks: exact=99970
+                             ->  Bitmap Index Scan on req6_filmid  (cost=0.00..4.31 rows=2 width=0) (actual time=0.002..0.002 rows=2 loops=63226)
+                                   Index Cond: (film_id = film.id_film)
+                       ->  Index Scan using req5_idattr on film_attr film_attr_1  (cost=0.29..8.31 rows=1 width=105) (never executed)
+                             Index Cond: (id_attr = film_attr_value_1.attr_id)
+         SubPlan 2
+           ->  Aggregate  (cost=20.48..20.49 rows=1 width=32) (actual time=0.016..0.016 rows=1 loops=63226)
+                 ->  Nested Loop  (cost=4.60..20.48 rows=1 width=101) (actual time=0.009..0.012 rows=2 loops=63226)
+...
+
+
 /*==Пречень оптимизаций с пояснениями==
 *
+*CREATE INDEX req6_valDate ON film_attr_value(value_date);
+*CREATE INDEX req6_filmId ON film_attr_value(film_id);
+CREATE INDEX req6_titleFilm ON film(title_film);
 *
-*
-*
+* По JOIN ключи были созданы ранее;
+* Уменьшилась стоимость запросов
 */
-
 
