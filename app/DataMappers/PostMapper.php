@@ -52,33 +52,33 @@ class PostMapper
         );
     }
 
-    public function insert(array $rawUserData): Post
+    public function insert(array $rawPostData): Post
     {
         $this->insertStatement->execute([
-            $rawUserData['first_name'],
-            $rawUserData['last_name'],
-            $rawUserData['email'],
+            $rawPostData['title'],
+            $rawPostData['author_name'],
+            $rawPostData['created_at'],
         ]);
 
-        return new User(
+        return new Post(
             (int)$this->pdo->lastInsertId(),
-            $rawUserData['first_name'],
-            $rawUserData['last_name'],
-            $rawUserData['email'],
+            $rawPostData['title'],
+            $rawPostData['author_name'],
+            $rawPostData['created_at'],
         );
     }
 
-    public function update(Post $user): bool
+    public function update(Post $post): bool
     {
         return $this->updateStatement->execute([
-            $user->getTitle(),
-            $user->getAuthorName(),
-            $user->getCreatedAt(),
+            $post->getTitle(),
+            $post->getAuthorName(),
+            $post->getCreatedAt(),
         ]);
     }
 
-    public function delete(Post $user): bool
+    public function delete(Post $post): bool
     {
-        return $this->deleteStatement->execute([$user->getId()]);
+        return $this->deleteStatement->execute([$post->getId()]);
     }
 }
