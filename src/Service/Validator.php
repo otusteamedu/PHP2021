@@ -2,19 +2,17 @@
 
 namespace App\Service;
 
-use Exception;
-
 class Validator
 {
     /**
      * @param string $str
      *
-     * @throws Exception
+     * @throws ValidatorException
      */
     public static function validate(string $str): void
     {
         if (empty($str)) {
-            throw new Exception('String not defined', 400);
+            throw new ValidatorException(ValidatorException::EMPTY);
         }
 
         $bracketCounter = 0;
@@ -23,14 +21,14 @@ class Validator
                 $bracketCounter++;
             } elseif ($str[$i] === ')') {
                 if ($bracketCounter < 1) {
-                    throw new Exception('Incorrect string', 400);
+                    throw new ValidatorException(ValidatorException::INCORRECT);
                 }
                 $bracketCounter--;
             }
         }
 
         if ($bracketCounter > 0) {
-            throw new Exception('Incorrect string', 400);
+            throw new ValidatorException(ValidatorException::INCORRECT);
         }
 
         echo 'String validation completed successfully!' . PHP_EOL;
