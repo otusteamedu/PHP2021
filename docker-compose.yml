@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  # PHP
+  app:
+    build:
+      context: ./deploy/fpm
+      dockerfile: Dockerfile
+    image: otus/php2021/app/php
+    container_name: otus-php2021-app
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+  # Nginx
+  webserver:
+    build:
+      context: ./deploy/nginx
+      dockerfile: Dockerfile
+    image: otus/php2021/app/nginx
+    container_name: otus-php2021-webserver
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge
