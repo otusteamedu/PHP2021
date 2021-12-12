@@ -4,45 +4,36 @@ declare(strict_types=1);
 
 namespace Vshepelev\App;
 
-use InvalidArgumentException;
+use JsonException;
+use JetBrains\PhpStorm\Pure;
 use Vshepelev\App\Response\Response;
 use Vshepelev\App\Response\HttpStatus;
 
 class Application
 {
-    public function handle(Request $request): Response
+    private Config $config;
+
+    #[Pure]
+    public function __construct()
     {
-        if (!$action = $this->getActionFromRouter($request->method(), $request->uri())) {
+        $this->config = new Config();
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function handleHttpRequest(): void
+    {
+        $this->handle(Request::capture())->send();
+    }
+
+    private function handle(Request $request): Response
+    {
+        $router = new Router($this->config->get('routes'));
+        if (!$action = $router->getAction($request->method(), $request->uri())) {
             return new Response('Route not found', HttpStatus::NOT_FOUND);
         }
 
         return $action($request);
-    }
-
-    private function getActionFromRouter(string $method, string $uri): ?callable
-    {
-        $router = include '../routes.php';
-        $method = strtolower($method);
-        $route = $router[$method][$uri] ?? null;
-
-        if (!isset($route)) {
-            return null;
-        }
-
-        if (count($route) !== 2) {
-            throw new InvalidArgumentException("Incorrect route configuration");
-        }
-
-        [$controller, $action] = $route;
-
-        if (!isset($controller) || !class_exists($controller)) {
-            throw new InvalidArgumentException("Incorrect controller for current route");
-        }
-
-        if (!isset($action) || !method_exists($controller, $action)) {
-            throw new InvalidArgumentException("Incorrect action for current route");
-        }
-
-        return [new $controller, $action];
     }
 }
