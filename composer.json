@@ -1,6 +1,6 @@
 {
   "name": "i_rozinsky/php2021",
-  "description": "description",
+  "description": "HW11",
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
@@ -12,7 +12,8 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
-    "razmik/email_verify": "^1.0"
+    "elasticsearch/elasticsearch": "^7.0",
+    "google/apiclient": "^2.12.1"
   },
   "autoload": {
     "psr-4": {

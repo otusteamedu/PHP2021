@@ -1,7 +1,0 @@
-### Send POST request with json body
-POST http://mysite.local
-Content-Type: application/json
-
-{
-  "emails": "ex@mail.ru; example@gmail.com"
-}
