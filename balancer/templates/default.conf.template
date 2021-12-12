@@ -1,0 +1,10 @@
+upstream web {
+    server webserver-1:80;
+    server webserver-2:80;
+}
+
+server {
+    location / {
+        proxy_pass http://web;
+    }
+}

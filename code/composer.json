@@ -1,0 +1,23 @@
+{
+    "name": "vshepelev/hw3-1",
+    "description": "Work with sockets",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Vshepelev\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Viacheslav Shepelev",
+            "email": "felixmind@outlook.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ext-sockets": "*",
+        "ext-mbstring": "*",
+        "ext-readline": "*",
+        "ext-memcached": "*"
+    }
+}
