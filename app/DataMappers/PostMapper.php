@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataMappers;
 
-use App\Entities\Post;
-use App\Interfaces\EntityInterface;
+use App\Interfaces\EntityPostInterface;
 use PDO;
 use PDOStatement;
 
@@ -21,9 +20,9 @@ class PostMapper
 
     private PDOStatement $deleteStatement;
 
-    private EntityInterface $entity;
+    private EntityPostInterface $entity;
 
-    public function __construct(PDO $pdo, EntityInterface $entity)
+    public function __construct(PDO $pdo, EntityPostInterface $entity)
     {
         $this->entity = $entity;
         $this->pdo = $pdo;
@@ -41,14 +40,14 @@ class PostMapper
         );
     }
 
-    public function findById(int $id): EntityInterface
+    public function findById(int $id): EntityPostInterface
     {
         $this->selectStatement->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectStatement->execute([$id]);
 
         $result = $this->selectStatement->fetch();
 
-        return (new Post())->setAttributes(
+        return $this->entity->setAttributes(
             $result['id'],
             $result['title'],
             $result['author_name'],
@@ -56,7 +55,7 @@ class PostMapper
         );
     }
 
-    public function insert(array $rawPostData): Post
+    public function insert(array $rawPostData): EntityPostInterface
     {
         $this->insertStatement->execute([
             $rawPostData['title'],
@@ -64,7 +63,7 @@ class PostMapper
             $rawPostData['created_at'],
         ]);
 
-        return new Post(
+        return $this->entity->setAttributes(
             (int)$this->pdo->lastInsertId(),
             $rawPostData['title'],
             $rawPostData['author_name'],
@@ -72,17 +71,17 @@ class PostMapper
         );
     }
 
-    public function update(Post $post): bool
+    public function update(): bool
     {
         return $this->updateStatement->execute([
-            $post->getTitle(),
-            $post->getAuthorName(),
-            $post->getCreatedAt(),
+            $this->entity->getTitle(),
+            $this->entity->getAuthorName(),
+            $this->entity->getCreatedAt(),
         ]);
     }
 
-    public function delete(Post $post): bool
+    public function delete(int $id): bool
     {
-        return $this->deleteStatement->execute([$post->getId()]);
+        return $this->deleteStatement->execute([$this->entity->getId()]);
     }
 }

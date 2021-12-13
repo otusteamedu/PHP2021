@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
-use App\Interfaces\EntityInterface;
+use App\Interfaces\EntityPostInterface;
 
-class Post implements EntityInterface
+class Post implements EntityPostInterface
 {
     private int    $id;
 
@@ -16,19 +16,7 @@ class Post implements EntityInterface
 
     private string $createdAt;
 
-    public function setAttributes(
-        int $id,
-        string $title,
-        string $authorName,
-        string $createdAt
-    )
-    {
-        $this->id = $id;
-        $this->title = $title;
-        $this->authorName = $authorName;
-        $this->createdAt = $createdAt;
-        return $this;
-    }
+
 
     public function getId(): int
     {
@@ -39,6 +27,15 @@ class Post implements EntityInterface
     {
         $this->id = $id;
 
+        return $this;
+    }
+
+    public function setAttributes(int $id, string $title, string $authorName, string $createdAt): EntityPostInterface
+    {
+        $this->id = $id;
+        $this->title = $title;
+        $this->authorName = $authorName;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -77,4 +74,5 @@ class Post implements EntityInterface
 
         return $this;
     }
+
 }
