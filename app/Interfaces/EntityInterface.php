@@ -6,5 +6,5 @@ interface EntityInterface
 {
     public function getId(): int;
 
-    public function setId(): self;
+    public function setId(int $id): self;
 }

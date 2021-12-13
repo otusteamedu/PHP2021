@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DataMappers;
 
 use App\Entities\Post;
+use App\Interfaces\EntityInterface;
 use PDO;
 use PDOStatement;
 
@@ -20,8 +21,11 @@ class PostMapper
 
     private PDOStatement $deleteStatement;
 
-    public function __construct(PDO $pdo)
+    private EntityInterface $entity;
+
+    public function __construct(PDO $pdo, EntityInterface $entity)
     {
+        $this->entity = $entity;
         $this->pdo = $pdo;
         $this->selectStatement = $pdo->prepare(
             'SELECT * FROM posts WHERE id = ?'
@@ -37,18 +41,18 @@ class PostMapper
         );
     }
 
-    public function findById(int $id): Post
+    public function findById(int $id): EntityInterface
     {
         $this->selectStatement->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectStatement->execute([$id]);
 
         $result = $this->selectStatement->fetch();
 
-        return new Post(
+        return (new Post())->setAttributes(
             $result['id'],
             $result['title'],
             $result['author_name'],
-            $result['created_at'],
+            $result['created_at']
         );
     }
 

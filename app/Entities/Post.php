@@ -16,7 +16,7 @@ class Post implements EntityInterface
 
     private string $createdAt;
 
-    public function __construct(
+    public function setAttributes(
         int $id,
         string $title,
         string $authorName,
@@ -27,6 +27,7 @@ class Post implements EntityInterface
         $this->title = $title;
         $this->authorName = $authorName;
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getId(): int
