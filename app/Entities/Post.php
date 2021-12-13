@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entities;
 
-class Post
+use App\Interfaces\EntityInterface;
+
+class Post implements EntityInterface
 {
     private int    $id;
 

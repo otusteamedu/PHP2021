@@ -5,6 +5,7 @@
     }
   },
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "php-di/php-di": "^6.3"
   }
 }
