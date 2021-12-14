@@ -19,11 +19,4 @@ interface EntityPostInterface
     public function getCreatedAt(): string;
 
     public function setCreatedAt(string $createdAt): self;
-
-    public function setAttributes(
-        int    $id,
-        string $title,
-        string $authorName,
-        string $createdAt
-    ): self;
 }

@@ -30,13 +30,12 @@ class Post implements EntityPostInterface
         return $this;
     }
 
-    public function setAttributes(int $id, string $title, string $authorName, string $createdAt): EntityPostInterface
+    public function __construct(array $data)
     {
-        $this->id = $id;
-        $this->title = $title;
-        $this->authorName = $authorName;
-        $this->createdAt = $createdAt;
-        return $this;
+        $this->id = (int) $data['id'];
+        $this->title =  $data['title'];
+        $this->authorName = $data['author_name'];
+        $this->createdAt = $data['created_at'];
     }
 
     public function getTitle(): string

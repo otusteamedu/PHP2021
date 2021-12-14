@@ -2,28 +2,15 @@
 
 namespace App\Interfaces;
 
-interface EntityPostInterface
+use App\Entities\Post;
+
+interface StorageInterface
 {
-    public function getId(): int;
+    public function findById(int $id);
 
-    public function setId(int $id): self;
+    public function insert(array $rawPostData);
 
-    public function getTitle(): string;
+    public function update(Post $post);
 
-    public function setTitle(string $title): self;
-
-    public function getAuthorName(): string;
-
-    public function setAuthorName(string $authorName): self;
-
-    public function getCreatedAt(): string;
-
-    public function setCreatedAt(string $createdAt): self;
-
-    public function setAttributes(
-        int    $id,
-        string $title,
-        string $authorName,
-        string $createdAt
-    ): self;
+    public function delete(int $id);
 }
