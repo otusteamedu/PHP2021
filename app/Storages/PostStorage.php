@@ -21,9 +21,6 @@ class PostStorage implements StorageInterface
 
     private PDOStatement $deleteStatement;
 
-    /**
-     * @Inject({"my.specific.service"})
-     */
     public function __construct()
     {
         global $app;
