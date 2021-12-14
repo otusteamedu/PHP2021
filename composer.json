@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "php-di/php-di": "^6.3",
+    "doctrine/annotations": "^1.13"
+  }
+}

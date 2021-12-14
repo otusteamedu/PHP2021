@@ -1,0 +1,11 @@
+<?php
+require '../vendor/autoload.php';
+
+
+$app = require __DIR__ . '/../bootstrap/container.php';
+
+$app->set(\App\Interfaces\StorageInterface::class,
+    DI\create(\App\Storages\PostStorage::class));
+
+$postMapper = $app->make(\App\DataMappers\PostMapper::class);
+var_dump($postMapper->findById(1));
