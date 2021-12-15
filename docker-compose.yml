@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - ./code:/data
+      - ./docker/fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+    networks:
+      - app-network
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres_patterns
+    environment:
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
