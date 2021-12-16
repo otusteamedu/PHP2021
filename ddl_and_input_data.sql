@@ -135,11 +135,11 @@ CREATE TABLE public.film_attributes (
     film_attributes_id integer DEFAULT nextval('public.film_attributes_id_seq'::regclass) NOT NULL,
     attribute_id integer NOT NULL,
     film_id integer NOT NULL,
-    value_text character varying(100),
+    value_text character varying,
     value_integer integer,
-    value_numeric numeric(10,2),
+    value_float double precision,
     value_boolean boolean,
-    value_date date
+    value_timestamp timestamp with time zone
 );
 
 
@@ -178,18 +178,18 @@ ALTER TABLE public.film_tasks OWNER TO bender;
 
 COPY public.attribute (attribute_id, name, attribute_type_id) FROM stdin;
 1	Рецензии	3
-2	Рейтинг	5
 3	Премия Оскар	2
 4	Премия Ника	2
 5	Премия Золотой Глобус	2
-6	Премьера в мире	4
-7	Премьера в России	4
-8	Старт продажи билетов	4
-9	Старт проката	4
 10	Описание фильма	3
 11	Длительность (мин.)	1
 12	Длительность проката (дней)	1
-13	Окончание проката	4
+2	Рейтинг	7
+6	Премьера в мире	6
+7	Премьера в России	6
+8	Старт продажи билетов	6
+9	Старт проката	6
+13	Окончание проката	6
 \.
 
 
@@ -203,6 +203,8 @@ COPY public.attribute_type (attribute_type_id, name) FROM stdin;
 3	text
 4	date
 5	numeric
+6	timestamp
+7	float
 \.
 
 
@@ -220,25 +222,23 @@ COPY public.film (film_id, name) FROM stdin;
 -- Data for Name: film_attributes; Type: TABLE DATA; Schema: public; Owner: bender
 --
 
-COPY public.film_attributes (film_attributes_id, attribute_id, film_id, value_text, value_integer, value_numeric, value_boolean, value_date) FROM stdin;
+COPY public.film_attributes (film_attributes_id, attribute_id, film_id, value_text, value_integer, value_float, value_boolean, value_timestamp) FROM stdin;
 1	1	1	Годный фильм, распинаюсь про сюжет, пишу про игру актеров, все круто	\N	\N	\N	\N
 2	1	2	Джон Уик уже не тот, сестры Вачовски сбрендили, полная фигня	\N	\N	\N	\N
-3	2	1	f	\N	96.40	\N	\N
-4	2	2	\N	\N	73.12	\N	\N
-5	3	1	\N	\N	\N	\N	\N
-7	6	2	\N	\N	\N	\N	2021-12-10
-8	7	1	\N	\N	\N	\N	2022-01-04
-9	7	2	\N	\N	\N	\N	2021-12-30
-10	8	1	\N	\N	\N	\N	2021-12-10
-11	8	2	\N	\N	\N	\N	2021-12-07
+5	3	1	f	\N	\N	\N	\N
+7	6	2	\N	\N	\N	\N	2021-12-10 00:00:00+03
+9	7	2	\N	\N	\N	\N	2021-12-30 00:00:00+03
+10	8	1	\N	\N	\N	\N	2021-12-10 00:00:00+03
+11	8	2	\N	\N	\N	\N	2021-12-07 00:00:00+03
 12	12	1	\N	21	\N	\N	\N
 13	12	2	\N	14	\N	\N	\N
-6	6	1	\N	\N	\N	\N	2021-12-15
-14	9	1	\N	\N	\N	\N	2021-12-15
-15	9	2	\N	\N	\N	\N	2021-12-15
-16	13	1	\N	\N	\N	\N	2022-01-04
-17	13	2	\N	\N	\N	\N	2022-01-04
+14	9	1	\N	\N	\N	\N	2021-12-15 00:00:00+03
+15	9	2	\N	\N	\N	\N	2021-12-15 00:00:00+03
+16	13	1	\N	\N	\N	\N	2022-01-04 00:00:00+03
+17	13	2	\N	\N	\N	\N	2022-01-04 00:00:00+03
 18	3	2	t	\N	\N	\N	\N
+6	6	1	\N	\N	\N	\N	2021-12-15 00:00:00+03
+8	7	1	\N	\N	\N	\N	2022-01-04 00:00:00+03
 \.
 
 
@@ -253,7 +253,7 @@ SELECT pg_catalog.setval('public.attribute_id_seq', 13, true);
 -- Name: attribute_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bender
 --
 
-SELECT pg_catalog.setval('public.attribute_type_id_seq', 5, true);
+SELECT pg_catalog.setval('public.attribute_type_id_seq', 6, true);
 
 
 --
