@@ -7,11 +7,8 @@ namespace App\RowGateway;
 class User
 {
     private ?int         $id        = null;
-
     private ?string      $name      = null;
-
     private ?string      $phone     = null;
-
     private ?string      $email     = null;
 
     public function getId(): ?int

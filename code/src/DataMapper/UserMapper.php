@@ -8,13 +8,12 @@ use PDOStatement;
 class UserMapper
 {
     private PDO $pdo;
-
     private PDOStatement $selectStatement;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->selectStatement = $pdo->prepare('SELECT * FROM users LIMIT 10');
+        $this->selectStatement = $pdo->prepare('SELECT * FROM users');
     }
 
     public function findCollection(): array

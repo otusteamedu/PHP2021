@@ -7,22 +7,17 @@ use PDOStatement;
 
 class User
 {
-    private ?int         $id        = null;
-
-    private ?string      $name      = null;
-
-    private ?string      $phone     = null;
-
-    private ?string      $email     = null;
-
-    private PDO          $pdo;
-
+    private ?int $id = null;
+    private ?string $name = null;
+    private ?string $phone = null;
+    private ?string $email = null;
+    private PDO $pdo;
     private PDOStatement $selectStatement;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->selectStatement = $pdo->prepare('SELECT * FROM users LIMIT 10');
+        $this->selectStatement = $pdo->prepare('SELECT * FROM users');
     }
 
     public function findCollection()
