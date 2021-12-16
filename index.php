@@ -2,13 +2,21 @@
 
 function task1(array $data)
 {
-    $miss = 0;
-    return array_reduce($data, function ($carry, $item) use ($miss) {
-        if ($item % 2 !== 0) {
-            $carry .= $item;
+    $result = [];
+    foreach ($data as $num) {
+        $result[] = $data;
+        if (end($result) !== 1
+            && end($result) - $num !== 1) {
+            $result[] = $data;
         }
-        return $carry;
-    }, '');
+    }
+//    return array_reduce($data, function ($carry, $item) {
+//        if ($carry !== '') {
+//            var_dump($carry);
+//            exit();
+//        }
+//        return $carry . $item;
+//    }, '');
 }
 
 var_dump(task1([1, 2, 3, 5, 7, 8, 9, 10]));
