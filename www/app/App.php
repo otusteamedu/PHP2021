@@ -1,45 +1,29 @@
 <?php
 namespace App;
 
+use App\Client\Client;
+use App\Server\Server;
+
 class App
 {
-    private $type;
-    
-    public function __construct(){
-        $this->checkData();;
-    }
-    
     public function run()
-    {
-        set_time_limit(0);
-        ob_implicit_flush();
-
-        $classname = ucfirst($this->type);
-        $classname_with_namespace = $this->getPathWithNamespaceFor($classname);
-
-        if(class_exists($classname_with_namespace)){
-            $side = new $classname_with_namespace($this->getConfig());
-            $side->run();
-        }
-    }
-    
-    private function checkData()
     {
         if (empty($_SERVER['argv'][1])){
             throw new \ArgumentCountError('Not enough arguments.');
-        }
+        } 
+        
+        set_time_limit(0);
+        ob_implicit_flush();
 
-        if ($_SERVER['argv'][1] === 'client' ||
-            $_SERVER['argv'][1] === 'server'){
-            $this->type = $_SERVER['argv'][1];  
+        if ($_SERVER['argv'][1] === 'client1'){
+            $side = new Client($this->getConfig());   
+        } elseif ($_SERVER['argv'][1] === 'server'){
+            $side = new Server($this->getConfig());
         } else {
             throw new \InvalidArgumentException('Got unknown type for a socket.');
         }
-    }
-    
-    private function getPathWithNamespaceFor(string $classname): string
-    {
-        return __NAMESPACE__ . '\\' . $classname .'\\'. $classname;
+
+        $side->run();
     }
     
     private function getConfig()
