@@ -1,0 +1,90 @@
+version: "3"
+
+services:
+  nginx-balancer:
+    container_name: nginx-balancer
+    build:
+      context: ./docker/nginx
+    image: image_otus-nginx
+    ports:
+      - ${NGINX_BALANCER_PORT}:80
+    depends_on:
+      - nginx-node-1
+      - nginx-node-2
+    volumes:
+      - ./docker/nginx/config_balancer:/etc/nginx/conf.d
+    networks:
+      - otus-4
+
+  nginx-node-1:
+    container_name: nginx-node-1
+    build:
+      context: ./docker/nginx
+    image: image_otus-nginx
+    volumes:
+      - ./docker/nginx/config:/etc/nginx/conf.d
+      - ./www:/var/www/html
+    depends_on:
+      - php-1
+      - php-2
+    networks:
+      - otus-4
+
+  nginx-node-2:
+    container_name: nginx-node-2
+    build:
+      context: ./docker/nginx
+    image: image_otus-nginx
+    volumes:
+      - ./docker/nginx/config:/etc/nginx/conf.d
+      - ./www:/var/www/html
+    depends_on:
+      - php-1
+      - php-2
+    networks:
+      - otus-4
+
+  otus-php-1:
+    container_name: otus-php-1
+    build:
+      context: ./docker/php
+    image: image_otus-php
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - otus-4
+    
+  otus-php-2:
+    container_name: otus-php-2
+    build:
+      context: ./docker/php
+    image: image_otus-php
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - otus-4
+  
+  db:
+    image: mysql:5.7.22
+    container_name: db-otus
+    ports:
+      - 3306:3306 
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./docker/dbdata:/var/lib/mysql
+    networks:
+      - otus-4
+  
+  memcached:
+    container_name: memcached-hw4
+    image: memcached:1.6.12-alpine
+    ports:
+      - ${MEMCACHED_PORT}:11211
+    networks:
+      - otus-4
+    
+networks:
+  otus-4:
+    driver: bridge
