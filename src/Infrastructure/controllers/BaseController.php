@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Infrastructure\Controllers;
 
-use App\Models\Auth;
+
 use App\Services\SendEmail;
 use App\Services\SendEmailInterface;
 use App\Services\ViewInterface;

@@ -1,21 +1,357 @@
-* Создайте модель пользователя. 
-    * У пользователя есть: имя, уникальный идентификатор,дата регистрации, email и пароль
-* Реализуйте сохранение модели в БД а также получение модели из базы и заполнение ее данными.
-* Реализуйте регистрацию и авторизацию пользователя. 
-    * Пользователь авторизуется по email и паролю. 
-    * Пароль хранится в зашифрованном виде в БД. При регистрации проверяется: длина пароля (не менее 4х символов), 
-    требуется ввод пароля дважды, введенные пароли должны совпадать
-* Создайте вторую модель - сообщения. Сообщение:
-    * содержит текст
-    * дату
-    * id отправителя
-* Реализуйте блог:
-    * Пользоваться блогом (просматривать и отправлять сообщения) могут только авторизованные пользователи
-    * Напишите контроллер отправки сообщения
-    * Напишите контроллер, выводящий последние 20 сообщений с указанием имен пользователей, которые их отправили
-    * Реализуйте возможность прикрепить к сообщению картинку
-    * Все данные отобразить с помощью view, бизнес-логика в шаблонах недопустима.
-    * Реализуйте api-метод, получения списка сообщений, отправленных конкретным пользователем. Метод должен принимать на вход параметр user_id и возвращать последние 20 сообщений, которые отправил этот пользователь в формате json.
-    * Реализуйте “роль” администратора. Права администратора выдаются путем добавления его идентификатора в специальный конфиг:
-    * Администратор видит кнопку "удалить" у каждого сообщения
-    * При нажатии на эту кнопку сообщение удаляется, после чего происходит перезагрузка страницы микроблога
+1. Все методы этого класса зависят напрямую от класса ImageManger,
+   поэтому необходимо добавить зависимость от ImageManager в конструктор
+
+До:
+
+````
+class MessageImage implements ImageInterface
+{
+
+    public function watermark($file)
+    {
+        $imageManager = new ImageManager();
+        $image = $imageManager->make($file);
+        $image
+            ->resize(200, null, function ($image) {
+                $image->aspectRatio();
+            })
+            ->text (
+                "lolololo",
+                100,
+                null,
+                function ($font) {
+                    $font->size(40);
+                    $font->color(array(255, 0, 0, 0.5));
+                    $font->align("center");
+                    $font->valign("center");
+                }
+            )
+            ->save($file);
+
+        return 0;
+    }
+}
+
+_____
+
+class MessageImage implements ImageInterface
+{
+    private $imageManger;
+
+    public function __construct(ImageManager $imageManager)
+    {
+        $this->imageManager = $ImageManager;
+    }
+
+    public function watermark($file)
+    {
+        $imageManager = new ImageManager();
+        $image = $imageManager->make($file);
+        $image
+            ->resize(200, null, function ($image) {
+                $image->aspectRatio();
+            })
+            ->text (
+                "lolololo",
+                100,
+                null,
+                function ($font) {
+                    $font->size(40);
+                    $font->color(array(255, 0, 0, 0.5));
+                    $font->align("center");
+                    $font->valign("center");
+                }
+            )
+            ->save($file);
+
+        return 0;
+    }
+}
+````
+2. Внутри базового класса для всех контроллеров вручную инициализировались
+   объекты, а так-же есть условие, в зависимости от соблюдения которого инициализируется объект того или иного класса рендера. Необходимо создать зависимости в конструкторе и перенести инициализацию класса рендера в другой класс
+````
+    public function __construct(Auth $auth, SendEmail $sendMail, View $view)
+    {
+        $this->auth = new Auth();
+        $this->sendEmail = new SendEmail();
+        if (!empty(VIEW_TYPE) && VIEW_TYPE == 'twig') {
+            $this->view = new ViewTwig();
+        } else {
+            $this->view = new ViewNative();
+        }
+    }
+    
+    _____
+    
+     public function __construct(Auth $auth, SendEmail $sendMail, View $view)
+    {
+        $this->auth = new Auth();
+        $this->sendEmail = new SendEmail();
+        $this->view = $view;
+    }
+    
+    class View
+    {
+         public function __invoke()
+         {
+              if (!empty(VIEW_TYPE) && VIEW_TYPE == 'twig') {
+                return new ViewTwig();
+              } else {
+                return new ViewNative();
+              }
+         }
+    }
+````   
+
+3. Предлагаю выбрасывать исключение, чтобы перехватывать его с помощью класса хэндлера, а не перекладывать ответственность на класс, вызывающий контроллер
+````
+class MessageAdminController extends BaseController
+{
+    public function index()
+    {
+        if (!in_array($this->auth->user()['id'], ADMIN_ID)) {
+            return 0;
+        }
+    _____
+    public function index()
+    {
+        if (!in_array($this->auth->user()['id'], ADMIN_ID)) {
+            throw new Exception('user is not admin');
+        }
+````
+4. Предлагаю создать отдельный DTO
+````
+class AchiveCardsTableController extends Controller
+{
+    public function index()
+    {
+        $cards = AchiveCard::all();
+
+        $cards = $cards->mapWithKeys(function ($item) {
+            $card = new stdClass();
+            $card->name = $item->name;
+            $card->image = $item->image;
+            $card->count = Task::query()->where('achive_card_id', $item->id)->count();
+            return [$item->id => $card];
+        });
+
+        return view('welcome', ['cards' => $cards]);
+    }    
+}
+_____
+class AchiveCardsTableController extends Controller
+{
+    public function index()
+    {
+        $cards = AchiveCard::all();
+
+        $cards = $cards->mapWithKeys(function ($item) {
+            $cardCount = Task::query()->where('achive_card_id', $item->id)->count()
+            $card = new CardDTO($item->name, $item->image, $cardCount);
+            return [$card->id => $card];
+        });
+
+        return view('welcome', ['cards' => $cards]);
+    }    
+}
+
+class CardDTO
+{
+    public $name;
+    
+    public $image;
+    
+    public $count;
+}
+
+````
+
+5. Изменена структура папок на "инфраструктура" / "приложение" / "домен"
+
+До:
+
+![alt text](md_screenshots/1/before_1.jpg)
+
+После:
+
+![alt text](md_screenshots/1/after_1.jpg)
+
+6. Вынес класс Auth, отвечающий за авторизацию и проверку авторизации пользователя
+   в папку Infrastructure, тк это низкоуровневый код, который не изменится. Теперь внутри класса BaseController инициализируется
+   сервис Auth, который на том же уровне.
+
+````
+class Auth
+{
+    /**
+     *
+     */
+    const SESSION_INDEX_USER = 'user';
+
+    /**
+     * @return array|null
+     */
+    public function user()
+    {
+        return $_SESSION[self::SESSION_INDEX_USER];
+    }
+
+    /**
+     * @return bool
+     */
+    public function quest()
+    {
+        return empty($_SESSION[self::SESSION_INDEX_USER]);
+    }
+
+    /**
+     * @param array $user
+     */
+    public function login(array $user)
+    {
+        $_SESSION[self::SESSION_INDEX_USER] = $user;
+    }
+
+    /**
+     *
+     */
+    public function logout()
+    {
+        $_SESSION[self::SESSION_INDEX_USER] = null;
+    }
+}
+````
+
+До:
+
+![alt text](md_screenshots/2/before_2.jpg)
+
+После:
+
+![alt text](md_screenshots/2/after_2.jpg)
+
+7. Добавлен интерфейс c описанием методов проверки статуса юзера на уровень приложения, чтобы была возможность вызывать класс Auth из раздела инфраструктуры
+````
+interface AuthInterfaceStatus
+{
+    public function user();
+    public function quest();
+}
+
+class Auth implements AuthInterfaceStatus
+{
+    /**
+     *
+     */
+    const SESSION_INDEX_USER = 'user';
+
+    /**
+     * @return array|null
+     */
+    public function user()
+    {
+        return $_SESSION[self::SESSION_INDEX_USER];
+    }
+
+    /**
+     * @return bool
+     */
+    public function quest()
+    {
+        return empty($_SESSION[self::SESSION_INDEX_USER]);
+    }
+
+    /**
+     * @param array $user
+     */
+    public function login(array $user)
+    {
+        $_SESSION[self::SESSION_INDEX_USER] = $user;
+    }
+
+    /**
+     *
+     */
+    public function logout()
+    {
+        $_SESSION[self::SESSION_INDEX_USER] = null;
+    }
+}
+````
+
+Например, в классе SendMail
+````
+class SendEmail implements SendEmailInterface
+{
+    private $authService;
+
+    public function __construct(Auth $authService)
+    {
+        $this->authService = $authService;
+    }
+    /**
+     * Отправка сообщения об успешной регистрации
+     * @param $email
+     * @return mixed|void
+     */
+    public function send($email)
+    {
+        $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
+            ->setUsername(USERNAME)
+            ->setPassword(EMAIL_PASS);
+
+        $mailer = new Swift_Mailer($transport);
+
+         $body = 'Reg success';
+
+        if ($this->authService->user()) {
+            $body = 'Reg another account success';
+        }
+
+        $message = (new Swift_Message('Reg'))
+            ->setFrom([EMAIL_TO => $email])
+            ->setTo([$email])
+            ->setBody($body);
+
+        $mailer->send($message);
+    }
+}
+_____
+class SendEmail implements SendEmailInterface
+{
+    private $authService;
+
+    public function __construct(AuthInterfaceStatus $authService)
+    {
+        $this->authService = $authService;
+    }
+    /**
+     * Отправка сообщения об успешной регистрации
+     * @param $email
+     * @return mixed|void
+     */
+    public function send($email)
+    {
+        $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
+            ->setUsername(USERNAME)
+            ->setPassword(EMAIL_PASS);
+
+        $mailer = new Swift_Mailer($transport);
+
+        $body = 'Reg success';
+
+        if ($this->authService->user()) {
+            $body = 'Reg another account success';
+        }
+
+        $message = (new Swift_Message('Reg'))
+            ->setFrom([EMAIL_TO => $email])
+            ->setTo([$email])
+            ->setBody($body);
+
+        $mailer->send($message);
+    }
+}
+````
+8. 

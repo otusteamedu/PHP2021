@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Infrastructure;
 
-class Auth
+class Auth implements AuthInterfaceStatus
 {
     /**
      *
