@@ -1,20 +1,10 @@
 {
-    "name": "root/youtube.local",
+    "name": "root/patterns.local",
     "autoload": {
         "psr-4": {
-            "Root\\YoutubeLocal\\": "src/",
-            "App\\": "src",
-            "Youtube\\": "src/youtube",
-            "Models\\": "src/models",
-            "Elastic\\": "src/elastic",
-            "Repositories\\": "src/repositories",
-            "Statistics\\" : "src/statistics",
-            "Parse\\" : "src/parse",
-            "Adding\\" : "src/adding",
-            "Display\\" : "src/display"
+            "Root\\PatternsLocal\\": "src/",
+            "App\\": "src"
         }
     },
-    "require": {
-        "elasticsearch/elasticsearch": "^7.15"
-    }
+    "require": {}
 }

@@ -1,2 +1,2 @@
 # PHP2021
-php app.php 'Google API key' channelList.txt
+# https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus

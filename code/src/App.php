@@ -1,21 +1,42 @@
 <?php
 
 namespace App;
-use Adding\Adding;
-use Statistics\Statistics;
-use Display\Display;
+
+use App\Strategy\FinishedProduct;
+
+use App\Strategy\WhiteFactoryBurger;
+use App\Strategy\WhiteFactorySandwich;
+
+use App\Observer\Products;
+use App\Observer\Observer;
 
 class App
 {
+    public function run()
+    {
 
-    public function run($argv) {
+        $context = new FinishedProduct(new WhiteFactoryBurger());
+        $context = $context->execute(100);
 
-        new Adding($argv);
+        echo $context . "<br>";
 
-        $statistics = (new Statistics())->sortAllChannelsStatistics();
+        $status = new Products(1);
+        $observer = new Observer();
+        $status->attach($observer);
+        $status->action();
+        
+        echo "<br>";
+        echo "<br>";
 
-        (new Display())->outputResult($statistics);
+        $context = new FinishedProduct(new WhiteFactorySandwich());
+        $context = $context->execute(100);
+
+        echo $context . "<br>";
+
+        $status = new Products(2);
+        $observer = new Observer();
+        $status->attach($observer);
+        $status->action();
+
     }
-   
 }
-
