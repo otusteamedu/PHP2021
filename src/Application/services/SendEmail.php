@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Infrastructure\CheckAuthStatus;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
@@ -11,7 +12,7 @@ use Swift_SmtpTransport;
     {
         private $authService;
 
-        public function __construct(AuthInterfaceStatus $authService)
+        public function __construct(CheckAuthStatus $authService)
         {
             $this->authService = $authService;
         }

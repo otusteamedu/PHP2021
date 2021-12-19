@@ -354,4 +354,72 @@ class SendEmail implements SendEmailInterface
     }
 }
 ````
-8. 
+8. Добавлен UseCase CheckAuthStatusInterface на уровень Application, чтобы в классе SendEmail, из прошлого примера мы не использовали
+   объекта класса, который имеет избыточные методы, выходящие за пределы описания интерфейса AuthInterfaceStatus, а использовали класс, внутри которого реализация лишь тех методов, которые требуется в контексте задачи
+
+````
+interface CheckAuthStatusInterface
+{
+    public function user();
+    public function quest();
+}
+
+class CheckAuthStatus implements CheckAuthStatusInterface
+{
+
+    const SESSION_INDEX_USER = 'user';
+
+    /**
+     * @return array|null
+     */
+    public function user()
+    {
+        return $_SESSION[self::SESSION_INDEX_USER];
+    }
+
+    /**
+     * @return bool
+     */
+    public function quest()
+    {
+        return empty($_SESSION[self::SESSION_INDEX_USER]);
+    }
+}
+
+class SendEmail implements SendEmailInterface
+    {
+        private $authService;
+
+        public function __construct(CheckAuthStatusInterface $authService)
+        {
+            $this->authService = $authService;
+        }
+        /**
+         * Отправка сообщения об успешной регистрации
+         * @param $email
+         * @return mixed|void
+         */
+        public function send($email)
+        {
+            $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
+                ->setUsername(USERNAME)
+                ->setPassword(EMAIL_PASS);
+
+            $mailer = new Swift_Mailer($transport);
+
+            $body = 'Reg success';
+
+            if ($this->authService->user()) {
+                $body = 'Reg another account success';
+            }
+
+            $message = (new Swift_Message('Reg'))
+                ->setFrom([EMAIL_TO => $email])
+                ->setTo([$email])
+                ->setBody($body);
+
+            $mailer->send($message);
+        }
+    }
+````
+   
