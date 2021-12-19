@@ -2,6 +2,8 @@
 CREATE TABLE halls (
 	id SERIAL,
 	name VARCHAR(150),
+	max_row INT NOT NULL,
+	max_seat INT NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -34,9 +36,11 @@ CREATE TABLE session (
 
 CREATE TABLE seats (
 	id SERIAL,
+	halls_id INT NOT NULL,
 	row INT  NOT NULL,
 	seat INT NOT NULL,
-	PRIMARY KEY(id)
+	PRIMARY KEY(id),
+	FOREIGN KEY(halls_id) REFERENCES halls(id),
 );
 
 CREATE TABLE users (
@@ -54,5 +58,5 @@ CREATE TABLE tickets (
 	PRIMARY KEY(id),
 	FOREIGN KEY(user_id) REFERENCES users(id),
 	FOREIGN KEY(seat_id) REFERENCES seats(id),
-	FOREIGN KEY(session_id) REFERENCES session(id)
+	FOREIGN KEY(session_id) REFERENCES session(id),
 );
