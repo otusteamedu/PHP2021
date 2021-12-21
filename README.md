@@ -1,7 +1,7 @@
+Разделитель _____ внутри кода делит на "ДО" и "ПОСЛЕ"
+
 1. Все методы этого класса зависят напрямую от класса ImageManger,
    поэтому необходимо добавить зависимость от ImageManager в конструктор
-
-До:
 
 ````
 class MessageImage implements ImageInterface
@@ -68,10 +68,11 @@ class MessageImage implements ImageInterface
     }
 }
 ````
+![alt text](md_screenshots/uml1.jpeg)
 2. Внутри базового класса для всех контроллеров вручную инициализировались
    объекты, а так-же есть условие, в зависимости от соблюдения которого инициализируется объект того или иного класса рендера. Необходимо создать зависимости в конструкторе и перенести инициализацию класса рендера в другой класс
 ````
-    public function __construct(Auth $auth, SendEmail $sendMail, View $view)
+    public function __construct(Auth $auth, SendEmail $sendMail)
     {
         $this->auth = new Auth();
         $this->sendEmail = new SendEmail();
@@ -84,11 +85,11 @@ class MessageImage implements ImageInterface
     
     _____
     
-     public function __construct(Auth $auth, SendEmail $sendMail, View $view)
+    public function __construct(Auth $auth, SendEmail $sendMail, View $view)
     {
         $this->auth = new Auth();
         $this->sendEmail = new SendEmail();
-        $this->view = $view;
+        $this->view = $view();
     }
     
     class View
@@ -103,7 +104,7 @@ class MessageImage implements ImageInterface
          }
     }
 ````   
-
+![alt text](md_screenshots/uml2.jpeg)
 3. Предлагаю выбрасывать исключение, чтобы перехватывать его с помощью класса хэндлера, а не перекладывать ответственность на класс, вызывающий контроллер
 ````
 class MessageAdminController extends BaseController
@@ -120,6 +121,7 @@ class MessageAdminController extends BaseController
             throw new Exception('user is not admin');
         }
 ````
+![alt text](md_screenshots/uml3.jpeg)
 4. Предлагаю создать отдельный DTO
 ````
 class AchiveCardsTableController extends Controller
