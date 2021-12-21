@@ -356,6 +356,7 @@ class SendEmail implements SendEmailInterface
     }
 }
 ````
+![alt text](md_screenshots/uml7.jpeg)
 8. Добавлен UseCase CheckAuthStatusInterface на уровень Application, чтобы в классе SendEmail, из прошлого примера мы не использовали
    объекта класса, который имеет избыточные методы, выходящие за пределы описания интерфейса AuthInterfaceStatus, а использовали класс, внутри которого реализация лишь тех методов, которые требуется в контексте задачи
 
@@ -403,16 +404,20 @@ interface CheckAuthStatusInterface
 }
 
 class CheckAuthStatus implements CheckAuthStatusInterface
-{
-
-    const SESSION_INDEX_USER = 'user';
+{   
+    private $authService;
+   
+    public function __construct(AuthInterfaceStatus $authService)
+    {
+        $this->authService = $authService;
+    }
 
     /**
      * @return array|null
      */
     public function user()
     {
-        return $_SESSION[self::SESSION_INDEX_USER];
+        return $this->authService->user();
     }
 
     /**
@@ -420,7 +425,7 @@ class CheckAuthStatus implements CheckAuthStatusInterface
      */
     public function quest()
     {
-        return empty($_SESSION[self::SESSION_INDEX_USER]);
+        return $this->authService->quest();
     }
 }
 
@@ -428,7 +433,7 @@ class SendEmail implements SendEmailInterface
     {
         private $authService;
 
-        public function __construct(CheckAuthStatusInterface $authService)
+        public function __construct(CheckAuthStatus $authService)
         {
             $this->authService = $authService;
         }
@@ -460,7 +465,7 @@ class SendEmail implements SendEmailInterface
         }
     }
 ````
-   
+![alt text](md_screenshots/uml8.jpeg) 
 9. Добавлен valueObject класс Email и зависимость от него в метод send, внутрь которого передается email, чтобы
 не было возможности передать невалидный email
 ````
@@ -541,3 +546,4 @@ class Email
             $mailer->send($message);
         }
 ````
+![alt text](md_screenshots/uml9.jpeg) 
