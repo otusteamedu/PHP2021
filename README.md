@@ -358,6 +358,42 @@ class SendEmail implements SendEmailInterface
    объекта класса, который имеет избыточные методы, выходящие за пределы описания интерфейса AuthInterfaceStatus, а использовали класс, внутри которого реализация лишь тех методов, которые требуется в контексте задачи
 
 ````
+class SendEmail implements SendEmailInterface
+{
+    private $authService;
+
+    public function __construct(AuthInterfaceStatus $authService)
+    {
+        $this->authService = $authService;
+    }
+    /**
+     * Отправка сообщения об успешной регистрации
+     * @param $email
+     * @return mixed|void
+     */
+    public function send($email)
+    {
+        $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
+            ->setUsername(USERNAME)
+            ->setPassword(EMAIL_PASS);
+
+        $mailer = new Swift_Mailer($transport);
+
+        $body = 'Reg success';
+
+        if ($this->authService->user()) {
+            $body = 'Reg another account success';
+        }
+
+        $message = (new Swift_Message('Reg'))
+            ->setFrom([EMAIL_TO => $email])
+            ->setTo([$email])
+            ->setBody($body);
+
+        $mailer->send($message);
+    }
+}
+_____
 interface CheckAuthStatusInterface
 {
     public function user();
@@ -423,3 +459,83 @@ class SendEmail implements SendEmailInterface
     }
 ````
    
+9. Добавлен valueObject класс Email и зависимость от него в метод send, внутрь которого передается email, чтобы
+не было возможности передать невалидный email
+````
+        public function send($email)
+        {
+            $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
+                ->setUsername(USERNAME)
+                ->setPassword(EMAIL_PASS);
+
+            $mailer = new Swift_Mailer($transport);
+
+            $body = 'Reg success';
+
+            if ($this->authService->user()) {
+                $body = 'Reg another account success';
+            }
+
+            $message = (new Swift_Message('Reg'))
+                ->setFrom([EMAIL_TO => $email])
+                ->setTo([$email])
+                ->setBody($body);
+
+            $mailer->send($message);
+        }
+        
+_____
+
+class Email
+{
+    private string $value;
+
+    /**
+     * @param  string  $value
+     */
+    public function __construct(string $value)
+    {
+        $this->assertValidEmail($value);
+        $this->value = $value;
+    }
+
+    private function assertValidPhone(string $value): void
+    {
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL));) {
+            throw new \InvalidArgumentException("Невалидный EMAIL");
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getValue(): string
+    {
+        return $this->value;
+    }
+}
+
+   
+      public function send(Email $email)
+        {
+            $email = $email->getValue();
+            $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
+                ->setUsername(USERNAME)
+                ->setPassword(EMAIL_PASS);
+
+            $mailer = new Swift_Mailer($transport);
+
+            $body = 'Reg success';
+
+            if ($this->authService->user()) {
+                $body = 'Reg another account success';
+            }
+
+            $message = (new Swift_Message('Reg'))
+                ->setFrom([EMAIL_TO => $email])
+                ->setTo([$email])
+                ->setBody($body);
+
+            $mailer->send($message);
+        }
+````
