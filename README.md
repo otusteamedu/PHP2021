@@ -465,9 +465,9 @@ class SendEmail implements SendEmailInterface
         }
     }
 ````
-![alt text](md_screenshots/uml8.jpeg) 
+![alt text](md_screenshots/uml8.jpeg)
 9. Добавлен valueObject класс Email и зависимость от него в метод send, внутрь которого передается email, чтобы
-не было возможности передать невалидный email
+   не было возможности передать невалидный email
 ````
         public function send($email)
         {
