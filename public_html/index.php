@@ -5,11 +5,7 @@ include "../vendor/autoload.php";
 
 use App\Infrastructure\Controllers\FrontController;
 
-include __DIR__ . "\..\config.php";
-
-
-
-require '../vendor/autoload.php';
+include __DIR__ . "\..\config.php";;
 
 $app = require __DIR__ . '/../bootstrap/container.php';
 

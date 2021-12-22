@@ -1,13 +1,15 @@
 <?php
 $builder = new \DI\ContainerBuilder();
 
-//$builder->addDefinitions($dbConfig + [
-//    PDO::class => DI\factory(function () use ($dbConfig) {
-//        return new PDO(
-//            'mysql:host=' . $dbConfig['DB_HOST'] . ':' . $dbConfig['DB_PORT'] .
-//            ';dbname='. $dbConfig['DB_NAME'], $dbConfig['DB_USER'], $dbConfig['DB_PASSWORD']);
-//    }),
-//]);
+$builder->addDefinitions([
+    \App\Infrastructure\Controllers\FrontController::class => DI\factory(function () {
+        return new \App\Infrastructure\Controllers\FrontController(
+            new \App\Infrastructure\Models\Auth(),
+            new \App\Application\Services\SendEmail(new \App\Application\UseCase\CheckAuthStatus()),
+            new \App\Infrastructure\Models\View()
+        );
+    }),
+]);
 
 $builder->useAutowiring(true);
 $builder->useAnnotations(true);
