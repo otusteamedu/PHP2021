@@ -22,7 +22,7 @@ class ViewTwig implements ViewInterface
         $parts = explode('/', $templateDir);
         $templateFolder = $parts[0];
         $templateName = $parts[1];
-        $templatePath = __DIR__ . '\..\views\\' . $templateFolder;
+        $templatePath = __DIR__ . '..\public_html\..\views\\' . $templateFolder;
         $template = $templateName . ".twig";
         $loader = new FilesystemLoader($templatePath);
         $this->twig = new Environment($loader);

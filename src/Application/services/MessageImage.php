@@ -2,6 +2,8 @@
 
 namespace App\Application\Services;
 
+use Intervention\Image\ImageManager;
+
 class MessageImage implements ImageInterface
 {
     private $imageManager;
