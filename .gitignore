@@ -1,6 +1,5 @@
 config.php
 vendor
-composer.json
 composer.lock
 .idea
 public_html/images
