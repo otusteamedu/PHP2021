@@ -2,3 +2,4 @@
 .DS_Store
 .idea
 docker/dbdata/*
+www/vendor
