@@ -2,7 +2,8 @@
 
 namespace App\Application\UseCase;
 
-use App\Services\CheckAuthStatusInterface;
+
+use App\Application\Services\CheckAuthStatusInterface;
 
 class CheckAuthStatus implements CheckAuthStatusInterface
 {

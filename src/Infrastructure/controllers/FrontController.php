@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Infrastructure\Controllers;
 
 use App\Infrastructure\Controllers\BaseController;
 use GUMP;

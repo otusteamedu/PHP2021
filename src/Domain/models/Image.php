@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Models;
 
-use App\Services\MessageImage;
-use Intervention\Image\ImageManager;
+use App\Application\Services\MessageImage;
 
 class Image extends Base
 {

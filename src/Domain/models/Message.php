@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Models;
 
-use App\DTO\MessageDTO;
+use App\Application\DTO\MessageDTO;
 
 class Message extends Base
 {

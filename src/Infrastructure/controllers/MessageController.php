@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Infrastructure\Controllers;
 
-use App\Models\Message;
-use App\Models\Image;
+
+use App\Domain\Models\Image;
+use App\Domain\Models\Message;
 
 class MessageController extends BaseController
 {
