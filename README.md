@@ -124,47 +124,100 @@ class MessageAdminController extends BaseController
 ![alt text](md_screenshots/uml3.jpeg)
 4. Предлагаю создать отдельный DTO
 ````
-class AchiveCardsTableController extends Controller
+class MessageAdminController extends BaseController
 {
     public function index()
     {
-        $cards = AchiveCard::all();
+        if (!in_array($this->auth->user()['id'], ADMIN_ID)) {
+            return 0;
+        }
+        $messageModel = new Message();
+        $imageModel = new Image();
+        if (empty($_POST)) {
+            $allMessages = $messageModel->getAll();
+            $messageModel->delete(key($_GET));
+            return $this->view->render('front/messageAdmin', ['allMessages' => $allMessages, 'allIdWithImages' => $messageModel->getAllIdWithImages()]);
+        }
+        if ($this->auth->quest()) {
+            throw new \Exception('Permission denied');
+        }
+        $userId = $this->auth->user()['id'];
+        $messageModel->add($userId, boolval($_FILES['userfile']['tmp_name']), $_POST['text']);
+        if (!empty($_FILES['userfile']['tmp_name'])) {
+            $imageModel->add($_FILES['userfile']['tmp_name']);
+        }
+        $this->redirect('/message/indexAdmin');
+    }
 
-        $cards = $cards->mapWithKeys(function ($item) {
-            $card = new stdClass();
-            $card->name = $item->name;
-            $card->image = $item->image;
-            $card->count = Task::query()->where('achive_card_id', $item->id)->count();
-            return [$item->id => $card];
-        });
 
-        return view('welcome', ['cards' => $cards]);
-    }    
+}
+
+class Message extends Base
+{
+    public function add($userId, $isSetImage, $text)
+    {
+        $sql = "INSERT INTO `micro_blog_messages` (text, `date`, isset_image, user_id) VALUES (:text, :date, :isset_image,:user_id)";
+        $statement = $this->getConnect()->prepare($sql);
+        $result = $statement->execute(["text" => $text,
+            "date" => date("y.m.d"),
+            "isset_image" => $isSetImage ? 1 : 0,
+            "user_id" => $userId
+        ]);
+        return $result;
+    }
 }
 _____
-class AchiveCardsTableController extends Controller
+class Message extends Base
+{
+    public function add(MessageDTO $message)
+    {
+        $sql = "INSERT INTO `micro_blog_messages` (text, `date`, isset_image, user_id) VALUES (:text, :date, :isset_image,:user_id)";
+        $statement = $this->getConnect()->prepare($sql);
+        $result = $statement->execute(["text" => $message->text,
+            "date" => date("y.m.d"),
+            "isset_image" => $message->isSetImage ? 1 : 0,
+            "user_id" => $message->userId
+        ]);
+        return $result;
+    }
+}
+
+class MessageAdminController extends BaseController
 {
     public function index()
     {
-        $cards = AchiveCard::all();
+        if (!in_array($this->auth->user()['id'], ADMIN_ID)) {
+            return 0;
+        }
+        $messageModel = new Message();
+        $imageModel = new Image();
+        if (empty($_POST)) {
+            $allMessages = $messageModel->getAll();
+            $messageModel->delete(key($_GET));
+            return $this->view->render('front/messageAdmin', ['allMessages' => $allMessages, 'allIdWithImages' => $messageModel->getAllIdWithImages()]);
+        }
+        if ($this->auth->quest()) {
+            throw new \Exception('Permission denied');
+        }
+        $userId = $this->auth->user()['id'];
+        $message = new MessageDTO($userId, boolval($_FILES['userfile']['tmp_name']), $_POST['text'])
+        $messageModel->add($message);
+        if (!empty($_FILES['userfile']['tmp_name'])) {
+            $imageModel->add($_FILES['userfile']['tmp_name']);
+        }
+        $this->redirect('/message/indexAdmin');
+    }
 
-        $cards = $cards->mapWithKeys(function ($item) {
-            $cardCount = Task::query()->where('achive_card_id', $item->id)->count()
-            $card = new CardDTO($item->name, $item->image, $cardCount);
-            return [$card->id => $card];
-        });
 
-        return view('welcome', ['cards' => $cards]);
-    }    
 }
 
-class CardDTO
+class MessageDTO
 {
-    public $name;
+    public $userId;
     
-    public $image;
+    public $isSetImage;
     
-    public $count;
+    public $text;
 }
 
 ````
