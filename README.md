@@ -72,7 +72,7 @@ class MessageImage implements ImageInterface
 2. Внутри базового класса для всех контроллеров вручную инициализировались
    объекты, а так-же есть условие, в зависимости от соблюдения которого инициализируется объект того или иного класса рендера. Необходимо создать зависимости в конструкторе и перенести инициализацию класса рендера в другой класс
 ````
-    public function __construct(Auth $auth, SendEmail $sendMail)
+    public function __construct()
     {
         $this->auth = new Auth();
         $this->sendEmail = new SendEmail();
@@ -548,20 +548,20 @@ _____
 
 class Email
 {
-    private string $value;
+    private $value;
 
     /**
      * @param  string  $value
      */
-    public function __construct(string $value)
+    public function __construct( $value)
     {
         $this->assertValidEmail($value);
         $this->value = $value;
     }
 
-    private function assertValidPhone(string $value): void
+    private function assertValidEmail($value)
     {
-        if (!filter_var($value, FILTER_VALIDATE_EMAIL));) {
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException("Невалидный EMAIL");
         }
     }
@@ -569,12 +569,11 @@ class Email
     /**
      * @return string
      */
-    public function getValue(): string
+    public function getValue()
     {
         return $this->value;
     }
 }
-
    
       public function send(Email $email)
         {

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Infrastructure\Controllers\BaseController;
 use GUMP;
 use App\Models\User;
 

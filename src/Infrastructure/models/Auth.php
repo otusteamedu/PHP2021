@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Infrastructure;
+namespace App\Infrastructure\Models;
+
+use App\Services\AuthInterfaceStatus;
 
 class Auth implements AuthInterfaceStatus
 {

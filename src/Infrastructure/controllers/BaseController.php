@@ -3,6 +3,8 @@
 namespace App\Infrastructure\Controllers;
 
 
+use App\Infrastructure\Models\Auth;
+use App\Infrastructure\Models\View;
 use App\Services\SendEmail;
 use App\Services\SendEmailInterface;
 use App\Services\ViewInterface;
@@ -27,15 +29,11 @@ class BaseController
      */
     protected $sendEmail;
 
-    public function __construct()
+    public function __construct(Auth $auth, SendEmail $sendEmail, View $view)
     {
-        $this->auth = new Auth();
-        $this->sendEmail = new SendEmail();
-        if (!empty(VIEW_TYPE) && VIEW_TYPE == 'twig') {
-            $this->view = new ViewTwig();
-        } else {
-            $this->view = new ViewNative();
-        }
+        $this->auth = $auth;
+        $this->sendEmail = $sendEmail;
+        $this->view = $view();
     }
 
     protected function redirect($url)

@@ -2,10 +2,14 @@
 
 namespace App\Services;
 
-use Intervention\Image\ImageManager;
-
 class MessageImage implements ImageInterface
 {
+    private $imageManager;
+
+    public function __construct(ImageManager $imageManager)
+    {
+        $this->imageManager = $imageManager;
+    }
 
     /**
      * Наложение водяного знака
@@ -14,13 +18,13 @@ class MessageImage implements ImageInterface
      */
     public function watermark($file)
     {
-        $imageManager = new ImageManager();
+        $imageManager = $this->imageManager;
         $image = $imageManager->make($file);
         $image
             ->resize(200, null, function ($image) {
                 $image->aspectRatio();
             })
-            ->text (
+            ->text(
                 "lolololo",
                 100,
                 null,

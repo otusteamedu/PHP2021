@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Infrastructure\CheckAuthStatus;
+use App\Application\UseCase\CheckAuthStatus;
+use App\Application\ValueObject\Email;
 use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
@@ -21,7 +22,7 @@ use Swift_SmtpTransport;
          * @param $email
          * @return mixed|void
          */
-        public function send($email)
+        public function send(Email $email)
         {
             $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
                 ->setUsername(USERNAME)
