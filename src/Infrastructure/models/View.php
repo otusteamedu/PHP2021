@@ -2,8 +2,9 @@
 
 namespace App\Infrastructure\Models;
 
-use App\Services\ViewNative;
-use App\Services\ViewTwig;
+
+use App\Application\Services\ViewNative;
+use App\Application\Services\ViewTwig;
 
 class View
 {

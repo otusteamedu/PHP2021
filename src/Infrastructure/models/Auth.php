@@ -2,7 +2,8 @@
 
 namespace App\Infrastructure\Models;
 
-use App\Services\AuthInterfaceStatus;
+
+use App\Application\Services\AuthInterfaceStatus;
 
 class Auth implements AuthInterfaceStatus
 {

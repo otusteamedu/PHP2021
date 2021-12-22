@@ -1,14 +1,19 @@
 <?php
+include "../vendor/autoload.php";
+
+use \App\Infrastructure\Controllers\FrontController;
+
 $builder = new \DI\ContainerBuilder();
 
 $builder->addDefinitions([
-    \App\Infrastructure\Controllers\FrontController::class => DI\factory(function () {
-        return new \App\Infrastructure\Controllers\FrontController(
-            new \App\Infrastructure\Models\Auth(),
-            new \App\Application\Services\SendEmail(new \App\Application\UseCase\CheckAuthStatus()),
-            new \App\Infrastructure\Models\View()
-        );
-    }),
+//    FrontController::class => DI\factory(function () {
+//        return new FrontController
+//        (
+//            new \App\Infrastructure\Models\Auth(),
+//            new \App\Application\Services\SendEmail(new \App\Application\UseCase\CheckAuthStatus()),
+//            new \App\Infrastructure\Models\View()
+//        );
+//    }),
 ]);
 
 $builder->useAutowiring(true);
