@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Controllers;
 
 
+use App\Application\DTO\MessageDTO;
 use App\Domain\Models\Image;
 use App\Domain\Models\Message;
 
@@ -21,7 +22,8 @@ class MessageController extends BaseController
         }
         //Добавляем данные в базу данных
         $userId = $this->auth->user()['id'];
-        $messageModel->add($userId, boolval($_FILES['userfile']['tmp_name']), $_POST['text']); //Передавать user_ID, картинку, текст
+        $message = new MessageDTO($userId, boolval($_FILES['userfile']['tmp_name']), $_POST['text']);
+        $messageModel->add($message); //Передавать user_ID, картинку, текст
         if (!empty($_FILES['userfile']['tmp_name'])) {
             $imageModel->add($_FILES['userfile']['tmp_name']);
         }

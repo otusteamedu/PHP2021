@@ -11,6 +11,7 @@ include __DIR__ . "\..\config.php";;
 
 $app = require __DIR__ . '/../bootstrap/container.php';
 
+
 if (strpos($_SERVER['REQUEST_URI'], '/user/register') !== false) {
     $controller = $app->make(FrontController::class);
     $controller->register();

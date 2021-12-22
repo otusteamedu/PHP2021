@@ -13,9 +13,10 @@ class Image extends Base
     public function add($file)
     {
         if (!file_exists($file)) {
-            return 0;
+            throw new \Exception();
         }
-        $imageManager = new MessageImage();
+        global $app;
+        $imageManager = $app->make(MessageImage::class);
         $sql = "SELECT id FROM `micro_blog_messages` WHERE isset_image = 1 ORDER BY id DESC";
         $statement = $this->getConnect()->prepare($sql);
         $statement->execute();

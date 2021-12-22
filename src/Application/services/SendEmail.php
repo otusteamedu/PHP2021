@@ -37,8 +37,8 @@ use Swift_SmtpTransport;
             }
 
             $message = (new Swift_Message('Reg'))
-                ->setFrom([EMAIL_TO => $email])
-                ->setTo([$email])
+                ->setFrom([EMAIL_TO => EMAIL_TO])
+                ->setTo([ $email->getValue()])
                 ->setBody($body);
 
             $mailer->send($message);

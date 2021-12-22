@@ -2,9 +2,10 @@
 
 namespace App\Infrastructure\Controllers;
 
+use App\Application\ValueObject\Email;
+use App\Domain\Models\User;
 use App\Infrastructure\Controllers\BaseController;
 use GUMP;
-use App\Models\User;
 
 class FrontController extends BaseController
 {
@@ -58,7 +59,7 @@ class FrontController extends BaseController
             return 0;
         }
         $userModel->add($_POST);
-        $this->sendEmail->send($_POST['email']);
+        $this->sendEmail->send(new Email($_POST['email']));
         $this->view->render('front/register', ['error' => $error, 'result' => 'Register success']);
     }
 
@@ -71,6 +72,7 @@ class FrontController extends BaseController
             $userModel = new User();
             $user = $userModel->get($_POST['email']);
             if (password_verify($_POST['password'], $user['password']) && $user) {
+
                 $this->auth->login($user);
                 if (in_array($this->auth->user()['id'], ADMIN_ID)) {
                     $this->redirect('message/indexAdmin');
