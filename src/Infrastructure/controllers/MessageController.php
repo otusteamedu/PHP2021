@@ -4,29 +4,21 @@ namespace App\Infrastructure\Controllers;
 
 
 use App\Application\DTO\MessageDTO;
+use App\Application\Services\Message;
 use App\Domain\Models\Image;
-use App\Domain\Models\Message;
 
-class MessageController extends BaseController
+
+class MessageController
 {
+    private $messageService;
+
+    public function __construct(Message $messageService)
+    {
+        $this->messageService = $messageService;
+    }
+
     public function index()
     {
-        $messageModel = new Message();
-        $imageModel = new Image();
-        if (empty($_POST)) {
-            $allMessages = $messageModel->getAll();
-            return $this->view->render('front/message', ['allMessages' => $allMessages, 'allIdWithImages' => $messageModel->getAllIdWithImages()]);
-        }
-        if ($this->auth->quest()) {
-            throw new \Exception('Permission denied');
-        }
-        //Добавляем данные в базу данных
-        $userId = $this->auth->user()['id'];
-        $message = new MessageDTO($userId, boolval($_FILES['userfile']['tmp_name']), $_POST['text']);
-        $messageModel->add($message); //Передавать user_ID, картинку, текст
-        if (!empty($_FILES['userfile']['tmp_name'])) {
-            $imageModel->add($_FILES['userfile']['tmp_name']);
-        }
-        $this->redirect('/message/index');
+        return $this->messageService->index();
     }
 }

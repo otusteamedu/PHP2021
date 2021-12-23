@@ -39,8 +39,8 @@ class BaseController
     protected function redirect($url)
     {
         //CONST base url
-        header("Location: http://" . ADDRESS . $url); //
-        exit();
+        header("Location: http://" . ADDRESS . $url);
+        return true;
     }
 
 }

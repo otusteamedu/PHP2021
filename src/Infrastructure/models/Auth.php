@@ -3,9 +3,10 @@
 namespace App\Infrastructure\Models;
 
 
+use App\Application\Services\AuthInterface;
 use App\Application\Services\AuthInterfaceStatus;
 
-class Auth implements AuthInterfaceStatus
+class Auth implements AuthInterfaceStatus, AuthInterface
 {
     /**
      *
