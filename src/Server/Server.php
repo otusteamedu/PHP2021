@@ -10,6 +10,8 @@ namespace App\Server;
 class Server
 {
     private const SOCKET_PATH = './otus-php-sockets.sock';
+    /** @var string */
+    private $socket_path;
 
     /** @var false|resource|\Socket */
     private $socket;
@@ -17,10 +19,19 @@ class Server
     /** @var false|resource|\Socket */
     private $connection;
 
+
+    public function __construct()
+    {
+        // Обрабатываем без секций
+        $ini_params = parse_ini_file("./config.ini");
+        $this->socket_path = './'.$ini_params['socked_path'];
+    }
+
+
     /**
      * Запускает сервер.
      */
-    public function runServer()
+    public function runServer(): void
     {
         try {
 
@@ -56,7 +67,7 @@ class Server
         echo "Инициализирую сокет...".PHP_EOL;
         $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
 
-        if (socket_bind($this->socket, self::SOCKET_PATH) === false) {
+        if (socket_bind($this->socket, $this->socket_path) === false) {
             throw new \Exception("Не удалось привязать имя к сокету");
         }
 
@@ -108,7 +119,7 @@ class Server
         if ($this->socket) {
             socket_close($this->socket);
         }
-        unlink(self::SOCKET_PATH);
+        unlink($this->socket_path);
         echo "Соединение и сокет закрыты".PHP_EOL;
     }
 }
