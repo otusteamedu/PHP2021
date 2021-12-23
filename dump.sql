@@ -71,7 +71,8 @@ CREATE TABLE public.attribute_values (
     date date,
     "boolean" smallint,
     text text,
-    "float" numeric(10,2)
+    "float" numeric(10,2),
+    "integer" bigint
 );
 
 
@@ -141,7 +142,7 @@ CREATE VIEW public.films_attributes AS
         CASE
             WHEN ((at.attribute_type_name)::text = 'boolean'::text) THEN (av.id)::text
             WHEN ((at.attribute_type_name)::text = 'date'::text) THEN (av.date)::text
-            WHEN ((at.attribute_type_name)::text = 'float'::text) THEN (av."float")::text
+            WHEN ((at.attribute_type_name)::text = 'integer'::text) THEN (av."integer")::text
             ELSE av.text
         END AS attribute_value
    FROM (((public.films f
@@ -165,7 +166,7 @@ CREATE VIEW public.films_tasks AS
     array_to_string(ARRAY( SELECT ((av2.date || ' '::text) || (a2.attribute_name)::text)
            FROM (public.attribute_values av2
              LEFT JOIN public.attributes a2 ON ((a2.id = av2.attribute_id)))
-          WHERE ((av2.date >= (CURRENT_DATE + 20)) AND (av2.film_id = f.id))), ', '::text) AS tasks_20day
+          WHERE ((av2.date >= CURRENT_DATE) AND (av2.film_id = f.id))), ', '::text) AS tasks_20day
    FROM public.films f;
 
 
@@ -222,7 +223,8 @@ CREATE TABLE public.prices (
     row_min smallint NOT NULL,
     row_max smallint NOT NULL,
     "time" time(0) without time zone NOT NULL,
-    price numeric(10,2) DEFAULT NULL::numeric NOT NULL
+    price numeric(10,2) DEFAULT NULL::numeric NOT NULL,
+    hall_id integer
 );
 
 
@@ -295,6 +297,7 @@ COPY public.attribute_types (id, attribute_type_name) FROM stdin;
 2	boolean
 3	text
 4	float
+5	integer
 \.
 
 
@@ -302,21 +305,25 @@ COPY public.attribute_types (id, attribute_type_name) FROM stdin;
 -- Data for Name: attribute_values; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.attribute_values (id, film_id, attribute_id, date, "boolean", text, "float") FROM stdin;
-1	1	1	\N	\N	Рецензия	\N
-2	2	1	\N	\N	Рецензия на фильм 2	\N
-3	1	2	\N	1	\N	\N
-4	2	2	\N	1	\N	\N
-9	1	5	2021-09-08	\N	\N	\N
-10	2	5	2021-09-08	\N	\N	\N
-11	1	6	2021-09-08	\N	\N	\N
-12	2	6	2021-09-08	\N	\N	\N
-5	1	3	2021-11-30	\N	\N	\N
-6	2	3	2021-11-28	\N	\N	\N
-8	2	4	2021-11-28	\N	\N	\N
-7	1	4	2022-01-01	\N	\N	\N
-13	1	7	\N	\N	\N	600.20
-14	2	7	\N	\N	\N	800.00
+COPY public.attribute_values (id, film_id, attribute_id, date, "boolean", text, "float", "integer") FROM stdin;
+1	1	1	\N	\N	Рецензия	\N	\N
+2	2	1	\N	\N	Рецензия на фильм 2	\N	\N
+3	1	2	\N	1	\N	\N	\N
+4	2	2	\N	1	\N	\N	\N
+13	1	7	\N	\N	\N	600.20	\N
+14	2	7	\N	\N	\N	800.00	\N
+15	1	8	\N	\N	\N	\N	800000
+16	1	9	\N	\N	\N	\N	100000
+17	2	8	\N	\N	\N	\N	900000
+18	2	9	\N	\N	\N	\N	1100000
+5	1	3	2021-12-23	\N	\N	\N	\N
+7	1	4	2022-01-08	\N	\N	\N	\N
+8	2	4	2021-12-23	\N	\N	\N	\N
+9	1	5	2022-01-08	\N	\N	\N	\N
+10	2	5	2022-01-08	\N	\N	\N	\N
+11	1	6	2022-01-08	\N	\N	\N	\N
+12	2	6	2022-01-08	\N	\N	\N	\N
+6	2	3	2021-12-22	\N	\N	\N	\N
 \.
 
 
@@ -332,6 +339,8 @@ COPY public.attributes (id, attribute_type_id, attribute_name) FROM stdin;
 5	1	Дата начала продажи билетов
 6	1	Дата запуска рекламы на ТВ
 7	4	Средняя стоимость билета
+8	5	Количество проданных билетов
+9	5	Количество зрителей, просмотревших фильм
 \.
 
 
@@ -357,7 +366,7 @@ COPY public.halls (id, name, num_rows, num_seats) FROM stdin;
 -- Data for Name: prices; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.prices (id, row_min, row_max, "time", price) FROM stdin;
+COPY public.prices (id, row_min, row_max, "time", price, hall_id) FROM stdin;
 \.
 
 
@@ -388,14 +397,14 @@ SELECT pg_catalog.setval('public.attribute_types_seq', 3, true);
 -- Name: attribute_values_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.attribute_values_seq', 14, true);
+SELECT pg_catalog.setval('public.attribute_values_seq', 18, true);
 
 
 --
 -- Name: attributes_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.attributes_seq', 6, true);
+SELECT pg_catalog.setval('public.attributes_seq', 7, true);
 
 
 --
@@ -530,6 +539,13 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: fki_prices_hall_id_fkey; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_prices_hall_id_fkey ON public.prices USING btree (hall_id);
+
+
+--
 -- Name: attribute_values attribute_values_attribute_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -551,6 +567,14 @@ ALTER TABLE ONLY public.attribute_values
 
 ALTER TABLE ONLY public.attributes
     ADD CONSTRAINT attributes_attribute_type_id_fkey FOREIGN KEY (attribute_type_id) REFERENCES public.attribute_types(id);
+
+
+--
+-- Name: prices prices_hall_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.prices
+    ADD CONSTRAINT prices_hall_id_fkey FOREIGN KEY (hall_id) REFERENCES public.halls(id) NOT VALID;
 
 
 --

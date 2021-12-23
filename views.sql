@@ -25,6 +25,8 @@ CREATE OR REPLACE VIEW films_attributes AS
 				THEN av.id::text
             WHEN at.attribute_type_name='date' 
 				THEN av.date::text
+            WHEN at.attribute_type_name='integer'
+                THEN av.integer::text
             ELSE av.text
        	END) as attribute_value
     FROM films as f
