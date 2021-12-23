@@ -156,7 +156,7 @@ class Message extends Base
 {
     public function add($userId, $isSetImage, $text)
     {
-        $sql = "INSERT INTO `micro_blog_messages` (text, `date`, isset_image, user_id) VALUES (:text, :date, :isset_image,:user_id)";
+        $sql = "INSERT INTO `messages` (text, `date`, isset_image, user_id) VALUES (:text, :date, :isset_image,:user_id)";
         $statement = $this->getConnect()->prepare($sql);
         $result = $statement->execute(["text" => $text,
             "date" => date("y.m.d"),
@@ -171,7 +171,7 @@ class Message extends Base
 {
     public function add(MessageDTO $message)
     {
-        $sql = "INSERT INTO `micro_blog_messages` (text, `date`, isset_image, user_id) VALUES (:text, :date, :isset_image,:user_id)";
+        $sql = "INSERT INTO `messages` (text, `date`, isset_image, user_id) VALUES (:text, :date, :isset_image,:user_id)";
         $statement = $this->getConnect()->prepare($sql);
         $result = $statement->execute(["text" => $message->text,
             "date" => date("y.m.d"),
