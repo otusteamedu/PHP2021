@@ -2,14 +2,13 @@
 
 namespace App\Infrastructure;
 
-use App\Infrastructure\PredisTasks;
-
 class AnalyticSystems
 {
     private int $param1;
     private int $param2;
 
-    public function __construct(int $param1,int $param2){
+    //Параметры из командной строки
+    public function __construct($param1,$param2){
         $this->param1 = $param1;
         $this->param2 = $param2;
     }
@@ -30,7 +29,7 @@ class AnalyticSystems
         $keys[2] = "param:1:{$this->param1}";
         $keys[3] = "param:2:{$this->param2}";
 
-        echo "Соответствующие запросу события:". PHP_EOL;
+        echo "Соответствующие запросу события(param1={$this->param1},param2={$this->param2}):". PHP_EOL;
 
         //Запросы в Redis по ключам
         for($i=1;$i<=count($keys);$i++){
@@ -44,6 +43,7 @@ class AnalyticSystems
                 }
             }
         }
+        if(empty($arrPriority)) echo 'Нет соответствий'. PHP_EOL;
 
         arsort($arrPriority);
         reset($arrPriority);
@@ -52,13 +52,31 @@ class AnalyticSystems
 
     }
 
-    public function run(){
-
+    private function resultRequest():void{
+        //Поиск события
         $result = $this->findEvent();
-        echo PHP_EOL;
-        echo "Результат - По высшему приоритету подходит '{$result}'". PHP_EOL;
 
+        if(isset($result) && !empty($result)){
+            echo PHP_EOL."Результат - По высшему приоритету подходит '{$result}'". PHP_EOL;
+        }else{
+            echo PHP_EOL."По вашему запросу ничего нет". PHP_EOL;
+        }
 
+    }
+
+    /*
+    * Запрос от пользователя. Результат
+    */
+    public function run():void{
+
+        $jsonToRedis = new ParseJsonToRedis();
+        $valRes=$jsonToRedis->run();
+
+        if($valRes===true){
+            $this->resultRequest();
+        }else{
+            echo "Проблемы с аналитикой". PHP_EOL;
+        }
     }
 
 }

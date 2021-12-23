@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure;
 
-use App\Infrastructure\PredisTasks;
-
 class ParseJsonToRedis
 {
     private array $arrRes=[];
-
 
     /*
      * Парсим массив строки из Json на переменные для дальнейшей записи в Redis
@@ -40,11 +37,10 @@ class ParseJsonToRedis
         return $this->arrRes;
     }
 
-    public function run():void
-    {
-        //Получаем массив из строк json
-        $arr = explode("\n",file_get_contents("./file/data.txt"));
-
+    /*
+     * Запись массива в Redis
+     */
+    private function addToRedis($arr):bool{
         //Создаем объект для работы с Redis
         $predis = new PredisTasks();
 
@@ -71,7 +67,44 @@ class ParseJsonToRedis
 
         }
 
+        return true;
+
     }
 
+    /*
+     * Результат записи из файла в Redis
+     */
+    private function resultParse():bool
+    {
+        //Файл с аналитикой
+        $fileName = "./file/data.txt";
+
+        if(file_exists($fileName)){
+            //Получаем массив из строк json
+            $arr = explode("\n",file_get_contents("./file/data.txt"));
+
+            //Запись в Redis
+            if(isset($arr)) {
+                $resultParse = $this->addToRedis($arr);//return TRUE&&
+            }else{
+                $resultParse = false;
+            }
+
+        }else{
+            $resultParse = false;
+        }
+
+        return $resultParse;;
+
+    }
+
+    /*
+    * Чтение записей аналитика из файла и запись в Redis
+    */
+    public function run():bool{
+
+        return $this->resultParse();
+    }
 
 }
+
