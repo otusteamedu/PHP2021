@@ -24,22 +24,22 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `micro_blog_messages`
+-- Структура таблицы `messages`
 --
 
-CREATE TABLE `micro_blog_messages` (
+CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
   `text` text NOT NULL,
   `date` date NOT NULL,
-  `user_id` varchar(256) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `isset_image` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `micro_blog_messages`
+-- Дамп данных таблицы `messages`
 --
 
-INSERT INTO `micro_blog_messages` (`id`, `text`, `date`, `user_id`, `isset_image`) VALUES
+INSERT INTO `messages` (`id`, `text`, `date`, `user_id`, `isset_image`) VALUES
 (508, 'hi', '2020-06-13', '229', 1),
 (509, 'e', '2020-06-13', '229', 0),
 (510, 'e', '2020-06-13', '229', 0),
@@ -50,9 +50,9 @@ INSERT INTO `micro_blog_messages` (`id`, `text`, `date`, `user_id`, `isset_image
 --
 
 --
--- Индексы таблицы `micro_blog_messages`
+-- Индексы таблицы `messages`
 --
-ALTER TABLE `micro_blog_messages`
+ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -60,9 +60,9 @@ ALTER TABLE `micro_blog_messages`
 --
 
 --
--- AUTO_INCREMENT для таблицы `micro_blog_messages`
+-- AUTO_INCREMENT для таблицы `messages`
 --
-ALTER TABLE `micro_blog_messages`
+ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=517;
 COMMIT;
 

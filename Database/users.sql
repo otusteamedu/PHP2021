@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 -- Структура таблицы `micro_blog`
 --
 
-CREATE TABLE `micro_blog` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `email` varchar(256) NOT NULL,
   `password` varchar(127) NOT NULL,
@@ -40,9 +40,9 @@ CREATE TABLE `micro_blog` (
 --
 
 --
--- Индексы таблицы `micro_blog`
+-- Индексы таблицы `users`
 --
-ALTER TABLE `micro_blog`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -50,9 +50,9 @@ ALTER TABLE `micro_blog`
 --
 
 --
--- AUTO_INCREMENT для таблицы `micro_blog`
+-- AUTO_INCREMENT для таблицы `users`
 --
-ALTER TABLE `micro_blog`
+ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
 COMMIT;
 

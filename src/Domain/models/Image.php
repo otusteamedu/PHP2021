@@ -17,7 +17,7 @@ class Image extends Base
         }
         global $app;
         $imageManager = $app->make(MessageImage::class);
-        $sql = "SELECT id FROM `micro_blog_messages` WHERE isset_image = 1 ORDER BY id DESC";
+        $sql = "SELECT id FROM `messages` WHERE isset_image = 1 ORDER BY id DESC";
         $statement = $this->getConnect()->prepare($sql);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
