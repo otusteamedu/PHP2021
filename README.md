@@ -107,7 +107,7 @@ class MessageImage implements ImageInterface
 ![alt text](md_screenshots/uml2.jpeg)
 3. Предлагаю выбрасывать исключение, чтобы перехватывать его с помощью класса хэндлера, а не перекладывать ответственность на класс, вызывающий контроллер
 ````
-class MessageAdminController extends BaseController
+class MessageAdmin extends BaseService
 {
     public function index()
     {
@@ -124,7 +124,7 @@ class MessageAdminController extends BaseController
 ![alt text](md_screenshots/uml3.jpeg)
 4. Предлагаю создать отдельный DTO
 ````
-class MessageAdminController extends BaseController
+class MessageAdmin extends BaseService
 {
     public function index()
     {
@@ -182,7 +182,7 @@ class Message extends Base
     }
 }
 
-class MessageAdminController extends BaseController
+class MessageAdmin extends BaseService
 {
     public function index()
     {
@@ -233,8 +233,8 @@ class MessageDTO
 ![alt text](md_screenshots/1/after_1.jpg)
 
 6. Вынес класс Auth, отвечающий за авторизацию и проверку авторизации пользователя
-   в папку Infrastructure, тк это низкоуровневый код, который не изменится. Теперь внутри класса BaseController инициализируется
-   сервис Auth, который на том же уровне.
+   в папку Infrastructure и создал для него интерфейс src/Application/services/AuthInterface.php, тк это низкоуровневый код, который не изменится. Теперь внутри класса BasePrice инициализируется
+   сервис Auth, не нарушая принципы зависимости.
 
 ````
 class Auth
