@@ -2,7 +2,8 @@
   "type": "package",
   "require": {
     "php": ">=7.4",
-    "ext-json": "*"
+    "ext-json": "*",
+    "php-di/php-di": "^6.3"
   },
   "autoload": {
     "psr-4": {

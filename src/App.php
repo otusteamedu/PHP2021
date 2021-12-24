@@ -2,13 +2,25 @@
 
 namespace App;
 
+use App\Contract\ValidatorInterface;
+use App\DTO\Request;
+use App\DTO\Response;
 use App\Exception\BadMethodException;
-use App\Exception\BadRequestException;
-use App\Service\Validator;
 use Exception;
 
 class App
 {
+    private ValidatorInterface $validator;
+
+    /**
+     * App constructor.
+     *
+     */
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
+
     /**
      * @throws Exception
      */
@@ -17,28 +29,16 @@ class App
         try {
             switch ($_SERVER['REQUEST_METHOD']) {
                 case 'POST':
-                    $str = $_POST['string'] ?? '';
-                    if (empty($str)) {
-                        throw new BadRequestException(
-                            BadRequestException::EMPTY
-                        );
-                    }
-
-                    if (!Validator::validate($str)) {
-                        throw new BadRequestException(
-                            BadRequestException::INCORRECT
-                        );
-                    }
-
-                    Response::output(
-                        'String validation completed successfully!'
-                    );
+                    $req = new Request($_POST['string'] ?? '');
+                    $resp = $this->validator->validate($req);
+                    Output::send($resp);
                     break;
                 default:
                     throw new BadMethodException();
             }
-        } catch (BadMethodException|BadRequestException $e) {
-            Response::output($e->getMessage(), $e->getCode());
+        } catch (BadMethodException $e) {
+            $resp = new Response($e->getMessage(), $e->getCode());
+            Output::send($resp);
         }
     }
 }
