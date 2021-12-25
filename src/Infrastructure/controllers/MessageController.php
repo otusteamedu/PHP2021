@@ -2,10 +2,7 @@
 
 namespace App\Infrastructure\Controllers;
 
-
-use App\Application\DTO\MessageDTO;
 use App\Application\Services\Message;
-use App\Domain\Models\Image;
 
 
 class MessageController

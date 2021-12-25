@@ -2,13 +2,7 @@
 
 namespace App\Application\Services;
 
-use App\Application\UseCase\CheckAuthStatus;
-use App\Application\ValueObject\Email;
-use App\Domain\Models\User;
-use GUMP;
-
-
-class Config extends BaseService
+class Config
 {
     private static $instance;
 

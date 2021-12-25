@@ -3,9 +3,9 @@
 namespace App\Application\UseCase;
 
 
-use App\Application\Services\CheckAuthStatusInterface;
+use App\Application\Services\AuthInterfaceStatus;
 
-class CheckAuthStatus implements CheckAuthStatusInterface
+class CheckAuthStatus implements AuthInterfaceStatus
 {
 
     const SESSION_INDEX_USER = 'user';

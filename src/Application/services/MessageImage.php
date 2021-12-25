@@ -39,6 +39,6 @@ class MessageImage implements ImageInterface
             )
             ->save($file);
 
-        return 0;
+        return true;
     }
 }

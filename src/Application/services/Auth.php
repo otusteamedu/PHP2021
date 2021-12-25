@@ -2,7 +2,6 @@
 
 namespace App\Application\Services;
 
-use App\Application\UseCase\CheckAuthStatus;
 use App\Application\ValueObject\Email;
 use App\Domain\Models\User;
 use GUMP;
