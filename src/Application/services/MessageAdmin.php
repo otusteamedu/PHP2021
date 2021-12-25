@@ -16,7 +16,7 @@ class MessageAdmin extends BaseService
 {
     public function index()
     {
-        if (!in_array($this->authService->user()['id'], ADMIN_ID)) {
+        if (!in_array($this->authService->user()['id'], Config::get('ADMIN_ID'))) {
             throw new Exception('user is not admin');
         }
         $messageModel = new Message();

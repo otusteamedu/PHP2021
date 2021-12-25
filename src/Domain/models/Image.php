@@ -2,6 +2,7 @@
 
 namespace App\Domain\Models;
 
+use App\Application\Services\Config;
 use App\Application\Services\MessageImage;
 
 class Image extends Base
@@ -21,7 +22,7 @@ class Image extends Base
         $statement = $this->getConnect()->prepare($sql);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
-        move_uploaded_file ($file, PROJECT_PATH . "/public_html/images/" . $result["id"] . ".jpg");
-        $imageManager->watermark(PROJECT_PATH . "/public_html/images/" . $result["id"] . ".jpg");
+        move_uploaded_file ($file, Config::get('PROJECT_PATH') . "/public_html/images/" . $result["id"] . ".jpg");
+        $imageManager->watermark(Config::get('PROJECT_PATH') . "/public_html/images/" . $result["id"] . ".jpg");
     }
 }

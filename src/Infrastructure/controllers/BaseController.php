@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Controllers;
 
 
+use App\Application\Services\Config;
 use App\Application\Services\SendEmail;
 use App\Infrastructure\Models\Auth;
 use App\Infrastructure\Models\View;
@@ -39,7 +40,7 @@ class BaseController
     protected function redirect($url)
     {
         //CONST base url
-        header("Location: http://" . ADDRESS . $url);
+        header("Location: http://" . Config::get('ADDRESS') . $url);
         return true;
     }
 

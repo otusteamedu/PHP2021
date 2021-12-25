@@ -44,4 +44,9 @@ class App
         $controller = $container->make(FrontController::class);
         $controller->index();
     }
+
+    private function configPath()
+    {
+        return __DIR__ . "\..\config.php";
+    }
 }

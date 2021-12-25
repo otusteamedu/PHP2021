@@ -2,6 +2,8 @@
 
 namespace App\Domain\Models;
 
+use App\Application\Services\Config;
+
 class Base
 {
     /**
@@ -17,7 +19,7 @@ class Base
     {
         if (self::$pdo === null) {
             self::$pdo = new \PDO(
-                DSN_DB, USERNAME_DB, PASSWORD_DB
+                Config::get('DSN_DB'), Config::get('USERNAME_DB'), Config::get('PASSWORD_DB')
             );
         }
         return self::$pdo;

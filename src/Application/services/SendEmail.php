@@ -24,9 +24,9 @@ use Swift_SmtpTransport;
          */
         public function send(Email $email)
         {
-            $transport = (new Swift_SmtpTransport(EMAIL_HOST, EMAIL_PORT))
-                ->setUsername(USERNAME)
-                ->setPassword(EMAIL_PASS);
+            $transport = (new Swift_SmtpTransport(Config::get('EMAIL_HOST'), Config::get('EMAIL_PORT')))
+                ->setUsername(Config::get('USERNAME'))
+                ->setPassword(Config::get('EMAIL_PASS'));
 
             $mailer = new Swift_Mailer($transport);
 
@@ -37,7 +37,7 @@ use Swift_SmtpTransport;
             }
 
             $message = (new Swift_Message('Reg'))
-                ->setFrom([EMAIL_TO => EMAIL_TO])
+                ->setFrom([Config::get('EMAIL_TO')])
                 ->setTo([ $email->getValue()])
                 ->setBody($body);
 

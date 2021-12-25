@@ -11,6 +11,7 @@
     "swiftmailer/swiftmailer": "^6.3",
     "wixel/gump": "^1.12",
     "twig/twig": "^3.3",
-    "intervention/image": "^2.7"
+    "intervention/image": "^2.7",
+    "phlak/config": "^7.0"
   }
 }
