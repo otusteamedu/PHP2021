@@ -19,7 +19,7 @@ class Base
     {
         if (self::$pdo === null) {
             self::$pdo = new \PDO(
-                Config::get('DSN_DB'), Config::get('USERNAME_DB'), Config::get('PASSWORD_DB')
+                Config::getApp('DSN_DB'), Config::getApp('USERNAME_DB'), Config::getApp('PASSWORD_DB')
             );
         }
         return self::$pdo;

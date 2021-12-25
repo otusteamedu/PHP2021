@@ -19,7 +19,7 @@ abstract class BaseService
     protected function redirect($url)
     {
         //CONST base url
-        header("Location: http://" . ADDRESS . $url); //
+        header("Location: http://" . Config::getApp('ADDRESS') . $url); //
         return true;
     }
 }

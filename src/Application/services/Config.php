@@ -25,8 +25,8 @@ class Config extends BaseService
         return __DIR__ . "/../../../config/";
     }
 
-    public static function get($key)
+    public static function getApp($key)
     {
-        return self::getInstance()->get('app.' . $key);
+        return self::getInstance()->get( $key);
     }
 }

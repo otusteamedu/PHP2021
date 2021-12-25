@@ -4,7 +4,7 @@ return [
     /**
      * Хост и имя базы данных
      */
-    'DSN_DB' => "mysql:host=>localhost,dbname=>oldproject",
+    'DSN_DB' => "mysql:host=localhost;dbname=oldproject",
 
     /**
      * Имя пользователя базы данных

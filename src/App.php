@@ -23,7 +23,6 @@ class App
     private function setContainer()
     {
         $builder = new \DI\ContainerBuilder();
-
         $builder->addDefinitions([
             AuthInterface::class => factory(function () {
                 return new \App\Infrastructure\Models\Auth();
@@ -32,10 +31,8 @@ class App
                 return new \App\Infrastructure\Models\View();
             }),
         ]);
-
         $builder->useAutowiring(true);
         $builder->useAnnotations(true);
-
         $this->container = $builder->build();
     }
 
@@ -44,33 +41,28 @@ class App
         if (strpos($_SERVER['REQUEST_URI'], '/user/register') !== false) {
             $controller = $this->container->make(FrontController::class);
             $controller->register();
-            return 0;
+            return true;
         }
 
         if (strpos($_SERVER['REQUEST_URI'], '/user/login') !== false) {
             $controller = $this->container->make(FrontController::class);
             $controller->login();
-            return 0;
+            return true;
         }
 
         if (strpos($_SERVER['REQUEST_URI'], '/message/indexAdmin') !== false) {
             $controller = $this->container->make(MessageAdminController::class);
             $controller->index();
-            return 0;
+            return true;
         }
 
         if (strpos($_SERVER['REQUEST_URI'], '/message/index') !== false) {
             $controller = $this->container->make(MessageController::class);
             $controller->index();
-            return 0;
+            return true;
         }
 
         $controller = $this->container->make(FrontController::class);
         $controller->index();
-    }
-
-    private function configPath()
-    {
-        return __DIR__ . "\..\config.php";
     }
 }

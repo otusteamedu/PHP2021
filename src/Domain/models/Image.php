@@ -22,7 +22,7 @@ class Image extends Base
         $statement = $this->getConnect()->prepare($sql);
         $statement->execute();
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
-        move_uploaded_file ($file, Config::get('PROJECT_PATH') . "/public_html/images/" . $result["id"] . ".jpg");
-        $imageManager->watermark(Config::get('PROJECT_PATH') . "/public_html/images/" . $result["id"] . ".jpg");
+        move_uploaded_file ($file, Config::getApp('PROJECT_PATH') . "/public_html/images/" . $result["id"] . ".jpg");
+        $imageManager->watermark(Config::getApp('PROJECT_PATH') . "/public_html/images/" . $result["id"] . ".jpg");
     }
 }

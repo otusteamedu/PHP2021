@@ -14,7 +14,7 @@ class View implements ViewMapperInterface
 
     public function __invoke(): ViewInterface
     {
-        if (!empty(Config::get('VIEW_TYPE')) && Config::get('VIEW_TYPE') == 'twig') {
+        if (!empty(Config::getApp('VIEW_TYPE')) && Config::getApp('VIEW_TYPE') == 'twig') {
             return new ViewTwig();
         } else {
             return new ViewNative();

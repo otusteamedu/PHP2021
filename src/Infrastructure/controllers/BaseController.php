@@ -40,7 +40,7 @@ class BaseController
     protected function redirect($url)
     {
         //CONST base url
-        header("Location: http://" . Config::get('ADDRESS') . $url);
+        header("Location: http://" . Config::getApp('ADDRESS') . $url);
         return true;
     }
 
