@@ -26,8 +26,7 @@ create table films_values (
 	value_boolean boolean,
 	value_timestamp timestamp,
 	value_integer integer,
-	value_float double precision,
-	value_varchar character varying,
+	value_float real,
 	primary key(id),
 	foreign key(film_id) references films(id),
 	foreign key(attribute_id) references films_attributes(id)

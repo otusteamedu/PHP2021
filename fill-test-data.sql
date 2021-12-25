@@ -4,8 +4,7 @@ values
 	('value_boolean'),
 	('value_timestamp'),
 	('value_integer'),
-	('value_float'),
-	('value_varchar');
+	('value_float');
 
 insert into films_attributes (type_id, name)
 values 

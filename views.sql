@@ -18,7 +18,6 @@ create view film_attributes as
 			when fat.name = 'value_timestamp' then fv.value_timestamp::text
 			when fat.name = 'value_integer' then fv.value_integer::text
 			when fat.name = 'value_float' then fv.value_float::text
-			when fat.name = 'value_varchar' then fv.value_varchar::text
 		end) as value
 	from films
 		join films_values fv on films.id = fv.film_id
