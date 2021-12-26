@@ -15,14 +15,15 @@ $allIdWithImages = $data["allIdWithImages"];
 </form>
 
 <ul>
-    <? foreach ($allMesages as $message => $inf): ?>
+    <? foreach ($allMesages as $message => $inf):
+        ?>
         <li>
-            <pre><?= strip_tags($inf["text"]) ?></pre>
-            <pre><?= $inf["date"] ?></pre>
-            <pre><?= $inf["name"] ?></pre>
+            <pre><?= strip_tags($inf->getText()) ?></pre>
+            <pre><?= $inf->getDate() ?></pre>
+            <pre><?= $inf->getUserId() ?></pre>
             <?php foreach($allIdWithImages as $image) {
-                if (in_array($inf["id"], $image)) { ?>
-                    <img src="/images/<?=$inf["id"]?>.jpg" alt="pic">
+                if (in_array($inf->id, $image)) { ?>
+                    <img src="/images/<?=$inf->id?>.jpg" alt="pic">
                 <?php }
             }
             ?>

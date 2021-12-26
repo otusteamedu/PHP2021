@@ -46,27 +46,27 @@ class Message
         $this->userId = $userId;
     }
 
-    public function getId($id)
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getText($text)
+    public function getText()
     {
         return $this->text;
     }
 
-    public function getDate($date)
+    public function getDate()
     {
         return $this->date;
     }
 
-    public function getIsSetImage(bool $isSetImage)
+    public function getIsSetImage()
     {
         return $this->isSetImage;
     }
 
-    public function getUserId($userId)
+    public function getUserId()
     {
         return $this->userId;
     }
