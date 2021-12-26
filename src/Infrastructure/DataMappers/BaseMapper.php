@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domain\Models;
+namespace App\Infrastructure\DataMappers;
 
 use App\Application\Services\Config;
 
-class Base
+class BaseMapper
 {
     /**
      * @var \PDO

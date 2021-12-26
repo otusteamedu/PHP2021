@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Domain\DataMappers;
+namespace App\Infrastructure\DataMappers;
 
 use App\Application\DTO\MessageDTO;
+use App\Application\Services\MessageMapperInterface;
 use App\Domain\Models\Message;
 
-class MessageMapper
+class MessageMapper extends BaseMapper implements MessageMapperInterface
 {
     private $model;
 
@@ -13,6 +14,29 @@ class MessageMapper
     {
         $this->model = $model;
     }
+
+    public function getAllIdWithImages()
+    {
+        $sql = "SELECT id FROM `messages` WHERE isset_image = 1";
+        $statement = $this->getConnect()->prepare($sql);
+        $statement->execute();
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return new Message($result['id']);
+    }
+
+    /**
+     * Получение всех сообщений
+     * @return Message
+     */
+    public function getAll()
+    {
+        $sql = "SELECT messages.id, text, date, name FROM messages INNER JOIN users ON users.id = messages.user_id ORDER BY id DESC LIMIT 3";
+        $statement = $this->getConnect()->prepare($sql);
+        $statement->execute();
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return new Message($result['id'], $result['text']);
+    }
+
     /**
      * Добавление сообщения
      * @param $user

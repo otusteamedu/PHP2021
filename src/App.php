@@ -3,10 +3,13 @@
 namespace App;
 
 use App\Application\Services\AuthInterface;
+use App\Application\Services\MessageMapperInterface;
 use App\Application\Services\ViewMapperInterface;
+use App\Domain\Models\Message;
 use App\Infrastructure\Controllers\FrontController;
 use App\Infrastructure\Controllers\MessageAdminController;
 use App\Infrastructure\Controllers\MessageController;
+use App\Infrastructure\DataMappers\MessageMapper;
 use Symfony\Component\HttpFoundation\Request;
 use function DI\factory;
 
@@ -30,6 +33,9 @@ class App
             }),
             ViewMapperInterface::class => factory(function () {
                 return new \App\Infrastructure\Models\View();
+            }),
+            MessageMapperInterface::class => factory(function () {
+                return new MessageMapper(new Message());
             }),
         ]);
         $builder->useAutowiring(true);

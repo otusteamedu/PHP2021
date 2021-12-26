@@ -4,7 +4,7 @@ namespace App\Domain\Models;
 
 use App\Application\DTO\MessageDTO;
 
-class Message extends Base
+class Message
 {
     private $id;
     private $text;

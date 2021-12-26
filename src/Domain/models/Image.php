@@ -5,7 +5,7 @@ namespace App\Domain\Models;
 use App\Application\Services\Config;
 use App\Application\Services\MessageImage;
 
-class Image extends Base
+class Image
 {
     /**
      * Добавление картинки к сообщению
