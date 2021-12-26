@@ -3,3 +3,4 @@ vendor
 composer.lock
 .idea
 public_html/images
+config/app.php
