@@ -6,17 +6,24 @@ use App\Application\DTO\MessageDTO;
 
 class Message extends Base
 {
+    private $id;
     private $text;
     private $date;
     private $isSetImage;
     private $userId;
 
-    public function __construct($text, $date, $isSetImage, $userId)
+    public function __construct($id = null, $text = null, $date = null, $isSetImage = null, $userId = null)
     {
+        $this->id = $id;
         $this->text = $text;
         $this->date = $date;
         $this->isSetImage = $isSetImage;
         $this->userId = $userId;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     public function setText($text)
@@ -37,6 +44,11 @@ class Message extends Base
     public function setUserId($userId)
     {
         $this->userId = $userId;
+    }
+
+    public function getId($id)
+    {
+        return $this->id;
     }
 
     public function getText($text)

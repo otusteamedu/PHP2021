@@ -19,19 +19,21 @@ class MessagesRepository
         $sql = "SELECT id FROM `messages` WHERE isset_image = 1";
         $statement = $this->getConnect()->prepare($sql);
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return new Message($result['id']);
     }
 
     /**
      * Получение всех сообщений
-     * @return array
+     * @return Message
      */
     public function getAll()
     {
         $sql = "SELECT messages.id, text, date, name FROM messages INNER JOIN users ON users.id = messages.user_id ORDER BY id DESC LIMIT 3";
         $statement = $this->getConnect()->prepare($sql);
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return new Message($result['id'], $result['text']);
     }
 
     /**
@@ -67,13 +69,14 @@ class MessagesRepository
     /**
      * Получение массива со всеми сообщениями пользователя с определенным id в json формате
      * @param $id
-     * @return false|string
+     * @return Message
      */
     public function getAllById($id)
     {
         $sql = "SELECT text FROM `messages` WHERE user_id=:user_id";
         $statement = $this->getConnect()->prepare($sql);
         $statement->execute(["user_id" => $id]);
-        return json_encode($statement->fetchAll(\PDO::FETCH_ASSOC));
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return new Message($id, $result['text']);
     }
 }
