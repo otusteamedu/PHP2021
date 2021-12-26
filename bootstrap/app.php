@@ -94,6 +94,7 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -105,6 +106,7 @@ $app->configure('app');
 | can respond to, as well as the controllers that may handle them.
 |
 */
+
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
