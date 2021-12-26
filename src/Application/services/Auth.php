@@ -5,6 +5,7 @@ namespace App\Application\Services;
 use App\Application\ValueObject\Email;
 use App\Domain\Models\User;
 use GUMP;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class Auth extends BaseService
@@ -20,9 +21,9 @@ class Auth extends BaseService
     /**
      * Регистрация
      */
-    public function register()
+    public function register(Request $request)
     {
-        $isValid = $this->validate($_POST);
+        $isValid = $this->validate($request->query->all());
         $error = [];
         if ($isValid !== true) {
             $error = $isValid;
@@ -32,24 +33,25 @@ class Auth extends BaseService
             return $this->view->render('front/register', ['error' => $error, 'result' => 'Register failed']);
         }
         $userModel = new User();
-        $user = $userModel->get($_POST['email']);
+        $user = $userModel->get($request->get('email'));
         if (!empty($user)) {
             return 0;
         }
-        $userModel->add($_POST);
-        $this->sendEmail->send(new Email($_POST['email']));
+        $userModel->add($request->query->all());
+        $this->sendEmail->send(new Email($request->get('email')));
         return $this->view->render('front/register', ['error' => $error, 'result' => 'Register success']);
     }
 
     /**
      * Вход
      */
-    public function login()
+    public function login(Request $request)
     {
-        if ($_POST['email'] && $_POST['password']) {
+        if ($request->get('email') && $request->get('password')) {
             $userModel = new User();
-            $user = $userModel->get($_POST['email']);
-            if (password_verify($_POST['password'], $user['password']) && $user) {
+            $user = $userModel->get($request->get('email'));
+            if (password_verify($request->get('password'),
+                $request->get('password')) && $user) {
                 $this->authService->login($user);
                 if (in_array($this->authService->user()['id'], Config::getApp('ADMIN_ID'))) {
                     return $this->redirect('message/indexAdmin');

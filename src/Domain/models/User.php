@@ -26,6 +26,6 @@ class User extends Base
     {
         $sql = "INSERT INTO users (email, password, `name`, register_date) VALUES (:email, :password, :name, :register_date)";
         $statement = $this->getConnect()->prepare($sql);
-        return $statement->execute(["email" => $_POST["email"], "password" => password_hash($_POST["password"], PASSWORD_BCRYPT), "name" => $_POST["name"], "register_date" => date("y.m.d")]);
+        return $statement->execute(["email" => $user["email"], "password" => password_hash($user["password"], PASSWORD_BCRYPT), "name" => $user["name"], "register_date" => date("y.m.d")]);
     }
 }

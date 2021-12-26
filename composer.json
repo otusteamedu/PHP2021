@@ -12,6 +12,8 @@
     "wixel/gump": "^1.12",
     "twig/twig": "^3.3",
     "intervention/image": "^2.7",
-    "phlak/config": "^7.0"
+    "phlak/config": "^7.0",
+    "symfony/http-foundation": "^5.4",
+    "ext-http": "*"
   }
 }

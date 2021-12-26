@@ -7,6 +7,7 @@ use App\Application\Services\ViewMapperInterface;
 use App\Infrastructure\Controllers\FrontController;
 use App\Infrastructure\Controllers\MessageAdminController;
 use App\Infrastructure\Controllers\MessageController;
+use Symfony\Component\HttpFoundation\Request;
 use function DI\factory;
 
 class App
@@ -38,6 +39,7 @@ class App
 
     private function bindBaseRoutes()
     {
+        $request = new Request($_REQUEST);
         if (strpos($_SERVER['REQUEST_URI'], '/user/register') !== false) {
             $controller = $this->container->make(FrontController::class);
             $controller->register();
@@ -58,7 +60,7 @@ class App
 
         if (strpos($_SERVER['REQUEST_URI'], '/message/index') !== false) {
             $controller = $this->container->make(MessageController::class);
-            $controller->index();
+            $controller->index($_REQUEST);
             return true;
         }
 
