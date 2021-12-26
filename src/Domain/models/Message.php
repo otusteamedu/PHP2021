@@ -6,66 +6,56 @@ use App\Application\DTO\MessageDTO;
 
 class Message extends Base
 {
-    public function getAllIdWithImages()
+    private $text;
+    private $date;
+    private $isSetImage;
+    private $userId;
+
+    public function __construct($text, $date, $isSetImage, $userId)
     {
-        $sql = "SELECT id FROM `messages` WHERE isset_image = 1";
-        $statement = $this->getConnect()->prepare($sql);
-        $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $this->text = $text;
+        $this->date = $date;
+        $this->isSetImage = $isSetImage;
+        $this->userId = $userId;
     }
 
-    /**
-     * Получение всех сообщений
-     * @return array
-     */
-    public function getAll()
+    public function setText($text)
     {
-        $sql = "SELECT messages.id, text, date, name FROM messages INNER JOIN users ON users.id = messages.user_id ORDER BY id DESC LIMIT 3";
-        $statement = $this->getConnect()->prepare($sql);
-        $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $this->text = $text;
     }
 
-    /**
-     * Добавление сообщения
-     * @param $user
-     * @param $text
-     * @return bool
-     */
-    public function add(MessageDTO $message)
+    public function setDate($date)
     {
-        $sql = "INSERT INTO `messages` (text, `date`, isset_image, user_id) VALUES (:text, :date, :isset_image,:user_id)";
-        $statement = $this->getConnect()->prepare($sql);
-        $result = $statement->execute(["text" => $message->text,
-            "date" => date("y.m.d"),
-            "isset_image" => $message->isSetImage ? 1 : 0,
-            "user_id" => $message->userId
-        ]);
-        return $result;
+        $this->date = $date;
     }
 
-    /**
-     * Удаление сообщения
-     * @param $id
-     */
-    public function delete($id)
+    public function setIsSetImage(bool $isSetImage)
     {
-        $sql = "DELETE FROM messages WHERE id=:id";
-        $statement = $this->getConnect()->prepare($sql);
-        $statement->execute(["id" => $id]);
-        return $statement->rowCount();
+        $this->isSetImage = $isSetImage;
     }
 
-    /**
-     * Получение массива со всеми сообщениями пользователя с определенным id в json формате
-     * @param $id
-     * @return false|string
-     */
-    public function getAllById($id)
+    public function setUserId($userId)
     {
-        $sql = "SELECT text FROM `messages` WHERE user_id=:user_id";
-        $statement = $this->getConnect()->prepare($sql);
-        $statement->execute(["user_id" => $id]);
-        return json_encode($statement->fetchAll(\PDO::FETCH_ASSOC));
+        $this->userId = $userId;
+    }
+
+    public function getText($text)
+    {
+        return $this->text;
+    }
+
+    public function getDate($date)
+    {
+        return $this->date;
+    }
+
+    public function getIsSetImage(bool $isSetImage)
+    {
+        return $this->isSetImage;
+    }
+
+    public function getUserId($userId)
+    {
+        return $this->userId;
     }
 }
