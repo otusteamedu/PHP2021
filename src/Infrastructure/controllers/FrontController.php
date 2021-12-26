@@ -27,7 +27,7 @@ class FrontController
 
     public function login(Request $request)
     {
-        return $this->authService->login();
+        return $this->authService->login($request);
     }
 
 }

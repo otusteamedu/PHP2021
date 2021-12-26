@@ -51,7 +51,7 @@ class Auth extends BaseService
             $userModel = new User();
             $user = $userModel->get($request->get('email'));
             if (password_verify($request->get('password'),
-                $request->get('password')) && $user) {
+                $user['password']) && $user) {
                 $this->authService->login($user);
                 if (in_array($this->authService->user()['id'], Config::getApp('ADMIN_ID'))) {
                     return $this->redirect('message/indexAdmin');

@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Controllers;
 
 use App\Application\Services\MessageAdmin;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class MessageAdminController
@@ -14,9 +15,9 @@ class MessageAdminController
         $this->messageAdminService = $messageAdminService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->messageAdminService->index();
+        return $this->messageAdminService->index($request);
     }
 
 

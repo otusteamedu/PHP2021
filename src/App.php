@@ -42,25 +42,25 @@ class App
         $request = new Request($_REQUEST);
         if (strpos($_SERVER['REQUEST_URI'], '/user/register') !== false) {
             $controller = $this->container->make(FrontController::class);
-            $controller->register();
+            $controller->register($request);
             return true;
         }
 
         if (strpos($_SERVER['REQUEST_URI'], '/user/login') !== false) {
             $controller = $this->container->make(FrontController::class);
-            $controller->login();
+            $controller->login($request);
             return true;
         }
 
         if (strpos($_SERVER['REQUEST_URI'], '/message/indexAdmin') !== false) {
             $controller = $this->container->make(MessageAdminController::class);
-            $controller->index();
+            $controller->index($request);
             return true;
         }
 
         if (strpos($_SERVER['REQUEST_URI'], '/message/index') !== false) {
             $controller = $this->container->make(MessageController::class);
-            $controller->index($_REQUEST);
+            $controller->index($request);
             return true;
         }
 

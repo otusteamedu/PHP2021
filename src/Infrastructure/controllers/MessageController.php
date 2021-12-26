@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Controllers;
 
 use App\Application\Services\Message;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class MessageController
@@ -14,8 +15,8 @@ class MessageController
         $this->messageService = $messageService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->messageService->index();
+        return $this->messageService->index($request);
     }
 }
