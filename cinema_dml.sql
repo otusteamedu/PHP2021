@@ -4,18 +4,20 @@ WITH
         WITH
             session_profit AS (
                 SELECT
-                    session_id,
-                    SUM(price) AS profit
-                from
-                    cinema_tickets
+                    ct.session_id,
+                    SUM(cp.value) AS profit
+                FROM
+                    cinema_tickets AS ct
+                        JOIN cinema_prices AS cp ON
+                        cp.id = ct.price_id
+                WHERE
+                    ct.status = 1
                 GROUP BY
-                    session_id, status
-                HAVING
-                    status = 1)
+                    ct.session_id)
         SELECT
             cs.movie_id,
-            cm.name_original AS movie_name,
-            rank() OVER (ORDER BY SUM(profit) desc) AS rnk
+            cm.name_original                           AS movie_name,
+            rank() OVER (ORDER BY SUM(sp.profit) desc) AS rnk
         FROM
             cinema_sessions AS cs
                 JOIN session_profit AS sp ON
