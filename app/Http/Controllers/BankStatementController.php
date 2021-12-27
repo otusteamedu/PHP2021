@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class BankStatementController extends Controller
 {
 
-    public function request(Request $request)
+    public function request(Request $request, BankStatementJob $job)
     {
 
         $email = $request->query->get('email');
-        $job = new BankStatementJob;
+       // $job = new BankStatementJob;
         $job->setEmail($email);
 
         try {
