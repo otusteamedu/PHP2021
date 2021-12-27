@@ -1,8 +1,8 @@
 {
   "type": "package",
   "require": {
-    "php": ">=7.4",
-    "sccgh/otustest": "^0.1.0"
+    "php": ">=7.1",
+    "sccgh/otustest": "^0.2.0"
   },
   "autoload": {
     "psr-4": {
