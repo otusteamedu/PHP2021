@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Service\SendEmail;
 
-class BankStatementJob extends Job
+class BankStatementJob extends Job implements BankStatementInterface
 {
     private string $email;
 
@@ -18,9 +18,7 @@ class BankStatementJob extends Job
         $sendResult = $sendEmail->send($this->getEmail());
         if ($sendResult) {
             echo 'Выписка отправлена';
-        }
-        else
-        {
+        } else {
             echo 'Возникла ошибка при отправке';
         }
     }
