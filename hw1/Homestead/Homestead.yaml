@@ -1,0 +1,31 @@
+---
+ip: "192.168.56.56"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: application
+
+folders:
+    - map: /Users/vladimir/htdocs/courses/otus_php_backend/2021_07/www/app
+      to: /home/vagrant/code
+
+sites:
+    - map: application.local
+      to: /home/vagrant/code
+      php: "7.4"
+
+databases:
+    - homestead
+
+features:
+    - mysql: false
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
+
+ports:
+    - send: 80
+      to: 80
+    - send: 443
+      to: 443
