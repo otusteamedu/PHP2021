@@ -23,9 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+ $app->withFacades();
 
-// $app->withEloquent();
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +58,8 @@ $app->singleton(
 | the default version. You may register other files below as needed.
 |
 */
+
+$app->configure('swagger-lume');
 
 $app->configure('app');
 
@@ -95,7 +97,7 @@ $app->configure('app');
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
-
+$app->register(SwaggerLume\ServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

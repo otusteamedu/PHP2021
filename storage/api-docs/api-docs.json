@@ -1,0 +1,48 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API",
+        "contact": {
+            "name": "profox",
+            "email": "profox@profox.pro"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost"
+        }
+    ],
+    "paths": {
+        "/request": {
+            "post": {
+                "summary": "Поставить запрос в обработку",
+                "operationId": "069c1b1ea19a932d4ac3623b57dacaba",
+                "requestBody": {},
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/getstatus/{id}": {
+            "get": {
+                "summary": "Проверить статус запроса",
+                "operationId": "56856d92a3a7d04f1bc66cd7c2c3efce",
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ApiResponse": {
+                "type": "object"
+            }
+        }
+    }
+}
