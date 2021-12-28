@@ -32,6 +32,26 @@ CREATE TABLE public.cinema_prices
     CONSTRAINT cinema_prices_pk PRIMARY KEY (id)
 );
 
+-- Триггер на запрет обновления цены для существующей записи в справочнике цен
+CREATE OR REPLACE FUNCTION public.noupdate_cinema_price_value()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS
+$function$
+BEGIN
+    IF NEW.value <> OLD.value THEN
+        RAISE EXCEPTION 'Update price value not allowed, you must create new record';
+    END IF;
+    RETURN NEW;
+END;
+$function$;
+
+CREATE TRIGGER noupdate_cinema_price_value
+    BEFORE UPDATE
+    ON public.cinema_prices
+    FOR EACH ROW
+EXECUTE FUNCTION noupdate_cinema_price_value();
+
 -- Таблица мест в кинотеатре
 CREATE TABLE public.cinema_seats
 (
