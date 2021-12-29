@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\RestRequest;
 
-class RestRequestJob extends Job
+class RestRequestJob extends Job implements RestRequestInterface
 {
     private int $id;
 
