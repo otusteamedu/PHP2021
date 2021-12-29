@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: myapp/app
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+      - ./sock:/run/php-fpm
+    networks:
+      - app-network
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./sock:/run/php-fpm
+    networks:
+      - app-network
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+    networks:
+      - app-network
+  memcashed:
+    image: memcached:latest
+    container_name: memcashed
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
