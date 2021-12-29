@@ -36,13 +36,17 @@ class App
 
     private function sendSuccessResponse(string $content): void
     {
-        $response = new Response(200, $content);
-        $response->send();
+        $this->sendResponse(200, $content);
     }
 
     private function sendFailResponse(string $content): void
     {
-        $response = new Response(400, $content);
+        $this->sendResponse(400, $content);
+    }
+
+    private function sendResponse(int $statusCode, string $content): void
+    {
+        $response = new Response($statusCode, $content);
         $response->send();
     }
 }
