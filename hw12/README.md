@@ -1,11 +1,26 @@
 # PHP2021
 
-Выполненная практика по паттернам проектирования.
+### Launch local environment
+Create .env file:
+``` bash
+cp .env.example .env
+```
 
-Разрабатываем часть интернет-ресторана. Продаёт он фаст-фуд.
+Start application docker containers:
+``` bash
+docker-compose up -d
+```
 
-1. Абстрактная фабрика отвечает за создание базового прототипа продукта.
-2. Декоратор добавляет/удаляет ингредиенты.
-3. Наблюдатель подписывается на статус приготовления и отправляет оповещения в лог.
-4. Прокси "навешивает" события на изменения статусов приготовления продукта.
-5. Стратегия запускает процесс приготовления и упаковки в зависимости от типа базового продукта.
+Install composer dependencies and start server and client:
+```bash
+docker exec -it $(docker ps | awk ' /app1/ { print $1 }') bash
+cd mysite.local/ && composer install
+```
+
+Test validate:
+```bash
+curl http://mysite.local
+curl --data "string=(()()())&deep_validate=0" http://mysite.local
+curl --data "string=(()()(){}[[])&deep_validate=0" http://mysite.local
+curl --data "string=(()()(){}[[]])&deep_validate=1" http://mysite.local
+```

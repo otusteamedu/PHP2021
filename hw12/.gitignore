@@ -1,5 +1,4 @@
-.idea/
-data/sites/vendor/
-mysql/
-nginx/certs/
+.idea
 .env
+init
+dbdata
