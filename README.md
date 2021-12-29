@@ -1,5 +1,5 @@
 Используя laradoc запустить докер
-docker-compose up -d nginx php-fpm nginx php-worker rabbitmq
+docker-compose up -d nginx php-fpm nginx php-worker rabbitmq mysql
 
 Переименовать .env.example в .env при необходимости изменить настройки
 
