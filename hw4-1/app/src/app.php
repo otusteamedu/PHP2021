@@ -7,6 +7,7 @@ namespace App;
 use App\Form\StringForm;
 use App\Http\Request;
 use App\Http\Response;
+use Exception;
 use InvalidArgumentException;
 
 class App
@@ -26,6 +27,8 @@ class App
             $this->sendSuccessResponse('Строка валидна');
         } catch (InvalidArgumentException $e) {
             $this->sendFailResponse($e->getMessage());
+        } catch (Exception $e) {
+            $this->sendResponse(500, '');
         }
     }
 

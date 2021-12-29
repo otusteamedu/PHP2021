@@ -10,5 +10,4 @@ try {
     $app = new App();
     $app->run();
 } catch (Exception $e) {
-    http_response_code(500);
 }
