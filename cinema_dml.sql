@@ -1,19 +1,29 @@
+-- Пример заполнения строки справочника цен
+INSERT INTO
+    cinema_prices (id, "name", value)
+VALUES
+    (1, 'ticket price sample 1', 100);
+
+-- Пример заполнения строки таблицы билетов
+INSERT INTO
+    cinema_tickets (session_id, seat_id, price, status)
+VALUES
+    (1, 1, (select value from cinema_prices where id = 1), 0);
+
 -- Поиск самого прибыльного фильма
 WITH
     movie_profit_ranks AS (
         WITH
             session_profit AS (
                 SELECT
-                    ct.session_id,
-                    SUM(cp.value) AS profit
+                    session_id,
+                    SUM(price) AS profit
                 FROM
-                    cinema_tickets AS ct
-                        JOIN cinema_prices AS cp ON
-                        cp.id = ct.price_id
+                    cinema_tickets
                 WHERE
-                    ct.status = 1
+                    status = 1
                 GROUP BY
-                    ct.session_id)
+                    session_id)
         SELECT
             cs.movie_id,
             cm.name_original                           AS movie_name,
