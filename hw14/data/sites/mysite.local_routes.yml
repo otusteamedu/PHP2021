@@ -1,0 +1,4 @@
+- path: /
+  method: POST
+  resource: IndexController
+  action: index
