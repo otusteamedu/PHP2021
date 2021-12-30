@@ -1,0 +1,14 @@
+{
+    "name": "root/app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vladimir Kaimonov",
+            "email": "kaivladimirv@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "kaivladimirv/sum-calculator": "dev-master"
+    }
+}
