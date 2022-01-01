@@ -14,7 +14,7 @@ class App
     {
         try {
             $emails = $this->getEmails();
-            $this->exitIfNoEmailListIsSpecified($emails);
+            $this->throwExceptionIfNoEmailListIsSpecified($emails);
 
             Console::success('Старт валидации');
 
@@ -54,11 +54,13 @@ class App
         }
     }
 
-    private function exitIfNoEmailListIsSpecified(array $emails): void
+    /**
+     * @throws Exception
+     */
+    private function throwExceptionIfNoEmailListIsSpecified(array $emails): void
     {
         if (!$emails) {
-            Console::error('Не указан список адресов электронной почты');
-            exit;
+            throw new Exception('Не указан список адресов электронной почты');
         }
     }
 }
