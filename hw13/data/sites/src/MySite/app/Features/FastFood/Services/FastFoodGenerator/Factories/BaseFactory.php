@@ -86,8 +86,10 @@ abstract class BaseFactory implements
     public function addBaseToppings(): void
     {
         $recipe = $this->getRecipeString();
-        $toppings = explode("\n", $recipe);
-        $this->toppings->addItems($toppings);
+        if ($recipe != "Recipe file not found") {
+            $toppings = explode("\n", $recipe);
+            $this->toppings->addItems($toppings);
+        }
     }
 
     /**
@@ -96,7 +98,24 @@ abstract class BaseFactory implements
     private function getRecipeString(): bool|string
     {
         $productName = $this->getName();
-        return file_get_contents(__DIR__ . '/../Recipes/' . $productName . '.txt');
+
+        try { 
+
+            $recipe_file_path = __DIR__ . '/../Recipes/' . $productName . '.txt';
+
+            if (!file_exists($recipe_file_path)) {
+
+                throw new Exception("Recipe file not found");
+
+            } 
+
+            return file_get_contents($recipe_file_path);
+
+        } catch (Exception $e) {
+
+            return $e->getMessage();
+
+        }
     }
 
     /**
