@@ -12,14 +12,14 @@ use App\AbstractFactory\Product\WhiteSandwich;
 class WhiteFactory implements Products
 {
 
-    public function CreateBurger(int $standard): Burger
+    public function CreateBurger(int $cookingStage): Burger
     {
-        return new WhiteBurger($standard);
+        return new WhiteBurger($cookingStage);
     }
 
-    public function CreateSandwich(int $standard): Sandwich
+    public function CreateSandwich(int $cookingStage): Sandwich
     {
-        return new WhiteSandwich($standard);
+        return new WhiteSandwich($cookingStage);
     }
 }
 

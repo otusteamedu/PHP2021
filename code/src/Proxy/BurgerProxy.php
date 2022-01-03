@@ -24,7 +24,7 @@ class BurgerProxy implements Burger
 
     private function check(): bool
     {
-        if($this->burger->standard == 100) return 1; 
+        if($this->burger->cookingStage == 100) return 1; 
 
     }
 

@@ -6,10 +6,10 @@ use App\AbstractFactory\Interface\Sandwich;
 
 class WhiteSandwich implements Sandwich
 {
-    public $standard;
+    public $cookingStage;
 
-    public function __construct(int $standard){
-        $this->standard = $standard;
+    public function __construct(int $cookingStage){
+        $this->cookingStage = $cookingStage;
     }
 
     public function StructureSandwich(): string

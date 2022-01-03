@@ -12,31 +12,40 @@ use App\Observer\Observer;
 
 class App
 {
+
+    private $whiteBurger;
+    private $statusWhiteBurger;
+    private $observerWhiteBurger;
+
+    private $whiteSandwich;
+    private $statusWhiteSandwich;
+    private $observerWhiteSandwich;
+
     public function run()
     {
 
-        $context = new FinishedProduct(new WhiteFactoryBurger());
-        $context = $context->execute(100);
+        $this->whiteBurger = new FinishedProduct(new WhiteFactoryBurger());
+        $this->whiteBurger = $this->whiteBurger->execute(100);
 
-        echo $context . "<br>";
+        echo $this->whiteBurger . "<br>";
 
-        $status = new Products(1);
-        $observer = new Observer();
-        $status->attach($observer);
-        $status->action();
+        $this->statusWhiteBurger = new Products(1);
+        $this->observerWhiteBurger = new Observer();
+        $this->statusWhiteBurger->attach($this->observerWhiteBurger);
+        $this->statusWhiteBurger->action();
         
         echo "<br>";
         echo "<br>";
 
-        $context = new FinishedProduct(new WhiteFactorySandwich());
-        $context = $context->execute(100);
+        $this->whiteSandwich = new FinishedProduct(new WhiteFactorySandwich());
+        $this->whiteSandwich = $this->whiteSandwich->execute(100);
 
-        echo $context . "<br>";
+        echo $this->whiteSandwich . "<br>";
 
-        $status = new Products(2);
-        $observer = new Observer();
-        $status->attach($observer);
-        $status->action();
+        $this->statusWhiteSandwich = new Products(2);
+        $this->observerWhiteSandwich = new Observer();
+        $this->statusWhiteSandwich->attach($this->observerWhiteSandwich);
+        $this->statusWhiteSandwich->action();
 
     }
 }

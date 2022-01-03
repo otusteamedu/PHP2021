@@ -24,7 +24,7 @@ class SandwichProxy implements Sandwich
 
     private function check(): bool
     {
-        if($this->sandwich->standard == 100) return 1; 
+        if($this->sandwich->cookingStage == 100) return 1; 
 
     }
 
