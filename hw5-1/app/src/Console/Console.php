@@ -13,19 +13,19 @@ class Console
     {
         $message = self::setColorFor(self::COLOR__GREEN, $message);
 
-        self::writeLn($message);
+        self::write($message);
     }
 
     public static function error($message): void
     {
         $message = self::setColorFor(self::COLOR__RED, $message);
 
-        self::writeLn($message);
+        self::write($message);
     }
 
     public static function info($message): void
     {
-        self::writeLn($message);
+        self::write($message);
     }
 
     public static function setColorFor(string $color, $text): string
@@ -33,14 +33,9 @@ class Console
         return "\033[$color$text\033[0m";
     }
 
-    private static function writeLn($message): void
-    {
-        self::write($message . PHP_EOL);
-    }
-
     private static function write($message): void
     {
-        echo $message;
+        echo $message . PHP_EOL;
     }
 
     public static function readLines(): array
