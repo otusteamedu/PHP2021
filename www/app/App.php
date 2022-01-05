@@ -9,9 +9,9 @@ class App
         if (empty($_POST['string'])){
             throw new \Exception('Have not received any string');
         }
-
-        $string = Filter::fire();
-        $checker = new Checker($string);
+        
+        $checker = new Checker();
         $checker->run();
+        Response::replyWithOk();
     }
 }

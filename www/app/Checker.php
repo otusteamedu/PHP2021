@@ -14,11 +14,10 @@ class Checker
     /**
      * Checker constructor.
      *
-     * @param  string  $string
      */
-    public function __construct(string $string)
+    public function __construct()
     {
-        $this->string = $string;
+        $this->string = Filter::getString();
     }
 
     public function run()
@@ -30,11 +29,11 @@ class Checker
         
         foreach ($array_chars as $index => $char){
             if ($index === array_key_first($array_chars) && $char == static::CLOSE_BRACKET){
-                throw new \Exception('A string can not start from a closing bracket');
+                throw new \Exception('A string can not start from a closed bracket.');
             }
 
             if ($index === array_key_last($array_chars) && $char == static::OPEN_BRACKET){
-                throw new \Exception('A string can not finish with a opening bracket');
+                throw new \Exception('A string can not finish with an opened bracket.');
             }
             
              if ($char == static::OPEN_BRACKET){
