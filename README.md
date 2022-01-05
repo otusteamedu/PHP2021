@@ -3,5 +3,5 @@
 
 ### Сборка/Запуск контейнера 
 ```
-cd Docker && docker-compose up -d && docker exec -i app bash -c "cd /var/www/brackets.application.local && composer install"
+cd Docker && docker-compose up -d && docker exec -i app bash -c "cd /var/www/brackets.local && composer install"
 ```
