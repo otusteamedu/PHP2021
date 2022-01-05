@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: brackets/php
+    volumes:
+      - ../www:/var/www/brackets.local
+      - phpsocket:/var/run
+    networks:
+      - brackets-network
+
+  webserver:
+    container_name: nginx
+    image: brackets/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ../www:/var/www/brackets.local
+      - phpsocket:/var/run
+    links:
+      - app
+    networks:
+      - brackets-network
+
+networks:
+  brackets-network:
+    driver: bridge
+
+volumes:
+  phpsocket:
