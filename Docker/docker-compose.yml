@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: images/nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+      - socket:/var/run
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    build:
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+      context: images/php-fpm
+    volumes:
+      - ./:/var/www
+      - socket:/var/run
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+
+volumes:
+  socket:
