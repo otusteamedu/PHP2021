@@ -1,0 +1,46 @@
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+
+deploy_server1:
+  stage: deploy
+  environment:
+    name: server
+    url: $SERVER
+  script:
+    - ssh $SSH_USER@$SERVER "sudo rm -rf /var/www/inspatient &&
+      cd /var/www &&
+      git clone https://deploy:nSsqF6ssFhwLFNcjhsn9@gitlab.com/profox/inspatient.git inspatient &&
+      sudo chown www-data:www-data inspatient -R &&
+      cd inspatient &&
+      sudo cp deploy/nginx/inspatient.conf /etc/nginx/conf.d/inspatient.conf -f &&
+      composer install &&
+      sh ./deploy.sh $SERVER $DATABASE_HOST $DATABASE_USER $DATABASE_PASSWORD $DATABASE_NAME $APP_URL $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD &&
+      sh ./imap.sh $IMAP_HOST $IMAP_USERNAME $IMAP_PASSWORD"
+  only:
+    - main
+
+
+deploy_server_rc:
+  stage: deploy
+  environment:
+    name: server_rc
+    url: $SERVER_rc
+  script:
+    - ssh $SSH_USER@$SERVER "sudo rm -rf /var/www/inspatient_rc &&
+      cd /var/www &&
+      git clone https://deploy:nSsqF6ssFhwLFNcjhsn9@gitlab.com/profox/inspatient.git -b rc inspatient_rc &&
+      sudo chown www-data:www-data inspatient_rc -R &&
+      cd inspatient_rc &&
+      sudo cp deploy/nginx/inspatient_rc.conf /etc/nginx/conf.d/inspatient_rc.conf -f &&
+      composer install &&
+      sh ./deploy.sh $SERVER $DATABASE_HOST $DATABASE_USER $DATABASE_PASSWORD $DATABASE_NAME_RC $APP_URL $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD &&
+      sh ./imap.sh $IMAP_HOST $IMAP_USERNAME $IMAP_PASSWORD"
+  only:
+    - rc
