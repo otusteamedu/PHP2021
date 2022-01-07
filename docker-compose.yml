@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_otus
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: '${PG_PASS}'
+
+networks:
+  otus-network:
+    driver: bridge
