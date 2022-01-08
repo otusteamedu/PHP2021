@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: dockerapp/nginx
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite.local.conf:/etc/nginx/sites-enabled/mysite.local.conf
+    networks:
+      - app-network
+      
+  #контейнер с php    
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: dockerapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+      - ./fpm/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - app-network
+      
+  #контейнер с postgres
+  db:
+    image: postgres
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - app-network
+      
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
