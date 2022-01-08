@@ -1,0 +1,97 @@
+version: '3'
+
+services:
+  balancer:
+    container_name: balancer-nginx
+    image: brackets/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - webserver1
+      - webserver2
+    volumes:
+      - ./nginx/hosts/balancer:/etc/nginx/conf.d
+      - phpsocket:/var/run
+    networks:
+      - brackets-network
+
+  webserver1:
+    container_name: nginx1
+    image: brackets/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/hosts/app:/etc/nginx/conf.d
+      - ../www:/var/www/brackets.local
+      - phpsocket:/var/run
+    networks:
+      - brackets-network
+
+  app1:
+    container_name: app1
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: brackets/php
+    volumes:
+      - ../www:/var/www/brackets.local
+      - phpsocket:/var/run
+    networks:
+      - brackets-network
+
+  webserver2:
+    container_name: nginx2
+    image: brackets/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/hosts/app:/etc/nginx/conf.d
+      - ../www:/var/www/brackets.local
+      - phpsocket:/var/run
+    networks:
+      - brackets-network
+
+  app2:
+    container_name: app2
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: brackets/php
+    volumes:
+      - ../www:/var/www/brackets.local
+      - phpsocket:/var/run
+    networks:
+      - brackets-network
+
+  db:
+    image: mysql:latest
+    container_name: db
+    ports:
+      - ${MYSQL_PORT}-${MYSQL_PORT}
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - brackets-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcache
+    ports:
+      - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
+    networks:
+      - brackets-network
+
+networks:
+  brackets-network:
+    driver: bridge
+
+volumes:
+  phpsocket:
