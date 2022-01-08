@@ -31,9 +31,9 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-install -j$(nproc) gd \
         && pecl install memcached\
         && docker-php-ext-enable memcached\
-        && pecl install -o -f redis \
-        && docker-php-ext-enable redis\
         && rm -rf /tmp/pear
+
+COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /var/www
 
