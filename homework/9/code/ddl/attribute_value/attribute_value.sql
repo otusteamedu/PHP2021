@@ -5,9 +5,25 @@ create table if not exists attribute_value (
 ;
 
 alter table attribute_value add
-  value varchar(255) not null
+  string_value varchar(255) null
 ;
 
-alter table attribute_value add unique index ix_uq_value (
-  value
+alter table attribute_value add index ix_string_value (
+  string_value
+);
+
+alter table attribute_value add index ix_bool_value (
+  bool_value
+);
+
+alter table attribute_value add index ix_datetime_value (
+  datetime_value
+);
+
+alter table attribute_value add index ix_int_value (
+  int_value
+);
+
+alter table attribute_value add index ix_float_value (
+  float_value
 );
