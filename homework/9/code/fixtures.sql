@@ -1,3 +1,34 @@
+-- заполняем типы свойств
+insert into attribute_type (
+   code
+  ,name
+)
+select
+  from (select
+             'string'             as code
+            ,'Строка'             as name
+        union select
+             'bool'               as code
+            ,'Да/Нет'             as name
+        union select
+             'text'               as code
+            ,'Текст'              as name
+        union select
+             'datetime'           as code
+            ,'Дата+время'         as name
+        union select
+             'int'                as code
+            ,'Целое число'        as name
+        union select
+             'float'              as code
+            ,'Вещественное число' as name
+       ) as x
+  where x.code not in (select
+                            z.code
+                         from attribute_type as z
+                      )
+;
+
 -- заполняем залы
 insert into cinema_hall (
   code
