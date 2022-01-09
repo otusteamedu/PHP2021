@@ -19,18 +19,18 @@ class Manufacturer
         $this->name = $name;
     }
 
-	public function getId(): ?int
+    public function getId(): ?int
     {
-		return $this->id;
-	}
+        return $this->id;
+    }
 
-	public function setId(?int $id): self
+    public function setId(?int $id): self
     {
-		$this->id = $id;
+        $this->id = $id;
         return $this;
-	}
+    }
 
-	public function getCode(): ?string
+    public function getCode(): ?string
     {
         return $this->code;
     }
