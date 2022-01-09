@@ -4,10 +4,11 @@
 namespace App;
 
 
-class BurgerStrategy extends AbstractStrategy
+class HotDogStrategy extends AbstractStrategy
 {
+
     public function execute($ingridients = [])
     {
-        $this->factory->createBurger();
+        echo 'burger';
     }
 }

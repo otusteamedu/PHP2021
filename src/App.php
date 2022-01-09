@@ -1,25 +1,29 @@
 <?php
-
-
 namespace App;
 
 
 class App
 {
-    private $productFactory;
-    private $productStrategy;
-
-    public function __constructor(ProductFactoryInterface $productFactory, $productName)
-    {
-        $this->productFactory = $productFactory;
-//        if ($productName == 'burger') {
-        $this->setStrategy(new BurgerStrategy());
-//        }
-    }
+    private ProductFactoryInterface $productFactory;
+    private Strategy $productStrategy;
 
     public function initialize()
     {
-        $product = $this->productFactory->createProduct();
+        $productType = strtolower($_GET['product']);
+        global $container;
+        switch ($productType) {
+            case 'burger':
+                $this->productStrategy = $container->make(BurgerStrategy::class);
+                break;
+            case 'hotdog':
+                $this->productStrategy = $container->make(HotDogStrategy::class);
+                break;
+            case 'sandwich':
+                $this->productStrategy = $container->make(SandwichStrategy::class);
+                break;
+            default:
+                throw new \Exception('this type does not exists');
+        }
         $this->productStrategy->execute();
     }
 

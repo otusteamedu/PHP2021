@@ -6,5 +6,5 @@ namespace App;
 
 interface Strategy
 {
-    public function exectute($ingridients);
+    public function execute($ingridients);
 }

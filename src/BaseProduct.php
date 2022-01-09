@@ -4,17 +4,7 @@
 namespace App;
 
 
-class BaseProduct
+abstract class BaseProduct implements ProductPrototypeInterface
 {
-    private $filling = [];
-
-    public function __construct($filling = [])
-    {
-        $this->filling = $filling;
-    }
-
-    public function clone(): ProductPrototypeInterface
-    {
-        return new HotDog($this->filling);
-    }
+    protected $filling = [];
 }
