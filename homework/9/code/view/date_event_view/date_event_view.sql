@@ -45,3 +45,4 @@ select
             ) as future on future.film_id = f.id
                        and future.datetime_value >= date(date_add(now(), interval 20 day))
                        and future.datetime_value < date(date_add(now(), interval 21 day))
+;

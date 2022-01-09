@@ -1,6 +1,7 @@
 create view property_value_view
 as
-select null
+select
+     null
 ;
 
 alter view property_value_view
@@ -26,9 +27,10 @@ select
 
   inner join attribute            as a on a.id = v.attribute_id
 
-  inner join attribute_type       as t on t.id = v.property_type_id
+  inner join attribute_type       as t on t.id = v.attribute_type_id
 
   inner join attribute_value      as av on av.id = v.attribute_value_id
 
   order by
     f.id
+;

@@ -13,13 +13,13 @@ alter table attribute add
 ;
 
 alter table attribute add
-  property_type_id int(11) unsigned not null
+  attribute_type_id int(11) unsigned not null
 ;
 
 alter table attribute add unique index ix_uq_code (
   code
 );
 
-alter table attribute add unique index ix_fk_property_type_id (
-  property_type_id
+alter table attribute add unique index ix_fk_attribute_type_id (
+  attribute_type_id
 );
