@@ -15,10 +15,16 @@ select
     ,case
        when t.code = 'string'     then ifnull(av.string_value, '')
        when t.code = 'text'       then ifnull(av.text_value, '')
-       when t.code = 'bool'       then cast(ifnull(av.bool_value, '') as char)
-       when t.code = 'datetime'   then date_format(ifnull(av.datetime_value, 0.00), '%Y-%m-%d %H:%i:%s')
-       when t.code = 'int'        then cast(ifnull(av.int_value, '') as char)
-       when t.code = 'float'      then cast(round(ifnull(av.float_value, 0.000000), 5) as char)
+       when t.code = 'bool'       then cast(ifnull(av.text_value, '') as char)
+       when t.code = 'datetime'   then date_format(ifnull(av.float_value, 0.00000), '%Y-%m-%d %H:%i:%s')
+       when t.code = 'int'        then if( av.float_value is null
+                                          ,''
+                                          ,cast(round(av.float_value) as char)
+                                         )
+       when t.code = 'float'      then if( av.float_value is null
+                                          ,''
+                                          ,cast(round(av.float_value, 5) as char)
+                                         )
      end            as attribute_value
 
   from film as f

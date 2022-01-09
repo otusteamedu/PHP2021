@@ -26,8 +26,8 @@ select
               inner join attribute_value as u on u.attribute_value_id = b.id
 
             ) as today on today.film_id = f.id
-                      and today.datetime_value >= date()
-                      and today.datetime_value < date(date_add(now(), interval 1 day))
+                      and today.float_value >= cast(date() as decimal)
+                      and today.float_value < cast(date(date_add(now(), interval 1 day)) as decimal)
 
   left join (select
                   u.film_id          as film_id
@@ -43,6 +43,6 @@ select
               inner join attribute_value as k on k.attribute_value_id = h.id
 
             ) as future on future.film_id = f.id
-                       and future.datetime_value >= date(date_add(now(), interval 20 day))
-                       and future.datetime_value < date(date_add(now(), interval 21 day))
+                       and future.float_value >= cast(date(date_add(now(), interval 20 day)) as decimal)
+                       and future.float_value < cast(date(date_add(now(), interval 21 day)) as decimal)
 ;
