@@ -8,6 +8,7 @@ class BurgerStrategy extends AbstractStrategy
 {
     public function execute($ingridients = [])
     {
-        $this->factory->createBurger();
+        $burger = $this->factory->createBurger();
+
     }
 }
