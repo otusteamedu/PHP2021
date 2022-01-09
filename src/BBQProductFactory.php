@@ -6,6 +6,9 @@ namespace App;
 
 class BBQProductFactory implements ProductFactoryInterface
 {
+    const BURGER_CUTLET = 'BBQCutlet';
+    const BURGER_BUN = 'BBQBun';
+
     private ProductPrototypeInterface $baseBurger;
     private ProductPrototypeInterface $baseSandwich;
     private ProductPrototypeInterface $baseHotDog;
@@ -13,8 +16,8 @@ class BBQProductFactory implements ProductFactoryInterface
     public function __construct()
     {
         $this->baseBurger = new Burger();
-        $this->baseBurger->cutlet = 'BBQCutlet';
-        $this->baseBurger->bun = 'BBQBun';
+        $this->baseBurger->cutlet = self::BURGER_CUTLET;
+        $this->baseBurger->bun = self::BURGER_BUN;
     }
 
     public function createBurger(): ProductPrototypeInterface
