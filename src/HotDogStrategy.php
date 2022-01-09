@@ -7,7 +7,7 @@ namespace App;
 class HotDogStrategy extends AbstractStrategy
 {
 
-    public function execute($ingridients = [])
+    public function make($ingridients = [])
     {
         echo 'burger';
     }

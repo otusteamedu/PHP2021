@@ -14,7 +14,6 @@ class Burger extends BaseProduct
         if ($prototype) {
             $this->bun= $prototype->bun;
             $this->cutlet = $prototype->cutlet;
-            $this->filling = $prototype->filling;
         }
     }
 

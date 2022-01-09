@@ -12,4 +12,5 @@ abstract class AbstractStrategy implements Strategy
     {
         $this->factory = $productFactory;
     }
+
 }

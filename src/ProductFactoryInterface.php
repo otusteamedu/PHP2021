@@ -3,12 +3,11 @@
 
 namespace App;
 
-
 interface ProductFactoryInterface
 {
-    public function createBurger() :Burger;
+    public function createBurger() :BaseProduct;
 
-    public function createSandwich() :Sandwich;
+    public function createSandwich() :BaseProduct;
 
-    public function createHotDog() :HotDog;
+    public function createHotDog() :BaseProduct;
 }

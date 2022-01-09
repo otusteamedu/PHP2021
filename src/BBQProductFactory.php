@@ -9,9 +9,9 @@ class BBQProductFactory implements ProductFactoryInterface
     const BURGER_CUTLET = 'BBQCutlet';
     const BURGER_BUN = 'BBQBun';
 
-    private Burger $baseBurger;
-    private Sandwich $baseSandwich;
-    private HotDog $baseHotDog;
+    private BaseProduct $baseBurger;
+    private BaseProduct $baseSandwich;
+    private BaseProduct $baseHotDog;
 
     public function __construct()
     {
@@ -20,17 +20,17 @@ class BBQProductFactory implements ProductFactoryInterface
         $this->baseBurger->bun = self::BURGER_BUN;
     }
 
-    public function createBurger(): Burger
+    public function createBurger(): BaseProduct
     {
         return $this->baseBurger->clone();
     }
 
-    public function createSandwich(): Sandwich
+    public function createSandwich(): BaseProduct
     {
 //        return new Sandwich();
     }
 
-    public function createHotDog(): HotDog
+    public function createHotDog(): BaseProduct
     {
 //        return new HotDog();
     }

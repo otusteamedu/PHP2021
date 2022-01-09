@@ -6,5 +6,6 @@ namespace App;
 
 abstract class BaseProduct implements ProductPrototypeInterface
 {
-    protected $filling = [];
+    public int $pepper;
+    public int $salt;
 }
