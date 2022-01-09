@@ -24,7 +24,7 @@ class App
             default:
                 throw new \Exception('this type does not exists');
         }
-        $this->productStrategy->make($_GET['pepper'], $_GET['salt']);
+        $this->productStrategy->make(new RecieptIterator($_GET['fillings']));
     }
 
     public function setStrategy(Strategy $strategy)

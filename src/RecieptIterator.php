@@ -8,7 +8,7 @@ class RecieptIterator implements \Iterator
 {
     private $collection;
 
-    public function __construct(CollectionInterface $collection)
+    public function __construct(array $collection)
     {
         $this->collection = $collection;
     }
@@ -21,7 +21,7 @@ class RecieptIterator implements \Iterator
 
     public function current()
     {
-        return $this->collection->getItems()[$this->position];
+        return $this->collection[$this->position];
     }
 
     public function key()
@@ -36,6 +36,6 @@ class RecieptIterator implements \Iterator
 
     public function valid()
     {
-        return isset($this->collection->getItems()[$this->position]);
+        return isset($this->collection[$this->position]);
     }
 }
