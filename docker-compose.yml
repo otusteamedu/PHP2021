@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  php-5:
+    container_name: php-5
+    build:
+      context: ./docker/php
+    image: image_php
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - otus-5
+
+networks:
+  otus-5:
+    driver: bridge
