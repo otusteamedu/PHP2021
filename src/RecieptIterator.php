@@ -14,7 +14,6 @@ class RecieptIterator implements \Iterator
     {
         $this->product = $product;
         $this->visitor = $visitor;
-        $this->product->accept($this->visitor);
         $this->collection = $product->getReceiptFilling();
     }
 

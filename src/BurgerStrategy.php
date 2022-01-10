@@ -7,7 +7,7 @@ namespace App;
 class BurgerStrategy extends AbstractStrategy
 {
 
-    public function make(array $fillings = [])
+    public function make(array $fillings = null)
     {
         $burger = $this->factory->createBurger();
         $burger->setReceiptFilling($fillings);

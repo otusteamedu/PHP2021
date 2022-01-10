@@ -14,7 +14,7 @@ abstract class BaseProduct implements ProductPrototypeInterface
         return $this->receiptFillings;
     }
 
-    public function setReceiptFilling(array $receiptFillings = [])
+    public function setReceiptFilling(array $receiptFillings = null)
     {
         if ($receiptFillings) $this->receiptFillings = $receiptFillings;
     }
