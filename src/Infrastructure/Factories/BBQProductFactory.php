@@ -34,14 +34,14 @@ class BBQProductFactory implements ProductFactoryInterface
         $this->baseBurger->bun = self::BURGER_BUN;
 
         $this->baseHotDog = new HotDog();
-        $this->baseBurger->setReceiptFilling(self::HOTDOG_RECEIPT_FILLING);
-        $this->baseBurger->sausage = self::HOTDOG_SOUSAGE;
-        $this->baseBurger->bun = self::HOTDOG_BUN;
+        $this->baseHotDog->setReceiptFilling(self::HOTDOG_RECEIPT_FILLING);
+        $this->baseHotDog->sausage = self::HOTDOG_SOUSAGE;
+        $this->baseHotDog->bun = self::HOTDOG_BUN;
 
-        $this->baseHotDog = new Sandwich();
-        $this->baseBurger->setReceiptFilling(self::SANWICH_RECEIPT_FILLING);
-        $this->baseBurger->cheese = self::SANWICH_CHESSE;
-        $this->baseBurger->bun = self::SANWICH_BUN;
+        $this->baseSandwich = new Sandwich();
+        $this->baseSandwich->setReceiptFilling(self::SANWICH_RECEIPT_FILLING);
+        $this->baseSandwich->cheese = self::SANWICH_CHESSE;
+        $this->baseSandwich->bun = self::SANWICH_BUN;
     }
 
     public function createBurger(): BaseProduct

@@ -18,7 +18,7 @@ class Visitor implements VisitorInterface
         if ($status === 1) {
             echo $productName . ' готов полностью';
         } else {
-            echo $productName . 'готов на ' . count($hotDog->fillings) / count($hotDog->getReceiptFilling()) . '<br>';
+            echo $productName . ' готов на ' . count($hotDog->fillings) / count($hotDog->getReceiptFilling()) . '<br>';
         }
     }
 

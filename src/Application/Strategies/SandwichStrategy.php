@@ -3,9 +3,6 @@
 
 namespace App\Application\Strategies;
 
-
-
-use App\Application\Visitors\Visitor;
 use App\Domain\Models\BaseProduct;
 use App\Infrastructure\Iterators\RecieptIterator;
 

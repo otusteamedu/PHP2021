@@ -21,12 +21,12 @@ class Sandwich extends BaseProduct
 
     public function accept(VisitorInterface $visitor)
     {
-        $visitor->visitHotDog($this);
+        $visitor->visitSandwich($this);
     }
 
     public function clone(): ProductPrototypeInterface
     {
-        return new HotDog($this);
+        return new Sandwich($this);
     }
 
     public function getName(): string
