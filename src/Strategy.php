@@ -6,5 +6,5 @@ namespace App;
 
 interface Strategy
 {
-    public function make(RecieptIterator $fillings);
+    public function make(array $fillings);
 }
