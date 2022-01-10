@@ -7,6 +7,7 @@ namespace App\Application\Visitors;
 use App\Domain\Models\Burger;
 use App\Domain\Models\HotDog;
 use App\Domain\Models\Sandwich;
+use App\Domain\VisitorInterface;
 
 class Visitor implements VisitorInterface
 {

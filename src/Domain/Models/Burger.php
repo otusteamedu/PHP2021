@@ -3,8 +3,7 @@
 
 namespace App\Domain\Models;
 
-
-use App\Application\Visitors\VisitorInterface;
+use App\Domain\VisitorInterface;
 
 class Burger extends BaseProduct
 {

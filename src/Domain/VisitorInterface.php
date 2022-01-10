@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Visitors;
+namespace App\Domain;
 
 use App\Domain\Models\Burger;
 use App\Domain\Models\HotDog;

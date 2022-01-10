@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Infrastructure\Factories;
+namespace App\Application;
 
 use App\Domain\Models\BaseProduct;
 

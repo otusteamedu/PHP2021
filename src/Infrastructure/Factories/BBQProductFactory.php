@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Factories;
 
+use App\Application\ProductFactoryInterface;
 use App\Domain\Models\BaseProduct;
 use App\Domain\Models\Burger;
 

@@ -3,9 +3,8 @@
 
 namespace App\Infrastructure\Iterators;
 
-
-use App\Application\Visitors\VisitorInterface;
 use App\Domain\Models\BaseProduct;
+use App\Domain\VisitorInterface;
 
 class RecieptIterator implements \Iterator
 {
