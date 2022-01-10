@@ -25,12 +25,6 @@ class Burger extends BaseProduct
         $visitor->visitBurger($this);
     }
 
-    public function getName()
-    {
-        return 'name';
-    }
-
-
     public function clone(): ProductPrototypeInterface
     {
         return new Burger($this);

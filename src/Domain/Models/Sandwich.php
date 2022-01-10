@@ -2,21 +2,30 @@
 
 namespace App\Domain\Models;
 
-use App\Application\Visitors\VisitorInterface;
+use App\Domain\VisitorInterface;
 
 class Sandwich extends BaseProduct implements ProductPrototypeInterface
 {
-    public function accept(VisitorInterface $visitor)
-    {
-        $visitor->visitSandwich($this);
-    }
+    public $bun;
+    public $cheese;
 
     public function __construct(BaseProduct $prototype = null)
     {
+        if ($prototype) {
+            $this->bun = $prototype->bun;
+            $this->cutlet = $prototype->cheese;
+            $this->setReceiptFilling($prototype->getReceiptFilling());
+        }
+
+    }
+
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitHotDog($this);
     }
 
     public function clone(): ProductPrototypeInterface
     {
-        // TODO: Implement clone() method.
+        return new HotDog($this);
     }
 }
