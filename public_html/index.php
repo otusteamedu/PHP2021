@@ -5,6 +5,7 @@ use App\Application\ProductFactoryInterface;
 use App\Application\Visitors\Visitor;
 use App\Domain\VisitorInterface;
 use App\Infrastructure\Factories\BBQProductFactory;
+use App\Infrastructure\Factories\ItalianProductFactory;
 
 require_once '../vendor/autoload.php';
 
@@ -13,7 +14,7 @@ $builder = new \DI\ContainerBuilder();
 
 $builder->addDefinitions(array(
     ProductFactoryInterface::class => DI\factory(function () {
-        return new BBQProductFactory();
+        return new ItalianProductFactory();
     }),
     VisitorInterface::class => DI\factory(function () {
         return new Visitor();
