@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App;
+namespace App\Application\Strategies;
 
 
-class SandwichStrategy extends AbstractStrategy
+
+class HotDogStrategy extends AbstractStrategy
 {
 
     public function make($ingridients = [])

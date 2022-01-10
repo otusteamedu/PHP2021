@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App;
+namespace App\Infrastructure\Iterators;
 
 
 interface CollectionInterface

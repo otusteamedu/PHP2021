@@ -1,8 +1,10 @@
 <?php
 
 
-namespace App;
+namespace App\Application\Strategies;
 
+
+use App\Infrastructure\Factories\ProductFactoryInterface;
 
 abstract class AbstractStrategy implements Strategy
 {

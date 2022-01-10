@@ -1,8 +1,10 @@
 <?php
 
 
-namespace App;
+namespace App\Domain\Models;
 
+
+use App\Application\Visitors\VisitorInterface;
 
 class Burger extends BaseProduct
 {
@@ -12,14 +14,14 @@ class Burger extends BaseProduct
     public function __construct(BaseProduct $prototype = null)
     {
         if ($prototype) {
-            $this->bun= $prototype->bun;
+            $this->bun = $prototype->bun;
             $this->cutlet = $prototype->cutlet;
             $this->setReceiptFilling($prototype->getReceiptFilling());
         }
 
     }
 
-    public function accept(VisitorInterfacce $visitor)
+    public function accept(VisitorInterface $visitor)
     {
         $visitor->visitBurger($this);
     }

@@ -1,8 +1,9 @@
 <?php
 
+namespace App\Infrastructure\Factories;
 
-namespace App;
-
+use App\Domain\Models\BaseProduct;
+use App\Domain\Models\Burger;
 
 class BBQProductFactory implements ProductFactoryInterface
 {

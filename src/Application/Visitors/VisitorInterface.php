@@ -1,10 +1,12 @@
 <?php
 
+namespace App\Application\Visitors;
 
-namespace App;
+use App\Domain\Models\Burger;
+use App\Domain\Models\HotDog;
+use App\Domain\Models\Sandwich;
 
-
-interface VisitorInterfacce
+interface VisitorInterface
 {
     public function visitHotDog(HotDog $hotDog);
 

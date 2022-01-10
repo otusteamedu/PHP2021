@@ -1,7 +1,6 @@
 <?php
 
-
-namespace App;
+namespace App\Domain\Models;
 
 
 abstract class BaseProduct implements ProductPrototypeInterface

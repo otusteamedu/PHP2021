@@ -1,8 +1,11 @@
 <?php
 
 
-namespace App;
+namespace App\Infrastructure\Iterators;
 
+
+use App\Application\Visitors\VisitorInterface;
+use App\Domain\Models\BaseProduct;
 
 class RecieptIterator implements \Iterator
 {
@@ -10,7 +13,7 @@ class RecieptIterator implements \Iterator
     private $visitor;
     private $product;
 
-    public function __construct(BaseProduct $product, VisitorInterfacce $visitor)
+    public function __construct(BaseProduct $product, VisitorInterface $visitor)
     {
         $this->product = $product;
         $this->visitor = $visitor;

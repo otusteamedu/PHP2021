@@ -1,8 +1,11 @@
 <?php
 
 
-namespace App;
+namespace App\Application\Strategies;
 
+
+use App\Application\Visitors\Visitor;
+use App\Infrastructure\Iterators\RecieptIterator;
 
 class BurgerStrategy extends AbstractStrategy
 {

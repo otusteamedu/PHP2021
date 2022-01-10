@@ -1,7 +1,9 @@
 <?php
 
 
-namespace App;
+namespace App\Infrastructure\Factories;
+
+use App\Domain\Models\BaseProduct;
 
 interface ProductFactoryInterface
 {

@@ -1,6 +1,13 @@
 <?php
+
 namespace App;
 
+
+use App\Application\Strategies\BurgerStrategy;
+use App\Application\Strategies\HotDogStrategy;
+use App\Application\Strategies\SandwichStrategy;
+use App\Application\Strategies\Strategy;
+use App\Infrastructure\Factories\ProductFactoryInterface;
 
 class App
 {
