@@ -9,7 +9,6 @@ use App\Infrastructure\Iterators\RecieptIterator;
 
 class BurgerStrategy extends AbstractStrategy
 {
-
     public function make(array $fillings = null)
     {
         $burger = $this->factory->createBurger();

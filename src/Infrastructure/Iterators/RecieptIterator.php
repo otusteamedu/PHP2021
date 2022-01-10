@@ -43,7 +43,6 @@ class RecieptIterator implements \Iterator
 
     public function valid()
     {
-        //TODO: Добавить валидацию на проверку является ли элемент ингридиентом
         return isset($this->collection[$this->position]);
     }
 }

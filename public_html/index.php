@@ -18,8 +18,6 @@ $builder->addDefinitions(array(
     VisitorInterface::class => DI\factory(function () {
         return new Visitor();
     }),
-
-
 ));
 
 $container = $builder->build();

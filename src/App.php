@@ -12,6 +12,7 @@ class App
 {
     private ProductFactoryInterface $productFactory;
     private Strategy $productStrategy;
+    private $strategies;
 
     public function __construct()
     {
