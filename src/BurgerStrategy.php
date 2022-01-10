@@ -6,10 +6,12 @@ namespace App;
 
 class BurgerStrategy extends AbstractStrategy
 {
-    public function make(array $fillings = null)
+
+    public function make(array $fillings = [])
     {
         $burger = $this->factory->createBurger();
-        $fillings = new RecieptIterator($fillings ?? $burger->getReceiptFilling());
+        $burger->setReceiptFilling($fillings);
+        $fillings = new RecieptIterator($burger, new Visitor());
         foreach ($fillings as $filling) {
             $burger->fillings[] = $filling;
         }

@@ -7,10 +7,15 @@ namespace App;
 class RecieptIterator implements \Iterator
 {
     private $collection;
+    private $visitor;
+    private $product;
 
-    public function __construct(array $collection)
+    public function __construct(BaseProduct $product, VisitorInterfacce $visitor)
     {
-        $this->collection = $collection;
+        $this->product = $product;
+        $this->visitor = $visitor;
+        $this->product->accept($this->visitor);
+        $this->collection = $product->getReceiptFilling();
     }
 
     public function rewind()
@@ -31,6 +36,7 @@ class RecieptIterator implements \Iterator
 
     public function next()
     {
+        $this->product->accept($this->visitor);
         $this->position = $this->position + ($this->reverse ? -1 : 1);
     }
 

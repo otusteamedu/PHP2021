@@ -6,7 +6,7 @@ namespace App;
 
 abstract class BaseProduct implements ProductPrototypeInterface
 {
-    public $filling = [];
+    public $fillings = [];
     private $receiptFillings = [];
 
     public function getReceiptFilling()
@@ -14,8 +14,8 @@ abstract class BaseProduct implements ProductPrototypeInterface
         return $this->receiptFillings;
     }
 
-    public function setReceiptFilling($receiptFillings)
+    public function setReceiptFilling(array $receiptFillings = [])
     {
-        $this->receiptFillings = $receiptFillings;
+        if ($receiptFillings) $this->receiptFillings = $receiptFillings;
     }
 }
