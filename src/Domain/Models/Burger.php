@@ -29,4 +29,9 @@ class Burger extends BaseProduct
     {
         return new Burger($this);
     }
+
+    public function getName(): string
+    {
+        return 'Бургер';
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Domain\Models;
 
 use App\Domain\VisitorInterface;
 
-class Sandwich extends BaseProduct implements ProductPrototypeInterface
+class Sandwich extends BaseProduct
 {
     public $bun;
     public $cheese;
@@ -27,5 +27,10 @@ class Sandwich extends BaseProduct implements ProductPrototypeInterface
     public function clone(): ProductPrototypeInterface
     {
         return new HotDog($this);
+    }
+
+    public function getName(): string
+    {
+        return 'Сэндвич';
     }
 }
