@@ -1,25 +1,26 @@
 <?php
 
 use App\App;
-use App\ProductFactoryInterface;
-use App\RecieptIterator;
-use App\VisitorInterfacce;
+use App\Application\ProductFactoryInterface;
+use App\Application\Visitors\Visitor;
+use App\Domain\VisitorInterface;
+use App\Infrastructure\Factories\BBQProductFactory;
 
 require_once '../vendor/autoload.php';
 
 
 $builder = new \DI\ContainerBuilder();
 
-$builder->addDefinitions([
+$builder->addDefinitions(array(
     ProductFactoryInterface::class => DI\factory(function () {
-        return new \App\BBQProductFactory();
+        return new BBQProductFactory();
     }),
-    VisitorInterfacce::class => DI\factory(function () {
-        return new \App\Visitor();
+    VisitorInterface::class => DI\factory(function () {
+        return new Visitor();
     }),
 
 
-]);
+));
 
 $container = $builder->build();
 
