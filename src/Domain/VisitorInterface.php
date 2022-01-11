@@ -8,9 +8,9 @@ use App\Domain\Models\Sandwich;
 
 interface VisitorInterface
 {
-    public function visitHotDog(HotDog $hotDog);
+    public function visitHotDog(HotDog $hotDog) :void;
 
-    public function visitBurger(Burger $burger);
+    public function visitBurger(Burger $burger) :void;
 
-    public function visitSandwich(Sandwich $sandwich);
+    public function visitSandwich(Sandwich $sandwich) :void;
 }

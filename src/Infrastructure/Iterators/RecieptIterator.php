@@ -19,29 +19,29 @@ class RecieptIterator implements \Iterator
         $this->collection = $product->getReceiptFilling();
     }
 
-    public function rewind()
+    public function rewind() :void
     {
         $this->position = $this->reverse ?
             count($this->collection->getItems()) - 1 : 0;
     }
 
-    public function current()
+    public function current() :string
     {
         return $this->collection[$this->position];
     }
 
-    public function key()
+    public function key() :int
     {
         return $this->position;
     }
 
-    public function next()
+    public function next() :void
     {
         $this->product->accept($this->visitor);
         $this->position = $this->position + ($this->reverse ? -1 : 1);
     }
 
-    public function valid()
+    public function valid() :bool
     {
         return isset($this->collection[$this->position]);
     }

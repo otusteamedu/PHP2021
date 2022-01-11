@@ -3,29 +3,50 @@
 namespace App;
 
 use App\Application\ProductFactoryInterface;
-use App\Application\Strategies\BurgerStrategy;
-use App\Application\Strategies\HotDogStrategy;
-use App\Application\Strategies\SandwichStrategy;
 use App\Application\Strategies\Strategy;
 use App\Application\Visitors\Visitor;
 use App\Domain\VisitorInterface;
+use App\Infrastructure\Facades\KitchenFacade;
 use App\Infrastructure\Factories\ItalianProductFactory;
+use DI\Container;
 use function DI\factory;
 
 class App
 {
+    private static $instances = [];
     private ProductFactoryInterface $productFactory;
     private Strategy $productStrategy;
-    private $strategies;
-    public $container;
+    private $container;
 
-    public function __construct()
+    protected function __construct()
     {
         $this->setContainer();
-        $this->setStrategies();
     }
 
-    private function setContainer()
+    public static function getInstance(): App
+    {
+        $cls = static::class;
+        if (!isset(self::$instances[$cls])) {
+            self::$instances[$cls] = new static();
+        }
+
+        return self::$instances[$cls];
+    }
+
+    public function initialize() :void
+    {
+        $kitchen = new KitchenFacade();
+        $productType = strtolower($_GET['product']);
+        $fillings = $_GET['fillings'];
+        $kitchen->makeFood($productType, $fillings);
+    }
+
+    public function getContainer() :Container
+    {
+        return $this->container;
+    }
+
+    private function setContainer() :void
     {
         $builder = new \DI\ContainerBuilder();
         $builder->addDefinitions([
@@ -39,37 +60,4 @@ class App
         $this->container = $builder->build();
     }
 
-    private function setStrategies()
-    {
-        $this->strategies = [
-            'burger' => function () {
-                return $this->container->make(BurgerStrategy::class);
-            },
-            'hotdog' => function () {
-                return $this->container->make(HotDogStrategy::class);
-            },
-            'sandwich' => function () {
-                return $this->container->make(SandwichStrategy::class);
-            },
-        ];
-    }
-
-    public function initialize()
-    {
-        $productType = strtolower($_GET['product']);
-        $fillings = $_GET['fillings'];
-        $this->makeProduct($productType, $fillings);
-    }
-
-    private function makeProduct($productType, $fillings)
-    {
-        if (!isset($this->strategies[$productType])) throw new \Exception('this type does not exists');
-        $this->setStrategy($this->strategies[$productType]());
-        $this->productStrategy->make($fillings);
-    }
-
-    private function setStrategy(Strategy $strategy)
-    {
-        $this->productStrategy = $strategy;
-    }
 }

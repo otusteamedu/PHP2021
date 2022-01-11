@@ -19,7 +19,7 @@ class Sandwich extends BaseProduct
 
     }
 
-    public function accept(VisitorInterface $visitor)
+    public function accept(VisitorInterface $visitor) :void
     {
         $visitor->visitSandwich($this);
     }

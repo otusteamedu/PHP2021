@@ -19,7 +19,7 @@ class HotDog extends BaseProduct
 
     }
 
-    public function accept(VisitorInterface $visitor)
+    public function accept(VisitorInterface $visitor) :void
     {
         $visitor->visitHotDog($this);
     }

@@ -11,7 +11,7 @@ use App\Domain\VisitorInterface;
 
 class Visitor implements VisitorInterface
 {
-    public function visitHotDog(HotDog $hotDog)
+    public function visitHotDog(HotDog $hotDog) :void
     {
         $status = count($hotDog->fillings) / count($hotDog->getReceiptFilling());
         $productName = $hotDog->getName();
@@ -22,7 +22,7 @@ class Visitor implements VisitorInterface
         }
     }
 
-    public function visitBurger(Burger $burger)
+    public function visitBurger(Burger $burger) :void
     {
         $status = count($burger->fillings) / count($burger->getReceiptFilling());
         $productName = $burger->getName();
@@ -33,7 +33,7 @@ class Visitor implements VisitorInterface
         }
     }
 
-    public function visitSandwich(Sandwich $sandwich)
+    public function visitSandwich(Sandwich $sandwich) :void
     {
         $status = count($sandwich->fillings) / count($sandwich->getReceiptFilling());
         $productName = $sandwich->getName();

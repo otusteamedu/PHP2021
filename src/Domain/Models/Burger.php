@@ -20,7 +20,7 @@ class Burger extends BaseProduct
 
     }
 
-    public function accept(VisitorInterface $visitor)
+    public function accept(VisitorInterface $visitor) :void
     {
         $visitor->visitBurger($this);
     }
