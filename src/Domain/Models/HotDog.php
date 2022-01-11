@@ -6,8 +6,8 @@ use App\Domain\VisitorInterface;
 
 class HotDog extends BaseProduct
 {
-    public $bun;
-    public $sausage;
+    public $bun = 'Bun';
+    public $sausage = 'Sausage';
 
     public function __construct(BaseProduct $prototype = null)
     {

@@ -7,8 +7,8 @@ use App\Domain\VisitorInterface;
 
 class Burger extends BaseProduct
 {
-    public $bun;
-    public $cutlet;
+    public $bun = 'Bun';
+    public $cutlet = 'Cutlet';
 
     public function __construct(BaseProduct $prototype = null)
     {

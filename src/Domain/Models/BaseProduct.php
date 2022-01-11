@@ -6,7 +6,7 @@ namespace App\Domain\Models;
 abstract class BaseProduct implements ProductPrototypeInterface
 {
     public $fillings = [];
-    private $receiptFillings = [];
+    protected $receiptFillings = [];
 
     public function getReceiptFilling()
     {

@@ -6,8 +6,8 @@ use App\Domain\VisitorInterface;
 
 class Sandwich extends BaseProduct
 {
-    public $bun;
-    public $cheese;
+    public $bun = 'Bun';
+    public $cheese = 'Cheese';
 
     public function __construct(BaseProduct $prototype = null)
     {
