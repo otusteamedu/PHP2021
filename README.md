@@ -1,21 +1,11 @@
 # PHP2021
-##Тестирование функционала
-##Добавление события
-POST    http://redis.local/add
-    'priority' => '10000',
-    'event' => 'event1',
-    'conditions' => 'param1:param, param2:param'
 
-##Поиск события
-POST    http://redis.local/event
-    'conditions' => 'param1:param, param2:param'
+https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
 
-##Список всех событий
-POST    http://redis.local/events/all_events
+Инструкцию по запуску
 
-##Список всех условий
+Ключ от телеграм бота указывается в src\Telegramm\Key
 
-POST    http://redis.local/events/all_conditions
+Для ввода данных открыть index.php
 
-##Удаление всех событий
-POST    http://redis.local/del
+Для обработки очереди открыть в консоле App2.php

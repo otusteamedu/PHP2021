@@ -1,10 +1,15 @@
 {
-    "name": "root/redis.local",
+    "name": "root/queue.local",
     "autoload": {
         "psr-4": {
-            "Root\\RedisLocal\\": "src/",
-            "App\\": "src"
+            "Root\\QueueLocal\\": "src/",
+            "App\\": "src",
+            "App2\\": "src"
         }
     },
-    "require": {}
+    "require": {
+        "irazasyed/telegram-bot-sdk": "^3.4.1",
+        "php-amqplib/php-amqplib": "^v3.1.1",
+        "phpseclib/bcmath_compat": "^2.0"
+    }
 }
