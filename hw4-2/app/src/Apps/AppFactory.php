@@ -25,7 +25,9 @@ class AppFactory
                 return new ClientApp(self::buildSocket($config));
 
             default:
-                throw new UnexpectedValueException('Неизвестный тип приложения');
+                throw new UnexpectedValueException(
+                    "Неизвестный тип приложения $appType. Возможно одно из следующих значений: " . implode(', ', AppTypes::get())
+                );
         }
     }
 

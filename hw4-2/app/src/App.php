@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App;
 
 use App\Apps\AppFactory;
-use App\Apps\AppTypes;
 use App\Config\Configuration;
 use App\Console\Console;
 use Exception;
-use UnexpectedValueException;
 
 class App
 {
@@ -19,7 +17,6 @@ class App
     {
         try {
             $appType = $this->getAppTypeFromCli();
-            $this->throwExceptionIfAppTypeIsNotExist($appType);
 
             $config = $this->getConfig();
 
@@ -32,14 +29,6 @@ class App
     private function getAppTypeFromCli(): string
     {
         return !empty($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '';
-    }
-
-    private function throwExceptionIfAppTypeIsNotExist(string $appType)
-    {
-        if (!AppTypes::isExist($appType)) {
-            $errorMessage = "Неизвестный параметр $appType. Необходимо указать один из следующих параметров: " . implode(', ', AppTypes::get());
-            throw new UnexpectedValueException($errorMessage);
-        }
     }
 
     private function getConfig(): Configuration
