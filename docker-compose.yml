@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: search/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
+
+  webserver:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: search/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    depends_on:
+      - app
+      - redis
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis
+    build: ./docker/redis
+    volumes:
+      - ./docker/redis/data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
