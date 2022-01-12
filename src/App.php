@@ -14,8 +14,6 @@ use function DI\factory;
 class App
 {
     private static $instances = [];
-    private ProductFactoryInterface $productFactory;
-    private Strategy $productStrategy;
     private $container;
 
     protected function __construct()
