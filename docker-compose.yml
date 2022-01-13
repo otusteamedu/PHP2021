@@ -9,7 +9,8 @@ services:
     image: dockerapp/nginx
     container_name: nginx
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./code:/data/mysite.local
       - ./nginx/hosts/mysite.local.conf:/etc/nginx/sites-enabled/mysite.local.conf
@@ -32,12 +33,15 @@ services:
   #контейнер с postgres
   db:
     image: postgres
-    restart: always
     container_name: postgres
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
     networks:
       - app-network
       

@@ -60,11 +60,11 @@ class UserMapper
 
         return new User(
             (int)$this->pdo->lastInsertId(),
-            $rawUserData['first_name'],
-            $rawUserData['last_name'],
-            $rawUserData['age'],
-            $rawUserData['email'],
-            $rawUserData['status_student'],
+            (string)$rawUserData['first_name'],
+            (string)$rawUserData['last_name'],
+            (int)$rawUserData['age'],
+            (string)$rawUserData['email'],
+            (bool)$rawUserData['status_student'],
         );
     }
 
