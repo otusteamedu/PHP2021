@@ -1,0 +1,6 @@
+/code/.idea
+/code/vendor
+/code/config.php
+/db-data
+.env
+.idea
