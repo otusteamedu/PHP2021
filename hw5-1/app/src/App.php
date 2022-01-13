@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App;
 
 use App\Console\Console;
-use App\Validator\Validator;
+use App\Services\EmailsFetcher;
+use App\Services\EmailsHandler;
 use Exception;
 
 class App
@@ -13,54 +14,15 @@ class App
     public function run(): void
     {
         try {
-            $emails = $this->getEmails();
-            $this->throwExceptionIfNoEmailListIsSpecified($emails);
+            $emails = (new EmailsFetcher())->fetch();
 
             Console::success('Старт валидации');
 
-            $rules = $this->getRules();
-
-            $this->validationEmails($emails, $rules);
+            (new EmailsHandler())->handle($emails);
 
             Console::success('Валидация завершена');
         } catch (Exception $e) {
             Console::error('Error: ' . $e->getMessage());
-        }
-    }
-
-    private function getEmails(): array
-    {
-        $emails = Console::readLines();
-
-        return array_filter($emails);
-    }
-
-    private function getRules(): array
-    {
-        return [
-            'email',
-            'email-domain',
-        ];
-    }
-
-    private function validationEmails(array $emails, array $rules): void
-    {
-        foreach ($emails as $email) {
-            if (!Validator::validate($email, $rules)) {
-                Console::error($email . ' ... ' . Validator::getErrorMessage());
-            } else {
-                Console::success($email . ' ... ok');
-            }
-        }
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function throwExceptionIfNoEmailListIsSpecified(array $emails): void
-    {
-        if (!$emails) {
-            throw new Exception('Не указан список адресов электронной почты');
         }
     }
 }

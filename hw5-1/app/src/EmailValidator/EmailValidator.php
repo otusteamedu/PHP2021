@@ -2,19 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Validator;
+namespace App\EmailValidator;
 
-use App\Validator\Rules\RuleInterface;
-use App\Validator\Rules\Rules;
+use App\EmailValidator\Rules\RuleInterface;
+use App\EmailValidator\Rules\Rules;
+use Exception;
 use UnexpectedValueException;
 
-class Validator
+class EmailValidator
 {
-    private static string $errorMessage;
+    private static array $rules = [
+        'email',
+        'email-domain',
+    ];
 
-    public static function validate($value, array $rules): bool
+    /**
+     * @throws ValidationException
+     * @throws Exception
+     */
+    public static function validate($value): void
     {
-        foreach ($rules as $rule) {
+        foreach (static::$rules as $rule) {
             if (!$rule) {
                 continue;
             }
@@ -27,13 +35,9 @@ class Validator
             $rule = static::createRule($ruleName, $ruleParam);
 
             if (!$rule->validate($value)) {
-                static::$errorMessage = $rule->getErrorMessage();
-
-                return false;
+                throw new ValidationException($rule->getErrorMessage());
             }
         }
-
-        return true;
     }
 
     private static function createRule(string $ruleName, $ruleParam): RuleInterface
@@ -52,10 +56,5 @@ class Validator
         }
 
         return $rules[$ruleName];
-    }
-
-    public static function getErrorMessage(): string
-    {
-        return static::$errorMessage;
     }
 }
