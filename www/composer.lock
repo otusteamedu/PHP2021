@@ -1,0 +1,57 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "813cdc6466489ca85a862e1f9192eb8e",
+    "packages": [
+        {
+            "name": "igonaf/emailvalidator",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igonaf/HW-6-ext.git",
+                "reference": "fd099c8ccdfda2a0f389d720338342da7151efa9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igonaf/HW-6-ext/zipball/fd099c8ccdfda2a0f389d720338342da7151efa9",
+                "reference": "fd099c8ccdfda2a0f389d720338342da7151efa9",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Igonaf\\Validator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor L",
+                    "email": "litovkahappy@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Detects and validates email(s) in a string",
+            "support": {
+                "issues": "https://github.com/igonaf/HW-6-ext/issues",
+                "source": "https://github.com/igonaf/HW-6-ext/tree/v1.0"
+            },
+            "time": "2022-01-13T07:29:28+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
