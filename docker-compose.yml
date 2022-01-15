@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  app-server:
+    build:
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+      context: docker
+    volumes:
+      - ./:/var/www
+      - socket:/tmp/sock
+
+  app-client:
+    build:
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+      context: docker
+    volumes:
+      - ./:/var/www
+      - socket:/tmp/sock
+volumes:
+  socket:
