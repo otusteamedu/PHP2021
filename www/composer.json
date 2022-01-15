@@ -12,7 +12,8 @@
       "email": "litovkahappy@gmail.com"
     }
   ],
+  "minimum-stability": "dev",
   "require": {
-    "igonaf/emailvalidator": "v1.0"
+    "igonaf/emailvalidator": "dev-master"
   }
 }
