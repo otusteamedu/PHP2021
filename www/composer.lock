@@ -1,0 +1,60 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "57ca80ee498cfeab96da6248ffa8eab5",
+    "packages": [
+        {
+            "name": "igonaf/emailvalidator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igonaf/HW-6-ext.git",
+                "reference": "116a8e4ebe561403d7d3f7111c718fcef195fc0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igonaf/HW-6-ext/zipball/116a8e4ebe561403d7d3f7111c718fcef195fc0e",
+                "reference": "116a8e4ebe561403d7d3f7111c718fcef195fc0e",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Igonaf\\Validator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor L",
+                    "email": "litovkahappy@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Detects and validates email(s) in a string",
+            "support": {
+                "issues": "https://github.com/igonaf/HW-6-ext/issues",
+                "source": "https://github.com/igonaf/HW-6-ext/tree/master"
+            },
+            "time": "2022-01-15T10:28:04+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "igonaf/emailvalidator": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
