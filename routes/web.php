@@ -18,5 +18,5 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('', 'BankStatementController@request');
-$router->post('/request', 'RestController@request');
-$router->get('/getstatus/{id}', 'RestController@getStatus');
+$router->post('/api/v1/request', 'RestController@request');
+$router->get('/api/v1/request/{id}', 'RestController@getStatus');

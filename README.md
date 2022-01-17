@@ -11,7 +11,7 @@ docker-compose up -d nginx php-fpm nginx php-worker rabbitmq mysql
 
 Запрос ставиться в очередь.
 
-Узнать статус запроса можно послав get запрос getstatus/{id} с указанием id запроса
+Узнать статус запроса можно послав get запрос request/{id} с указанием id запроса
 
 Документация доступна по адресу http://localhost:8000/api/documentation
 

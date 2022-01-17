@@ -39,16 +39,16 @@ class RestController
         try {
             app(Dispatcher::class)->dispatch($this->job);
         } catch (\Exception $e) {
-            return 'Ошибка ' . $e->getMessage();
+            return response($e->getMessage(),500);
         }
 
-        return 'Запрос отправлен. Номер запроса ' . $restRequest->id;
+        return response()->json(['id' => $restRequest->id]);
 
     }
 
     /**
      * @Get(
-     *     path="/getstatus/{id}",
+     *     path="/request/{id}",
      *     summary="Проверить статус запроса",
      *     @Parameter(name="id", in="path", required=true),
      *     @Response(response="200", description="Successful")
@@ -59,6 +59,6 @@ class RestController
     {
         $restStatus = RestRequest::find($id);
 
-        return isset($restStatus) ? $restStatus->status : 'Запрос найден';
+        return isset($restStatus) ? $restStatus->status : response('',404);
     }
 }
