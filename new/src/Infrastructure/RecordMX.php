@@ -4,19 +4,27 @@ declare(strict_types=1);
 
 namespace App\Infrastructure;
 
-class RecordMX extends AbstractTemplate
+class RecordMX extends AbstractHandler
 {
     /***
      * Check DNS MX record
      *
      * @param string $email
-     * @return bool
+     * @return ?string
      */
-    protected function checkEmail(string $email) : bool
+
+    public function handle(string $email): ?string
     {
         $domain = substr($email, strrpos($email,'@')+1);
         $mx = array();
-        return getmxrr($domain, $mx);
+        $res = getmxrr($domain, $mx);
+
+        if($res!=true){
+            throw new \Exception($email.' не прошел проверку на RecordMX');
+        }
+        //return 'Проверку на RecordMX '.$email.' прошел'."\n";
+        return parent::handle($email);
+
     }
 
 }
