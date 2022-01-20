@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  redis:
+    image: redis:latest
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    networks:
+      - app-network
+    volumes:
+      - ./redis-data:/var/lib/data
+
+  php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php
+    volumes:
+      - ./code:/var/www/docker-site.local
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx_server
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./code:/var/www/docker-site.local
+      - ./nginx/hosts:/etc/nginx/sites-enabled
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - 11211:11211
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
