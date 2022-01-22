@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Service\AbstractFactory\AbstractFactoryInterface;
 use App\Service\AbstractFactory\AbstractFoodFactory;
+use App\Service\Observer\FoodObserver;
+use App\Service\Observer\FoodObserverInterface;
+use App\Service\Observer\Observer;
+use App\Service\Observer\ObserverInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(AbstractFactoryInterface::class, AbstractFoodFactory::class);
+        $this->app->bind(ObserverInterface::class, Observer::class);
+        $this->app->bind(FoodObserverInterface::class, FoodObserver::class);
     }
 
     /**

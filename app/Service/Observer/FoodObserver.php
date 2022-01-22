@@ -5,15 +5,14 @@ namespace App\Service\Observer;
 use SplObjectStorage;
 use SplSubject;
 
-class FoodObserver implements SplSubject
+class FoodObserver implements SplSubject, FoodObserverInterface
 {
     public $state;
     private $observers;
 
-    public function __construct(string $state)
+    public function __construct()
     {
         $this->observers = new SplObjectStorage();
-        $this->state = $state;
     }
 
     /**

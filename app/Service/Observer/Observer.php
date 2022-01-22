@@ -5,7 +5,7 @@ namespace App\Service\Observer;
 use SplObserver;
 use SplSubject;
 
-class Observer implements SplObserver
+class Observer implements SplObserver, ObserverInterface
 {
 
     /**
