@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Core\SocketFactory;
-use App\Exception\SocketException;
+use App\Exceptions\SocketException;
 
 class App
 {
