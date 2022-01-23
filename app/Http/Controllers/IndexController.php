@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Service\AbstractFactory\AbstractFactoryInterface;
 use App\Service\AbstractFactory\AbstractFoodFactory;
 use App\Service\Decorator\KetchupTopping;
+use App\Service\Decorator\KetchupToppingInterface;
 use App\Service\Decorator\MustardTopping;
 use App\Service\Decorator\OnionTopping;
 use App\Service\Decorator\PepperTopping;
@@ -18,11 +19,13 @@ use App\Service\Proxy\SandwichProxy;
 use App\Service\Strategy\BreakfastStrategy;
 use App\Service\Strategy\DinnerStrategy;
 use App\Service\Strategy\Food;
+use Illuminate\Support\Facades\App;
 
 class IndexController extends Controller
 {
     public $factory;
     public $foodObserver;
+    public $ketchupTopping;
 
     public function __construct(AbstractFactoryInterface $factory,
                                 ObserverInterface        $observer,
@@ -45,7 +48,7 @@ class IndexController extends Controller
         $this->foodObserver->notify();
         echo $productA->getTopping() . "<br>";
 
-        $decoratorA = new KetchupTopping($productA);
+        $decoratorA = App::makeWith(KetchupToppingInterface::class, ['topping' => $productA]);
         $decoratorA2 = new OnionTopping($decoratorA);
         $decoratorA3 = new PepperTopping($decoratorA2);
         echo $decoratorA3->getTopping() . "<br>";

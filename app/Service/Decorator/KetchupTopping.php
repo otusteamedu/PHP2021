@@ -2,7 +2,7 @@
 
 namespace App\Service\Decorator;
 
-class KetchupTopping extends Decorator
+class KetchupTopping extends Decorator implements KetchupToppingInterface
 {
 
     public function getTopping(): string
