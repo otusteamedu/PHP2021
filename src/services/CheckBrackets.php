@@ -2,14 +2,10 @@
 
 namespace Services;
 
-class CheckBrackets
+class CheckBrackets implements  CheckBracketsInterface
 {
     private $string;
 
-    public function __construct(string $string)
-    {
-        $this->setString($string);
-    }
 
     /**
      * @param string $string
@@ -27,7 +23,7 @@ class CheckBrackets
         return $this->string;
     }
 
-    private function checkPair($string)
+    private function checkPair($string): string
     {
         $newString = str_replace("()", "", $string);
         if ($newString == $string && !empty($newString)) {
@@ -36,7 +32,7 @@ class CheckBrackets
         return empty($newString) || self::checkPair($newString);
     }
 
-    public function check()
+    public function check(): bool
     {
         if (empty($this->string)) {
             $result = false;
@@ -47,12 +43,6 @@ class CheckBrackets
             //Проверяем парность скобок
             $result = $this->checkPair($string);
         }
-        if ($result) {
-            http_response_code(200);
-            echo 'String OK';
-        } else {
-            http_response_code(400);
-            echo 'String Bad';
-        }
+        return $result;
     }
 }
