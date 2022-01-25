@@ -2,19 +2,17 @@
 
 namespace App;
 
-use Services\CheckBrackets;
-use Services\CheckBracketsInterface;
 use Services\Client;
 use Services\Server;
 
 
 class App
 {
-    public $checkBrackets;
+    private $bracketsController;
 
-    public function __construct(CheckBracketsInterface $checkBrackets)
+    public function __construct(BracketsControllerInterface $bracketsController)
     {
-        $this->checkBrackets = $checkBrackets;
+        $this->bracketsController = $bracketsController;
     }
 
 
@@ -23,17 +21,16 @@ class App
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['string'])) {
 
-            $checkString = $_POST['string'];
-            $this->checkBrackets->setString($checkString);
-            $result = $this->checkBrackets->check();
+            $checkString = $_GET['string'];
+            $this->bracketsController->check($checkString);
 
-            if ($result) {
-                http_response_code(200);
-                echo 'String OK';
-            } else {
-                http_response_code(400);
-                echo 'String Bad';
-            }
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['string'])) {
+
+            $checkString = $_GET['string'];
+            $this->bracketsController->check($checkString);
+
         }
 
         if (PHP_SAPI === 'cli') {
