@@ -1,0 +1,306 @@
+openapi: 3.0.0
+info:
+  title: 'My first API'
+  version: 1.0.0
+tags:
+  - name: Product
+    description: Все о товарах
+  - name: Order
+    description: Заказ
+paths:
+  /product/{id}:
+    get:
+      tags: 
+         - Product
+      summary: Получение информации о продукте.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id товара
+          schema:
+            type : integer
+            minimum: 1
+      responses:
+        '200':
+          description: Информация о продукте.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Товар найден
+                  data: 
+                      example:
+                        id: Номер товара
+                        name: Модель товара
+                        category: Категория
+        '404':
+          description: Информация о продукте.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Товар не найден
+    put:
+        tags: 
+          - Product
+        summary: Обновление товара.
+        parameters:
+          - in: body
+            name: body
+            description: Отправка данных в JSON формате
+            required: true
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: integer
+                category:
+                  type: string
+        responses:
+          '200':
+            description: Обновление товара.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Товар был обновлен
+          '404':
+            description: Обновление товара.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Товар не найден
+          '400':
+            description: Обновление товара.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Неверно указаны параметры
+    patch:
+        tags: 
+          - Product
+        summary: Частичное обновление товара.
+        parameters:
+          - in: body
+            name: body
+            description: Отправка данных в JSON формате
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: integer
+                category:
+                  type: string
+        responses:
+          '200':
+            description: Обновление товара.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Товар был обновлен
+          '404':
+            description: Обновление товара.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Товар не найден
+          '400':
+            description: Обновление товара.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Неверно указаны параметры
+    delete:
+      tags: 
+         - Product
+      summary: Удаление товара.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id товара
+          schema:
+            type : integer
+            minimum: 1
+      responses:
+        '200':
+          description: Удаление товара.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Товар удален
+        '404':
+          description: Удаление товара.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Товар не найден
+  /product:
+    post:
+      tags: 
+        - Product
+      summary: Добавление товара.
+      parameters:
+        - name: price
+          in: path
+          required: true
+          description: Цена товара
+          schema:
+            type : integer
+            minimum: 1
+        - name: name
+          in: path
+          required: true
+          description: Модель товара
+          schema:
+            type : string
+            minimum: 1
+        - name: category
+          in: path
+          required: true
+          description: Категория товара
+          schema:
+            type : string
+            minimum: 1
+      responses:
+        '201':
+          description: Товар добавлен.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Товар был создан
+                  data: 
+                      example:
+                        id: Номера товара
+        '400':
+          description: Товар не добавлен.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Неверно указаны параметры.'
+  /order/{id}:
+    get:
+      tags: 
+         - Order
+      summary: Получение информации о заказе.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Id заказа
+          schema:
+            type : integer
+            minimum: 1
+      responses:
+        '200':
+          description: Информация о заказе.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Заказ найден
+                  data: 
+                      example:
+                        id: Номера заказа
+                        status: Статус заказа
+        '404':
+          description: Информация о заказе.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Заказ не найден
+  /order:
+    post:
+      tags: 
+        - Order
+      summary: Создание заказа.
+      parameters:
+        - id: price
+          in: path
+          required: true
+          description: Номер товара
+          schema:
+            type : integer
+            minimum: 1
+      responses:
+        '201':
+          description: Заявка на заказа.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Заявка на заказ принята
+                  data: 
+                      example:
+                        id: Номер заказа
+                        status: Статус заказа
+        '400':
+          description: Заявка на заказа.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Товар не найден'

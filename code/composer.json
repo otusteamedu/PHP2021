@@ -8,8 +8,7 @@
         }
     },
     "require": {
-        "irazasyed/telegram-bot-sdk": "^3.4.1",
-        "php-amqplib/php-amqplib": "^v3.1.1",
-        "phpseclib/bcmath_compat": "^2.0"
+        "zircote/swagger-php": "^4.2",
+        "php-amqplib/php-amqplib": "^3.1"
     }
 }

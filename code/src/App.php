@@ -2,13 +2,25 @@
 
 namespace App;
 
-use App\Request\Accepted;
+use App\Product\Product;
+use App\Order\Order;
 
 class App
 {
 
     public function run()
     {
-        (new Accepted())->Accepted();
+        $url = $_SERVER['REQUEST_URI'];
+
+        $object = explode("/", $url);
+
+        if ($object[1] == 'product') {
+            (new Product())->Product();
+        }
+
+        if ($object[1] == 'order') {
+            (new Order())->Order();
+            
+        }
     }
 }

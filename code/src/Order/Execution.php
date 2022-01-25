@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Request;
+namespace App\Order;
 
-use App\Rabbit\Consumer;
+use App\Order\Rabbit\Consumer;
 
 class Execution
 {

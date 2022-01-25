@@ -2,10 +2,10 @@
 
 require 'vendor/autoload.php';
 
-use App\App;
+use App2\App2;
 
 try {
-    $app = new App();
+    $app = new App2();
     $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();

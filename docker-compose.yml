@@ -32,6 +32,27 @@ services:
     networks:
         - app-network
 
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=stage
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - app-network
+
+  swaggerapi:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+  
+
 networks:
   app-network:
     driver: bridge

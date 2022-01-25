@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Rabbit;
+namespace App\Order\Rabbit;
 
-use App\Rabbit\Connection;
+use App\Order\Rabbit\Connection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class Producer {
@@ -12,13 +12,12 @@ class Producer {
     private object $connection;
     private object $channel;
 
-    public function __construct(array $data)
+    public function __construct(int $id, int $lastId)
     {
         $this->queueName = 'queueName';
         $this->message = [
-            'chatId' => $data['chatId'],
-            'dateWith' => $data['dateWith'],
-            'dateBeforee'=> $data['dateBeforee']
+            'productId' => $id,
+            'queueId' => $lastId
         ];
     }
 
