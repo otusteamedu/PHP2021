@@ -10,7 +10,7 @@ INSERT INTO
     public.movie_attr_types (id, "name", property)
 VALUES
     (1, 'int', NULL),
-    (2, 'numeric', '12,2'),
+    (2, 'float', 'decimal(12,2)'),
     (3, 'bool', NULL),
     (4, 'text', NULL),
     (5, 'date', 'main'),
@@ -32,8 +32,9 @@ VALUES
 
 -- Наполение таблицы значений атрибутов
 INSERT INTO
-    public.movie_attr_values (movie_id, attr_id, value_1, value_2, value_3,
-                              value_4, value_5, value_6)
+    public.movie_attr_values (movie_id, attr_id,
+                              value_int, value_float, value_bool,
+                              value_text, value_date_m, value_date_s)
 VALUES
     (1, 1, NULL, NULL, NULL, 'some home alone annotation', NULL, NULL),
     (1, 2, NULL, NULL, NULL, 'some home alone review', NULL, NULL),
