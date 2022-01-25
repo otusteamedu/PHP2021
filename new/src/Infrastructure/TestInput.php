@@ -13,7 +13,7 @@ class TestInput extends AbstractHandler
      * @return ?string
      */
 
-    public function handle(string $email): ?string
+    public function handle(string $email): void
     {
         $data = trim($email);
         $data = stripslashes($data);
@@ -23,7 +23,7 @@ class TestInput extends AbstractHandler
             throw new \Exception($email.' не прошел проверку на инъекции');
         }
         //echo 'Проверку на инъекции '.$email.' прошел.'."\n";
-        return parent::handle($email);
+        parent::handle($email);
 
     }
 }

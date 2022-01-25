@@ -41,16 +41,11 @@ class App
 
             echo "Прохождение валидации для email: ".$email."?\n\n";
             try{
-                $result = $handler->handle($email);
+                $handler->handle($email);
+                echo "Ошибок нет\n";
             }catch (\Exception $e){
                 echo "Выброшено исключение: ",$e->getMessage(),"\n";
             }
-
-           if($result){
-               echo "Email ".$email." прошел итоговую проверку \n\n";
-           }else{
-                echo "Email ".$email." не прошел итоговую проверку \n\n";
-           }
 
            echo "========================\n\n";
 

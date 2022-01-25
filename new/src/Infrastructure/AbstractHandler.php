@@ -6,7 +6,7 @@ namespace App\Infrastructure;
 
 abstract class AbstractHandler implements IHandler
 {
-    private IHandler $nextHandler;
+    private ?IHandler $nextHandler = null;
 
     public function setNext(IHandler $handler): IHandler
     {
@@ -14,14 +14,11 @@ abstract class AbstractHandler implements IHandler
         return $handler;
     }
 
-    public function handle(string $email): ?string
+    public function handle(string $email): void
     {
-        //if($this->nextHandler){
-            //Где-то здесь нужно добавить условие для выхода
-           return $this->nextHandler->handle($email);
-        //}
-
-        //return null;
+        if($this->nextHandler !== null){
+           $this->nextHandler->handle($email);
+        }
     }
 
 

@@ -15,7 +15,7 @@ class EmailValidate extends AbstractHandler
      * @return ?string
      */
 
-    public function handle(string $email): ?string
+    public function handle(string $email): void
     {
 
         $res = (int)preg_match("/^(?:[a-z0-9]+(?:[-_.]?[a-z0-9]+)?@[a-z0-9_.-]+(?:\.?[a-z0-9]+)?\.[a-z]{2,5})$/i", $email);
@@ -25,7 +25,7 @@ class EmailValidate extends AbstractHandler
             throw new \Exception($email.' не прошел проверку на валидацию');
         }
         //echo 'Проверку на валидацию '.$email.' прошел'."\n";
-        return parent::handle($email);
+        parent::handle($email);
 
     }
 

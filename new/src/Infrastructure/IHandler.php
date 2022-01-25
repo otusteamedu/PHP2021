@@ -7,5 +7,5 @@ namespace App\Infrastructure;
 interface IHandler
 {
     public function setNext(IHandler $handler): IHandler;
-    public function handle (string $email): ?string;
+    public function handle (string $email): void;
 }
