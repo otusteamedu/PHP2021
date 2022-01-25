@@ -1,0 +1,22 @@
+{
+	"name": "minyakova/composer-package",
+	"description": "Приложение для варификации email",
+	"authors": [
+		{
+			"name": "Minyakova Alina",
+			"email": "minyakovaas@mail.ru"
+		}
+	],
+	"require": {
+		"php": ">=7.4.0"
+	},
+	"require-dev": {
+
+	},
+	"minimum-stability": "dev",
+	"autoload": {
+		"psr-4": {
+			"minyakova\\EmailVariation": "src"
+		}
+	}
+}
