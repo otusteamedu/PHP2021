@@ -1,0 +1,10 @@
+{
+    "name": "root/patterns.local",
+    "autoload": {
+        "psr-4": {
+            "Root\\PatternsLocal\\": "src/",
+            "App\\": "src"
+        }
+    },
+    "require": {}
+}
