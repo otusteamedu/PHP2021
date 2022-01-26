@@ -13,8 +13,8 @@ VALUES
     (2, 'float', 'decimal(12,2)'),
     (3, 'bool', NULL),
     (4, 'text', NULL),
-    (5, 'date', 'main'),
-    (6, 'date', 'service');
+    (5, 'date_main', 'j F Y'),
+    (6, 'date_service', 'Y-m-d');
 
 -- Наполение таблицы атрибутов
 INSERT INTO
@@ -34,7 +34,7 @@ VALUES
 INSERT INTO
     public.movie_attr_values (movie_id, attr_id,
                               value_int, value_float, value_bool,
-                              value_text, value_date_m, value_date_s)
+                              value_text, value_date_main, value_date_service)
 VALUES
     (1, 1, NULL, NULL, NULL, 'some home alone annotation', NULL, NULL),
     (1, 2, NULL, NULL, NULL, 'some home alone review', NULL, NULL),
