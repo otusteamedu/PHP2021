@@ -1,0 +1,8 @@
+.idea
+.env
+/code/.idea
+/code/vendor
+/code/config.ini
+
+
+
