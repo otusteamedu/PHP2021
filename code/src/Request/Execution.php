@@ -2,17 +2,17 @@
 
 namespace App\Request;
 
-use App\Rabbit\Consumer;
+use App\Queue\Subscriber;
 
 class Execution
 {
 
-    private object $consumer;
+    private object $subscriber;
 
     public function Execution()
     {
-        $this->consumer = new Consumer();
-        $this->consumer = $this->consumer->Consumer();
+        $this->subscriber = new Subscriber();
+        $this->subscriber = $this->subscriber->Subscriber();
     }
 
 }

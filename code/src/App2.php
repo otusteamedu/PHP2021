@@ -2,13 +2,13 @@
 
 namespace App2;
 
-use App\Request\Execution;
+use App\Queue\Subscriber;
 
 class App2
 {
 
     public function run()
     {
-        (new Execution())->Execution();
+        (new Subscriber())->Subscriber();
     }
 }

@@ -14,7 +14,7 @@ RUN apt-get install -y \
     libzip-dev \
     unzip
 RUN docker-php-ext-install zip
-RUN docker-php-ext-install sockets
+# RUN docker-php-ext-install sockets
 
 WORKDIR /tmp
 

@@ -2,7 +2,7 @@
 
 namespace App\Request;
 
-use App\Rabbit\Producer;
+use App\Queue\Producer;
 use App\Telegram\SendMessage;
 
 class Accepted

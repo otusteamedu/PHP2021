@@ -2,10 +2,9 @@
 
 namespace App\Rabbit;
 
-use App\Rabbit\Connection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class Producer {
+class Manufacturer {
 
     private string $queueName;
     private $message;
@@ -15,14 +14,10 @@ class Producer {
     public function __construct(array $data)
     {
         $this->queueName = 'queueName';
-        $this->message = [
-            'chatId' => $data['chatId'],
-            'dateWith' => $data['dateWith'],
-            'dateBeforee'=> $data['dateBeforee']
-        ];
+        $this->message = $data;
     }
 
-    public function Producer() {
+    public function Manufacturer() {
 
         $this->message = json_encode($this->message);
 

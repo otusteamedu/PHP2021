@@ -2,7 +2,6 @@
 
 namespace App\Rabbit;
 
-use App\Rabbit\Connection;
 use App\Discharge\Create;
 use App\Telegram\SendDocument;
 
