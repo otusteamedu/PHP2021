@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  balancer:
+    build:
+      context: docker/balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+    networks:
+      - otus-network
+
+  nginx_node_1:
+    build:
+      context: docker/nginx
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - php-fpm
+    networks:
+      - otus-network
+
+  nginx_node_2:
+    build:
+      context: docker/nginx
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - php-fpm
+    networks:
+      - otus-network
+
+  php-fpm:
+    build:
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+      context: docker/php-fpm
+    volumes:
+      - ./:/var/www
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge
