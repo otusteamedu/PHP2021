@@ -1,3 +1,2 @@
-# PHP2021
-
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# Домашняя работа №1 - Подготовка к курсу и инфраструктура ПО
+## Выполнил: Мелёшкин Владислав Владимирович
