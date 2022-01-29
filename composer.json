@@ -1,0 +1,16 @@
+{
+    "name": "sdidenko/php2021",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "s.didenko",
+            "email": "sergius.didenko@gmail.com"
+        }
+    ],
+    "require": {}
+}
