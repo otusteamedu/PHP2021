@@ -16,8 +16,9 @@ class Route
     public function route($container)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['string'])) {
-            $app = $container->get('App\App');
-            $app->run($container);
+
+            $container->call(['Src\controller\BracketsController', 'check'], ['checkString' => $_POST['string']]);
+
         } else {
             $this->response->NotFoundResponse();
         }
