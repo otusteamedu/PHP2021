@@ -1,0 +1,22 @@
+{
+    "name": "profox/php2021",
+    "description": "description",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "profox",
+            "email": "profox@profox.pro"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "php": ">=7.4",
+        "php-di/php-di": "^6.0"
+    }
+}
