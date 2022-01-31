@@ -8,6 +8,9 @@ services:
       - "80:80"
     volumes:
       - ./:/var/www
+    depends_on:
+      - nginx_node_1
+      - nginx_node_2
     networks:
       - otus-network
 
@@ -17,7 +20,8 @@ services:
     volumes:
       - ./:/var/www
     depends_on:
-      - php-fpm
+      - php-fpm-1
+      - php-fpm-2
     networks:
       - otus-network
 
@@ -27,11 +31,12 @@ services:
     volumes:
       - ./:/var/www
     depends_on:
-      - php-fpm
+      - php-fpm-1
+      - php-fpm-2
     networks:
       - otus-network
 
-  php-fpm:
+  php-fpm-1:
     build:
       args:
         USER_ID: 1000
@@ -41,6 +46,17 @@ services:
       - ./:/var/www
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    networks:
+      - otus-network
+
+  php-fpm-2:
+    build:
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+      context: docker/php-fpm
+    volumes:
+      - ./:/var/www
     networks:
       - otus-network
 
