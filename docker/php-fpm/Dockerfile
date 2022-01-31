@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
     # Install xdebug
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
+    # Install xdebug
+    && pecl install memcached \
+    && docker-php-ext-enable memcached \
     # Install PDO
     && docker-php-ext-install pdo_mysql \
     # Clear cache
@@ -27,6 +30,7 @@ RUN apt-get update && apt-get install -y \
 RUN usermod -u ${USER_ID} www-data && groupmod -g ${GROUP_ID} www-data
 
 COPY ./conf.d/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY ./conf.d/session.ini /usr/local/etc/php/conf.d/
 
 WORKDIR /var/www
 

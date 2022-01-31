@@ -60,6 +60,14 @@ services:
     networks:
       - otus-network
 
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+    networks:
+      - otus-network
+
+
 networks:
   otus-network:
     driver: bridge
