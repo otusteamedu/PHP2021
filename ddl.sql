@@ -21,7 +21,7 @@ CREATE TABLE session (
 	start_time TIME NOT NULL,
 	PRIMARY KEY(id),
 	FOREIGN KEY(hall_id) REFERENCES halls(id),
-	FOREIGN KEY(films_id) REFERENCES films(id),
+	FOREIGN KEY(films_id) REFERENCES films(id)
 );
 
 CREATE TABLE seats (
@@ -30,7 +30,7 @@ CREATE TABLE seats (
 	row INT  NOT NULL,
 	seat INT NOT NULL,
 	PRIMARY KEY(id),
-	FOREIGN KEY(halls_id) REFERENCES halls(id),
+	FOREIGN KEY(halls_id) REFERENCES halls(id)
 );
 
 CREATE TABLE users (
@@ -48,7 +48,7 @@ CREATE TABLE tickets (
 	PRIMARY KEY(id),
 	FOREIGN KEY(user_id) REFERENCES users(id),
 	FOREIGN KEY(seat_id) REFERENCES seats(id),
-	FOREIGN KEY(session_id) REFERENCES session(id),
+	FOREIGN KEY(session_id) REFERENCES session(id)
 );
 
 CREATE TABLE busy_seats(
@@ -57,5 +57,5 @@ CREATE TABLE busy_seats(
                          session_id INT NOT NULL,
                          PRIMARY KEY(id),
                          FOREIGN KEY(seat_id) REFERENCES seats(id),
-                         FOREIGN KEY(session_id) REFERENCES session(id),
+                         FOREIGN KEY(session_id) REFERENCES session(id)
 );
