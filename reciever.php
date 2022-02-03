@@ -1,5 +1,6 @@
 <?php
-require_once '../vendor/autoload.php';
+require_once 'vendor/autoload.php';
+require_once 'config/config.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Exchange\AMQPExchangeType;

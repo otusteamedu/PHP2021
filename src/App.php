@@ -2,12 +2,8 @@
 
 namespace App;
 
-use App\Application\ProductFactoryInterface;
-use App\Application\Strategies\Strategy;
-use App\Application\Visitors\Visitor;
-use App\Domain\VisitorInterface;
-use App\Infrastructure\Facades\KitchenFacade;
-use App\Infrastructure\Factories\ItalianProductFactory;
+use App\Application\MessageController;
+use App\Infrastructure\Router;
 use DI\Container;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use function DI\factory;
@@ -34,29 +30,25 @@ class App
 
     public function initialize() :void
     {
-        $connection = new AMQPStreamConnection('localhost', 5672, 'user', 'password');
-        $channel = $connection->channel();
-
-        $channel->queue_declare('hello', false, false, false, false);
-        $callback = function ($msg) {
-            echo ' recieved: ' . $msg->body . '\n';
-        };
-        $channel->basic_consume('hello', false, true, false, false, $callback);
-        while (count($channel->callbacks)) {
-            $channel->wait();
-        }
-        $channel->close();
-        $connection->close();
-//        $kitchen = new KitchenFacade();
-//        $productType = strtolower($_GET['product']);
-//        $fillings = $_GET['fillings'];
-//        $kitchen->makeFood($productType, $fillings);
+        $this->setRouter();
+        Router::execute($_SERVER['REQUEST_URI']);
     }
 
-//    public function getContainer() :Container
-//    {
-////        return $this->container;
-//    }
+
+    private function setRouter()
+    {
+        Router::route('/', function(){
+            header('Location: /form');
+            exit();
+        });
+        Router::route('/code/add', function(){
+            $controller = new MessageController();
+            $controller->send($_POST['code']);
+        });
+        Router::route('/form', function(){
+            echo file_get_contents('../resources/index.html');
+        });
+    }
 
     private function setContainer() :void
     {
