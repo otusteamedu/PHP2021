@@ -46,7 +46,7 @@ class App
     {
         if ($this->console) {
             $receiveCommands = $this->container->make(ReceiveCommand::class);
-            $receiveCommands->recieve();
+            $receiveCommands->receive();
             die();
         }
         Router::execute($_SERVER['REQUEST_URI']);
@@ -90,7 +90,8 @@ class App
             CreatedCodeReceiver::class => \DI\factory([CodeActionFactory::class, 'createReceiver'])
                 ->parameter('connection', $amqpConntection)
                 ->parameter('exchange', EXHANGE)
-                ->parameter('queue', QUEUE),
+                ->parameter('queue', QUEUE)
+                ->parameter('consumer', CONSUMER),
         ]);
         $this->container = $builder->build();
     }

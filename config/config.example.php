@@ -7,4 +7,5 @@ define('PASS', 'password');
 define('VHOST', '/');
 define('EXHANGE', 'bank_exchange');
 define('QUEUE', 'codes');
-//define('AMQP_DEBUG', getenv('TEST_AMQP_DEBUG') !== false ? (bool)getenv('TEST_AMQP_DEBUG') : false);
+define('CONSUMER', 'consumer');
+define('EMAIL', 'exmple@gmail.com');

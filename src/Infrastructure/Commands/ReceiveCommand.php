@@ -15,7 +15,7 @@ class ReceiveCommand
         $this->codeReceiverService = $codeReceiver;
     }
 
-    public function recieve()
+    public function receive()
     {
         $this->codeReceiverService->receive();
     }

@@ -16,9 +16,9 @@ class CodeActionFactory
         return new CodeGenerator($connection, $exchange, $queue);
     }
 
-    public function createReceiver($connection, $exchange, $queue)
+    public function createReceiver($connection, $exchange, $queue, $consumer)
     {
         global $app;
-        return new CreatedCodeReceiver($connection, $exchange, $queue);
+        return new CreatedCodeReceiver($connection, $exchange, $queue, $consumer);
     }
 }

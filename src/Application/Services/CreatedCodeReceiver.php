@@ -3,38 +3,32 @@
 
 namespace App\Application\Services;
 
-use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class CreatedCodeReceiver extends AbstractCodeAction
 {
+    private $consumer;
+
+    public function __construct(AMQPStreamConnection $connection, $exchange, $queue, $consumer)
+    {
+        parent::__construct($connection, $exchange, $queue);
+        $this->consumer = $consumer;
+    }
+
     public function receive()
     {
-        echo 666;
-        exit();
-        function process_message($message)
-        {
+        $this->channel->basic_consume($this->queue, $this->consumer, false, false, false, false, function ($message) {
             echo "\n--------\n";
             echo $message->body;
             echo "\n--------\n";
-
             $message->ack();
-        }
-
-        $this->channel->basic_consume($this->queue, 'consumer', false, false, false, false, 'process_message');
-
-        /**
-         * @param \PhpAmqpLib\Channel\AMQPChannel $channel
-         * @param \PhpAmqpLib\Connection\AbstractConnection $connection
-         */
-        function shutdown($channel, $connection)
-        {
+            mail(EMAIL, 'band_codes', $message->body);
+        });
+        register_shutdown_function(function ($channel, $connection) {
             $channel->close();
             $connection->close();
-        }
+        }, $this->channel, $this->connection);
 
-        register_shutdown_function('shutdown', $this->channel, $this->connection);
-
-// Loop as long as the channel has callbacks registered
         while ($this->channel->is_consuming()) {
             $this->channel->wait();
         }
