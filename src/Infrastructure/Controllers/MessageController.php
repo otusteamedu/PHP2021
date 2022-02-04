@@ -17,8 +17,6 @@ class MessageController
 
     public function send()
     {
-        if ($this->codeGeneratorService->generate()) {
-            echo 'code generated';
-        }
+        return $this->codeGeneratorService->sendGeneratedCode() ? 'code generated' : 'something went wrong';
     }
 }

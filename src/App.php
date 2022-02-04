@@ -6,6 +6,8 @@ use App\Application\Services\AbstractCodeAction;
 use App\Application\Services\CodeGenerator;
 use App\Application\Services\CreatedCodeReceiver;
 use App\Infrastructure\Commands\ReceiveCommand;
+use App\Infrastructure\Controllers\FormCodeController;
+use App\Infrastructure\Controllers\HomePageController;
 use App\Infrastructure\Controllers\MessageController;
 use App\Infrastructure\Factiories\CodeActionFactory;
 use App\Infrastructure\Router;
@@ -42,56 +44,56 @@ class App
         return self::$instances[$cls];
     }
 
-    public function initialize(): void
+    public function initialize()
     {
         if ($this->console) {
             $receiveCommands = $this->container->make(ReceiveCommand::class);
             $receiveCommands->receive();
-            die();
         }
-        Router::execute($_SERVER['REQUEST_URI']);
+        return Router::execute($_SERVER['REQUEST_URI']);
     }
 
 
     private function setRouter()
     {
         Router::route('/', function () {
-            header('Location: /form');
-            die();
+            /**
+             * @var $controller HomePageController
+             */
+            $controller = $this->container->make(HomePageController::class);
+            $controller->index();
+            return $controller->index();
         });
         Router::route('/code/add', function () {
+            /**
+             * @var $controller MessageController
+             */
             $controller = $this->container->make(MessageController::class);
-            $controller->send();
-            die();
+            return $controller->send();
         });
         Router::route('/form', function () {
-            echo file_get_contents('../resources/index.html');
-            die();
+            /**
+             * @var $controller FormCodeController
+             */
+            $controller = $this->container->make(FormCodeController::class);
+            return $controller->index();
         });
-    }
-
-    public function getContainer()
-    {
-        return $this->container;
     }
 
     private function setContainer(): void
     {
         $builder = new \DI\ContainerBuilder();
-        $amqpConntection = new AMQPStreamConnection(HOST, PORT, USER, PASS, VHOST);
+        $amqpConnection = new AMQPStreamConnection(HOST, PORT, USER, PASS, VHOST);
         $builder->addDefinitions([
-            AMQPStreamConnection::class => factory(function () use ($amqpConntection) {
-                return $amqpConntection;
+            AMQPStreamConnection::class => factory(function () use ($amqpConnection) {
+                return $amqpConnection;
             }),
-            CodeGenerator::class => \DI\factory([CodeActionFactory::class, 'createGenerator'])
-                ->parameter('connection', $amqpConntection)
-                ->parameter('exchange', EXHANGE)
-                ->parameter('queue', QUEUE),
-            CreatedCodeReceiver::class => \DI\factory([CodeActionFactory::class, 'createReceiver'])
-                ->parameter('connection', $amqpConntection)
-                ->parameter('exchange', EXHANGE)
-                ->parameter('queue', QUEUE)
-                ->parameter('consumer', CONSUMER),
+            CodeGenerator::class => factory(function () use ($amqpConnection) {
+                return new CodeGenerator($amqpConnection, EXHANGE, QUEUE);
+            }),
+            CreatedCodeReceiver::class => factory(function () use ($amqpConnection) {
+                return new CreatedCodeReceiver($amqpConnection, EXHANGE, QUEUE, CONSUMER);
+            })
         ]);
         $this->container = $builder->build();
     }

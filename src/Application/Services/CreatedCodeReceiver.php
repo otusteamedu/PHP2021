@@ -18,19 +18,26 @@ class CreatedCodeReceiver extends AbstractCodeAction
     public function receive()
     {
         $this->channel->basic_consume($this->queue, $this->consumer, false, false, false, false, function ($message) {
-            echo "\n--------\n";
-            echo $message->body;
-            echo "\n--------\n";
+            echo $this->makeMessageBody($message->body);
+            $this->sendNotification($message->body);
             $message->ack();
-            mail(EMAIL, 'band_codes', $message->body);
         });
         register_shutdown_function(function ($channel, $connection) {
             $channel->close();
             $connection->close();
         }, $this->channel, $this->connection);
-
         while ($this->channel->is_consuming()) {
             $this->channel->wait();
         }
+    }
+
+    private function makeMessageBody($messageBody)
+    {
+        return '\n--------\n' . $messageBody . '\n--------\n';
+    }
+
+    private function sendNotification($messageBody)
+    {
+        mail(EMAIL, 'band_codes', $messageBody);
     }
 }
