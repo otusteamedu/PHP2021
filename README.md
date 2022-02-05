@@ -1,3 +1,5 @@
-# PHP2021
-
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+1. Для запуска проекта необходимо создать и заполнить env файл, а так-же конфиг по примеру config/config.example
+2. Запустить docker-compose
+3. Приложение будет отвечать по localhost:7777
+4. Чтобы отправить код необходимо в форме, на которую вы попадете через главную страницу
+5. Чтобы слушать полученные данные необходимо запустить php console.php в корне приложения
