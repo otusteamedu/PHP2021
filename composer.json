@@ -2,7 +2,11 @@
   "autoload": {
     "psr-4": {
       "App\\": "src/"
-    }
+    },
+    "files": [
+      "src/helpers.php",
+      "config/config.php"
+    ]
   },
   "require": {
     "php-di/php-di": "^6.3",
