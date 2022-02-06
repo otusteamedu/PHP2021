@@ -1,33 +1,28 @@
-<?php if (empty($_POST)) { ?>
-    <form method="POST">    
-        <input type="text" name="String">
-        <input type="submit">
-    </form>
+<?php
 
-    <?php
-    exit();
-} else {
-    if (!empty($string = $_POST["String"])) {
-        $left = 0;
-        foreach (str_split($string)as $symbol) {
-            if ($symbol == ")") {
-                $left -= 1;
-            } else
-            if ($symbol == "(") {
-                $left += 1;
+namespace code;
+
+include_once 'Webapp/Controllers/MainController.php';
+
+use code\Controllers\MainController;
+
+function load_classphp($directory) {
+    if (is_dir($directory)) {
+        $scan = scandir($directory);
+        unset($scan[0], $scan[1]); //unset . and ..
+        foreach ($scan as $file) {
+            if (is_dir($directory . "/" . $file)) {
+                load_classphp($directory . "/" . $file);
+            } else {
+                if (strpos($file, '.php') !== false) {
+                    include_once($directory . "/" . $file);
+                }
             }
-            if ($left < 0) {
-                break;
-            }
-        }
-        if ($left == 0) {
-            header('HTTP/1.1 200 Ok');
-            echo $string;
-            exit();
         }
     }
 }
-header('HTTP/1.1 400 Bad request');
-echo $string;
+
+load_classphp('Webapp');
+(new MainController())->run();
 ?>
 
