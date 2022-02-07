@@ -6,13 +6,14 @@ use App\Application\Services\AbstractCodeAction;
 use App\Application\Services\CodeGenerator;
 use App\Application\Services\CreatedCodeReceiver;
 use App\Infrastructure\Commands\ReceiveCommand;
+use App\Infrastructure\Configuration;
 use App\Infrastructure\Controllers\FormCodeController;
 use App\Infrastructure\Controllers\HomePageController;
 use App\Infrastructure\Controllers\MessageController;
-use App\Infrastructure\Factiories\CodeActionFactory;
 use App\Infrastructure\Router;
 use DI\Container;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Symfony\Component\Config\Definition\Processor;
 use function DI\factory;
 
 class App
@@ -80,19 +81,28 @@ class App
         });
     }
 
+
     private function setContainer(): void
     {
         $builder = new \DI\ContainerBuilder();
-        $amqpConnection = new AMQPStreamConnection(HOST, PORT, USER, PASS, VHOST);
+        $queueParams = getConfig('app')['queue'];
+        $amqpConnection = new AMQPStreamConnection($queueParams['host'],
+            $queueParams['port'],
+            $queueParams['user'],
+            $queueParams['pass'],
+            $queueParams['vhost']);
         $builder->addDefinitions([
             AMQPStreamConnection::class => factory(function () use ($amqpConnection) {
                 return $amqpConnection;
             }),
             CodeGenerator::class => factory(function () use ($amqpConnection) {
-                return new CodeGenerator($amqpConnection, EXHANGE, QUEUE);
+
+                $queueParams = getConfig('app')['queue'];
+                return new CodeGenerator($amqpConnection, $queueParams['exhange'], $queueParams['queue']);
             }),
             CreatedCodeReceiver::class => factory(function () use ($amqpConnection) {
-                return new CreatedCodeReceiver($amqpConnection, EXHANGE, QUEUE, CONSUMER);
+                $queueParams = getConfig('app')['queue'];
+                return new CreatedCodeReceiver($amqpConnection, $queueParams['exhange'], $queueParams['queue'], $queueParams['consumer']);
             })
         ]);
         $this->container = $builder->build();

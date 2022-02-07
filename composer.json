@@ -4,12 +4,13 @@
       "App\\": "src/"
     },
     "files": [
-      "src/helpers.php",
-      "config/config.php"
+      "src/helpers.php"
     ]
   },
   "require": {
     "php-di/php-di": "^6.3",
-    "php-amqplib/php-amqplib": "^3.1"
+    "php-amqplib/php-amqplib": "^3.1",
+    "symfony/config": "^5.0",
+    "symfony/var-dumper": "5.0"
   }
 }

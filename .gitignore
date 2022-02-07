@@ -1,4 +1,4 @@
 .idea
 vendor
 .env
-/config/config.php
+/config/app.php
