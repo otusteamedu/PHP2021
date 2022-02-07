@@ -4,15 +4,21 @@ require_once('vendor/autoload.php');
 
 use App\App;
 
-//$emailVar = $argv[1];
-$arrEmail = ['ifhv94@mail.ru','minyakovaas@mail.ru','113@lum.ru'];
+    // ['hot dog','burger','sandwich']
+$baseProduct = 'burger';
+
+    /* If $ingredients is empty, the program will select the Basic recipe
+    *
+    * ['sausage','meat patty','cheese','tomato',
+    * 'onion','salad','pepperoni','ketchup',
+    * 'spicy mustard','sweet mustard','mayonnaise']
+    *
+    */
+$ingredients = [];
 
 try {
-
-
-    $app = new App();
+    $app = new App($baseProduct, $ingredients);
     $app->run();
-
 
 } catch (Exception $e) {
     echo $e->getMessage(). PHP_EOL;

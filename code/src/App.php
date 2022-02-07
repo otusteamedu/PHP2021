@@ -4,38 +4,40 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Infrastructure\AbstractFactory\HotDogFactory;
-use App\Infrastructure\AbstractFactory\IAbstractFactory;
-use App\Infrastructure\AbstractFactory\SandwichFactory;
-use App\Infrastructure\IHandler;
-use App\Infrastructure\Iterator\IteratorProducts;
-use App\Infrastructure\Iterator\Products;
-use App\Infrastructure\Prototype\AbstractSandwich;
-use App\Infrastructure\TestInput;
-use App\Infrastructure\EmailValidate;
-use App\Infrastructure\RecordMX;
-
+use App\Infrastructure\Strategy\BaseRecipe;
+use App\Infrastructure\Strategy\Context;
+use App\Infrastructure\Strategy\UserRecipe;
+use Exception;
 
 class App
 {
+    private string $baseProduct;
+    private array $arrayIngredients;
 
-
-    public function __construct()
+    public function __construct(string $baseProduct, array $arrayIngredients)
     {
-
+        $this->baseProduct = $baseProduct;
+        $this->arrayIngredients = $arrayIngredients;
     }
 
-    public function clientCode(IAbstractFactory $factory):AbstractSandwich
-    {
-        $sandwich = $factory->createSandwich();
-        return clone $sandwich;
-
-    }
 
     public function run():void
     {
-        $userSandwich = $this->clientCode(new HotDogFactory());
-        $userSandwich = (new IteratorProducts())->addKetchup()->addOnion();
+        //Strategy pattern
+        $context = new Context($this->baseProduct,$this->arrayIngredients);
+
+        if(!empty($this->arrayIngredients)){
+            $context->setStrategy(new UserRecipe());
+        }else{
+            $context->setStrategy(new BaseRecipe());
+        }
+
+
+        try{
+            $context->doSomeBusinessLogic();
+        }catch (Exception $e) {
+            echo $e->getMessage(). PHP_EOL;
+        }
 
     }
 }
