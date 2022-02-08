@@ -10,7 +10,7 @@ use Exception;
 
 abstract class AbstractStrategy
 {
-    abstract public function buildProduct(array $ingredients, IAbstractFactory $factory):void;
+    abstract public function buildProduct(IAbstractFactory $factory, array $ingredients):void;
 
     public function runIterator($baseIngredients){
         //Iterator Pattern

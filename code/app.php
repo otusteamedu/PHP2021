@@ -14,7 +14,7 @@ $baseProduct = 'burger';
     * 'spicy mustard','sweet mustard','mayonnaise']
     *
     */
-$ingredients = [];
+$ingredients = ['sausage','potato'];
 
 try {
     $app = new App($baseProduct, $ingredients);

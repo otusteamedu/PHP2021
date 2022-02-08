@@ -11,7 +11,7 @@ use Exception;
 class UserRecipe extends AbstractStrategy
 {
 
-    public function buildProduct(array $ingredients, IAbstractFactory $factory): void
+    public function buildProduct(IAbstractFactory $factory, array $ingredients): void
     {
         //Prototype Pattern
         $userObjectProduct = clone $factory->createSandwich();

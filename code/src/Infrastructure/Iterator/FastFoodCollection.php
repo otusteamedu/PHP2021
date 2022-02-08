@@ -32,12 +32,18 @@ class FastFoodCollection implements \IteratorAggregate, IEntity
         return $this->items;
     }
 
-    public function addItem($item): void
+    public function checkIngredient($item): string
     {
         $className = $this->arr["{$item}"];
         $objectIngredient = "App\\Infrastructure\\Iterator\\Ingredients\\".$className;
 
         if(!class_exists($objectIngredient)) throw new Exception("Указанный ингредиент {$item} отстутствует\n");
+        return $objectIngredient;
+    }
+
+    public function addItem($item): void
+    {
+        $objectIngredient = $this->checkIngredient($item);
         $this->items[] = new $objectIngredient();
     }
 

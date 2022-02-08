@@ -11,7 +11,7 @@ use Exception;
 class BaseRecipe extends AbstractStrategy
 {
 
-    public function buildProduct(?array $ingredients, IAbstractFactory $factory): void
+    public function buildProduct(IAbstractFactory $factory, array $ingredients=null): void
     {
         //Prototype Pattern
         $baseObjectProduct = $factory->createSandwich();
