@@ -3,13 +3,13 @@
 
 namespace App\Application\Services;
 
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use App\Application\DTO\QueueConnectionDTO;
 
 class CreatedCodeReceiver extends AbstractCodeAction
 {
     private $consumer;
 
-    public function __construct(AMQPStreamConnection $connection, $exchange, $queue, $consumer)
+    public function __construct(QueueConnectionDTO $connection, $exchange, $queue, $consumer)
     {
         parent::__construct($connection, $exchange, $queue);
         $this->consumer = $consumer;

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Application\DTO\QueueConnectionDTO;
 use App\Application\Services\AbstractCodeAction;
 use App\Application\Services\CodeGenerator;
 use App\Application\Services\CreatedCodeReceiver;
@@ -86,7 +87,7 @@ class App
     {
         $builder = new \DI\ContainerBuilder();
         $queueParams = getConfig('app')['queue'];
-        $amqpConnection = new AMQPStreamConnection($queueParams['host'],
+        $amqpConnection = new QueueConnectionDTO($queueParams['host'],
             $queueParams['port'],
             $queueParams['user'],
             $queueParams['pass'],
@@ -96,7 +97,6 @@ class App
                 return $amqpConnection;
             }),
             CodeGenerator::class => factory(function () use ($amqpConnection) {
-
                 $queueParams = getConfig('app')['queue'];
                 return new CodeGenerator($amqpConnection, $queueParams['exhange'], $queueParams['queue']);
             }),

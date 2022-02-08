@@ -1,11 +1,14 @@
 <?php
-
-define('HOST', 'rabbitmq');
-define('PORT',  5672);
-define('USER', 'user');
-define('PASS', 'password');
-define('VHOST', '/');
-define('EXHANGE', 'bank_exchange');
-define('QUEUE', 'codes');
-define('CONSUMER', 'consumer');
-define('EMAIL', 'exmple@gmail.com');
+return [
+    'queue' => [
+        'host' => 'rabbitmq',
+        'port' => 5672,
+        'user' => 'user',
+        'pass' => 'password',
+        'vhost' => '/',
+        'exhange' => 'bank_exchange',
+        'queue' => 'codes',
+        'consumer' => 'consumer',
+        'email' => 'exmple@gmail.com',
+    ]
+];
