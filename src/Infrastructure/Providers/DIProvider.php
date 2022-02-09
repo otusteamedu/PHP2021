@@ -9,16 +9,21 @@ use App\Application\Services\CreatedCodeReceiver;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use function DI\factory;
 
-class DIProvider
+class DIProvider implements DIProviderInterface
 {
     private $definitions = [];
+
+    public function __construct()
+    {
+        $this->boot();
+    }
 
     public function getDefinitions()
     {
         return $this->definitions;
     }
 
-    public function register()
+    private function registerDefinitions() : array
     {
         $queueParams = getConfig('app')['queue'];
         $amqpConnection = new QueueConnectionDTO($queueParams['host'],
@@ -26,7 +31,7 @@ class DIProvider
             $queueParams['user'],
             $queueParams['pass'],
             $queueParams['vhost']);
-        $this->definitions = [
+        return [
             AMQPStreamConnection::class => factory(function () use ($amqpConnection) {
                 return $amqpConnection;
             }),
@@ -39,5 +44,10 @@ class DIProvider
                 return new CreatedCodeReceiver($amqpConnection, $queueParams['exhange'], $queueParams['queue'], $queueParams['consumer']);
             })
         ];
+    }
+
+    public function boot()
+    {
+        $this->definitions = $this->registerDefinitions();
     }
 }

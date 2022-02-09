@@ -1,8 +1,9 @@
 <?php
+
 return [
     'queue' => [
         'host' => 'rabbitmq',
-        'port' => 5672,
+        'port' => '5672',
         'user' => 'user',
         'pass' => 'password',
         'vhost' => '/',
@@ -10,5 +11,8 @@ return [
         'queue' => 'codes',
         'consumer' => 'consumer',
         'email' => 'exmple@gmail.com',
+    ],
+    'providers' => [
+        \App\Infrastructure\Providers\DIProvider::class
     ]
 ];

@@ -11,28 +11,32 @@ class Configuration implements ConfigurationInterface
 
     private function __construct() { }
 
-    public function getConfigTreeBuilder()
-    {
-        $treeBuilder = new TreeBuilder('app');
-        $treeBuilder
-            ->getRootNode()
-            ->children()
-            ->arrayNode('queue')
-                ->children()
-                    ->scalarNode('host')->end()
-                    ->scalarNode('port')->end()
-                    ->scalarNode('user')->end()
-                    ->scalarNode('pass')->end()
-                    ->scalarNode('vhost')->end()
-                    ->scalarNode('exhange')->end()
-                    ->scalarNode('queue')->end()
-                    ->scalarNode('consumer')->end()
-                    ->scalarNode('email')->end()
-            ->end()
-        ->end();
+      public function getConfigTreeBuilder()
+      {
+          $treeBuilder = new TreeBuilder('app');
+          $treeBuilder
+              ->getRootNode()
+              ->children()
+                  ->arrayNode('queue')
+                      ->children()
+                          ->scalarNode('host')->end()
+                          ->scalarNode('port')->end()
+                          ->scalarNode('user')->end()
+                          ->scalarNode('pass')->end()
+                          ->scalarNode('vhost')->end()
+                          ->scalarNode('exhange')->end()
+                          ->scalarNode('queue')->end()
+                          ->scalarNode('consumer')->end()
+                          ->scalarNode('email')->end()
+                      ->end()
+                  ->end()
+                  ->arrayNode('providers')
+                    ->scalarPrototype()->end()
+                  ->end()
+              ->end();
 
-        return $treeBuilder;
-    }
+          return $treeBuilder;
+      }
 
     public static function getInstance()
     {

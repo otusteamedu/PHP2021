@@ -87,9 +87,9 @@ class App
     private function registerBaseServiceProviders(): void
     {
         $builder = new \DI\ContainerBuilder();
-        $servicesProviders = [new DIProvider()];
-        foreach ($servicesProviders as $servicesProvider) {
-            $servicesProvider->register();
+        $servicesProviders = getConfig('app')['providers'];
+        foreach ($servicesProviders as $servicesProviderClass) {
+            $servicesProvider = new $servicesProviderClass;
             $builder->addDefinitions($servicesProvider->getDefinitions());
         }
         $this->container = $builder->build();
