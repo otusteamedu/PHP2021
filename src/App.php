@@ -8,10 +8,7 @@
 
 namespace app;
 
-use app\providers\ESProvider;
-use app\providers\YoutubeProvider;
-use app\services\ElasticSearchService;
-use app\services\StatisticService;
+use Exception;
 
 /**
  * Class App
@@ -20,21 +17,35 @@ use app\services\StatisticService;
 class App
 {
     /**
-     *
+     * @throws Exception
      */
-    public function run()
+    public function run(array $argv)
     {
-//        $service = new ElasticSearchService(
-//            new YoutubeProvider(),
-//            new ESProvider()
-//        );
-//
-//        $service->indexVideos('UCixlrqz8w-oa4UzdKyHLMaA');
+        $action = $argv[1] ?? null;
 
-        $service = new StatisticService(
-            new ESProvider()
-        );
+        switch ($action) {
+            case 'store':
+                $channelId = $argv[2] ?? '';
+                $app = new StoreApp($channelId);
 
-        $service->likes('UCixlrqz8w-oa4UzdKyHLMaA');
+                break;
+
+            case 'spider':
+                $channels = explode(',', $argv[2] ?? '');
+                $app = new SpiderApp($channels);
+
+                break;
+
+            case 'statistic':
+                $channelId = $argv[2] ?? '';
+                $app = new StatisticApp($channelId, 20);
+
+                break;
+
+            default:
+                throw new Exception('Action not set');
+        }
+
+        $app->execute();
     }
 }

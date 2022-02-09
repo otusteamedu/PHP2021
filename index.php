@@ -5,4 +5,4 @@ use app\App;
 require_once('vendor/autoload.php');
 
 $app = new App();
-$app->run();
+$app->run($argv);

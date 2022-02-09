@@ -5,7 +5,7 @@ services:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    container_name: app
+    container_name: otus_app
     image: otus/php_fpm
     volumes:
       - .:/home/mysite.local
@@ -13,8 +13,8 @@ services:
       - app-network
 
   es:
-    image: elasticsearch:7.14.2
-    container_name: es
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+    container_name: otus_es
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -22,6 +22,16 @@ services:
       - "discovery.type=single-node"
     networks:
       - app-network
+
+  kibana:
+      image: docker.elastic.co/kibana/kibana:7.16.3
+      container_name: otus_kibana
+      ports:
+        - "5601:5601"
+      environment:
+        - "ELASTICSEARCH_HOSTS=http://otus_es:9200"
+      networks:
+        - app-network
 
 networks:
   app-network:

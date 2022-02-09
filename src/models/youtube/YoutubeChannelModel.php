@@ -6,18 +6,22 @@
  * Time: 16:15
  */
 
-namespace app\models;
+namespace app\models\youtube;
+
 
 /**
+ * Модель канала с Youtube
+ *
  * Class ChannelModel
- * @package app\models
+ * @package app\models\youtube
  */
-class ChannelModel
+class YoutubeChannelModel
 {
     /**
      * @var string
      */
     private string $id;
+
     /**
      * @var string
      */
@@ -25,11 +29,13 @@ class ChannelModel
 
     /**
      * ChannelModel constructor.
-     * @param array $config
+     * @param string $id
+     * @param string $title
      */
-    public function __construct(array $config = [])
+    public function __construct(string $id, string $title)
     {
-        $this->setProperties($config);
+        $this->id = $id;
+        $this->title = $title;
     }
 
     /**
@@ -46,19 +52,5 @@ class ChannelModel
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    /**
-     * @param array $config
-     */
-    private function setProperties(array $config)
-    {
-        foreach ($config as $key => $value) {
-            if (property_exists($this, $key) === false) {
-                continue;
-            }
-
-            $this->$key = $value;
-        }
     }
 }
