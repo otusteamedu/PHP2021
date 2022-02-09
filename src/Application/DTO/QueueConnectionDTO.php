@@ -18,7 +18,7 @@ class QueueConnectionDTO
      * @param $consumer
      * @param $email
      */
-    public function __construct($host, $port, $user, $pass, $vhost,)
+    public function __construct($host, $port, $user, $pass, $vhost)
     {
         $this->host = $host;
         $this->port = $port;

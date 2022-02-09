@@ -11,6 +11,7 @@ use App\Infrastructure\Configuration;
 use App\Infrastructure\Controllers\FormCodeController;
 use App\Infrastructure\Controllers\HomePageController;
 use App\Infrastructure\Controllers\MessageController;
+use App\Infrastructure\Providers\DIProvider;
 use App\Infrastructure\Router;
 use DI\Container;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -26,7 +27,7 @@ class App
     protected function __construct()
     {
         $this->console = false;
-        $this->setContainer();
+        $this->registerBaseServiceProviders();
         $this->setRouter();
     }
 
@@ -83,28 +84,14 @@ class App
     }
 
 
-    private function setContainer(): void
+    private function registerBaseServiceProviders(): void
     {
         $builder = new \DI\ContainerBuilder();
-        $queueParams = getConfig('app')['queue'];
-        $amqpConnection = new QueueConnectionDTO($queueParams['host'],
-            $queueParams['port'],
-            $queueParams['user'],
-            $queueParams['pass'],
-            $queueParams['vhost']);
-        $builder->addDefinitions([
-            AMQPStreamConnection::class => factory(function () use ($amqpConnection) {
-                return $amqpConnection;
-            }),
-            CodeGenerator::class => factory(function () use ($amqpConnection) {
-                $queueParams = getConfig('app')['queue'];
-                return new CodeGenerator($amqpConnection, $queueParams['exhange'], $queueParams['queue']);
-            }),
-            CreatedCodeReceiver::class => factory(function () use ($amqpConnection) {
-                $queueParams = getConfig('app')['queue'];
-                return new CreatedCodeReceiver($amqpConnection, $queueParams['exhange'], $queueParams['queue'], $queueParams['consumer']);
-            })
-        ]);
+        $servicesProviders = [new DIProvider()];
+        foreach ($servicesProviders as $servicesProvider) {
+            $servicesProvider->register();
+            $builder->addDefinitions($servicesProvider->getDefinitions());
+        }
         $this->container = $builder->build();
     }
 
