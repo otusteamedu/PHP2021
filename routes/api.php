@@ -13,18 +13,23 @@
 |
 */
 
-$router->group(['prefix' => 'api'], function () use ($router) {
-    $router->group(['prefix' => 'v1'], function () use ($router) {
-        $router->group(['prefix' => 'queries'], function () use ($router) {
-//            $router->get('create', function () use ($router) {
-//
-//                return $router->app->version();
-//            });
-            $router->post('create', function () use ($router) {
-                return $router->app->version();
-            });
-        });
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+$router->group(['prefix' => 'v1'], function () use ($router) {
+    $router->post('create', function (Request $request) {
+        $this->validate($request, ['text' => 'required|string']);
+        $queryId = \Illuminate\Support\Str::uuid();
+        dispatch(new \App\Jobs\QueryActionJob(\Illuminate\Support\Str::uuid(), $request->get('text')));
+        return response($queryId);
+    });
+    $router->patch('update', function (Request $request) {
+        dispatch(new \App\Jobs\QueryActionJob(\Illuminate\Support\Str::uuid(), 'content'));
+        return response('OK');
+    });
+    $router->get('get', function (Request $request) {
+        dispatch(new \App\Jobs\QueryActionJob(\Illuminate\Support\Str::uuid(), 'content'));
+        return response('OK');
     });
 });
-
 
