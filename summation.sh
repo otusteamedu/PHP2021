@@ -18,6 +18,6 @@ then
   exit 1
 fi
 
-sum=$(( $1 + $2 ))
+sum=$(bc <<< "$1 + $2")
 
 echo "Сумма равна: $sum"
