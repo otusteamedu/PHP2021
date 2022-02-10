@@ -38,7 +38,9 @@ class App
 
             case 'statistic':
                 $channelId = $argv[2] ?? '';
-                $app = new StatisticApp($channelId, 20);
+                $countChannels = $argv[3] ?? 20;
+
+                $app = new StatisticApp($channelId, $countChannels);
 
                 break;
 

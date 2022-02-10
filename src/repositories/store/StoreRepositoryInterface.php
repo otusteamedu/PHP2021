@@ -25,7 +25,7 @@ interface StoreRepositoryInterface
      *
      * @return StoreRepositoryInterface
      */
-    public static function factory(): StoreRepositoryInterface;
+    public static function create(): StoreRepositoryInterface;
 
     /**
      * Сохранение канала

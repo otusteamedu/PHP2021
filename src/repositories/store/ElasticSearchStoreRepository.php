@@ -44,7 +44,7 @@ class ElasticSearchStoreRepository implements StoreRepositoryInterface
     /**
      * @inheritDoc
      */
-    public static function factory(): StoreRepositoryInterface
+    public static function create(): StoreRepositoryInterface
     {
         $adapter = new ElasticSearchAdapter();
 

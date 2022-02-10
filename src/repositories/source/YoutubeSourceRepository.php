@@ -39,7 +39,7 @@ class YoutubeSourceRepository implements SourceRepositoryInterface
     /**
      * @inheritDoc
      */
-    public static function factory(): SourceRepositoryInterface
+    public static function create(): SourceRepositoryInterface
     {
         $adapter = new YoutubeAdapter();
 

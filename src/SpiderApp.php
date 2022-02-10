@@ -8,9 +8,7 @@
 
 namespace app;
 
-use app\repositories\source\YoutubeSourceRepository;
-use app\repositories\store\ElasticSearchStoreRepository;
-use app\services\AppService;
+use app\services\AppServiceFactory;
 use Exception;
 
 /**
@@ -42,11 +40,7 @@ class SpiderApp
     public function execute()
     {
         $channels = $this->channels;
-
-        $service = new AppService(
-            ElasticSearchStoreRepository::factory(),
-            YoutubeSourceRepository::factory(),
-        );
+        $service = AppServiceFactory::create();
 
         foreach ($channels as $channelId) {
             $service->storeChannel($channelId);

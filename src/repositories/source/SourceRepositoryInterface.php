@@ -24,7 +24,7 @@ interface SourceRepositoryInterface
      *
      * @return SourceRepositoryInterface
      */
-    public static function factory(): SourceRepositoryInterface;
+    public static function create(): SourceRepositoryInterface;
 
     /**
      * Получение канала по ID

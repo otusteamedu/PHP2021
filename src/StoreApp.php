@@ -8,9 +8,7 @@
 
 namespace app;
 
-use app\repositories\source\YoutubeSourceRepository;
-use app\repositories\store\ElasticSearchStoreRepository;
-use app\services\AppService;
+use app\services\AppServiceFactory;
 use Exception;
 
 /**
@@ -45,11 +43,7 @@ class StoreApp
     public function execute()
     {
         $channelId = $this->channelId;
-
-        $service = new AppService(
-            ElasticSearchStoreRepository::factory(),
-            YoutubeSourceRepository::factory(),
-        );
+        $service = AppServiceFactory::create();
 
         $service->storeChannel($channelId);
         $service->storeVideos($channelId);

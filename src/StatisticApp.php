@@ -56,7 +56,7 @@ class StatisticApp
         $countChannels = $this->countChannels;
 
         $service = new StatisticService(
-            ElasticSearchStoreRepository::factory()
+            ElasticSearchStoreRepository::create()
         );
 
         $result = $service->videoLikesByChannelId($channelId);
