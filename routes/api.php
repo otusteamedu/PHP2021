@@ -21,9 +21,9 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->post('create', function (Request $request) {
             $this->validate($request, ['text' => 'required|string']);
             $queryId = \Illuminate\Support\Str::uuid();
-            Bus::batch([new \App\Jobs\QueryActionJob($queryId, $request->get('text'))])
-                ->name($queryId)->dispatch();
-//            dispatch(new \App\Jobs\QueryActionJob($queryId, $request->get('text')));
+//            Bus::batch([new \App\Jobs\QueryActionJob($queryId, $request->get('text'))])
+//                ->name($queryId)->dispatch();
+            dispatch(new \App\Jobs\QueryActionJob($queryId, $request->get('text')));
             return response($queryId);
         });
         $router->patch('update', function (Request $request) {
@@ -33,7 +33,24 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             return response($queryId);
         });
         $router->get('get', function (Request $request) {
-            dd(Bus::findBatch($request->get('id')));
+            $connection = null;
+            $default = 'default';
+
+            // For the delayed jobs
+            var_dump(
+                \Queue::getRedis()
+                    ->connection($connection)
+                    ->zrange('queues:' . $default . ':delayed', 0, -1)
+            );
+
+            // For the reserved jobs
+            var_dump(
+                \Queue::getRedis()
+                    ->connection($connection)
+                    ->zrange('queues:' . $default . ':reserved', 0, -1)
+            );
+//            \Redis::lrange('queues:default', 0, -1);
+//            dd(Bus::findBatch($request->get('id')));
             return response('OK');
         });
     });
