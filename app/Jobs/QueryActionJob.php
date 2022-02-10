@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Query;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -10,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 
 class QueryActionJob extends Job implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $id;
     private $text;
@@ -33,6 +34,7 @@ class QueryActionJob extends Job implements ShouldQueue
      */
     public function handle()
     {
+        sleep(20);
         $query = new Query();
         $query->fill([
            'id' => $this->id,
