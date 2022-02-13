@@ -1,0 +1,109 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: HM17
+
+paths:
+
+  /api/v1/queries:
+    post:
+      summary: Создание запроса
+      parameters:
+        - in: query
+          name: text
+          schema:
+            type: string
+            default: application/json
+
+      responses:
+        '200':
+          description: Создает запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: '3515eae4-9175-48e2-a5dc-62f1fbe5f731'
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    example: 'Ошибка'
+                    type: string
+
+
+    patch:
+      summary: Создание запроса
+      parameters:
+        - in: query
+          name: text
+          schema:
+            type: string
+            default: application/json
+        - in: query
+          name: id
+          schema:
+            type: string
+            default: application/json
+
+      responses:
+        '200':
+          description: Создает запрос
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'OK'
+
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    example: 'Ошибка'
+                    type: string
+
+  /api/v1/queries/{id}:
+    get:
+      summary: Создание запроса
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            default: application/json
+      responses:
+        '200':
+          description: Создает запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    example: 'text'
+                    type: string
+
+        '400':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    example: 'Ошибка'
+                    type: string
+
+
+

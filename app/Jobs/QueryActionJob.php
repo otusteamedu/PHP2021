@@ -16,6 +16,7 @@ class QueryActionJob extends Job implements ShouldQueue
     private $id;
     private $text;
     public $timestamps = false;
+
     /**
      * Create a new job instance.
      *
@@ -34,12 +35,7 @@ class QueryActionJob extends Job implements ShouldQueue
      */
     public function handle()
     {
-        sleep(20);
-        $query = new Query();
-        $query->fill([
-           'id' => $this->id,
-           'text' => $this->text,
-        ]);
+        $query = Query::query()->updateOrCreate(['id' => $this->id], ['text' => $this->text]);
         $query->save();
     }
 }
