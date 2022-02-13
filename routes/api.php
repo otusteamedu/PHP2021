@@ -18,7 +18,14 @@ use Illuminate\Support\Facades\Bus;
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->group(['prefix' => 'queries'], function () use ($router) {
-        $router->post('create', 'QueryController@create');
+        $router->post('create', function (Request $request) {
+            $this->validate($request, ['text' => 'required|string']);
+            $queryId = \Illuminate\Support\Str::uuid();
+//            Bus::batch([new \App\Jobs\QueryActionJob($queryId, $request->get('text'))])
+//                ->name($queryId)->dispatch();
+            dispatch(new \App\Jobs\QueryActionJob($queryId, $request->get('text')));
+            return response($queryId);
+        });
         $router->patch('update', function (Request $request) {
             $this->validate($request, ['id' => 'string', 'text' => 'string']);
             $queryId = \Illuminate\Support\Str::uuid();

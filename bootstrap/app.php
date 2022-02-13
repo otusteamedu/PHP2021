@@ -23,9 +23,6 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-$app->withFacades(true, [
-  \Illuminate\Support\Facades\Event::class => 'LumenEvent',
-]);
 $app->withFacades();
 
 $app->withEloquent();
@@ -62,7 +59,6 @@ $app->singleton(
 |
 */
 
-$app->configure('amqp');
 $app->configure('app');
 $app->configure('queue');
 
@@ -96,7 +92,7 @@ $app->configure('queue');
 |
 */
 $app->register(\Illuminate\Redis\RedisServiceProvider::class);
- $app->register(App\Providers\AppServiceProvider::class);
+// $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
