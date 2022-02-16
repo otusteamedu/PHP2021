@@ -18,6 +18,6 @@ then
   exit 1
 fi
 
-sum=$(bc <<< "$1 + $2")
+summation="$(awk -v first="$1" -v second="$2" 'BEGIN{print first+second}')"
 
-echo "Сумма равна: $sum"
+echo "Сумма равна: $summation"
