@@ -1,3 +1,3 @@
-# PHP2021
+# Домашняя работа №2 - Linux
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Выполнил: Мелёшкин В.В.
