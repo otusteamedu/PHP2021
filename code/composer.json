@@ -1,0 +1,16 @@
+{
+    "name": "email/validator",
+    "autoload": {
+        "files": [
+            "Webapp/Validator.php"
+        ]
+        
+    },
+    "authors": [
+        {
+            "name": "WD&S",
+            "email": "serevg54@gmail.com"
+        }
+    ],
+    "require": {}
+}

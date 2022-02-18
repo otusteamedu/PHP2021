@@ -1,6 +1,6 @@
 <?php
 $try_data=['hcsa@ya.ru','hcsa@narod.ru','hcsa@bigdata.com'];
-require_once('Webapp/autoload.php');
+require_once('vendor/autoload.php');
 
 try {
     $app = new Validator();
