@@ -4,12 +4,17 @@ require_once('vendor/autoload.php');
 
 try {
     $app = new Validator();
-    if ($result=$app->check($try_data)) {
-        echo 'Test is finished for : ';
-        var_dump ($try_data);
-        echo '<br>Result is - ';
-        var_dump ($result);
+    $result=$app->check($try_data);
+    foreach ($try_data as $n=>$email) {
+        echo 'Result for string "'.$email.'" is ';
+        if ($result[$n]===true) {
+            echo ' successed';
+        } else {
+            echo $result[$n];
+        }
+        echo '<br>';
     }
+
 }
 catch(Exception $e) {
     echo $e->getMessage();
