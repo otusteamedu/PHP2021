@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: otus-app
+    image: otus/php_fpm
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/home/mysite.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

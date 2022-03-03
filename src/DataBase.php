@@ -38,7 +38,11 @@ class DataBase
     public static function instance(): PDO
     {
         if (static::$pdo === null) {
-            static::$pdo = new PDO('localhost');
+            static::$pdo = new PDO(
+                getenv('DB_DNS'),
+                getenv('DB_USERNAME'),
+                getenv('DB_PASSWORD')
+            );
         }
 
         return static::$pdo;
