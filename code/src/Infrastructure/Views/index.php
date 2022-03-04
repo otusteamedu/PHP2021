@@ -13,7 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.min.js"
             type="text/javascript"></script>
-    <script>
+  <script>
+
         jQuery(document).ready(function ($) {
             $('label').click(function () {
                 var id_label = $(this).attr('for');
@@ -23,13 +24,14 @@
             $('[name="date1"]').mask('99.99.9999');
             $('[name="date2"]').mask('99.99.9999');
 
+
         });
     </script>
 </head>
 
 <body>
 <div class="contain">
-    <form action="#"  class="form-gs contain__form-gs" method="post">
+    <form  action="#" id="add-request" class="form-gs contain__form-gs" method="post">
         <input type="hidden" name="form-id" value="form-contact">
         <div class="title-form">Запрос банковской выписки за указанные даты:</div>
         <div class="form-gs__item">
@@ -57,12 +59,13 @@
 
         </div>
         <div class="form-gs__item">
-            <button class="but-send">Отправить</button>
+            <button id = "submit"  type = "submit" class="but-send">Отправить</button>
         </div>
     </form>
     <br>
-    <div id="result-form"><?php echo $resError;?></div>
+    <div id="result-form" ><?php echo $resError;?></div>
 </div>
+
 </body>
 
 </html>

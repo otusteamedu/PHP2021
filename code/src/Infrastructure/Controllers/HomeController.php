@@ -22,6 +22,7 @@ class HomeController
         $date1 = $_POST['date1'];
         $date2 = $_POST['date2'];
 
+
         if($_POST['form-id']=='form-contact') {
             try {
                 $dataValidation = new DataValidation();
@@ -36,17 +37,18 @@ class HomeController
                     $messageBody = json_encode($_POST);
                     (new SendRabbitMQ())->execute($messageBody);
                     header("Location:/result");
-
                 }
 
             } catch (\Exception $e) {
                 $resError = $e->getMessage();
+                //header("Location:/");
             }
-
         }
 
-
         require_once(ROOT . '/src/Infrastructure/Views/index.php');
+
+
+
 /*
         $loader = new ArrayLoader([
             'index' => 'Hello {{ name }}!',

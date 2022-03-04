@@ -22,6 +22,8 @@ class ReceiverRabbitMQ
 
         $channel->queue_declare($this->queue, false, true, false, false);
 
+        //$channel->basic_qos(null,1,null);
+
         echo "<br> * Waiting for messages<br>";
 
         $callback = function($msg){
@@ -48,11 +50,15 @@ class ReceiverRabbitMQ
         };
 
         //$channel->basic_qos(null, 1, null);
-        $channel->basic_consume('email_queue', '', false, true, false, false, $callback);
+        $channel->basic_consume('email_queue', '', false, false, false, false, $callback);
 
         while(count($channel->callbacks)){
             $channel->wait();
         }
 
+        $channel->close();
+        $connection->close();
+
     }
+
 }

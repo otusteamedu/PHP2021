@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<div><?php echo $result;?></div>
+<div>Форма отправлена</div>
 
-<div><?php echo $errorMsg;?></div>
+<div id="result-form" >Ожидайте оповещения в телеграм</div>
 </body>
 </html>

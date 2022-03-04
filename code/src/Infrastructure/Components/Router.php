@@ -23,6 +23,8 @@ class Router
     {
         $url = $this->getURL();
 
+        if(!isset($url)) $url='';
+
         foreach ($this->routes as $urlPattern => $route) {
 
             if(preg_match("~$urlPattern~",$url)){
