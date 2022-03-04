@@ -25,9 +25,9 @@ class QueryBuilder
     private string $operation;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $condition;
+    private ?string $condition = null;
 
     /**
      * @var string
@@ -38,7 +38,15 @@ class QueryBuilder
      * @var string
      */
     private string $from;
+
+    /**
+     * @var PDO
+     */
     private PDO $pdo;
+
+    /**
+     * @var IdentityMap
+     */
     private IdentityMap $identityMap;
 
     /**
@@ -108,12 +116,10 @@ class QueryBuilder
      */
     public function one(): BaseActiveRecord
     {
-        $pdo = $this->pdo;
-
         $sth = $this->executeQuery();
-        $queryData = $sth->fetch($pdo::FETCH_ASSOC);
+        $model = $sth->fetch();
 
-        return $this->prepareModel($queryData);
+        return $this->prepareModel($model);
     }
 
     /**
@@ -127,7 +133,7 @@ class QueryBuilder
         $queryData = $sth->fetchAll();
 
         return array_map(
-            static function (array $datum) {
+            function (BaseActiveRecord $datum) {
                 return $this->prepareModel($datum);
             },
             $queryData
@@ -137,16 +143,12 @@ class QueryBuilder
     /**
      * Подготовка модели
      *
-     * @param array $queryData
+     * @param BaseActiveRecord $model
      * @return BaseActiveRecord
      */
-    private function prepareModel(array $queryData): BaseActiveRecord
+    private function prepareModel(BaseActiveRecord $model): BaseActiveRecord
     {
         $identityMap = $this->identityMap;
-        /** @var BaseActiveRecord $className */
-        $className = $this->className;
-
-        $model = $className::instance($queryData);
 
         if ($identityMap->isset($model) === true) {
             return $identityMap->get($model);
@@ -165,9 +167,13 @@ class QueryBuilder
     private function executeQuery()
     {
         $pdo = $this->pdo;
+        /** @var BaseActiveRecord $className */
+        $className = $this->className;
+
         $sql = $this->asRaw();
 
         $sth = $pdo->prepare($sql);
+        $sth->setFetchMode($pdo::FETCH_CLASS, $className);
         $sth->execute();
 
         return $sth;

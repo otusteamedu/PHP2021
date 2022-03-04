@@ -17,6 +17,20 @@ namespace app;
 abstract class BaseActiveRecord
 {
     /**
+     * @param $name
+     * @param $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        $setter = "set" . StringHelper::id2camel($name);
+
+        if (method_exists($this, $setter) === true) {
+            $this->$setter($value);
+        }
+    }
+
+    /**
      * Построитель запросов
      *
      * @return QueryBuilder
@@ -24,7 +38,7 @@ abstract class BaseActiveRecord
     public static function getQueryBuilder(): QueryBuilder
     {
         $pdo = DataBase::instance();
-        $identityMap = IdentityMap::instance();
+        $identityMap = new IdentityMap();
 
         return new QueryBuilder(get_called_class(), $pdo, $identityMap);
     }
@@ -42,14 +56,6 @@ abstract class BaseActiveRecord
      * @return string
      */
     abstract public static function getTableName(): string;
-
-    /**
-     * Создание модели
-     *
-     * @param array $queryData
-     * @return BaseActiveRecord
-     */
-    abstract public static function instance(array $queryData): self;
 
     /**
      * Поиск записи по ID

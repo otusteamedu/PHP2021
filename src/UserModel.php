@@ -32,22 +32,6 @@ class UserModel extends BaseActiveRecord
     private string $userName;
 
     /**
-     * @param int $id
-     * @param string $email
-     * @param string $userName
-     */
-    public function __construct(
-        int    $id,
-        string $email,
-        string $userName
-    )
-    {
-        $this->id = $id;
-        $this->email = $email;
-        $this->userName = $userName;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getPrimaryKey(): int
@@ -61,18 +45,6 @@ class UserModel extends BaseActiveRecord
     public static function getTableName(): string
     {
         return 'users';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function instance(array $queryData): BaseActiveRecord
-    {
-        return new self(
-            (int)$queryData['id'],
-            $queryData['email'],
-            $queryData['user_name']
-        );
     }
 
     /**
@@ -97,6 +69,30 @@ class UserModel extends BaseActiveRecord
     public function getUserName(): string
     {
         return $this->userName;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $userName
+     */
+    public function setUserName(string $userName): void
+    {
+        $this->userName = $userName;
     }
 }
 

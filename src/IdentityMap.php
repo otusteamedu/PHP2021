@@ -17,35 +17,9 @@ namespace app;
 class IdentityMap
 {
     /**
-     * @var IdentityMap|null $this
-     */
-    private static ?self $instance = null;
-
-    /**
      * @var BaseActiveRecord[]
      */
-    private array $classMap = [];
-
-    /**
-     *
-     */
-    private function __construct()
-    {
-    }
-
-    /**
-     * Экземпляр объекта
-     *
-     * @return IdentityMap
-     */
-    public static function instance(): IdentityMap
-    {
-        if (static::$instance === null) {
-            static::$instance = new static();
-        }
-
-        return static::$instance;
-    }
+    private static array $classMap = [];
 
     /**
      * Добавление AR записи
@@ -60,7 +34,7 @@ class IdentityMap
         }
 
         $key = $this->getActiveRecordKey($activeRecord);
-        static::$instance->classMap[$key] = $activeRecord;
+        self::$classMap[$key] = $activeRecord;
     }
 
     /**
@@ -77,7 +51,7 @@ class IdentityMap
 
         $key = $this->getActiveRecordKey($activeRecord);
 
-        return static::$instance->classMap[$key];
+        return self::$classMap[$key];
     }
 
     /**
@@ -90,7 +64,7 @@ class IdentityMap
     {
         $key = $this->getActiveRecordKey($activeRecord);
 
-        return array_key_exists($key, static::$instance->classMap);
+        return array_key_exists($key, self::$classMap);
     }
 
     /**

@@ -14,6 +14,19 @@ services:
     networks:
       - app-network
 
+  mysql:
+    image: mysql:5.7
+    container_name: otus-mysql
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=verysecret
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=secret
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
