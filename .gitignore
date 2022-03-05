@@ -1,0 +1,6 @@
+.idea
+.env
+dbdata
+rdata
+/vendor
+/tmp

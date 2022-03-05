@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  # PHP
+  app:
+    build:
+      context: ./deploy/fpm
+      dockerfile: Dockerfile
+    image: otus/php2021/app/php
+    container_name: otus-php2021-app
+    environment:
+      LOCAL_HOST: ${LOCAL_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+  # Nginx
+  webserver:
+    build:
+      context: ./deploy/nginx
+      dockerfile: Dockerfile
+    image: otus/php2021/app/nginx
+    container_name: otus-php2021-webserver
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    container_name: otus-php2021-db
+    ports:
+      - "5432:${POSTGRES_PORT}"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./deploy/pg/conf:/etc/postgresql
+      - ./dbdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge
