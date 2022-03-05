@@ -3,22 +3,32 @@
 namespace App;
 
 use App\Application\CinemaSessionRepositoryInterface;
+use DI\Container;
+use DI\ContainerBuilder;
+use Exception;
 
 class App
 {
+    private Container $container;
     private CinemaSessionRepositoryInterface $cinemaSessionRepository;
 
-    public function __construct(
-        CinemaSessionRepositoryInterface $cinemaSessionRepository
-    ) {
-        $this->cinemaSessionRepository = $cinemaSessionRepository;
+    /**
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $this->container =
+            (new ContainerBuilder())->addDefinitions('config/config.php')
+                                    ->build();
+        $this->cinemaSessionRepository =
+            $this->container->get(CinemaSessionRepositoryInterface::class);
     }
 
     public function run(): void
     {
         $sessions = $this->cinemaSessionRepository->findAll();
         if (!empty($sessions)) {
-            echo sprintf(
+            printf(
                 'Movie "%s" show in %s screen at %s',
                 $sessions[0]->getMovie()
                             ->getNameOriginal(),
