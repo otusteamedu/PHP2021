@@ -4,6 +4,8 @@ namespace App;
 
 use App\Application\EventControllerInterface;
 use App\DTO\Response;
+use DI\Container;
+use DI\ContainerBuilder;
 use Exception;
 use Phroute\Phroute\Dispatcher;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
@@ -12,15 +14,21 @@ use Phroute\Phroute\RouteCollector;
 
 class App
 {
+    private Container $container;
     private EventControllerInterface $eventController;
     private RouteCollector $router;
 
-    public function __construct(
-        EventControllerInterface $eventController,
-        RouteCollector $router
-    ) {
-        $this->eventController = $eventController;
-        $this->router = $router;
+    /**
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $this->container =
+            (new ContainerBuilder())->addDefinitions('config/config.php')
+                                    ->build();
+        $this->eventController =
+            $this->container->get(EventControllerInterface::class);
+        $this->router = $this->container->get(RouteCollector::class);
     }
 
     public function run(): void

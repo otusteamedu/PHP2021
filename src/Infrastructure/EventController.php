@@ -19,7 +19,12 @@ class EventController implements EventControllerInterface
 
     public function get(): Response
     {
-        $event = $this->eventRepository->findEventByConditions($_GET);
+        $conditions = array_filter(
+            $_GET,
+            fn($key) => strpos($key, 'param') !== false,
+            ARRAY_FILTER_USE_KEY
+        );
+        $event = $this->eventRepository->findEventByConditions($conditions);
         if ($event === null) {
             return new Response('event is not found', 200);
         }
