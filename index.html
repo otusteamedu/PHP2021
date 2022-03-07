@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ фаст-фуда</title>
+</head>
+<body>
+<form action="index.php" method="post">
+    <p>Выберите продукт:</p>
+    <p><label><input type="radio" name="food_type" value="burger"/></label>Бургер</p>
+    <p><label><input type="radio" name="food_type" value="hotdog"/></label>Хот-дог</p>
+    <p><label><input type="radio" name="food_type" value="sandwich"/></label>Сэндвич</p>
+    <p>Дополнительные опции:</p>
+    <p><label><input type="checkbox" name="ingredients[pepper]" value="1"/></label>Перец</p>
+    <p><label><input type="checkbox" name="ingredients[ketchup]" value="1"/></label>Кетчуп</p>
+    <p><input type="submit"/></p>
+</form>
+</body>
+</html>
