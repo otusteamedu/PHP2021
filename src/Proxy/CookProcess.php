@@ -2,32 +2,34 @@
 
 namespace App\Proxy;
 
-use App\Observer\CookObservation;
+use App\Food\FoodInterface;
+use App\Observer\CookObservationServiceInterface;
 
 class CookProcess implements CookProcessInterface
 {
-    private CookProcessInterface $food;
-    private CookObservation $observation;
+    private CookProcessInterface $process;
+    private CookObservationServiceInterface $observation;
 
     public function __construct(
-        CookProcessInterface $food,
-        CookObservation $observation
+        CookProcessInterface $process,
+        CookObservationServiceInterface $observation
     ) {
-        $this->food = $food;
+        $this->process = $process;
         $this->observation = $observation;
     }
 
-    public function cook(): void
+    public function cookFood(FoodInterface $food): void
     {
-        $this->food->cook();
-        $this->observation->notifyByStatus($this->getStatus());
-        if ($this->getStatus() === CookProcessInterface::STATUS_FAIL) {
-            $this->cook();
+        if ($food->getStatus() === FoodInterface::STATUS_RAW) {
+            $this->observation->start();
         }
-    }
-
-    public function getStatus(): int
-    {
-        return $this->food->getStatus();
+        $this->process->cookFood($food);
+        $this->observation->notify($food->getStatus());
+        if ($food->getStatus() === FoodInterface::STATUS_FAIL) {
+            $this->cookFood($food);
+        }
+        if ($food->getStatus() === FoodInterface::STATUS_DONE) {
+            $this->observation->stop();
+        }
     }
 }

@@ -10,10 +10,8 @@ use App\Decorator\SandwichIngredientMixer;
 use App\Factory\FoodFactory;
 use App\Food\Burger;
 use App\Food\Hotdog;
+use App\Food\Ingredient;
 use App\Food\Sandwich;
-use App\Observer\Cook;
-use App\Observer\CookObservation;
-use App\Observer\Customer;
 use App\Proxy\CookProcess;
 use DI\Container;
 use DI\ContainerBuilder;
@@ -28,7 +26,9 @@ class App
      */
     public function __construct()
     {
-        $this->container =(new ContainerBuilder())->build();
+        $this->container =
+            (new ContainerBuilder())->addDefinitions('config/config.php')
+                                    ->build();
     }
 
     /**
@@ -36,37 +36,42 @@ class App
      */
     public function run(): void
     {
-        $cook = $this->container->get(Cook::class);
-        $customer = $this->container->get(Customer::class);
-        $cookObservation = $this->container->get(CookObservation::class);
-        $cookObservation->attach($cook);
-        $cookObservation->attach($customer);
-
         $food = FoodFactory::get($_POST['food_type'] ?? '')->makeFood();
-        $this->prepare($food);
+        $this->prepareFood($food);
         printf('Food ingredients are %s.<br/>', $food->getIngredientsList());
 
-        $process = new CookProcess($food, $cookObservation);
-        $process->cook();
-
-        $cookObservation->detach($cook);
-        $cookObservation->detach($customer);
+        $process = $this->container->get(CookProcess::class);
+        $process->cookFood($food);
     }
 
-    private function prepare(IngredientMixerInterface $food): void {
+    /**
+     * @throws Exception
+     */
+    private function prepareFood(IngredientMixerInterface $food): void
+    {
         $mixer = $food;
         switch (get_class($food)) {
             case Burger::class:
-                $mixer = new BurgerIngredientMixer($mixer);
+                $mixer = BurgerIngredientMixer::get($mixer);
                 break;
             case Hotdog::class:
-                $mixer = new HotdogIngredientMixer($mixer);
+                $mixer = HotdogIngredientMixer::get($mixer);
                 break;
             case Sandwich::class:
-                $mixer = new SandwichIngredientMixer($mixer);
+                $mixer = SandwichIngredientMixer::get($mixer);
                 break;
         }
-        $mixer = new CustomerIngredientMixer($mixer);
-        $mixer->addIngredients($_POST['ingredients'] ?? []);
+        $mixer = CustomerIngredientMixer::get($mixer);
+        $mixer->addIngredients($this->getIngredients());
+    }
+
+    private function getIngredients(): array
+    {
+        $ingredients = [];
+        foreach ($_POST['ingredients'] ?? [] as $key => $value) {
+            $ingredients[] = new Ingredient($key, $value);
+        }
+
+        return $ingredients;
     }
 }

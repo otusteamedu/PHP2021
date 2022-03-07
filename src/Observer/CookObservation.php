@@ -15,24 +15,24 @@ class CookObservation implements SplSubject
         $this->observers = $observers;
     }
 
-    public function attach(SplObserver $observer)
+    public function attach(SplObserver $observer): void
     {
         $this->observers->attach($observer);
     }
 
-    public function detach(SplObserver $observer)
+    public function detach(SplObserver $observer): void
     {
         $this->observers->detach($observer);
     }
 
-    public function notify()
+    public function notify(): void
     {
         foreach ($this->observers as $observer) {
             $observer->update($this);
         }
     }
 
-    public function notifyByStatus(int $status)
+    public function notifyByStatus(int $status): void
     {
         foreach ($this->observers as $observer) {
             if (get_class($observer) === Customer::class && $status > 0) {

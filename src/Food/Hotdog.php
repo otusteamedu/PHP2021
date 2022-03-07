@@ -2,13 +2,14 @@
 
 namespace App\Food;
 
-use App\Proxy\CookProcessInterface;
-
 class Hotdog extends BaseFood
 {
     public function __clone()
     {
-        $this->ingredients = ['bun', 'sausage'];
-        $this->status = CookProcessInterface::STATUS_RAW;
+        $this->ingredients = [
+            new Ingredient('bun', 1),
+            new Ingredient('sausage', 1),
+        ];
+        $this->status = FoodInterface::STATUS_RAW;
     }
 }

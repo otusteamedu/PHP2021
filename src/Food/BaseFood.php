@@ -2,11 +2,13 @@
 
 namespace App\Food;
 
-use App\Proxy\CookProcessInterface;
-
 class BaseFood implements FoodInterface
 {
     protected int $status;
+
+    /**
+     * @var Ingredient[]
+     */
     protected array $ingredients;
 
     public function getStatus(): int
@@ -18,18 +20,24 @@ class BaseFood implements FoodInterface
     {
         sleep(1);
         $status = rand(1, 10);
-        $this->status = CookProcessInterface::STATUS_DONE;
+        $this->status = FoodInterface::STATUS_DONE;
         if ($status < 5) {
-            $this->status = CookProcessInterface::STATUS_FAIL;
+            $this->status = FoodInterface::STATUS_FAIL;
         }
     }
 
+    /**
+     * @param Ingredient[] $ingredients
+     *
+     * @return void
+     */
     public function addIngredients(array $ingredients = []): void
     {
         $this->ingredients = array_merge($this->ingredients, $ingredients);
     }
 
-    public function getIngredientsList() : string {
+    public function getIngredientsList(): string
+    {
         return implode(', ', $this->ingredients);
     }
 }
