@@ -1,0 +1,237 @@
+[0KRunning with gitlab-runner 14.8.0~beta.44.g57df0d52 (57df0d52)[0;m
+[0K  on blue-1.shared.runners-manager.gitlab.com/default j1aLDqxS[0;m
+section_start:1646757162:prepare_executor
+[0K[0K[36;1mPreparing the "docker+machine" executor[0;m[0;m
+[0KUsing Docker executor with image ruby:2.5 ...[0;m
+[0KPulling docker image ruby:2.5 ...[0;m
+[0KUsing docker image sha256:27d049ce98db4e55ddfaec6cd98c7c9cfd195bc7e994493776959db33522383b for ruby:2.5 with digest ruby@sha256:ecc3e4f5da13d881a415c9692bb52d2b85b090f38f4ad99ae94f932b3598444b ...[0;m
+section_end:1646757168:prepare_executor
+[0Ksection_start:1646757168:prepare_script
+[0K[0K[36;1mPreparing environment[0;m[0;m
+Running on runner-j1aldqxs-project-33872360-concurrent-0 via runner-j1aldqxs-shared-1646757107-4484b019...
+section_end:1646757169:prepare_script
+[0Ksection_start:1646757169:get_sources
+[0K[0K[36;1mGetting source from Git repository[0;m[0;m
+[32;1m$ eval "$CI_PRE_CLONE_SCRIPT"[0;m
+[32;1mFetching changes with git depth set to 20...[0;m
+Initialized empty Git repository in /builds/hugopochta/cicdhm/.git/
+[32;1mCreated fresh repository.[0;m
+[32;1mChecking out 185712f3 as main...[0;m
+
+[32;1mSkipping Git submodules setup[0;m
+section_end:1646757171:get_sources
+[0Ksection_start:1646757171:step_script
+[0K[0K[36;1mExecuting "step_script" stage of the job script[0;m[0;m
+[0KUsing docker image sha256:27d049ce98db4e55ddfaec6cd98c7c9cfd195bc7e994493776959db33522383b for ruby:2.5 with digest ruby@sha256:ecc3e4f5da13d881a415c9692bb52d2b85b090f38f4ad99ae94f932b3598444b ...[0;m
+[32;1m$ apt-get update -qq[0;m
+[32;1m$ apt-get install -qq git[0;m
+[32;1m$ echo "$SSH_PRIVATE_KEY"[0;m
+LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUJsd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFZRUF4aFFWcFc5d04zNGtWanVXV3cvSWhOUk4rL3R2Y2ZvUFdSRzl6Z1RTbENMZS92SzBaMS9FCk1FTVRoTHZlMTZpSFBzajkzRHVod3gyaEphZjhoT3J5OWJIM0U4Vm5Xd1JXQ1JRLy9XdE1pcmU4VWdQNE5xelQ2TnlDRzMKTm5abytFbXZrNXQzSTV4QmwvMWZycExnQUN6TFlVcGpNMmR3NnFncnZyaFNmelhidHMvb20rdlRjdDBJR2VoaWxmZTdFaQp6MmNwVlRNUU5Nb0RYeHNaZ3dqYll5b29UT0VLZGpKYldVZGVEUVBlc1ZZeVI0M3pHbVdiYVJsM3QvbjNDUFpMVnFLYVZvCnpTOGVwTlB3WGFncUkwUFk0bDNmQTB0VE9URVdXaVczMWdSVm1pMEhqSEVXbG5POFpUYVFJbWdnM0ZGaTJwam1EeUl2QWIKSWhqcGQ2YnFTbVZQQVMyekVSdC9DQ1hBeWhVVC9xOTFIN2JJMWtrTnNmNnBrWUUyRERHaXNQY0ZtTWNWUXhJN3hocjBmTQpWRWtBcm9leGZWTmVnUWpjRHpmaDRYYlNXTFg3MUJwSG01KzNneVdxSGw0anpSWk9haEt3NXRuNWRKM1VubEIvUHVJOFVSCnF3YnZCMHhseWtMZVVLanVncWd2Y3BQeDY3WUxBZkRrRDFIdEpSa2JBQUFGaUlyWmNpeUsyWElzQUFBQUIzTnphQzF5YzIKRUFBQUdCQU1ZVUZhVnZjRGQrSkZZN2xsc1B5SVRVVGZ2N2IzSDZEMWtSdmM0RTBwUWkzdjd5dEdkZnhEQkRFNFM3M3RlbwpoejdJL2R3N29jTWRvU1duL0lUcTh2V3g5eFBGWjFzRVZna1VQLzFyVElxM3ZGSUQrRGFzMCtqY2dodHpaMmFQaEpyNU9iCmR5T2NRWmY5WDY2UzRBQXN5MkZLWXpObmNPcW9LNzY0VW44MTI3YlA2SnZyMDNMZENCbm9ZcFgzdXhJczluS1ZVekVEVEsKQTE4YkdZTUkyMk1xS0V6aENuWXlXMWxIWGcwRDNyRldNa2VOOHhwbG0ya1pkN2Y1OXdqMlMxYWltbGFNMHZIcVRUOEYybwpLaU5EMk9KZDN3TkxVemt4RmxvbHQ5WUVWWm90QjR4eEZwWnp2R1Uya0NKb0lOeFJZdHFZNWc4aUx3R3lJWTZYZW02a3BsClR3RXRzeEViZndnbHdNb1ZFLzZ2ZFIrMnlOWkpEYkgrcVpHQk5nd3hvckQzQlpqSEZVTVNPOFlhOUh6RlJKQUs2SHNYMVQKWG9FSTNBODM0ZUYyMGxpMSs5UWFSNXVmdDRNbHFoNWVJODBXVG1vU3NPYlorWFNkMUo1UWZ6N2lQRkVhc0c3d2RNWmNwQwozbENvN29Lb0wzS1Q4ZXUyQ3dIdzVBOVI3U1VaR3dBQUFBTUJBQUVBQUFHQVpxR2ZlYUdkRGxQQXRpR1h6VVVIUzdQSldHCmUySGVOSU1vbGJ4RFNCZTVuNTJ6V2NQZmZENnBIR3VqNnh2eUltT1dUaERFeWxpemg5OThucnNGOGdWaWZJOHFpVTNmY0kKTVJvWjhjKzMwQ1JWWWxXR05hWWxBb0hHdER4K2RnaWsxN3VNcVQxNUt0OWZlbHJRbVRJT1FVMlNzMjdUcUtxanRLdHo1QQpHSU9xZlRXS3U4ZGNQeWJCZk5NSXlkV2JTMWFhdDFJaDBjSjQ0SVl5M2ljUitVdFBQeC82dVd4UmxnZFlqaDlYSnMzNHZlCjcyNWdhT3YrczEwcng5cXZvaWdpaE5YZk1iZ0t5b3M3Y3hiSjkvZGhyVCtmc0VpUkFLS3JwemExaUdUTzk1UllCS1p5VDAKckJ4WXZiaDR0cktCamxoSTdnL3VkWWRpNFFLWktiOFc0eHdSajcwYXlXZXptUFdCV3hIRkdoTW03Vy9xVnZJMkdrM1ZVbQpvSE14VHh0Rll0NDVzR2tLUjRhTXE5R2ZkMk5ERjNjNGt5dW1ML1lXa3FPSkFlMnNPZXBuWU9KNWlwM2M5ZXp4Mm5XYkxDCm5UTXhHQy95Y1ErRko1YXhRUm9hcGtXb1ZaQURyYWltUzdkZ1hqNWRCb0NsOW14TEV2eVk3Szd5ZUorNmw2YWhHeEFBQUEKd0VGUmgxcUZwUnRWdERhQm5aRFI1ZE1HcTAyeWxVSHRMT0lKOWN6NUN6NXVsOEN0Y0F2Z04yTXo5RnZCV0Y0OTdkOVgwWgpRYmNCemRqem16TE5BZ0RGdHpMSWMxcmY2UnZ2VU9xdHpHOFJJM1FwQ2MyMjZPNzJGWWVPOXlTc0FKUFVad3NTYWI2V2pyCjdiVnVWNGw2SWxkcmpQNER5RUJxVVUzMVBESWtGSllzd3N0VFA2cDd4Rm5FSmtaaENoVG9OVlYwZXpKY0I4Tm9Ob3hNTmcKNGJoUUo4My9ZN0YxbDdpN2Y0eGkvbEpsTGJraHQxNEVmSy8xbFo5S0VnN01FZ2pBQUFBTUVBOWVRWXZIRTRqQWc5VDB3MQp2NG82N0JDdW16dUhUOE4wT1orbG5hMlZaUkRCRHB3ektRWHFqcFZTcUhhQ25iVEFRVGZHbUZ5S0puMHg5ZWtPUWRrR1R4Ci9vQjhkQzZlWU1kcVFmZlp2QkFsaVJlMkxsZWRkeWZpOEp6SkRNRXRhd2VqOFlIeDJiVm96WkF0dFJTK2E0UTA4YlpCdnQKMVhrS1BnbXpVR0NNSERiQjFuVU0xUzZxL0JXKzVvMUpRMGJ5NWRveDNOQ3hWTnRVaEpweWR5bDRvQ1ZDWUU0eVZuVHllMwpzeXFnaitDS1FSRktmelVwQ043Z0NTaXJWbmthdHpBQUFBd1FET09NZTdleUFSRGYzaXdhSnJXRi9RSmxEcy9HeGZEaEVYCnV5ZmRDd0FxZnVpellEVkVDKy9QSEtlZHV5TkgvVlZHeTZ2OUYvMVlBV01GRWE1NVNNb0FCN2dlVkpQQTQ4L0FuOS8yWGIKU0NVRkhQK1phWDZhSEl1RjNqc3dxTkpQYXMvZ3o3dGZ4WDZpUnZlVDJMRDA1c0VDZHkyaGJFK29HWEhjcGkvWXFKQXA2NApiSmYwSjlVUCtKRnlwdlhwK1JQMm1uWGp3TWk2YjNoZWdISEN5K2dJQ21KR1BLOTVJSEdQZjhtSm1QZUk1UWJsdm16dXdSCnlCSHlvV2VxQklRYmtBQUFBUWNtOXZkRUJ5ZFhaa2N5MTNZM0p5TkFFQ0F3PT0KLS0tLS1FTkQgT1BFTlNTSCBQUklWQVRFIEtFWS0tLS0tCg==
+[32;1m$ which ssh-agent || ( apt-get install -qq openssh-client )[0;m
+/usr/bin/ssh-agent
+[32;1m$ eval $(ssh-agent -s)[0;m
+Agent pid 266
+[32;1m$ ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)[0;m
+Identity added: /dev/fd/63 (root@ruvds-wcrr4)
+[32;1m$ mkdir -p ~/.ssh[0;m
+[32;1m$ echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config[0;m
+[32;1m$ export NEW_APP_DIR=$(date +build_%Y%m%d%H%M%S)[0;m
+[32;1m$ ssh $REMOTE_SERVER_USER@$REMOTE_SERVER_HOST "cd /var/www/demo && rm -rf ./settings/ && git clone git@gitlab.com:hugopochta/cicdhm_settings.git settings && git clone git@gitlab.com:hugopochta/cicdhm.git $NEW_APP_DIR && cd $NEW_APP_DIR && sh ./install.sh $NEW_APP_DIR && rm -rf ../settings/"[0;m
+Warning: Permanently added '195.133.45.247' (ECDSA) to the list of known hosts.
+Cloning into 'settings'...
+Cloning into 'build_20220308163257'...
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+Do not run Composer as root/super user! See https://getcomposer.org/root for details
+Loading composer repositories with package information
+Installing dependencies (including require-dev) from lock file
+Package operations: 109 installs, 0 updates, 0 removals
+  - Installing doctrine/inflector (2.0.4): Loading from cache
+  - Installing symfony/polyfill-php72 (v1.24.0): Loading from cache
+  - Installing symfony/polyfill-intl-normalizer (v1.24.0): Loading from cache
+  - Installing symfony/polyfill-intl-idn (v1.24.0): Loading from cache
+  - Installing doctrine/lexer (1.2.2): Loading from cache
+  - Installing egulias/email-validator (2.1.25): Loading from cache
+  - Installing voku/portable-ascii (1.6.1): Loading from cache
+  - Installing symfony/translation-contracts (v2.5.0): Loading from cache
+  - Installing symfony/polyfill-php80 (v1.24.0): Loading from cache
+  - Installing symfony/polyfill-mbstring (v1.24.0): Loading from cache
+  - Installing symfony/deprecation-contracts (v2.5.0): Loading from cache
+  - Installing symfony/translation (v5.4.3): Loading from cache
+  - Installing nesbot/carbon (2.56.0): Loading from cache
+  - Installing illuminate/macroable (v8.83.0): Loading from cache
+  - Installing psr/simple-cache (1.0.1): Loading from cache
+  - Installing psr/container (1.1.1): Loading from cache
+  - Installing illuminate/contracts (v8.83.0): Loading from cache
+  - Installing illuminate/collections (v8.83.0): Loading from cache
+  - Installing illuminate/support (v8.83.0): Loading from cache
+  - Installing illuminate/redis (v8.83.0): Loading from cache
+  - Installing symfony/http-foundation (v5.4.3): Loading from cache
+  - Installing symfony/finder (v5.4.3): Loading from cache
+  - Installing illuminate/filesystem (v8.83.0): Loading from cache
+  - Installing illuminate/session (v8.83.0): Loading from cache
+  - Installing symfony/polyfill-ctype (v1.24.0): Loading from cache
+  - Installing phpoption/phpoption (1.8.1): Loading from cache
+  - Installing graham-campbell/result-type (v1.0.4): Loading from cache
+  - Installing vlucas/phpdotenv (v5.4.1): Loading from cache
+  - Installing symfony/var-dumper (v5.4.3): Loading from cache
+  - Installing symfony/mime (v5.4.3): Loading from cache
+  - Installing symfony/polyfill-php73 (v1.24.0): Loading from cache
+  - Installing psr/event-dispatcher (1.0.0): Loading from cache
+  - Installing symfony/event-dispatcher-contracts (v2.5.0): Loading from cache
+  - Installing symfony/event-dispatcher (v5.4.3): Loading from cache
+  - Installing psr/log (1.1.4): Loading from cache
+  - Installing symfony/error-handler (v5.4.3): Loading from cache
+  - Installing symfony/http-kernel (v5.4.4): Loading from cache
+  - Installing symfony/polyfill-intl-grapheme (v1.24.0): Loading from cache
+  - Installing symfony/string (v5.4.3): Loading from cache
+  - Installing symfony/service-contracts (v2.5.0): Loading from cache
+  - Installing symfony/console (v5.4.3): Loading from cache
+  - Installing nikic/fast-route (v1.3.0): Loading from cache
+  - Installing illuminate/container (v8.83.0): Loading from cache
+  - Installing illuminate/pipeline (v8.83.0): Loading from cache
+  - Installing illuminate/bus (v8.83.0): Loading from cache
+  - Installing illuminate/events (v8.83.0): Loading from cache
+  - Installing illuminate/view (v8.83.0): Loading from cache
+  - Installing illuminate/translation (v8.83.0): Loading from cache
+  - Installing illuminate/validation (v8.83.0): Loading from cache
+  - Installing illuminate/testing (v8.83.0): Loading from cache
+  - Installing symfony/process (v5.4.3): Loading from cache
+  - Installing symfony/polyfill-php81 (v1.24.0): Loading from cache
+  - Installing ramsey/collection (1.2.2): Loading from cache
+  - Installing brick/math (0.9.3): Loading from cache
+  - Installing ramsey/uuid (4.2.3): Loading from cache
+  - Installing opis/closure (3.6.3): Loading from cache
+  - Installing laravel/serializable-closure (v1.1.0): Loading from cache
+  - Installing illuminate/database (v8.83.0): Loading from cache
+  - Installing illuminate/console (v8.83.0): Loading from cache
+  - Installing illuminate/queue (v8.83.0): Loading from cache
+  - Installing illuminate/pagination (v8.83.0): Loading from cache
+  - Installing monolog/monolog (2.3.5): Loading from cache
+  - Installing illuminate/log (v8.83.0): Loading from cache
+  - Installing illuminate/http (v8.83.0): Loading from cache
+  - Installing illuminate/hashing (v8.83.0): Loading from cache
+  - Installing illuminate/encryption (v8.83.0): Loading from cache
+  - Installing illuminate/config (v8.83.0): Loading from cache
+  - Installing illuminate/cache (v8.83.0): Loading from cache
+  - Installing illuminate/broadcasting (v8.83.0): Loading from cache
+  - Installing illuminate/auth (v8.83.0): Loading from cache
+  - Installing webmozart/assert (1.10.0): Loading from cache
+  - Installing dragonmantank/cron-expression (v3.3.1): Loading from cache
+  - Installing laravel/lumen-framework (v8.3.4): Loading from cache
+  - Installing pda/pheanstalk (v4.0.4): Loading from cache
+  - Installing fakerphp/faker (v1.19.0): Loading from cache
+  - Installing hamcrest/hamcrest-php (v2.0.1): Loading from cache
+  - Installing mockery/mockery (1.5.0): Loading from cache
+  - Installing phpdocumentor/reflection-common (2.2.0): Loading from cache
+  - Installing phpdocumentor/type-resolver (1.6.0): Loading from cache
+  - Installing phpdocumentor/reflection-docblock (5.3.0): Loading from cache
+  - Installing sebastian/version (3.0.2): Loading from cache
+  - Installing sebastian/type (2.3.4): Loading from cache
+  - Installing sebastian/resource-operations (3.0.3): Loading from cache
+  - Installing sebastian/recursion-context (4.0.4): Loading from cache
+  - Installing sebastian/object-reflector (2.0.4): Loading from cache
+  - Installing sebastian/object-enumerator (4.0.4): Loading from cache
+  - Installing sebastian/global-state (5.0.4): Loading from cache
+  - Installing sebastian/exporter (4.0.4): Loading from cache
+  - Installing sebastian/environment (5.1.3): Loading from cache
+  - Installing sebastian/diff (4.0.4): Loading from cache
+  - Installing sebastian/comparator (4.0.6): Loading from cache
+  - Installing sebastian/code-unit (1.0.8): Loading from cache
+  - Installing sebastian/cli-parser (1.0.1): Loading from cache
+  - Installing phpunit/php-timer (5.0.3): Loading from cache
+  - Installing phpunit/php-text-template (2.0.4): Loading from cache
+  - Installing phpunit/php-invoker (3.1.1): Loading from cache
+  - Installing phpunit/php-file-iterator (3.0.6): Loading from cache
+  - Installing theseer/tokenizer (1.2.1): Loading from cache
+  - Installing nikic/php-parser (v4.13.2): Loading from cache
+  - Installing sebastian/lines-of-code (1.0.3): Loading from cache
+  - Installing sebastian/complexity (2.0.2): Loading from cache
+  - Installing sebastian/code-unit-reverse-lookup (2.0.3): Loading from cache
+  - Installing phpunit/php-code-coverage (9.2.10): Loading from cache
+  - Installing doctrine/instantiator (1.4.0): Loading from cache
+  - Installing phpspec/prophecy (v1.15.0): Loading from cache
+  - Installing phar-io/version (3.1.1): Loading from cache
+  - Installing phar-io/manifest (2.0.3): Loading from cache
+  - Installing myclabs/deep-copy (1.10.2): Loading from cache
+  - Installing phpunit/phpunit (9.5.13): Loading from cache
+symfony/polyfill-intl-normalizer suggests installing ext-intl (For best performance)
+symfony/polyfill-intl-idn suggests installing ext-intl (For best performance)
+egulias/email-validator suggests installing ext-intl (PHP Internationalization Libraries are required to use the SpoofChecking validation)
+voku/portable-ascii suggests installing ext-intl (Use Intl for transliterator_transliterate() support)
+symfony/translation suggests installing symfony/config
+symfony/translation suggests installing symfony/yaml
+illuminate/support suggests installing league/commonmark (Required to use Str::markdown() and Stringable::markdown() (^1.3|^2.0.2).)
+illuminate/redis suggests installing predis/predis (Required to use the predis connector (^1.1.9).)
+illuminate/filesystem suggests installing league/flysystem (Required to use the Flysystem local and FTP drivers (^1.1).)
+illuminate/filesystem suggests installing league/flysystem-aws-s3-v3 (Required to use the Flysystem S3 driver (^1.0).)
+illuminate/filesystem suggests installing league/flysystem-cached-adapter (Required to use the Flysystem cache (^1.0).)
+illuminate/filesystem suggests installing league/flysystem-sftp (Required to use the Flysystem SFTP driver (^1.0).)
+illuminate/filesystem suggests installing psr/http-message (Required to allow Storage::put to accept a StreamInterface (^1.0).)
+illuminate/filesystem suggests installing symfony/filesystem (Required to enable support for relative symbolic links (^5.4).)
+symfony/var-dumper suggests installing ext-intl (To show region name in time zone dump)
+symfony/event-dispatcher suggests installing symfony/dependency-injection
+symfony/http-kernel suggests installing symfony/browser-kit
+symfony/http-kernel suggests installing symfony/config
+symfony/http-kernel suggests installing symfony/dependency-injection
+symfony/polyfill-intl-grapheme suggests installing ext-intl (For best performance)
+symfony/service-contracts suggests installing symfony/service-implementation
+symfony/console suggests installing symfony/lock
+illuminate/validation suggests installing ext-bcmath (Required to use the multiple_of validation rule.)
+illuminate/testing suggests installing brianium/paratest (Required to run tests in parallel (^6.0).)
+ramsey/uuid suggests installing ext-bcmath (Enables faster math with arbitrary-precision integers using BCMath.)
+ramsey/uuid suggests installing ext-uuid (Enables the use of PeclUuidTimeGenerator and PeclUuidRandomGenerator.)
+ramsey/uuid suggests installing paragonie/random-lib (Provides RandomLib for use with the RandomLibAdapter)
+ramsey/uuid suggests installing ramsey/uuid-doctrine (Allows the use of Ramsey\Uuid\Uuid as Doctrine field type.)
+illuminate/database suggests installing doctrine/dbal (Required to rename columns and drop SQLite columns (^2.13.3|^3.1.4).)
+illuminate/console suggests installing guzzlehttp/guzzle (Required to use the ping methods on schedules (^6.5.5|^7.0.1).)
+illuminate/queue suggests installing aws/aws-sdk-php (Required to use the SQS queue driver and DynamoDb failed job storage (^3.198.1).)
+monolog/monolog suggests installing aws/aws-sdk-php (Allow sending log messages to AWS services like DynamoDB)
+monolog/monolog suggests installing doctrine/couchdb (Allow sending log messages to a CouchDB server)
+monolog/monolog suggests installing elasticsearch/elasticsearch (Allow sending log messages to an Elasticsearch server via official client)
+monolog/monolog suggests installing ext-amqp (Allow sending log messages to an AMQP server (1.0+ required))
+monolog/monolog suggests installing ext-mongodb (Allow sending log messages to a MongoDB server (via driver))
+monolog/monolog suggests installing graylog2/gelf-php (Allow sending log messages to a GrayLog2 server)
+monolog/monolog suggests installing mongodb/mongodb (Allow sending log messages to a MongoDB server (via library))
+monolog/monolog suggests installing php-amqplib/php-amqplib (Allow sending log messages to an AMQP server using php-amqplib)
+monolog/monolog suggests installing php-console/php-console (Allow sending log messages to Google Chrome)
+monolog/monolog suggests installing rollbar/rollbar (Allow sending log messages to Rollbar)
+monolog/monolog suggests installing ruflin/elastica (Allow sending log messages to an Elastic Search server)
+illuminate/http suggests installing guzzlehttp/guzzle (Required to use the HTTP Client (^6.5.5|^7.0.1).)
+illuminate/cache suggests installing ext-memcached (Required to use the memcache cache driver.)
+illuminate/cache suggests installing symfony/cache (Required to PSR-6 cache bridge (^5.4).)
+illuminate/broadcasting suggests installing ably/ably-php (Required to use the Ably broadcast driver (^1.0).)
+illuminate/broadcasting suggests installing pusher/pusher-php-server (Required to use the Pusher broadcast driver (^4.0|^5.0|^6.0|^7.0).)
+laravel/lumen-framework suggests installing laravel/tinker (Required to use the tinker console command (^2.0).)
+laravel/lumen-framework suggests installing nyholm/psr7 (Required to use PSR-7 bridging features (^1.2).)
+laravel/lumen-framework suggests installing symfony/psr-http-message-bridge (Required to use PSR-7 bridging features (^2.0).)
+fakerphp/faker suggests installing doctrine/orm (Required to use Faker\ORM\Doctrine)
+sebastian/global-state suggests installing ext-uopz (*)
+phpunit/php-code-coverage suggests installing ext-pcov (*)
+phpunit/php-code-coverage suggests installing ext-xdebug (*)
+phpunit/phpunit suggests installing ext-soap (*)
+phpunit/phpunit suggests installing ext-xdebug (*)
+Generating optimized autoload files
+62 packages you are using are looking for funding.
+Use the `composer fund` command to find out more!
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+Migration table created successfully.
+Migrating: 2022_02_10_082822_create_jobs_table
+Migrated:  2022_02_10_082822_create_jobs_table (220.92ms)
+Migrating: 2022_02_10_090514_query_table
+Migrated:  2022_02_10_090514_query_table (277.63ms)
+Migrating: 2022_02_10_093815_create_failed_jobs_table
+Migrated:  2022_02_10_093815_create_failed_jobs_table (183.70ms)
+Migrating: 2022_02_10_101928_create_job_batches_table
+Migrated:  2022_02_10_101928_create_job_batches_table (409.79ms)
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+Database seeding completed successfully.
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+sudo: unable to resolve host ruvds-wcrr4: Name or service not known
+section_end:1646757203:step_script
+[0Ksection_start:1646757203:cleanup_file_variables
+[0K[0K[36;1mCleaning up project directory and file based variables[0;m[0;m
+section_end:1646757203:cleanup_file_variables
+[0K[32;1mJob succeeded[0;m
