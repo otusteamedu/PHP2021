@@ -1,0 +1,15 @@
+{
+  "type": "package",
+  "require": {
+    "php": ">=7.4",
+    "elasticsearch/elasticsearch": "~7.0",
+    "ext-json": "*",
+    "google/apiclient":"^2.0",
+    "php-di/php-di": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  }
+}
