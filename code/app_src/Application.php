@@ -21,26 +21,30 @@ class Application
         if (RequestValidator::checkRequestIsEmpty($_POST)) {
             throw new \Exception('Empty request');
         }
-        $this->request = $_POST;
+
         $this->ElasticSearchInterface = new ESStorage();
-        $this->appHelper = new AppHelper($this->request);
         $this->statisticsManager = new StatisticsManager($this->ElasticSearchInterface);
+
+        if (!RequestValidator::checkMainFields($_POST, $this->ElasticSearchInterface)) {
+            throw new \Exception('Main fields missing or empty');
+        }
+
+        $this->request = $_POST;
     }
 
     public function run()
     {
-        $arData = $this->appHelper->getRequestBody();
         switch($this->request['tab-btn']) {
           case 'add':
-            $result = $this->ElasticSearchInterface->insert($arData);
+            $result = $this->ElasticSearchInterface->insert($this->request);
             break;
 
           case 'delete':
-            $result = $this->ElasticSearchInterface->delete($arData);
+            $result = $this->ElasticSearchInterface->delete($this->request);
             break;
 
           case 'info':
-            $result = $this->statisticsManager->getChannelSummary($arData['id']);
+            $result = $this->statisticsManager->getChannelSummary($this->request['id']);
             break;
 
           case 'top':

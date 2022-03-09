@@ -13,4 +13,15 @@ class RequestValidator
     {
         return empty($request) ? true : false;
     }
+
+    public static function checkMainFields($request, $storageInterface)
+    {
+        foreach ($storageInterface->getMainFields() as $field) {
+            if (!isset($request[$field]) || empty($request[$field])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
