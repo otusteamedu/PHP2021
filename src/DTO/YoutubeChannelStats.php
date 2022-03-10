@@ -27,22 +27,18 @@ class YoutubeChannelStats
         $this->likesToViewsPercentage = $likesToViewsPercentage;
     }
 
-    public function __toString(): string
+    public function toArray(): array
     {
-        $str = sprintf(
-            'channel_id: %s, total_views: %s, total_likes: %s',
-            $this->channelId,
-            $this->totalViews,
-            $this->totalLikes
-        );
+        $item = [
+            'channel_id'  => $this->channelId,
+            'total_views' => $this->totalViews,
+            'total_likes' => $this->totalLikes,
+        ];
         if ($this->likesToViewsPercentage !== null) {
-            $str .= sprintf(
-                ', likes_to _views_percentage: %s',
-                $this->likesToViewsPercentage
-            );
+            $item['likes_to_views_percentage'] = $this->likesToViewsPercentage;
         }
 
-        return $str;
+        return $item;
     }
 
     public function getChannelId(): string

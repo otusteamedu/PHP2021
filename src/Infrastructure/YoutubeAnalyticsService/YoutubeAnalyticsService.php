@@ -2,11 +2,12 @@
 
 namespace App\Infrastructure\YoutubeAnalyticsService;
 
+use App\Application\YoutubeAnalyticsServiceInterface;
 use App\Application\YoutubeEsRepositoryInterface;
 use App\DTO\YoutubeChannelStats;
 use Exception;
 
-class YoutubeAnalyticsService
+class YoutubeAnalyticsService implements YoutubeAnalyticsServiceInterface
 {
     private YoutubeEsRepositoryInterface $repository;
     private array $totalLikesViewsByChannelStatement;
