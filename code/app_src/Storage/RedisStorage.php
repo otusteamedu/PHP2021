@@ -12,8 +12,8 @@ class RedisStorage implements StorageInterface
   {
     $this->client = new \Predis\Client([
       'scheme' => 'tcp',
-      'host'   => '172.17.0.1',
-      'port'   => 6379,
+      'host'   => getenv('LOCAL_HOST'),
+      'port'   => getenv('REDIS_PORT'),
     ]);
   }
 
@@ -38,7 +38,7 @@ class RedisStorage implements StorageInterface
     $eventIds = $this->getSuitableEventIds($arData['user_params']);
     $arEventPriority = $this->getEventPriorityArray($eventIds);
     asort($arEventPriority);
-    
+
     return array_key_last($arEventPriority);
   }
 
@@ -46,7 +46,6 @@ class RedisStorage implements StorageInterface
   {
     $eventIds = [];
     $conditionKeys = $this->getConditionKeys($conditionKey);
-
 
     foreach ($conditionKeys as $key) {
       $eventIds = array_merge($eventIds, $this->client->lrange($key, 0, -1));
@@ -68,13 +67,12 @@ class RedisStorage implements StorageInterface
 
   private function getConditionKeys($fullKey)
   {
-      $conditionKeys = [];
-      $conditionKeys = array_merge($conditionKeys, $this->client->keys("conditions:$fullKey"));
+    $conditionKeys = $this->client->keys("conditions:$fullKey");
 
-      foreach (explode(',', $fullKey) as $keyPart) {
-          $conditionKeys = array_merge($conditionKeys, $this->client->keys('conditions:'.trim($keyPart)));
-      }
+    foreach (explode(',', $fullKey) as $keyPart) {
+        $conditionKeys = array_merge($conditionKeys, $this->client->keys('conditions:'.trim($keyPart)));
+    }
 
-      return $conditionKeys;
+    return $conditionKeys;
   }
 }

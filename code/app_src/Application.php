@@ -27,24 +27,24 @@ class Application
 
     public function run()
     {
-        switch($this->request['action']) {
-          case 'Добавить':
-            $result = $this->storageInterface->insert($this->request);
-            break;
+      switch($this->request['action']) {
+        case 'Добавить':
+          $result = $this->storageInterface->insert($this->request);
+          break;
 
-          case 'Удалить':
-            $result = $this->storageInterface->deleteAll();
-            break;
+        case 'Удалить':
+          $result = $this->storageInterface->deleteAll();
+          break;
 
-          case 'Запрос':
-            $result = $this->storageInterface->searchEvent($this->request);
-            break;
+        case 'Запрос':
+          $result = $this->storageInterface->searchEvent($this->request);
+          break;
 
-          default:
-            throw new \Exception('No action');
-            break;
-        }
+        default:
+          throw new \Exception('No action');
+          break;
+      }
 
-        print_r($result);
+      print_r($result);
     }
 }
