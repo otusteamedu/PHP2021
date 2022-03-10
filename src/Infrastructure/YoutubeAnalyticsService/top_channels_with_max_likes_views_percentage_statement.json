@@ -1,0 +1,48 @@
+{
+    "size": 0,
+    "aggs": {
+        "youtube_channel_total_stats": {
+            "terms": {
+                "field": "id"
+            },
+            "aggs": {
+                "videos": {
+                    "nested": {
+                        "path": "videos"
+                    },
+                    "aggs": {
+                        "total_likes": {
+                            "sum": {
+                                "field": "videos.like_count"
+                            }
+                        },
+                        "total_views": {
+                            "sum": {
+                                "field": "videos.view_count"
+                            }
+                        }
+                    }
+                },
+                "likes_to_views_percentage": {
+                    "bucket_script": {
+                        "buckets_path": {
+                            "likesSum": "videos>total_likes",
+                            "viewsSum": "videos>total_views"
+                        },
+                        "script": "params.likesSum \/ params.viewsSum * 100"
+                    }
+                },
+                "final_sort": {
+                    "bucket_sort": {
+                        "sort": {
+                            "likes_to_views_percentage": {
+                                "order": "desc"
+                            }
+                        },
+                        "size": 1
+                    }
+                }
+            }
+        }
+    }
+}

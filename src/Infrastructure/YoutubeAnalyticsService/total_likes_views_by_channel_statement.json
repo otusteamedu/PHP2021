@@ -1,0 +1,27 @@
+{
+    "size": 0,
+    "query": {
+        "match": {
+            "id": ""
+        }
+    },
+    "aggs": {
+        "videos": {
+            "nested": {
+                "path": "videos"
+            },
+            "aggs": {
+                "total_likes": {
+                    "sum": {
+                        "field": "videos.like_count"
+                    }
+                },
+                "total_views": {
+                    "sum": {
+                        "field": "videos.view_count"
+                    }
+                }
+            }
+        }
+    }
+}

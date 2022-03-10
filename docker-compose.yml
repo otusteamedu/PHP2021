@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  # PHP
+  app:
+    build:
+      context: ./deploy/fpm
+      dockerfile: Dockerfile
+    image: otus/php2021/app/php
+    container_name: otus-php2021-app
+    environment:
+      LOCAL_HOST: ${LOCAL_HOST}
+      ES_PORT: ${ES_PORT}
+      YOUTUBE_API_KEY: ${YOUTUBE_API_KEY}
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+  # Nginx
+  webserver:
+    build:
+      context: ./deploy/nginx
+      dockerfile: Dockerfile
+    image: otus/php2021/app/nginx
+    container_name: otus-php2021-webserver
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    container_name: otus-php2021-es
+    ports:
+      - "9200:${ES_PORT}"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    volumes:
+      - ./esdata:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+
+# Docker Networks
+networks:
+  app-network:
+    driver: bridge

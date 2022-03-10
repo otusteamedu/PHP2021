@@ -1,0 +1,29 @@
+{
+  "mappings": {
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text"
+        },
+        "videos": {
+          "type": "nested",
+          "properties": {
+            "id": {
+              "type": "keyword"
+            },
+            "title": {
+              "type": "text"
+            },
+            "view_count": {
+              "type": "long"
+            },
+            "like_count": {
+              "type": "long"
+            }
+          }
+        }
+      }
+  }
+}
