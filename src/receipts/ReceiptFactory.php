@@ -2,20 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: itily
- * Date: 05.03.2022
- * Time: 12:12
+ * Date: 11.03.2022
+ * Time: 19:59
  */
 
 namespace app\receipts;
 
-
 /**
- * Выбор продукта
+ * Рецепт
  *
- * Class ReceiptCreateFactory
- * @package app\dishes
+ * Class ReceiptFactory
+ * @package app\receipts
  */
-class ReceiptCreateFactory
+class ReceiptFactory
 {
     /**
      *
@@ -31,7 +30,7 @@ class ReceiptCreateFactory
      */
     public static function burger(): ReceiptInterface
     {
-        return new Burger();
+        return new BurgerReceipt();
     }
 
     /**
@@ -41,7 +40,7 @@ class ReceiptCreateFactory
      */
     public static function sandwich(): ReceiptInterface
     {
-        return new Sandwich();
+        return new SandwichReceipt();
     }
 
     /**
@@ -51,6 +50,6 @@ class ReceiptCreateFactory
      */
     public static function hotDog(): ReceiptInterface
     {
-        return new HotDog();
+        return new HotDogReceipt();
     }
 }

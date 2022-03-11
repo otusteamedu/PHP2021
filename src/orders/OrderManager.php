@@ -17,7 +17,7 @@ use app\events\OrderEvent;
  * Class CookManager
  * @package app\orders
  */
-class CookManager implements CookManagerInterface
+class OrderManager implements OrderManagerInterface
 {
     /**
      * Заказ

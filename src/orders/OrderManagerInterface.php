@@ -14,7 +14,7 @@ namespace app\orders;
  * Class CookManagerInterface
  * @package app\orders
  */
-interface CookManagerInterface
+interface OrderManagerInterface
 {
     /**
      * Начало приготовления

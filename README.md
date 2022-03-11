@@ -1,19 +1,19 @@
 # PHP2021 Home Work 18 (Паттерны проектирования)
 
 ### 1. Абстрактная фабрика
-Реализация в классе ReceiptCreateFactory
+Реализация в классе ProductFactory
 
 ### 2. Декоратор добавления ингредиента
-Реализация в классе AddIngredient
+Реализация в классе Dish
 
 ### 3. Наблюдатель
 Реализация в классе EventManager
 
 ### 4. Прокси
-Реализация в классе CookManagerChecker
+Реализация в классе OrderManagerChecker
 
 ### 5. Стратегия
-Реализация в классе DishManager
+Реализация в классе CookDish
 
 ### Запуск скрипта
 В консоли выполнить команду php index.php [название блюда (burger, sandwich, hotDog)]

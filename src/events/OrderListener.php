@@ -63,7 +63,7 @@ class OrderListener implements ListenerInterface
         echo "Ингредиенты:" . PHP_EOL;
 
         foreach ($ingredients as $ingredient) {
-            echo " - " . $ingredient::getTitle() . PHP_EOL;
+            echo " - " . $ingredient . PHP_EOL;
         }
     }
 }

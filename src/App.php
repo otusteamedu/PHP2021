@@ -2,19 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: itily
- * Date: 05.03.2022
- * Time: 12:00
+ * Date: 10.03.2022
+ * Time: 17:44
  */
 
 namespace app;
 
-use app\dishes\AddIngredient;
-use app\dishes\DishManager;
-use app\ingredients\CheeseIngredient;
-use app\ingredients\ChileSauceIngredient;
-use app\orders\CookManagerFactory;
-use app\orders\Order;
-use app\receipts\ReceiptCreateFactory;
+use app\dishes\CookDish;
+use app\receipts\ReceiptFactory;
 use Exception;
 
 /**
@@ -34,34 +29,22 @@ class App
 
         switch ($receiptName) {
             case 'burger':
-                $receipt = ReceiptCreateFactory::burger();
+                $receipt = ReceiptFactory::burger();
 
                 break;
             case 'sandwich':
-                $receipt = ReceiptCreateFactory::sandwich();
+                $receipt = ReceiptFactory::sandwich();
 
                 break;
             case 'hotDog':
-                $receipt = ReceiptCreateFactory::hotDog();
+                $receipt = ReceiptFactory::hotDog();
 
                 break;
             default:
-                throw new Exception("Receipt not found");
+                throw new Exception("Рецепт не найден");
         }
 
-        $dishManager = new DishManager();
-        $dishManager->setReceipt($receipt);
-
-        $dish = $dishManager->getDish();
-
-        $dish = new AddIngredient($dish, new ChileSauceIngredient());
-        $dish = new AddIngredient($dish, new CheeseIngredient());
-
-        $order = new Order($dish);
-
-        $cookManager = CookManagerFactory::checker($order);
-        $cookManager->start();
-
-        $cookManager->done();
+        $cookDish = new CookDish($receipt);
+        $cookDish->execute();
     }
 }

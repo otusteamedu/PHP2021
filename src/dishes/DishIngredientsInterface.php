@@ -2,26 +2,24 @@
 /**
  * Created by PhpStorm.
  * User: itily
- * Date: 09.03.2022
- * Time: 11:28
+ * Date: 10.03.2022
+ * Time: 20:38
  */
 
 namespace app\dishes;
 
-use app\ingredients\IngredientInterface;
-
 /**
+ * Ингредиенты блюда
  *
- *
- * Class DishInterface
+ * Class DishIngredientsInterface
  * @package app\dishes
  */
 interface DishIngredientsInterface
 {
     /**
+     * Список ингредиентов
      *
-     *
-     * @return IngredientInterface[]
+     * @return array
      */
     public function getIngredients(): array;
 }

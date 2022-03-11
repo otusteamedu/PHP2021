@@ -2,14 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: itily
- * Date: 05.03.2022
- * Time: 12:15
+ * Date: 11.03.2022
+ * Time: 16:28
  */
 
 namespace app\receipts;
 
-
-use app\dishes\DishIngredientsInterface;
+use app\dishes\Dish;
 
 /**
  * Рецепт
@@ -17,12 +16,12 @@ use app\dishes\DishIngredientsInterface;
  * Class ReceiptInterface
  * @package app\receipts
  */
-interface ReceiptInterface extends DishIngredientsInterface
+interface ReceiptInterface
 {
     /**
-     * Название блюда
+     * Создание блюда
      *
-     * @return string
+     * @return Dish
      */
-    public static function getTitle(): string;
+    public function make(): Dish;
 }

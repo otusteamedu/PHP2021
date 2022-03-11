@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: itily
- * Date: 05.03.2022
- * Time: 15:32
+ * Date: 10.03.2022
+ * Time: 17:43
  */
 
 namespace app\dishes;
@@ -12,24 +12,35 @@ namespace app\dishes;
 /**
  * Блюдо
  *
- * Class Dish
+ * Class AdditionIngredient
  * @package app\dishes
  */
 class Dish implements DishIngredientsInterface
 {
     /**
-     * Рецепт
+     * Ингредиенты блюда
      *
      * @var DishIngredientsInterface
      */
-    private DishIngredientsInterface $ingredients;
+    private DishIngredientsInterface $dish;
 
     /**
-     * @param DishIngredientsInterface $ingredients
+     * @param DishIngredientsInterface $dish
      */
-    public function __construct(DishIngredientsInterface $ingredients)
+    private function __construct(DishIngredientsInterface $dish)
     {
-        $this->ingredients = $ingredients;
+        $this->dish = $dish;
+    }
+
+    /**
+     * Добавить ингредиент к блюду
+     *
+     * @param DishIngredientsInterface $dish
+     * @return static
+     */
+    public static function addToDish(DishIngredientsInterface $dish): self
+    {
+        return new static($dish);
     }
 
     /**
@@ -37,8 +48,8 @@ class Dish implements DishIngredientsInterface
      */
     public function getIngredients(): array
     {
-        $ingredients = $this->ingredients;
-
-        return $ingredients->getIngredients();
+        return $this
+            ->dish
+            ->getIngredients();
     }
 }

@@ -14,19 +14,19 @@ namespace app\orders;
  * Class CookManagerChecker
  * @package app\orders
  */
-class CookManagerChecker implements CookManagerInterface
+class OrderManagerChecker implements OrderManagerInterface
 {
     /**
      * Менеджер приготовления заказа
      *
-     * @var CookManager
+     * @var OrderManager
      */
-    private CookManager $cookManager;
+    private OrderManager $cookManager;
 
     /**
-     * @param CookManager $cookManager
+     * @param OrderManager $cookManager
      */
-    public function __construct(CookManager $cookManager)
+    public function __construct(OrderManager $cookManager)
     {
         $this->cookManager = $cookManager;
     }
