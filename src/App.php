@@ -26,23 +26,7 @@ class App
     public function run(array $argv)
     {
         list(, $receiptName) = $argv;
-
-        switch ($receiptName) {
-            case 'burger':
-                $receipt = ReceiptFactory::burger();
-
-                break;
-            case 'sandwich':
-                $receipt = ReceiptFactory::sandwich();
-
-                break;
-            case 'hotDog':
-                $receipt = ReceiptFactory::hotDog();
-
-                break;
-            default:
-                throw new Exception("Рецепт не найден");
-        }
+        $receipt = ReceiptFactory::create($receiptName);
 
         $cookDish = new CookDish($receipt);
         $cookDish->execute();

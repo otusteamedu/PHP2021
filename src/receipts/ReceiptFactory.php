@@ -8,6 +8,8 @@
 
 namespace app\receipts;
 
+use Exception;
+
 /**
  * Рецепт
  *
@@ -21,6 +23,33 @@ class ReceiptFactory
      */
     private function __construct()
     {
+    }
+
+    /**
+     * Поиск рецепта
+     *
+     * @throws Exception
+     */
+    public static function create(string $receiptName): ReceiptInterface
+    {
+        switch ($receiptName) {
+            case 'burger':
+                $receipt = self::burger();
+
+                break;
+            case 'sandwich':
+                $receipt = self::sandwich();
+
+                break;
+            case 'hotDog':
+                $receipt = self::hotDog();
+
+                break;
+            default:
+                throw new Exception("Рецепт не найден");
+        }
+
+        return $receipt;
     }
 
     /**
