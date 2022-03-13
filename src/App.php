@@ -17,22 +17,12 @@ class App
     /**
      * @throws Exception
      */
-    public function __construct(?string $type = null)
+    public function __construct()
     {
         $this->container =
             (new ContainerBuilder())->addDefinitions('config/config.php')
                                     ->build();
-
-        switch ($type) {
-            case ServiceInterface::SERVER:
-                $this->service = $this->container->get(Server::class);
-                break;
-            case ServiceInterface::CLIENT:
-                $this->service = $this->container->get(Client::class);
-                break;
-            default:
-                throw new Exception('unknown service type');
-        }
+        $this->service = $this->container->get(ServiceInterface::class);
     }
 
     /**

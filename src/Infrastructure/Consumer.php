@@ -4,7 +4,6 @@ namespace App\Infrastructure;
 
 use App\Application\Contracts\BankStatementServiceInterface;
 use App\Application\Contracts\ConsumerInterface;
-use App\Domain\BankStatement;
 use App\Utils\ConsoleOutput;
 use Closure;
 use Exception;
@@ -77,14 +76,7 @@ class Consumer implements ConsumerInterface
                 'request in process'
             );
             try {
-                $body = json_decode($req->getBody(), true);
-                if (is_null($body)) {
-                    throw new Exception('incorrect request body');
-                }
-                $statement = new BankStatement(
-                    $body['date_from'], $body['date_to'], $body['email']
-                );
-                $this->service->generate($statement);
+                $this->service->execute($req->getBody());
             } catch (Exception $e) {
                 ConsoleOutput::info(
                     $req->get('correlation_id'),
