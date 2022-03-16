@@ -73,7 +73,7 @@ class ApplicationServer
 
                 break;
             }
-            $msgSent = 'Received ' . mb_strlen($msgReseived) . ' byte';
+            $msgSent = 'Полученно ' . mb_strlen($msgReseived) . ' байт';
             socket_write($this->connection, $msgSent);
         } while (true);
     }
