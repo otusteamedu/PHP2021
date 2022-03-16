@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/socket-chat
+    container_name: chat-server
+    volumes:
+      - ./code:/var/www/otus_hm3.local
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/socket-chat
+    container_name: chat-client
+    volumes:
+      - ./code:/var/www/otus_hm3.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
