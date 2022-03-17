@@ -34,8 +34,14 @@ class RequestService  implements RequestServiceInterface
         $request = $this->requestRepository->findRequestById($idRequest);
         $response = new RequestIsCreatedDto();
         $response->status = $request->getStatus();
-        
+
         return $response;
+    }
+
+    public function findAllRequests(): array
+    {
+        return  $this->requestRepository->findAllRequests();
+
     }
 
 }

@@ -10,4 +10,5 @@ interface RequestServiceInterface
 {
     public function createRequest(CreateRequestDto $dto):RequestIsCreatedDto;
     public function getStatus(int $idRequest): RequestIsCreatedDto;
+    public function findAllRequests(): array;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Repository;
 
+use Exception;
 use PDO;
 use PDOStatement;
 use App\Domain\Entity\Request;
@@ -12,6 +13,7 @@ class RequestMapper
 {
     private PDO          $pdo;
     private PDOStatement $selectStatement;
+    private PDOStatement $selectAllStatement;
     private PDOStatement $insertStatement;
     private PDOStatement $updateStatement;
     private PDOStatement $deleteStatement;
@@ -26,7 +28,7 @@ class RequestMapper
             'INSERT INTO requests (first_name, email, phone, date1, date2, status) VALUES (?, ?, ?, ?, ?, ?)'
         );
         $this->updateStatement = $pdo->prepare(
-            'UPDATE requests SET first_name = ?, email = ?, phone =?, date1 = ?, date2 = ?,status = ? WHERE id = ?'
+            'UPDATE requests SET status = ? WHERE id = ?'
         );
         $this->deleteStatement = $pdo->prepare(
             'DELETE FROM requests WHERE id = ?'
@@ -39,6 +41,8 @@ class RequestMapper
         $this->selectStatement->execute([$id]);
 
         $result = $this->selectStatement->fetch();
+
+        if(!is_array($result)) throw new Exception('Данный запрос отсутствует!');
 
         $request = new Request(
             (string)$result['first_name'],
@@ -69,16 +73,23 @@ class RequestMapper
         return $request;
     }
 
-    public function update(Request $request): bool
+    public function update(int $id): bool
     {
         return $this->updateStatement->execute([
-            $request->getFirstName(),
-            $request->getLastName(),
-            $request->getAge(),
-            $request->getEmail(),
-            $request->isStatusStudent(),
-            $request->getId(),
+            TRUE,
+            $id
         ]);
+    }
+
+    public function select(): array
+    {
+        //echo$this->selectAllStatement->fetch();
+        //echo $this->selectAllStatement->execute();
+
+        $result = $this->pdo->query('SELECT * FROM requests')->fetchAll(PDO::FETCH_ASSOC);
+        if(!is_array($result)) throw new Exception('Запросов нет!');
+
+        return $result;
     }
 
     public function delete(Request $request): bool

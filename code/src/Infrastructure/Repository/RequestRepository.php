@@ -38,7 +38,7 @@ class RequestRepository implements RequestRepositoryInterface
             $dto::$date2
         );
         $request->setStatus(false);
-        //var_dump($request->getStatus());
+
         return $this->requestMapper->insert($request);
     }
 
@@ -47,4 +47,17 @@ class RequestRepository implements RequestRepositoryInterface
         return  $this->requestMapper->findById($id);
 
     }
+
+    public function findAllRequests(): array
+    {
+        return  $this->requestMapper->select();
+
+    }
+
+    public function updateStatusRequest(int $id): bool
+    {
+        return  $this->requestMapper->update($id);
+
+    }
+
 }

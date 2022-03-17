@@ -11,4 +11,6 @@ interface RequestRepositoryInterface
     public function createRequest(CreateRequestDto $dto): Request;
 
     public function findRequestById(int $id): Request;
+
+    public function findAllRequests(): array;
 }

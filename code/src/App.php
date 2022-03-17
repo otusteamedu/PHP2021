@@ -7,7 +7,6 @@ use App\Infrastructure\Components\Router;
 
 class App
 {
-
     public function run():void
     {
         $app = new Router();

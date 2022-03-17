@@ -8,7 +8,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class SendRabbitMQ
 {
-    private string $queue = 'email_queue';
+    private string $queue = 'request_queue';
 
     public function __construct(){
         $config = ROOT .'/config/amqpconfig.php';

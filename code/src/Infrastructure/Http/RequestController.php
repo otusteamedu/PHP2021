@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Infrastructure\Http;
 
 use App\Application\Input\CreateRequestDto;
+use App\Application\Output\RequestIsCreatedDto;
 use App\Application\Service\RequestService;
 use App\Domain\Contract\RequestServiceInterface;
+use App\Infrastructure\Services\SendRabbitMQ;
 
 
 class RequestController
@@ -21,8 +23,14 @@ class RequestController
 
     }
 
+
+    /*
+     * @Rest\GET("/api/v1/requests")
+     */
     public function actionIndex(){
-        echo '134';
+        $responseDto = $this->requestService->findAllRequests();
+        http_response_code(200);
+        echo json_encode($responseDto);
     }
 
     /*
@@ -30,29 +38,34 @@ class RequestController
      */
     public function actionView(array $param):void
     {
-        $idRequest = (int)$param['id'];
 
-        $responseDto = $this->requestService->getStatus($idRequest);
-        //чтение очереди
-        //$getStatus = $responseDto->status;
-        http_response_code(200);
-        echo json_encode($responseDto);
+            $idRequest = (int)$param['id'];
+
+            $responseDto = $this->requestService->getStatus($idRequest);
+
+            http_response_code(200);
+            echo json_encode($responseDto);
 
     }
+
 
     /*
      * @Rest\Post("/api/v1/requests")
      */
     public function actionCreate():void
     {
-        $body = json_decode(file_get_contents('php://input'),true);
 
-        $dto = CreateRequestDto::fromArray($body);
-        $responseDto = $this->requestService->createRequest($dto);
+            $body = json_decode(file_get_contents('php://input'),true);
 
-        //В очередь!
-        http_response_code(201);
-        echo json_encode($responseDto);
+            $dto = CreateRequestDto::fromArray($body);
+            $responseDto = $this->requestService->createRequest($dto);
+
+            http_response_code(201);
+            echo json_encode($responseDto);
+
+            //В очередь!
+            $messageBody = json_encode($responseDto);
+            (new SendRabbitMQ())->execute($messageBody);
 
     }
 
