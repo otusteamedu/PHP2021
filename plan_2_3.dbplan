@@ -1,0 +1,118 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T21:53:13.338273600",
+  "sql": "-- Простой запрос 2 - Определение прибыльности каждого сеанса\r\nSELECT\r\n    session_id,\r\n    sum(price) AS profit\r\nFROM\r\n    cinema_tickets\r\nWHERE\r\n    status \u003d 1\r\nGROUP BY\r\n    session_id",
+  "root": [
+    {
+      "name": "",
+      "kind": "Aggregate",
+      "type": "Aggregate",
+      "cond": "",
+      "desc": "",
+      "attributes": [
+        {
+          "Strategy": "Sorted"
+        },
+        {
+          "Partial-Mode": "Simple"
+        },
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Startup-Cost": "0.42"
+        },
+        {
+          "Total-Cost": "32185.60"
+        },
+        {
+          "Plan-Rows": "43342"
+        },
+        {
+          "Plan-Width": "40"
+        },
+        {
+          "Actual-Startup-Time": "0.022"
+        },
+        {
+          "Actual-Total-Time": "230.948"
+        },
+        {
+          "Actual-Rows": "56632"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Group-Key": "\n        session_id\n      "
+        }
+      ],
+      "child": [
+        {
+          "name": "cinema_tickets",
+          "kind": "Index scan",
+          "type": "Index Scan",
+          "cond": "(status \u003d 1)",
+          "desc": "(status \u003d 1)",
+          "attributes": [
+            {
+              "Parent-Relationship": "Outer"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Scan-Direction": "Forward"
+            },
+            {
+              "Index-Name": "cinema_tickets_session_idx"
+            },
+            {
+              "Relation-Name": "cinema_tickets"
+            },
+            {
+              "Alias": "cinema_tickets"
+            },
+            {
+              "Startup-Cost": "0.42"
+            },
+            {
+              "Total-Cost": "29145.42"
+            },
+            {
+              "Plan-Rows": "499681"
+            },
+            {
+              "Plan-Width": "13"
+            },
+            {
+              "Actual-Startup-Time": "0.010"
+            },
+            {
+              "Actual-Total-Time": "153.068"
+            },
+            {
+              "Actual-Rows": "504797"
+            },
+            {
+              "Actual-Loops": "1"
+            },
+            {
+              "Filter": "(status \u003d 1)"
+            },
+            {
+              "Rows-Removed-by-Filter": "505203"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

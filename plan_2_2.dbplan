@@ -1,0 +1,292 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T18:23:17.594870",
+  "sql": "-- Простой запрос 2 - Определение прибыльности каждого сеанса\r\nSELECT\r\n    session_id,\r\n    sum(price) AS profit\r\nFROM\r\n    cinema_tickets\r\nWHERE\r\n    status \u003d 1\r\nGROUP BY\r\n    session_id",
+  "root": [
+    {
+      "name": "",
+      "kind": "Aggregate",
+      "type": "Aggregate",
+      "cond": "",
+      "desc": "",
+      "attributes": [
+        {
+          "Strategy": "Sorted"
+        },
+        {
+          "Partial-Mode": "Finalize"
+        },
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Startup-Cost": "32938.32"
+        },
+        {
+          "Total-Cost": "44244.06"
+        },
+        {
+          "Plan-Rows": "43342"
+        },
+        {
+          "Plan-Width": "40"
+        },
+        {
+          "Actual-Startup-Time": "285.723"
+        },
+        {
+          "Actual-Total-Time": "353.795"
+        },
+        {
+          "Actual-Rows": "56632"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Group-Key": "\n        session_id\n      "
+        }
+      ],
+      "child": [
+        {
+          "name": "",
+          "kind": "Merge",
+          "type": "Gather Merge",
+          "cond": "",
+          "desc": "",
+          "attributes": [
+            {
+              "Parent-Relationship": "Outer"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Startup-Cost": "32938.32"
+            },
+            {
+              "Total-Cost": "43052.16"
+            },
+            {
+              "Plan-Rows": "86684"
+            },
+            {
+              "Plan-Width": "40"
+            },
+            {
+              "Actual-Startup-Time": "285.714"
+            },
+            {
+              "Actual-Total-Time": "323.144"
+            },
+            {
+              "Actual-Rows": "57660"
+            },
+            {
+              "Actual-Loops": "1"
+            },
+            {
+              "Workers-Planned": "2"
+            },
+            {
+              "Workers-Launched": "2"
+            }
+          ],
+          "child": [
+            {
+              "name": "",
+              "kind": "Sort",
+              "type": "Sort",
+              "cond": "",
+              "desc": "",
+              "attributes": [
+                {
+                  "Parent-Relationship": "Outer"
+                },
+                {
+                  "Parallel-Aware": "false"
+                },
+                {
+                  "Async-Capable": "false"
+                },
+                {
+                  "Startup-Cost": "31938.30"
+                },
+                {
+                  "Total-Cost": "32046.65"
+                },
+                {
+                  "Plan-Rows": "43342"
+                },
+                {
+                  "Plan-Width": "40"
+                },
+                {
+                  "Actual-Startup-Time": "234.374"
+                },
+                {
+                  "Actual-Total-Time": "236.291"
+                },
+                {
+                  "Actual-Rows": "19220"
+                },
+                {
+                  "Actual-Loops": "3"
+                },
+                {
+                  "Sort-Key": "\n                session_id\n              "
+                },
+                {
+                  "Sort-Method": "quicksort"
+                },
+                {
+                  "Sort-Space-Used": "3831"
+                },
+                {
+                  "Sort-Space-Type": "Memory"
+                },
+                {
+                  "Workers": "\n                \n                  0\n                  quicksort\n                  2978\n                  Memory\n                \n                \n                  1\n                  quicksort\n                  3056\n                  Memory\n                \n              "
+                }
+              ],
+              "child": [
+                {
+                  "name": "",
+                  "kind": "Aggregate",
+                  "type": "Aggregate",
+                  "cond": "",
+                  "desc": "",
+                  "attributes": [
+                    {
+                      "Strategy": "Hashed"
+                    },
+                    {
+                      "Partial-Mode": "Partial"
+                    },
+                    {
+                      "Parent-Relationship": "Outer"
+                    },
+                    {
+                      "Parallel-Aware": "false"
+                    },
+                    {
+                      "Async-Capable": "false"
+                    },
+                    {
+                      "Startup-Cost": "26025.23"
+                    },
+                    {
+                      "Total-Cost": "28600.21"
+                    },
+                    {
+                      "Plan-Rows": "43342"
+                    },
+                    {
+                      "Plan-Width": "40"
+                    },
+                    {
+                      "Actual-Startup-Time": "165.917"
+                    },
+                    {
+                      "Actual-Total-Time": "229.454"
+                    },
+                    {
+                      "Actual-Rows": "19220"
+                    },
+                    {
+                      "Actual-Loops": "3"
+                    },
+                    {
+                      "Group-Key": "\n                    session_id\n                  "
+                    },
+                    {
+                      "Planned-Partitions": "4"
+                    },
+                    {
+                      "HashAgg-Batches": "5"
+                    },
+                    {
+                      "Peak-Memory-Usage": "4273"
+                    },
+                    {
+                      "Disk-Usage": "3600"
+                    },
+                    {
+                      "Workers": "\n                    \n                      0\n                      5\n                      4273\n                      2824\n                    \n                    \n                      1\n                      5\n                      4273\n                      2824\n                    \n                  "
+                    }
+                  ],
+                  "child": [
+                    {
+                      "name": "cinema_tickets",
+                      "kind": "Node",
+                      "type": "Seq Scan",
+                      "cond": "(status \u003d 1)",
+                      "desc": "(status \u003d 1)",
+                      "attributes": [
+                        {
+                          "Parent-Relationship": "Outer"
+                        },
+                        {
+                          "Parallel-Aware": "true"
+                        },
+                        {
+                          "Async-Capable": "false"
+                        },
+                        {
+                          "Relation-Name": "cinema_tickets"
+                        },
+                        {
+                          "Alias": "cinema_tickets"
+                        },
+                        {
+                          "Startup-Cost": "0.00"
+                        },
+                        {
+                          "Total-Cost": "12687.42"
+                        },
+                        {
+                          "Plan-Rows": "208200"
+                        },
+                        {
+                          "Plan-Width": "13"
+                        },
+                        {
+                          "Actual-Startup-Time": "0.008"
+                        },
+                        {
+                          "Actual-Total-Time": "36.961"
+                        },
+                        {
+                          "Actual-Rows": "168266"
+                        },
+                        {
+                          "Actual-Loops": "3"
+                        },
+                        {
+                          "Filter": "(status \u003d 1)"
+                        },
+                        {
+                          "Rows-Removed-by-Filter": "168401"
+                        },
+                        {
+                          "Workers": "\n                      "
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

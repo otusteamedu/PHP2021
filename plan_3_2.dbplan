@@ -1,0 +1,180 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T18:23:34.676339200",
+  "sql": "-- Простой запрос 3 - Определение количества еще не проданных на каждый сеанс билетов\r\nSELECT\r\n    session_id,\r\n    count(*) as not_sold_tickets\r\nFROM\r\n    cinema_tickets\r\nWHERE\r\n    status \u003d 0\r\nGROUP BY\r\n    session_id\r\nORDER BY\r\n    session_id",
+  "root": [
+    {
+      "name": "",
+      "kind": "Sort",
+      "type": "Sort",
+      "cond": "",
+      "desc": "",
+      "attributes": [
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Startup-Cost": "26375.10"
+        },
+        {
+          "Total-Cost": "26483.46"
+        },
+        {
+          "Plan-Rows": "43342"
+        },
+        {
+          "Plan-Width": "16"
+        },
+        {
+          "Actual-Startup-Time": "507.351"
+        },
+        {
+          "Actual-Total-Time": "511.028"
+        },
+        {
+          "Actual-Rows": "56604"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Sort-Key": "\n        session_id\n      "
+        },
+        {
+          "Sort-Method": "quicksort"
+        },
+        {
+          "Sort-Space-Used": "4019"
+        },
+        {
+          "Sort-Space-Type": "Memory"
+        }
+      ],
+      "child": [
+        {
+          "name": "",
+          "kind": "Aggregate",
+          "type": "Aggregate",
+          "cond": "",
+          "desc": "",
+          "attributes": [
+            {
+              "Strategy": "Hashed"
+            },
+            {
+              "Partial-Mode": "Simple"
+            },
+            {
+              "Parent-Relationship": "Outer"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Startup-Cost": "22603.60"
+            },
+            {
+              "Total-Cost": "23037.01"
+            },
+            {
+              "Plan-Rows": "43342"
+            },
+            {
+              "Plan-Width": "16"
+            },
+            {
+              "Actual-Startup-Time": "368.193"
+            },
+            {
+              "Actual-Total-Time": "495.788"
+            },
+            {
+              "Actual-Rows": "56604"
+            },
+            {
+              "Actual-Loops": "1"
+            },
+            {
+              "Group-Key": "\n            session_id\n          "
+            },
+            {
+              "Planned-Partitions": "0"
+            },
+            {
+              "HashAgg-Batches": "5"
+            },
+            {
+              "Peak-Memory-Usage": "4145"
+            },
+            {
+              "Disk-Usage": "7144"
+            }
+          ],
+          "child": [
+            {
+              "name": "cinema_tickets",
+              "kind": "Node",
+              "type": "Seq Scan",
+              "cond": "(status \u003d 0)",
+              "desc": "(status \u003d 0)",
+              "attributes": [
+                {
+                  "Parent-Relationship": "Outer"
+                },
+                {
+                  "Parallel-Aware": "false"
+                },
+                {
+                  "Async-Capable": "false"
+                },
+                {
+                  "Relation-Name": "cinema_tickets"
+                },
+                {
+                  "Alias": "cinema_tickets"
+                },
+                {
+                  "Startup-Cost": "0.00"
+                },
+                {
+                  "Total-Cost": "20052.00"
+                },
+                {
+                  "Plan-Rows": "510319"
+                },
+                {
+                  "Plan-Width": "8"
+                },
+                {
+                  "Actual-Startup-Time": "0.009"
+                },
+                {
+                  "Actual-Total-Time": "94.233"
+                },
+                {
+                  "Actual-Rows": "505203"
+                },
+                {
+                  "Actual-Loops": "1"
+                },
+                {
+                  "Filter": "(status \u003d 0)"
+                },
+                {
+                  "Rows-Removed-by-Filter": "504797"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

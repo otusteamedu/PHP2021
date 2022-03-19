@@ -1,0 +1,124 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T17:50:27.808270",
+  "sql": "-- Простой запрос 2 - Определение прибыльности каждого сеанса\r\nSELECT\r\n    session_id,\r\n    sum(price) AS profit\r\nFROM\r\n    cinema_tickets\r\nWHERE\r\n    status \u003d 1\r\nGROUP BY\r\n    session_id",
+  "root": [
+    {
+      "name": "",
+      "kind": "Aggregate",
+      "type": "Aggregate",
+      "cond": "",
+      "desc": "",
+      "attributes": [
+        {
+          "Strategy": "Hashed"
+        },
+        {
+          "Partial-Mode": "Simple"
+        },
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Startup-Cost": "224.00"
+        },
+        {
+          "Total-Cost": "231.08"
+        },
+        {
+          "Plan-Rows": "566"
+        },
+        {
+          "Plan-Width": "40"
+        },
+        {
+          "Actual-Startup-Time": "2.203"
+        },
+        {
+          "Actual-Total-Time": "2.349"
+        },
+        {
+          "Actual-Rows": "562"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Group-Key": "\n        session_id\n      "
+        },
+        {
+          "Planned-Partitions": "0"
+        },
+        {
+          "HashAgg-Batches": "1"
+        },
+        {
+          "Peak-Memory-Usage": "297"
+        },
+        {
+          "Disk-Usage": "0"
+        }
+      ],
+      "child": [
+        {
+          "name": "cinema_tickets",
+          "kind": "Node",
+          "type": "Seq Scan",
+          "cond": "(status \u003d 1)",
+          "desc": "(status \u003d 1)",
+          "attributes": [
+            {
+              "Parent-Relationship": "Outer"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Relation-Name": "cinema_tickets"
+            },
+            {
+              "Alias": "cinema_tickets"
+            },
+            {
+              "Startup-Cost": "0.00"
+            },
+            {
+              "Total-Cost": "199.00"
+            },
+            {
+              "Plan-Rows": "5001"
+            },
+            {
+              "Plan-Width": "13"
+            },
+            {
+              "Actual-Startup-Time": "0.009"
+            },
+            {
+              "Actual-Total-Time": "1.007"
+            },
+            {
+              "Actual-Rows": "5001"
+            },
+            {
+              "Actual-Loops": "1"
+            },
+            {
+              "Filter": "(status \u003d 1)"
+            },
+            {
+              "Rows-Removed-by-Filter": "4999"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
