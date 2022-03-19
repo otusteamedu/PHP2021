@@ -1,0 +1,703 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T22:03:21.837447500",
+  "sql": "-- Сложный запрос 3 - Самый прибыльный фильм\r\nWITH\r\n    movie_profit_ranks AS (\r\n        WITH\r\n            session_profit AS (\r\n                SELECT\r\n                    session_id,\r\n                    sum(price) AS profit\r\n                FROM\r\n                    cinema_tickets\r\n                WHERE\r\n                    status \u003d 1\r\n                GROUP BY\r\n                    session_id)\r\n        SELECT\r\n            cs.movie_id,\r\n            cm.name_original                           AS movie_name,\r\n            sum(sp.profit)                             AS movie_profit,\r\n            rank() OVER (ORDER BY SUM(sp.profit) desc) AS rnk\r\n        FROM\r\n            cinema_sessions AS cs\r\n                JOIN session_profit AS sp ON sp.session_id \u003d cs.id\r\n                JOIN cinema_movies AS cm ON cm.id \u003d cs.movie_id\r\n        GROUP BY\r\n            cs.movie_id,\r\n            cm.name_original\r\n    )\r\nSELECT\r\n    movie_name,\r\n    movie_profit\r\nFROM\r\n    movie_profit_ranks\r\nWHERE\r\n    rnk \u003d 1",
+  "root": [
+    {
+      "name": "",
+      "kind": "Node",
+      "type": "Subquery Scan",
+      "cond": "(movie_profit_ranks.rnk \u003d 1)",
+      "desc": "(movie_profit_ranks.rnk \u003d 1)",
+      "attributes": [
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Alias": "movie_profit_ranks"
+        },
+        {
+          "Startup-Cost": "35133.79"
+        },
+        {
+          "Total-Cost": "35169.79"
+        },
+        {
+          "Plan-Rows": "6"
+        },
+        {
+          "Plan-Width": "150"
+        },
+        {
+          "Actual-Startup-Time": "288.384"
+        },
+        {
+          "Actual-Total-Time": "288.392"
+        },
+        {
+          "Actual-Rows": "1"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Filter": "(movie_profit_ranks.rnk \u003d 1)"
+        },
+        {
+          "Rows-Removed-by-Filter": "5"
+        }
+      ],
+      "child": [
+        {
+          "name": "",
+          "kind": "Node",
+          "type": "WindowAgg",
+          "cond": "",
+          "desc": "",
+          "attributes": [
+            {
+              "Parent-Relationship": "Subquery"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Startup-Cost": "35133.79"
+            },
+            {
+              "Total-Cost": "35154.79"
+            },
+            {
+              "Plan-Rows": "1200"
+            },
+            {
+              "Plan-Width": "162"
+            },
+            {
+              "Actual-Startup-Time": "288.383"
+            },
+            {
+              "Actual-Total-Time": "288.390"
+            },
+            {
+              "Actual-Rows": "6"
+            },
+            {
+              "Actual-Loops": "1"
+            }
+          ],
+          "child": [
+            {
+              "name": "",
+              "kind": "Sort",
+              "type": "Sort",
+              "cond": "",
+              "desc": "",
+              "attributes": [
+                {
+                  "Parent-Relationship": "Outer"
+                },
+                {
+                  "Parallel-Aware": "false"
+                },
+                {
+                  "Async-Capable": "false"
+                },
+                {
+                  "Startup-Cost": "35133.79"
+                },
+                {
+                  "Total-Cost": "35136.79"
+                },
+                {
+                  "Plan-Rows": "1200"
+                },
+                {
+                  "Plan-Width": "154"
+                },
+                {
+                  "Actual-Startup-Time": "288.374"
+                },
+                {
+                  "Actual-Total-Time": "288.377"
+                },
+                {
+                  "Actual-Rows": "6"
+                },
+                {
+                  "Actual-Loops": "1"
+                },
+                {
+                  "Sort-Key": "\n                (sum(sp.profit)) DESC\n              "
+                },
+                {
+                  "Sort-Method": "quicksort"
+                },
+                {
+                  "Sort-Space-Used": "25"
+                },
+                {
+                  "Sort-Space-Type": "Memory"
+                }
+              ],
+              "child": [
+                {
+                  "name": "",
+                  "kind": "Aggregate",
+                  "type": "Aggregate",
+                  "cond": "",
+                  "desc": "",
+                  "attributes": [
+                    {
+                      "Strategy": "Hashed"
+                    },
+                    {
+                      "Partial-Mode": "Simple"
+                    },
+                    {
+                      "Parent-Relationship": "Outer"
+                    },
+                    {
+                      "Parallel-Aware": "false"
+                    },
+                    {
+                      "Async-Capable": "false"
+                    },
+                    {
+                      "Startup-Cost": "35057.42"
+                    },
+                    {
+                      "Total-Cost": "35072.42"
+                    },
+                    {
+                      "Plan-Rows": "1200"
+                    },
+                    {
+                      "Plan-Width": "154"
+                    },
+                    {
+                      "Actual-Startup-Time": "288.359"
+                    },
+                    {
+                      "Actual-Total-Time": "288.367"
+                    },
+                    {
+                      "Actual-Rows": "6"
+                    },
+                    {
+                      "Actual-Loops": "1"
+                    },
+                    {
+                      "Group-Key": "\n                    cs.movie_id\n                    cm.name_original\n                  "
+                    },
+                    {
+                      "Planned-Partitions": "0"
+                    },
+                    {
+                      "HashAgg-Batches": "1"
+                    },
+                    {
+                      "Peak-Memory-Usage": "73"
+                    },
+                    {
+                      "Disk-Usage": "0"
+                    }
+                  ],
+                  "child": [
+                    {
+                      "name": "",
+                      "kind": "Hash",
+                      "type": "Hash Join",
+                      "cond": "(cs.movie_id \u003d cm.id)",
+                      "desc": "",
+                      "attributes": [
+                        {
+                          "Parent-Relationship": "Outer"
+                        },
+                        {
+                          "Parallel-Aware": "false"
+                        },
+                        {
+                          "Async-Capable": "false"
+                        },
+                        {
+                          "Join-Type": "Inner"
+                        },
+                        {
+                          "Startup-Cost": "33177.55"
+                        },
+                        {
+                          "Total-Cost": "34732.36"
+                        },
+                        {
+                          "Plan-Rows": "43342"
+                        },
+                        {
+                          "Plan-Width": "154"
+                        },
+                        {
+                          "Actual-Startup-Time": "246.477"
+                        },
+                        {
+                          "Actual-Total-Time": "276.208"
+                        },
+                        {
+                          "Actual-Rows": "56632"
+                        },
+                        {
+                          "Actual-Loops": "1"
+                        },
+                        {
+                          "Inner-Unique": "true"
+                        },
+                        {
+                          "Hash-Cond": "(cs.movie_id \u003d cm.id)"
+                        }
+                      ],
+                      "child": [
+                        {
+                          "name": "",
+                          "kind": "Hash",
+                          "type": "Hash Join",
+                          "cond": "(cs.id \u003d sp.session_id)",
+                          "desc": "",
+                          "attributes": [
+                            {
+                              "Parent-Relationship": "Outer"
+                            },
+                            {
+                              "Parallel-Aware": "false"
+                            },
+                            {
+                              "Async-Capable": "false"
+                            },
+                            {
+                              "Join-Type": "Inner"
+                            },
+                            {
+                              "Startup-Cost": "33160.80"
+                            },
+                            {
+                              "Total-Cost": "34600.23"
+                            },
+                            {
+                              "Plan-Rows": "43342"
+                            },
+                            {
+                              "Plan-Width": "36"
+                            },
+                            {
+                              "Actual-Startup-Time": "246.461"
+                            },
+                            {
+                              "Actual-Total-Time": "267.331"
+                            },
+                            {
+                              "Actual-Rows": "56632"
+                            },
+                            {
+                              "Actual-Loops": "1"
+                            },
+                            {
+                              "Inner-Unique": "true"
+                            },
+                            {
+                              "Hash-Cond": "(cs.id \u003d sp.session_id)"
+                            }
+                          ],
+                          "child": [
+                            {
+                              "name": "cinema_sessions",
+                              "kind": "Node",
+                              "type": "Seq Scan",
+                              "cond": "",
+                              "desc": "",
+                              "attributes": [
+                                {
+                                  "Parent-Relationship": "Outer"
+                                },
+                                {
+                                  "Parallel-Aware": "false"
+                                },
+                                {
+                                  "Async-Capable": "false"
+                                },
+                                {
+                                  "Relation-Name": "cinema_sessions"
+                                },
+                                {
+                                  "Alias": "cs"
+                                },
+                                {
+                                  "Startup-Cost": "0.00"
+                                },
+                                {
+                                  "Total-Cost": "1240.56"
+                                },
+                                {
+                                  "Plan-Rows": "75756"
+                                },
+                                {
+                                  "Plan-Width": "12"
+                                },
+                                {
+                                  "Actual-Startup-Time": "0.003"
+                                },
+                                {
+                                  "Actual-Total-Time": "6.789"
+                                },
+                                {
+                                  "Actual-Rows": "75756"
+                                },
+                                {
+                                  "Actual-Loops": "1"
+                                }
+                              ]
+                            },
+                            {
+                              "name": "",
+                              "kind": "Hash",
+                              "type": "Hash",
+                              "cond": "",
+                              "desc": "",
+                              "attributes": [
+                                {
+                                  "Parent-Relationship": "Inner"
+                                },
+                                {
+                                  "Parallel-Aware": "false"
+                                },
+                                {
+                                  "Async-Capable": "false"
+                                },
+                                {
+                                  "Startup-Cost": "32619.02"
+                                },
+                                {
+                                  "Total-Cost": "32619.02"
+                                },
+                                {
+                                  "Plan-Rows": "43342"
+                                },
+                                {
+                                  "Plan-Width": "40"
+                                },
+                                {
+                                  "Actual-Startup-Time": "246.434"
+                                },
+                                {
+                                  "Actual-Total-Time": "246.435"
+                                },
+                                {
+                                  "Actual-Rows": "56632"
+                                },
+                                {
+                                  "Actual-Loops": "1"
+                                },
+                                {
+                                  "Hash-Buckets": "65536"
+                                },
+                                {
+                                  "Original-Hash-Buckets": "65536"
+                                },
+                                {
+                                  "Hash-Batches": "1"
+                                },
+                                {
+                                  "Original-Hash-Batches": "1"
+                                },
+                                {
+                                  "Peak-Memory-Usage": "3167"
+                                }
+                              ],
+                              "child": [
+                                {
+                                  "name": "",
+                                  "kind": "Node",
+                                  "type": "Subquery Scan",
+                                  "cond": "",
+                                  "desc": "",
+                                  "attributes": [
+                                    {
+                                      "Parent-Relationship": "Outer"
+                                    },
+                                    {
+                                      "Parallel-Aware": "false"
+                                    },
+                                    {
+                                      "Async-Capable": "false"
+                                    },
+                                    {
+                                      "Alias": "sp"
+                                    },
+                                    {
+                                      "Startup-Cost": "0.42"
+                                    },
+                                    {
+                                      "Total-Cost": "32619.02"
+                                    },
+                                    {
+                                      "Plan-Rows": "43342"
+                                    },
+                                    {
+                                      "Plan-Width": "40"
+                                    },
+                                    {
+                                      "Actual-Startup-Time": "0.025"
+                                    },
+                                    {
+                                      "Actual-Total-Time": "236.905"
+                                    },
+                                    {
+                                      "Actual-Rows": "56632"
+                                    },
+                                    {
+                                      "Actual-Loops": "1"
+                                    }
+                                  ],
+                                  "child": [
+                                    {
+                                      "name": "",
+                                      "kind": "Aggregate",
+                                      "type": "Aggregate",
+                                      "cond": "",
+                                      "desc": "",
+                                      "attributes": [
+                                        {
+                                          "Strategy": "Sorted"
+                                        },
+                                        {
+                                          "Partial-Mode": "Simple"
+                                        },
+                                        {
+                                          "Parent-Relationship": "Subquery"
+                                        },
+                                        {
+                                          "Parallel-Aware": "false"
+                                        },
+                                        {
+                                          "Async-Capable": "false"
+                                        },
+                                        {
+                                          "Startup-Cost": "0.42"
+                                        },
+                                        {
+                                          "Total-Cost": "32185.60"
+                                        },
+                                        {
+                                          "Plan-Rows": "43342"
+                                        },
+                                        {
+                                          "Plan-Width": "40"
+                                        },
+                                        {
+                                          "Actual-Startup-Time": "0.025"
+                                        },
+                                        {
+                                          "Actual-Total-Time": "232.708"
+                                        },
+                                        {
+                                          "Actual-Rows": "56632"
+                                        },
+                                        {
+                                          "Actual-Loops": "1"
+                                        },
+                                        {
+                                          "Group-Key": "\n                                        cinema_tickets.session_id\n                                      "
+                                        }
+                                      ],
+                                      "child": [
+                                        {
+                                          "name": "cinema_tickets",
+                                          "kind": "Index scan",
+                                          "type": "Index Scan",
+                                          "cond": "(status \u003d 1)",
+                                          "desc": "(status \u003d 1)",
+                                          "attributes": [
+                                            {
+                                              "Parent-Relationship": "Outer"
+                                            },
+                                            {
+                                              "Parallel-Aware": "false"
+                                            },
+                                            {
+                                              "Async-Capable": "false"
+                                            },
+                                            {
+                                              "Scan-Direction": "Forward"
+                                            },
+                                            {
+                                              "Index-Name": "cinema_tickets_session_idx"
+                                            },
+                                            {
+                                              "Relation-Name": "cinema_tickets"
+                                            },
+                                            {
+                                              "Alias": "cinema_tickets"
+                                            },
+                                            {
+                                              "Startup-Cost": "0.42"
+                                            },
+                                            {
+                                              "Total-Cost": "29145.42"
+                                            },
+                                            {
+                                              "Plan-Rows": "499681"
+                                            },
+                                            {
+                                              "Plan-Width": "13"
+                                            },
+                                            {
+                                              "Actual-Startup-Time": "0.013"
+                                            },
+                                            {
+                                              "Actual-Total-Time": "156.461"
+                                            },
+                                            {
+                                              "Actual-Rows": "504797"
+                                            },
+                                            {
+                                              "Actual-Loops": "1"
+                                            },
+                                            {
+                                              "Filter": "(status \u003d 1)"
+                                            },
+                                            {
+                                              "Rows-Removed-by-Filter": "505203"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "",
+                          "kind": "Hash",
+                          "type": "Hash",
+                          "cond": "",
+                          "desc": "",
+                          "attributes": [
+                            {
+                              "Parent-Relationship": "Inner"
+                            },
+                            {
+                              "Parallel-Aware": "false"
+                            },
+                            {
+                              "Async-Capable": "false"
+                            },
+                            {
+                              "Startup-Cost": "13.00"
+                            },
+                            {
+                              "Total-Cost": "13.00"
+                            },
+                            {
+                              "Plan-Rows": "300"
+                            },
+                            {
+                              "Plan-Width": "122"
+                            },
+                            {
+                              "Actual-Startup-Time": "0.012"
+                            },
+                            {
+                              "Actual-Total-Time": "0.013"
+                            },
+                            {
+                              "Actual-Rows": "6"
+                            },
+                            {
+                              "Actual-Loops": "1"
+                            },
+                            {
+                              "Hash-Buckets": "1024"
+                            },
+                            {
+                              "Original-Hash-Buckets": "1024"
+                            },
+                            {
+                              "Hash-Batches": "1"
+                            },
+                            {
+                              "Original-Hash-Batches": "1"
+                            },
+                            {
+                              "Peak-Memory-Usage": "9"
+                            }
+                          ],
+                          "child": [
+                            {
+                              "name": "cinema_movies",
+                              "kind": "Node",
+                              "type": "Seq Scan",
+                              "cond": "",
+                              "desc": "",
+                              "attributes": [
+                                {
+                                  "Parent-Relationship": "Outer"
+                                },
+                                {
+                                  "Parallel-Aware": "false"
+                                },
+                                {
+                                  "Async-Capable": "false"
+                                },
+                                {
+                                  "Relation-Name": "cinema_movies"
+                                },
+                                {
+                                  "Alias": "cm"
+                                },
+                                {
+                                  "Startup-Cost": "0.00"
+                                },
+                                {
+                                  "Total-Cost": "13.00"
+                                },
+                                {
+                                  "Plan-Rows": "300"
+                                },
+                                {
+                                  "Plan-Width": "122"
+                                },
+                                {
+                                  "Actual-Startup-Time": "0.008"
+                                },
+                                {
+                                  "Actual-Total-Time": "0.009"
+                                },
+                                {
+                                  "Actual-Rows": "6"
+                                },
+                                {
+                                  "Actual-Loops": "1"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

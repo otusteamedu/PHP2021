@@ -1,0 +1,233 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T22:02:16.516698500",
+  "sql": "-- Простой запрос 3 - Определение количества еще не проданных на каждый сеанс билетов\r\nSELECT\r\n    session_id,\r\n    count(*) as not_sold_tickets\r\nFROM\r\n    cinema_tickets\r\nWHERE\r\n    status \u003d 0\r\nGROUP BY\r\n    session_id\r\nORDER BY\r\n    session_id",
+  "root": [
+    {
+      "name": "",
+      "kind": "Sort",
+      "type": "Sort",
+      "cond": "",
+      "desc": "",
+      "attributes": [
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Startup-Cost": "24507.11"
+        },
+        {
+          "Total-Cost": "24615.46"
+        },
+        {
+          "Plan-Rows": "43342"
+        },
+        {
+          "Plan-Width": "16"
+        },
+        {
+          "Actual-Startup-Time": "515.777"
+        },
+        {
+          "Actual-Total-Time": "519.492"
+        },
+        {
+          "Actual-Rows": "56604"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Sort-Key": "\n        session_id\n      "
+        },
+        {
+          "Sort-Method": "quicksort"
+        },
+        {
+          "Sort-Space-Used": "4019"
+        },
+        {
+          "Sort-Space-Type": "Memory"
+        }
+      ],
+      "child": [
+        {
+          "name": "",
+          "kind": "Aggregate",
+          "type": "Aggregate",
+          "cond": "",
+          "desc": "",
+          "attributes": [
+            {
+              "Strategy": "Hashed"
+            },
+            {
+              "Partial-Mode": "Simple"
+            },
+            {
+              "Parent-Relationship": "Outer"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Startup-Cost": "20735.60"
+            },
+            {
+              "Total-Cost": "21169.02"
+            },
+            {
+              "Plan-Rows": "43342"
+            },
+            {
+              "Plan-Width": "16"
+            },
+            {
+              "Actual-Startup-Time": "391.101"
+            },
+            {
+              "Actual-Total-Time": "505.624"
+            },
+            {
+              "Actual-Rows": "56604"
+            },
+            {
+              "Actual-Loops": "1"
+            },
+            {
+              "Group-Key": "\n            session_id\n          "
+            },
+            {
+              "Planned-Partitions": "0"
+            },
+            {
+              "HashAgg-Batches": "5"
+            },
+            {
+              "Peak-Memory-Usage": "4145"
+            },
+            {
+              "Disk-Usage": "7144"
+            }
+          ],
+          "child": [
+            {
+              "name": "cinema_tickets",
+              "kind": "Node",
+              "type": "Bitmap Heap Scan",
+              "cond": "",
+              "desc": "",
+              "attributes": [
+                {
+                  "Parent-Relationship": "Outer"
+                },
+                {
+                  "Parallel-Aware": "false"
+                },
+                {
+                  "Async-Capable": "false"
+                },
+                {
+                  "Relation-Name": "cinema_tickets"
+                },
+                {
+                  "Alias": "cinema_tickets"
+                },
+                {
+                  "Startup-Cost": "4378.02"
+                },
+                {
+                  "Total-Cost": "18184.00"
+                },
+                {
+                  "Plan-Rows": "510319"
+                },
+                {
+                  "Plan-Width": "8"
+                },
+                {
+                  "Actual-Startup-Time": "69.066"
+                },
+                {
+                  "Actual-Total-Time": "127.390"
+                },
+                {
+                  "Actual-Rows": "505203"
+                },
+                {
+                  "Actual-Loops": "1"
+                },
+                {
+                  "Recheck-Cond": "(status \u003d 0)"
+                },
+                {
+                  "Rows-Removed-by-Index-Recheck": "0"
+                },
+                {
+                  "Exact-Heap-Blocks": "7427"
+                },
+                {
+                  "Lossy-Heap-Blocks": "0"
+                }
+              ],
+              "child": [
+                {
+                  "name": "cinema_tickets_status_idx",
+                  "kind": "Index scan",
+                  "type": "Bitmap Index Scan",
+                  "cond": "",
+                  "desc": "",
+                  "attributes": [
+                    {
+                      "Parent-Relationship": "Outer"
+                    },
+                    {
+                      "Parallel-Aware": "false"
+                    },
+                    {
+                      "Async-Capable": "false"
+                    },
+                    {
+                      "Index-Name": "cinema_tickets_status_idx"
+                    },
+                    {
+                      "Startup-Cost": "0.00"
+                    },
+                    {
+                      "Total-Cost": "4250.44"
+                    },
+                    {
+                      "Plan-Rows": "510319"
+                    },
+                    {
+                      "Plan-Width": "0"
+                    },
+                    {
+                      "Actual-Startup-Time": "68.184"
+                    },
+                    {
+                      "Actual-Total-Time": "68.185"
+                    },
+                    {
+                      "Actual-Rows": "505203"
+                    },
+                    {
+                      "Actual-Loops": "1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

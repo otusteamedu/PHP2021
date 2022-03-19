@@ -1,0 +1,59 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T17:47:15.546430800",
+  "sql": "-- Простой запрос 1 - Поиск сеансов фильма по фильтру с id \u003d 10 (Godfather) в зале с id \u003d 1 (premium)\r\nSELECT *\r\nFROM\r\n    cinema_sessions\r\nWHERE\r\n      movie_id \u003d 10\r\n  AND screen_id \u003d 1",
+  "root": [
+    {
+      "name": "cinema_sessions",
+      "kind": "Node",
+      "type": "Seq Scan",
+      "cond": "((movie_id \u003d 10)\r\nand (screen_id \u003d 1))",
+      "desc": "((movie_id \u003d 10) AND (screen_id \u003d 1))",
+      "attributes": [
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Relation-Name": "cinema_sessions"
+        },
+        {
+          "Alias": "cinema_sessions"
+        },
+        {
+          "Startup-Cost": "0.00"
+        },
+        {
+          "Total-Cost": "16.30"
+        },
+        {
+          "Plan-Rows": "38"
+        },
+        {
+          "Plan-Width": "22"
+        },
+        {
+          "Actual-Startup-Time": "0.026"
+        },
+        {
+          "Actual-Total-Time": "0.077"
+        },
+        {
+          "Actual-Rows": "38"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Filter": "((movie_id \u003d 10) AND (screen_id \u003d 1))"
+        },
+        {
+          "Rows-Removed-by-Filter": "715"
+        }
+      ]
+    }
+  ]
+}

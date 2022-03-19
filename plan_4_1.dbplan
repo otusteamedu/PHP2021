@@ -1,0 +1,334 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T17:53:05.266239300",
+  "sql": "-- Сложный запрос 1 - Общее время показа каждого фильма\r\nSELECT\r\n    cm.name_original,\r\n    cm.duration_min * count(*) AS total_time\r\nFROM\r\n    cinema_sessions AS cs\r\n        JOIN cinema_movies AS cm ON cs.movie_id \u003d cm.id\r\nGROUP BY\r\n    cm.name_original,\r\n    cm.duration_min\r\nORDER BY\r\n    total_time DESC",
+  "root": [
+    {
+      "name": "",
+      "kind": "Sort",
+      "type": "Sort",
+      "cond": "",
+      "desc": "",
+      "attributes": [
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Startup-Cost": "47.08"
+        },
+        {
+          "Total-Cost": "47.58"
+        },
+        {
+          "Plan-Rows": "200"
+        },
+        {
+          "Plan-Width": "128"
+        },
+        {
+          "Actual-Startup-Time": "0.626"
+        },
+        {
+          "Actual-Total-Time": "0.628"
+        },
+        {
+          "Actual-Rows": "6"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Sort-Key": "\n        ((cm.duration_min * count(*))) DESC\n      "
+        },
+        {
+          "Sort-Method": "quicksort"
+        },
+        {
+          "Sort-Space-Used": "25"
+        },
+        {
+          "Sort-Space-Type": "Memory"
+        }
+      ],
+      "child": [
+        {
+          "name": "",
+          "kind": "Aggregate",
+          "type": "Aggregate",
+          "cond": "",
+          "desc": "",
+          "attributes": [
+            {
+              "Strategy": "Hashed"
+            },
+            {
+              "Partial-Mode": "Simple"
+            },
+            {
+              "Parent-Relationship": "Outer"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Startup-Cost": "36.94"
+            },
+            {
+              "Total-Cost": "39.44"
+            },
+            {
+              "Plan-Rows": "200"
+            },
+            {
+              "Plan-Width": "128"
+            },
+            {
+              "Actual-Startup-Time": "0.620"
+            },
+            {
+              "Actual-Total-Time": "0.623"
+            },
+            {
+              "Actual-Rows": "6"
+            },
+            {
+              "Actual-Loops": "1"
+            },
+            {
+              "Group-Key": "\n            cm.name_original\n            cm.duration_min\n          "
+            },
+            {
+              "Planned-Partitions": "0"
+            },
+            {
+              "HashAgg-Batches": "1"
+            },
+            {
+              "Peak-Memory-Usage": "40"
+            },
+            {
+              "Disk-Usage": "0"
+            }
+          ],
+          "child": [
+            {
+              "name": "",
+              "kind": "Hash",
+              "type": "Hash Join",
+              "cond": "(cs.movie_id \u003d cm.id)",
+              "desc": "",
+              "attributes": [
+                {
+                  "Parent-Relationship": "Outer"
+                },
+                {
+                  "Parallel-Aware": "false"
+                },
+                {
+                  "Async-Capable": "false"
+                },
+                {
+                  "Join-Type": "Inner"
+                },
+                {
+                  "Startup-Cost": "16.75"
+                },
+                {
+                  "Total-Cost": "31.29"
+                },
+                {
+                  "Plan-Rows": "753"
+                },
+                {
+                  "Plan-Width": "120"
+                },
+                {
+                  "Actual-Startup-Time": "0.083"
+                },
+                {
+                  "Actual-Total-Time": "0.364"
+                },
+                {
+                  "Actual-Rows": "753"
+                },
+                {
+                  "Actual-Loops": "1"
+                },
+                {
+                  "Inner-Unique": "true"
+                },
+                {
+                  "Hash-Cond": "(cs.movie_id \u003d cm.id)"
+                }
+              ],
+              "child": [
+                {
+                  "name": "cinema_sessions",
+                  "kind": "Node",
+                  "type": "Seq Scan",
+                  "cond": "",
+                  "desc": "",
+                  "attributes": [
+                    {
+                      "Parent-Relationship": "Outer"
+                    },
+                    {
+                      "Parallel-Aware": "false"
+                    },
+                    {
+                      "Async-Capable": "false"
+                    },
+                    {
+                      "Relation-Name": "cinema_sessions"
+                    },
+                    {
+                      "Alias": "cs"
+                    },
+                    {
+                      "Startup-Cost": "0.00"
+                    },
+                    {
+                      "Total-Cost": "12.53"
+                    },
+                    {
+                      "Plan-Rows": "753"
+                    },
+                    {
+                      "Plan-Width": "4"
+                    },
+                    {
+                      "Actual-Startup-Time": "0.021"
+                    },
+                    {
+                      "Actual-Total-Time": "0.123"
+                    },
+                    {
+                      "Actual-Rows": "753"
+                    },
+                    {
+                      "Actual-Loops": "1"
+                    }
+                  ]
+                },
+                {
+                  "name": "",
+                  "kind": "Hash",
+                  "type": "Hash",
+                  "cond": "",
+                  "desc": "",
+                  "attributes": [
+                    {
+                      "Parent-Relationship": "Inner"
+                    },
+                    {
+                      "Parallel-Aware": "false"
+                    },
+                    {
+                      "Async-Capable": "false"
+                    },
+                    {
+                      "Startup-Cost": "13.00"
+                    },
+                    {
+                      "Total-Cost": "13.00"
+                    },
+                    {
+                      "Plan-Rows": "300"
+                    },
+                    {
+                      "Plan-Width": "124"
+                    },
+                    {
+                      "Actual-Startup-Time": "0.058"
+                    },
+                    {
+                      "Actual-Total-Time": "0.058"
+                    },
+                    {
+                      "Actual-Rows": "6"
+                    },
+                    {
+                      "Actual-Loops": "1"
+                    },
+                    {
+                      "Hash-Buckets": "1024"
+                    },
+                    {
+                      "Original-Hash-Buckets": "1024"
+                    },
+                    {
+                      "Hash-Batches": "1"
+                    },
+                    {
+                      "Original-Hash-Batches": "1"
+                    },
+                    {
+                      "Peak-Memory-Usage": "9"
+                    }
+                  ],
+                  "child": [
+                    {
+                      "name": "cinema_movies",
+                      "kind": "Node",
+                      "type": "Seq Scan",
+                      "cond": "",
+                      "desc": "",
+                      "attributes": [
+                        {
+                          "Parent-Relationship": "Outer"
+                        },
+                        {
+                          "Parallel-Aware": "false"
+                        },
+                        {
+                          "Async-Capable": "false"
+                        },
+                        {
+                          "Relation-Name": "cinema_movies"
+                        },
+                        {
+                          "Alias": "cm"
+                        },
+                        {
+                          "Startup-Cost": "0.00"
+                        },
+                        {
+                          "Total-Cost": "13.00"
+                        },
+                        {
+                          "Plan-Rows": "300"
+                        },
+                        {
+                          "Plan-Width": "124"
+                        },
+                        {
+                          "Actual-Startup-Time": "0.040"
+                        },
+                        {
+                          "Actual-Total-Time": "0.041"
+                        },
+                        {
+                          "Actual-Rows": "6"
+                        },
+                        {
+                          "Actual-Loops": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

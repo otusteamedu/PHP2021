@@ -1,0 +1,121 @@
+{
+  "version": "1",
+  "signature": "PostgreSQL JDBC Driver",
+  "date": "2022-03-19T18:22:28.252367700",
+  "sql": "-- Простой запрос 1 - Поиск сеансов фильма по фильтру с id \u003d 10 (Godfather) в зале с id \u003d 1 (premium)\r\nSELECT *\r\nFROM\r\n    cinema_sessions\r\nWHERE\r\n      movie_id \u003d 10\r\n  AND screen_id \u003d 1",
+  "root": [
+    {
+      "name": "cinema_sessions",
+      "kind": "Node",
+      "type": "Bitmap Heap Scan",
+      "cond": "(movie_id \u003d 10)",
+      "desc": "(movie_id \u003d 10)",
+      "attributes": [
+        {
+          "Parallel-Aware": "false"
+        },
+        {
+          "Async-Capable": "false"
+        },
+        {
+          "Relation-Name": "cinema_sessions"
+        },
+        {
+          "Alias": "cinema_sessions"
+        },
+        {
+          "Startup-Cost": "588.13"
+        },
+        {
+          "Total-Cost": "1452.72"
+        },
+        {
+          "Plan-Rows": "4180"
+        },
+        {
+          "Plan-Width": "22"
+        },
+        {
+          "Actual-Startup-Time": "0.976"
+        },
+        {
+          "Actual-Total-Time": "3.506"
+        },
+        {
+          "Actual-Rows": "4183"
+        },
+        {
+          "Actual-Loops": "1"
+        },
+        {
+          "Recheck-Cond": "(screen_id \u003d 1)"
+        },
+        {
+          "Rows-Removed-by-Index-Recheck": "0"
+        },
+        {
+          "Filter": "(movie_id \u003d 10)"
+        },
+        {
+          "Rows-Removed-by-Filter": "21069"
+        },
+        {
+          "Exact-Heap-Blocks": "163"
+        },
+        {
+          "Lossy-Heap-Blocks": "0"
+        }
+      ],
+      "child": [
+        {
+          "name": "cinema_sessions_un",
+          "kind": "Index scan",
+          "type": "Bitmap Index Scan",
+          "cond": "(screen_id \u003d 1)",
+          "desc": "",
+          "attributes": [
+            {
+              "Parent-Relationship": "Outer"
+            },
+            {
+              "Parallel-Aware": "false"
+            },
+            {
+              "Async-Capable": "false"
+            },
+            {
+              "Index-Name": "cinema_sessions_un"
+            },
+            {
+              "Startup-Cost": "0.00"
+            },
+            {
+              "Total-Cost": "587.09"
+            },
+            {
+              "Plan-Rows": "25439"
+            },
+            {
+              "Plan-Width": "0"
+            },
+            {
+              "Actual-Startup-Time": "0.926"
+            },
+            {
+              "Actual-Total-Time": "0.926"
+            },
+            {
+              "Actual-Rows": "25252"
+            },
+            {
+              "Actual-Loops": "1"
+            },
+            {
+              "Index-Cond": "(screen_id \u003d 1)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
