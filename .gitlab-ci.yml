@@ -1,0 +1,64 @@
+stages:
+  - test
+  - build
+  - deploy
+
+# Тесты
+test:
+  image: php:7.4.9-alpine
+  cache:
+    paths:
+      - vendor/
+  before_script:
+    - apk update -yqq
+    - apk add --no-cache composer
+    - curl -sS --output /usr/local/bin/install-php-extensions https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions
+    - chmod +x /usr/local/bin/install-php-extensions
+    - install-php-extensions pdo_mysql soap gd redis xdebug
+  variables:
+    APP_ENV: test
+    XDEBUG_MODE: coverage
+  script:
+    - composer install --no-cache
+    - composer test
+
+## Сборка
+build-production:
+  services:
+    - docker:dind
+  image: docker
+  stage: build
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build --pull --tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" --tag "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
+
+## Развертывание
+deploy-production:
+  image: alpine:latest
+  stage: deploy
+  environment:
+    name: Production
+  script:
+    # Установка ssh-agent
+    - 'which ssh-agent || ( apk add --update openssh )'
+    - 'which curl || ( apk add --update curl )'
+
+    # Запуск ssh-agent
+    - eval $(ssh-agent -s)
+
+    # Добавление ssh ключа
+    - echo "$PRODUCTION_SSH_PRIVATE_KEY" | ssh-add -
+
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+    # Создание или обновление сервиса
+    - ssh $PRODUCTION_SSH_USER@$PRODUCTION_SSH_HOST 'mkdir -p ~/projects/tv-backend-tasks'
+    - scp ./deploy/docker_service_deploy.sh $PRODUCTION_SSH_USER@$PRODUCTION_SSH_HOST:~/projects/tv-backend-tasks/docker_service_deploy.sh
+    - ssh $PRODUCTION_SSH_USER@$PRODUCTION_SSH_HOST "cd ~/projects/tv-backend-tasks && chmod +x docker_service_deploy.sh && ./docker_service_deploy.sh '$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA' '$API_ACCESS_TOKEN' '$PRODUCTION_DB_URL' '$PRODUCTION_REDIS_URL' '$REMOTE_FS'"
+  only:
+    - master
