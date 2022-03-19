@@ -1,0 +1,89 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    container_name: nginx-balancer
+    image: localapp/nginx-balancer
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+       - nginx-webserver1
+       - nginx-webserver2
+    networks:
+      - app-network
+
+  nginx-webserver1:
+    build:
+      context: ./nginx-webserver
+      dockerfile: Dockerfile
+    container_name: nginx-webserver1
+    image: localapp/nginx-webserver
+    ports:
+      - "8081:80"
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  nginx-webserver2:
+    build:
+      context: ./nginx-webserver
+      dockerfile: Dockerfile
+    container_name: nginx-webserver2
+    image: localapp/nginx-webserver
+    ports:
+      - "8082:80"
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  php1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php1
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  php2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php2
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  pg_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: "bender"
+      POSTGRES_USER: "bender"
+      POSTGRES_PASSWORD: "bender"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+networks:
+  app-network:
+    driver: bridge
