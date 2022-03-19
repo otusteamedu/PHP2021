@@ -9,6 +9,6 @@ use App\Application\Output\RequestIsCreatedDto;
 interface RequestServiceInterface
 {
     public function createRequest(CreateRequestDto $dto):RequestIsCreatedDto;
-    public function getStatus(int $idRequest): RequestIsCreatedDto;
-    public function findAllRequests(): array;
+    public function getStatus(int $idRequest): ?RequestIsCreatedDto;
+    public function findAllRequests(): ?array;
 }

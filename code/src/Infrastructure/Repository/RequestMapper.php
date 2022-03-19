@@ -35,14 +35,14 @@ class RequestMapper
         );
     }
 
-    public function findById(int $id): Request
+    public function findById(int $id): ?Request
     {
         $this->selectStatement->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectStatement->execute([$id]);
 
         $result = $this->selectStatement->fetch();
 
-        if(!is_array($result)) throw new Exception('Данный запрос отсутствует!');
+        if(!is_array($result)) return null;
 
         $request = new Request(
             (string)$result['first_name'],
@@ -81,13 +81,13 @@ class RequestMapper
         ]);
     }
 
-    public function select(): array
+    public function select(): ?array
     {
         //echo$this->selectAllStatement->fetch();
         //echo $this->selectAllStatement->execute();
 
         $result = $this->pdo->query('SELECT * FROM requests')->fetchAll(PDO::FETCH_ASSOC);
-        if(!is_array($result)) throw new Exception('Запросов нет!');
+        if(!is_array($result)) return null;
 
         return $result;
     }

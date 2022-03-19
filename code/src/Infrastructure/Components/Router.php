@@ -30,7 +30,10 @@ class Router
             case 'POST':
                 $res = 'actionCreate';
                 break;
-
+            default:
+                header('HTTP/1.1 405 Method Not Allowed');
+                header('Allow: GET, POST');
+                break;
         }
 
         return $res;

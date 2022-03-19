@@ -17,6 +17,6 @@ try {
     $api->run();
 
 } catch (Exception $e) {
-
+    http_response_code();
     echo  $e->getMessage();;
 }

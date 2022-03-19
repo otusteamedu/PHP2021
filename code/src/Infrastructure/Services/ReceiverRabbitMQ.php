@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Services;
 
-use App\Application\Service\RequestService;
 use App\Infrastructure\Repository\RequestRepository;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 

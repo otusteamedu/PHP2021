@@ -4,17 +4,14 @@ declare(strict_types=1);
 namespace App\Infrastructure\Http;
 
 use App\Application\Input\CreateRequestDto;
-use App\Application\Output\RequestIsCreatedDto;
-use App\Application\Service\RequestService;
 use App\Domain\Contract\RequestServiceInterface;
-use App\Infrastructure\Services\SendRabbitMQ;
 
 
 class RequestController
 {
     //создать новый запрос
     //Получить запрос по ид
-    //Получить список всех запросов?
+    //Получить список всех запросов
 
     private RequestServiceInterface $requestService;
 
@@ -29,7 +26,13 @@ class RequestController
      */
     public function actionIndex(){
         $responseDto = $this->requestService->findAllRequests();
-        http_response_code(200);
+
+        if($responseDto==null){
+            header('HTTP/1.1 400 There are no requests');
+            throw new \Exception('Запросов нет!');;
+        }
+
+        header('HTTP/1.1 200 OK');
         echo json_encode($responseDto);
     }
 
@@ -43,7 +46,12 @@ class RequestController
 
             $responseDto = $this->requestService->getStatus($idRequest);
 
-            http_response_code(200);
+            if($responseDto==null){
+                header('HTTP/1.1 400 The request does not exist');
+                throw new \Exception('Данный запрос отсутствует!');
+            }
+
+            header('HTTP/1.1 200 OK');
             echo json_encode($responseDto);
 
     }
@@ -60,20 +68,11 @@ class RequestController
             $dto = CreateRequestDto::fromArray($body);
             $responseDto = $this->requestService->createRequest($dto);
 
-            http_response_code(201);
+        header('HTTP/1.1 201 Request is created');
             echo json_encode($responseDto);
 
-            //В очередь!
-            $messageBody = json_encode($responseDto);
-            (new SendRabbitMQ())->execute($messageBody);
-
     }
 
-
-    public function actionUpdate()
-    {
-        echo '4';
-    }
 
 
 }

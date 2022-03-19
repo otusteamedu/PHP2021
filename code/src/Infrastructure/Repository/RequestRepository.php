@@ -42,13 +42,13 @@ class RequestRepository implements RequestRepositoryInterface
         return $this->requestMapper->insert($request);
     }
 
-    public function findRequestById(int $id): Request
+    public function findRequestById(int $id): ?Request
     {
         return  $this->requestMapper->findById($id);
 
     }
 
-    public function findAllRequests(): array
+    public function findAllRequests(): ?array
     {
         return  $this->requestMapper->select();
 
