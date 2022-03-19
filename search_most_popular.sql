@@ -1,0 +1,1 @@
+SELECT films.film_name, sum(tickets.PRICE) "total" FROM tickets LEFT JOIN film_time ON film_time_id=film_time.id LEFT Join films on film_time.film_id=films.id GROUP BY films.id ORDER BY total desc Limit 1;
