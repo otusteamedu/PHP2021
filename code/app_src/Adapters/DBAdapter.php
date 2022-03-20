@@ -65,11 +65,11 @@ class DBAdapter
 
     public function update($rawData)
     {
-        $this->updateStatement->execute($rawData);
+        return $this->updateStatement->execute($rawData);
     }
 
     public function deleteById($id)
     {
-        $this->deleteStatement->execute([$id]);
+        return $this->deleteStatement->execute([$id]);
     }
 }
