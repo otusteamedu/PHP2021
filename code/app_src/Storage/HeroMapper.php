@@ -5,45 +5,17 @@ namespace App\Storage;
 use App\Hero;
 use App\Storage\HeroIdentityMap;
 use App\Interfaces\StorageInterface;
-use PDO;
-use PDOStatement;
 
 class HeroMapper implements StorageInterface
 {
-    private PDO          $pdo;
-
-    private PDOStatement $selectStatement;
-
-    private PDOStatement $selectAllStatement;
-
-    private PDOStatement $insertStatement;
-
-    private PDOStatement $updateStatement;
-
-    private PDOStatement $deleteStatement;
+    private $DBAdapter;
 
     private HeroIdentityMap $heroIdentityMap;
 
-    public function __construct(PDO $pdo)
+    public function __construct($DBAdapter)
     {
-        $this->pdo = $pdo;
+        $this->DBAdapter = $DBAdapter;
         $this->heroIdentityMap = new HeroIdentityMap();
-
-        $this->selectStatement = $pdo->prepare(
-            'SELECT * FROM heroes WHERE id = ?'
-        );
-        $this->selectAllStatement = $pdo->prepare(
-            'SELECT * FROM heroes'
-        );
-        $this->insertStatement = $pdo->prepare(
-            'INSERT INTO heroes (class, name, race) VALUES (?, ?, ?)'
-        );
-        $this->updateStatement = $pdo->prepare(
-            'UPDATE heroes SET class = ?, name = ?, race = ? WHERE id = ?'
-        );
-        $this->deleteStatement = $pdo->prepare(
-            'DELETE FROM heroes WHERE id = ?'
-        );
     }
 
     public function selectById(int $id): Hero
@@ -52,10 +24,7 @@ class HeroMapper implements StorageInterface
             return $this->heroIdentityMap->getHero($id);
         }
 
-        $this->selectStatement->setFetchMode(PDO::FETCH_ASSOC);
-        $this->selectStatement->execute([$id]);
-
-        $result = $this->selectStatement->fetch();
+        $result = $this->DBAdapter->selectById($id);
 
         if (empty($result)) {
             throw new \Exception("No record with id: $id");
@@ -73,9 +42,9 @@ class HeroMapper implements StorageInterface
 
     public function selectAll(): array
     {
-        $this->selectAllStatement->execute();
+        $records = $this->DBAdapter->selectAll();
         $arHeroes = [];
-        while ($record = $this->selectAllStatement->fetch()) {
+        foreach ($records as $record) {
             $arHeroes[] = new Hero(
                 $record['id'],
                 $record['class'],
@@ -89,14 +58,18 @@ class HeroMapper implements StorageInterface
 
     public function insert(array $rawHeroData): Hero
     {
-        $this->insertStatement->execute([
+        $resultId = $this->DBAdapter->insert([
             $rawHeroData['class'],
             $rawHeroData['name'],
             $rawHeroData['race'],
         ]);
 
+        if (!$resultId) {
+            throw new \Exception("Insert failed");
+        }
+
         return new Hero(
-            (int)$this->pdo->lastInsertId(),
+            $resultId,
             $rawHeroData['class'],
             $rawHeroData['name'],
             $rawHeroData['race']
@@ -105,7 +78,7 @@ class HeroMapper implements StorageInterface
 
     public function update(array $rawHeroData): bool
     {
-        return $this->updateStatement->execute([
+        return $this->DBAdapter->update([
             $rawHeroData['class'],
             $rawHeroData['name'],
             $rawHeroData['race'],
@@ -115,6 +88,6 @@ class HeroMapper implements StorageInterface
 
     public function deleteById(int $id): bool
     {
-        return $this->deleteStatement->execute([$id]);
+        return $this->DBAdapter->deleteById($id);
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Storage\HeroMapper;
+use App\Adapters\DBAdapter;
 
 class Application
 {
@@ -18,8 +19,8 @@ class Application
         throw new \Exception($e->getMessage());
       }
 
-      $this->appHelper = new DBConnectionHelper;
-      $this->storageInterface = new HeroMapper($this->appHelper->createConnection());
+      $DBAdapter = new DBAdapter();
+      $this->storageInterface = new HeroMapper($DBAdapter);
     }
 
     public function run()

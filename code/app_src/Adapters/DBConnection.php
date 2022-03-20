@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Adapters;
 
 use PDO;
 
-class DBConnectionHelper
+class DBConnection
 {
     private static $dbname = 'bender';
 
