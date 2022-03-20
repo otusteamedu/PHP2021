@@ -2,8 +2,6 @@
 
 namespace App;
 
-require 'vendor/autoload.php';
-
 use App\Storage\HeroMapper;
 
 class Application
@@ -20,7 +18,7 @@ class Application
         throw new \Exception($e->getMessage());
       }
 
-      $this->appHelper = new AppHelper;
+      $this->appHelper = new DBConnectionHelper;
       $this->storageInterface = new HeroMapper($this->appHelper->createConnection());
     }
 

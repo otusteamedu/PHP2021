@@ -4,7 +4,7 @@ namespace App;
 
 use PDO;
 
-class AppHelper
+class DBConnectionHelper
 {
     private static $dbname = 'bender';
 
