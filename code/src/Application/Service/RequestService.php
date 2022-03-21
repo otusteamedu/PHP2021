@@ -36,7 +36,9 @@ class RequestService  implements RequestServiceInterface
     public function getStatus(int $idRequest): ?RequestIsCreatedDto
     {
         $request = $this->requestRepository->findRequestById($idRequest);
-        if($request==null) return null;
+        if($request==null){
+            return null;
+        }
 
         $response = new RequestIsCreatedDto();
         $response->status = $request->getStatus();

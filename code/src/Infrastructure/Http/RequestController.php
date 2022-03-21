@@ -68,7 +68,7 @@ class RequestController
             $dto = CreateRequestDto::fromArray($body);
             $responseDto = $this->requestService->createRequest($dto);
 
-        header('HTTP/1.1 201 Request is created');
+            header('HTTP/1.1 201 Request is created');
             echo json_encode($responseDto);
 
     }

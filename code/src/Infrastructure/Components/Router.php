@@ -15,9 +15,9 @@ class Router
 
         $this->routsPath = ROOT .'/config/routes.php';
 
-        //header("Access-Control-Allow-Origin: *");
-       // header("Access-Control-Allow-Methods: *");
-       // header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: *");
+        header("Content-Type: application/json");
     }
 
     public function actionName(string $method,array $params):string
@@ -63,13 +63,13 @@ class Router
 
         switch ($routeInfo[0]) {
             case FastRoute\Dispatcher::NOT_FOUND:
-                http_response_code(404);
-                throw new Exception('404 Not Found');
+                header('HTTP/1.1 404 Not Found');
+                throw new Exception('404 Страница отстутствует');
 
             case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
-                http_response_code(405);
-                throw new Exception('405 Method Not Allowed');
+                header('HTTP/1.1 405 Method Not Allowed');
+                throw new Exception('405 Метод не найден');
 
             case FastRoute\Dispatcher::FOUND:
                 $handler = $routeInfo[1];

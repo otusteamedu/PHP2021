@@ -83,9 +83,6 @@ class RequestMapper
 
     public function select(): ?array
     {
-        //echo$this->selectAllStatement->fetch();
-        //echo $this->selectAllStatement->execute();
-
         $result = $this->pdo->query('SELECT * FROM requests')->fetchAll(PDO::FETCH_ASSOC);
         if(!is_array($result)) return null;
 

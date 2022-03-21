@@ -24,8 +24,6 @@ class Request
         string $date2
     )
     {
-        //$validate = new DataValidation();
-
         $this->firstname = $firstname;
         $this->email = $email;
         $this->phone = $phone;

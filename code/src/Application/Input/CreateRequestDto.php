@@ -15,7 +15,9 @@ class CreateRequestDto
 
     static function fromArray(?array $bodyJson):CreateRequestDto
     {
-        if(empty($bodyJson)) throw new Exception('Данные для создания запроса отсутствуют!');
+        if(empty($bodyJson)){
+            throw new Exception('Данные для создания запроса отсутствуют!');
+        }
 
         self::$firstname = $bodyJson['firstname'];
         self::$email = $bodyJson['email'];
