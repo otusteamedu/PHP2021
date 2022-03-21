@@ -1,0 +1,10 @@
+.idea
+.env
+/code/.idea
+/code/vendor
+/code/config.ini
+/code/config/amqpconfig.php
+/code/tests
+/dbdata
+
+
