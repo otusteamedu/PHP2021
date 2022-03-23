@@ -7,8 +7,10 @@ use App\Application\Contracts\EventRepositoryInterface;
 use App\Application\Contracts\EventServiceInterface;
 use App\Application\Contracts\PublisherInterface;
 use App\Domain\Event;
-use App\DTO\Request;
-use App\DTO\Response;
+use App\DTO\EventRequest;
+use App\DTO\EventResponse;
+use App\Exception\EventBadRequestException;
+use App\Exception\EventNotFoundException;
 use Exception;
 
 class EventService implements EventServiceInterface
@@ -24,32 +26,30 @@ class EventService implements EventServiceInterface
         $this->publisher = $publisher;
     }
 
-    public function getStatus(string $id): Response
+    /**
+     * @throws Exception
+     */
+    public function getStatus(string $id): EventResponse
     {
         $event = $this->repository->findById($id);
         if (is_null($event)) {
-            return new Response('event is not found', 404);
+            throw new EventNotFoundException('event is not found');
         }
 
-        return new Response($event->getStatus());
+        return new EventResponse($event->getStatus());
     }
 
     /**
      * @throws Exception
      */
-    public function create(Request $req): Response
+    public function create(EventRequest $req): EventResponse
     {
-        $id = uniqid();
-        $body = $req->getBody();
-        if (empty($body)) {
-            throw new Exception('event is not valid');
-        }
-        $event = new Event($id, $body);
+        $event = new Event($req->getBody());
         $this->repository->create($event);
 
         return $this->publisher->execute(
             ConsumerInterface::QUEUE_NAME,
-            new Request($id)
+            new EventRequest($event->getId())
         );
     }
 
@@ -60,7 +60,7 @@ class EventService implements EventServiceInterface
     {
         $event = $this->repository->findById($id);
         if (is_null($event)) {
-            throw new Exception('event is not found');
+            throw new EventNotFoundException('event is not found');
         }
         $this->process($event);
         $this->repository->update($event);

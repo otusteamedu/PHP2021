@@ -55,12 +55,14 @@ class Consumer implements ConsumerInterface
         while ($this->channel->is_open()) {
             $this->channel->wait();
         }
+
+        $this->close();
     }
 
     /**
      * @throws Exception
      */
-    public function close(): void
+    private function close(): void
     {
         $this->channel->close();
         $this->connection->close();

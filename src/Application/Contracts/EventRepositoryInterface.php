@@ -8,7 +8,7 @@ interface EventRepositoryInterface
 {
     public function findById(string $id): ?Event;
 
-    public function create(Event $event): bool;
+    public function create(Event $event): void;
 
-    public function update(Event $event): bool;
+    public function update(Event $event): void;
 }

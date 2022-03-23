@@ -2,11 +2,11 @@
 
 namespace App\Utils;
 
-use App\DTO\Response;
+use App\DTO\EventResponse;
 
-class HttpOutput
+class EventOutput
 {
-    public static function send(Response $resp): void
+    public static function send(EventResponse $resp): void
     {
         header('Content-Type: application/json; charset=utf-8');
         http_response_code($resp->getCode());

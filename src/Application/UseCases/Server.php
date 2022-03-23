@@ -26,6 +26,5 @@ class Server implements ServiceInterface
     {
         ConsoleOutput::info('x', 'Awaiting requests. To exit press CTRL+C');
         $this->consumer->execute();
-        $this->consumer->close();
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Domain;
 
+use Exception;
+
 /**
  * @OA\Schema()
  */
@@ -19,19 +21,32 @@ class Event
      *   description="Event data"
      * )
      */
-    private ?string $data;
+    private string $data;
 
     private ?int $status = null;
 
-    public function __construct(string $id, ?string $data)
+    /**
+     * @throws Exception
+     */
+    public function __construct(string $data)
     {
-        $this->id = $id;
+        if (empty($data)) {
+            throw new Exception('event is not valid');
+        }
+        $this->id = uniqid();
         $this->data = $data;
     }
 
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function setId(string $id): Event
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getData(): ?string

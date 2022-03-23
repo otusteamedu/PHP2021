@@ -2,12 +2,10 @@
 
 namespace App\Application\Contracts;
 
-use App\DTO\Request;
-use App\DTO\Response;
+use App\DTO\EventRequest;
+use App\DTO\EventResponse;
 
 interface PublisherInterface
 {
-    public function execute(string $routingKey, Request $req): Response;
-
-    public function close(): void;
+    public function execute(string $routingKey, EventRequest $req): EventResponse;
 }

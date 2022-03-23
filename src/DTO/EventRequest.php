@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class Request
+class EventRequest
 {
     private string $body;
 

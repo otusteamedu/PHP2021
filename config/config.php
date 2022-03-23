@@ -4,6 +4,7 @@ use App\Application\Contracts\ConsumerInterface;
 use App\Application\Contracts\EventControllerInterface;
 use App\Application\Contracts\EventRepositoryInterface;
 use App\Application\Contracts\EventServiceInterface;
+use App\Application\Contracts\HttpHandlerInterface;
 use App\Application\Contracts\PublisherInterface;
 use App\Application\Contracts\ServiceInterface;
 use App\Application\UseCases\Client;
@@ -12,6 +13,7 @@ use App\Application\UseCases\Server;
 use App\Infrastructure\Consumer;
 use App\Infrastructure\EventController;
 use App\Infrastructure\EventRepository;
+use App\Infrastructure\HttpHandler;
 use App\Infrastructure\Publisher;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -29,6 +31,7 @@ $serviceClass = ($options['type'] === ServiceInterface::SERVER)
 
 return [
     AMQPStreamConnection::class     => $rmqConnectionHelper,
+    HttpHandlerInterface::class     => DI\get(HttpHandler::class),
     EventControllerInterface::class => DI\get(EventController::class),
     EventRepositoryInterface::class => DI\get(EventRepository::class),
     EventServiceInterface::class    => DI\get(EventService::class),

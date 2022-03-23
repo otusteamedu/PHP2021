@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class Response
+class EventResponse
 {
     private string $message;
     private int $code;

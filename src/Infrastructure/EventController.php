@@ -4,8 +4,8 @@ namespace App\Infrastructure;
 
 use App\Application\Contracts\EventControllerInterface;
 use App\Application\Contracts\EventServiceInterface;
-use App\DTO\Request;
-use App\DTO\Response;
+use App\DTO\EventRequest;
+use App\DTO\EventResponse;
 use Exception;
 
 /**
@@ -41,7 +41,7 @@ class EventController implements EventControllerInterface
      *     )
      * )
      */
-    public function get(string $id): Response
+    public function get(string $id): EventResponse
     {
         return $this->service->getStatus($id);
     }
@@ -67,10 +67,10 @@ class EventController implements EventControllerInterface
      *
      * @throws Exception
      */
-    public function create(): Response
+    public function create(): EventResponse
     {
         $body = json_decode(file_get_contents('php://input'), true) ?? [];
-        $event = new Request($body['data'] ?? '');
+        $event = new EventRequest($body['data'] ?? '');
 
         return $this->service->create($event);
     }

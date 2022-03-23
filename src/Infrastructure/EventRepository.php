@@ -8,8 +8,7 @@ use Redis;
 
 class EventRepository implements EventRepositoryInterface
 {
-    private const DATA_PREFIX = 'event:data:';
-    private const STATUS_PREFIX = 'event:status:';
+    private const PREFIX = 'event:';
 
     private Redis $client;
 
@@ -21,34 +20,31 @@ class EventRepository implements EventRepositoryInterface
 
     public function findById(string $id): ?Event
     {
-        $data = $this->client->get(self::DATA_PREFIX . $id);
-        $status = $this->client->get(self::STATUS_PREFIX . $id);
-        if ($data === false || $status === false) {
+        $item = $this->client->hGetAll(self::PREFIX . $id);
+        if (is_null($item['data'] ?? null)
+            || is_null($item['status'] ?? null)
+        ) {
             return null;
         }
 
-        return (new Event($id, $data))->setStatus($status);
+        return (new Event($item['data']))->setId($id)
+                                         ->setStatus($item['status']);
     }
 
-    public function create(Event $event): bool
+    public function create(Event $event): void
     {
         $event->setStatus(Event::STATUS_IN_PROCESS);
-        $setData = $this->client->set(
-            self::DATA_PREFIX . $event->getId(),
-            $event->getData()
-        );
-        $setStatus = $this->client->set(
-            self::STATUS_PREFIX . $event->getId(),
-            $event->getStatus()
-        );
-
-        return $setData && $setStatus;
+        $this->client->hMSet(self::PREFIX . $event->getId(), [
+            'data'   => $event->getData(),
+            'status' => $event->getStatus(),
+        ]);
     }
 
-    public function update(Event $event): bool
+    public function update(Event $event): void
     {
-        return $this->client->set(
-            self::STATUS_PREFIX . $event->getId(),
+        $this->client->hSet(
+            self::PREFIX . $event->getId(),
+            'status',
             $event->getStatus()
         );
     }

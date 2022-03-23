@@ -3,8 +3,8 @@
 namespace App\Infrastructure;
 
 use App\Application\Contracts\PublisherInterface;
-use App\DTO\Request;
-use App\DTO\Response;
+use App\DTO\EventRequest;
+use App\DTO\EventResponse;
 use Closure;
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
@@ -15,7 +15,7 @@ class Publisher implements PublisherInterface
 {
     private AMQPStreamConnection $connection;
     private AMQPChannel $channel;
-    private ?Response $response;
+    private ?EventResponse $response;
     private string $correlationId;
 
     /**
@@ -33,7 +33,7 @@ class Publisher implements PublisherInterface
     /**
      * @throws Exception
      */
-    public function execute(string $routingKey, Request $req): Response
+    public function execute(string $routingKey, EventRequest $req): EventResponse
     {
         $this->response = null;
         $this->correlationId = uniqid();
@@ -48,13 +48,15 @@ class Publisher implements PublisherInterface
             $this->channel->wait();
         }
 
+        $this->close();
+
         return $this->response;
     }
 
     /**
      * @throws Exception
      */
-    public function close(): void
+    private function close(): void
     {
         $this->channel->close();
         $this->connection->close();
@@ -64,7 +66,7 @@ class Publisher implements PublisherInterface
     {
         return function (AMQPMessage $resp): void {
             if ($resp->get('correlation_id') === $this->correlationId) {
-                $this->response = new Response($resp->getBody(), 201);
+                $this->response = new EventResponse($resp->getBody(), 201);
             }
         };
     }
@@ -73,7 +75,7 @@ class Publisher implements PublisherInterface
     {
         return function (AMQPMessage $resp): void {
             if ($resp->get('correlation_id') === $this->correlationId) {
-                $this->response = new Response('request not accepted for processing', 500);
+                $this->response = new EventResponse('request not accepted for processing', 500);
             }
         };
     }
