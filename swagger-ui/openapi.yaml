@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: 'Event API'
+  version: 0.1.0
+paths:
+  '/api/v1/event/{eventId}':
+    get:
+      tags:
+        - event
+      summary: 'Get event status'
+      description: 'Getting event status by id.'
+      operationId: getEventStatus
+      parameters:
+        -
+          name: eventId
+          in: path
+          description: 'ID of event that status needs to be fetched'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'successful operation (0 - in process, 1 - completed)'
+  /api/v1/event:
+    post:
+      tags:
+        - event
+      summary: 'Create event'
+      description: 'Creating user event.'
+      operationId: createEvent
+      requestBody:
+        description: Event
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '201':
+          description: 'successful operation'
+components:
+  schemas:
+    Event:
+      properties:
+        data:
+          description: 'Event data'
+          type: string
+      type: object
