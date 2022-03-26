@@ -33,7 +33,8 @@ Sort  (cost=2761.45..2765.83 rows=1753 width=63) (actual time=28.905..29.024 row
 (8 rows)
 
 -- По результатам улучшения производительности нет
-
+-- Удалить индекс --
+DROP INDEX price_index ON films (price);
 
 --2 запрос
 -- 10 000
