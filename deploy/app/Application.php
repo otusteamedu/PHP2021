@@ -2,11 +2,11 @@
 
 namespace App;
 
+use App\Check;
+
 class Application
 {
     private $request;
-    private $openBracket = '(';
-    private $closeBracket = ')';
 
     public function __construct()
     {
@@ -24,8 +24,8 @@ class Application
         if (!isset($this->request['STRING']) || empty($this->request['STRING'])) {
             throw new \Exception('No string passed');
         }
-        if (strpos($this->request['STRING'], $this->openBracket) === false ||
-            strpos($this->request['STRING'], $this->closeBracket) === false) {
+        if (strpos($this->request['STRING'], Check::$openBracket) === false ||
+            strpos($this->request['STRING'], Check::$closeBracket ) === false) {
             throw new \Exception('No brackets passed in string');
         }
         $this->checkBracketPairs();
@@ -36,13 +36,13 @@ class Application
         $arChars = str_split($this->request['STRING']);
         $openBracketsCounter = 0;
         foreach($arChars AS $singleChar) {
-            if ($singleChar == $this->closeBracket) {
+            if ($singleChar == Check::$closeBracket) {
                 if($openBracketsCounter <= 0) {
                     throw new \Exception('Brackets not paired');
                 }
                 $openBracketsCounter--;
             }
-            if ($singleChar == $this->openBracket) {
+            if ($singleChar == Check::$openBracket) {
                 $openBracketsCounter++;
             }
         }
