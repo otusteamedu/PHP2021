@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'Exo 2';
+    src: url(../fonts/Exo2-Regular.ttf);
+}
+
+body {
+    background-color: #2B2B2B;
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    color: #57d9d9;
+    font-family: 'Exo 2';
+}
+
+label {
+    display: block;
+    font-family: 'Exo 2';
+    color: white;
+}
+
+input {
+    display: block;
+    font-family: 'Exo 2';
+    background-color: #57D9D9;
+    border-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    cursor: pointer;
+    margin: 0 auto;
+    transition: 0.5s;
+    border: none;
+}
+
+input:hover {
+    background-color: #50E691;
+}
+
+textarea {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    width: 100%;
+    border: 1px #57d9d9 solid;
+}
