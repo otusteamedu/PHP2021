@@ -11,11 +11,11 @@ class Application
     public function __construct()
     {
         if (!RequestValidator::checkRequestType('POST')) {
-            throw new \Exception('Ошибочный метод запроса');
+            throw new \Exception('<span style="color: red">Ошибочный метод запроса</span>');
         }
 
         if (RequestValidator::checkRequestIsEmpty($_POST)) {
-            throw new \Exception('Пустой запрос');
+            throw new \Exception('<span style="color: red">Пустой запрос</span>');
         }
         $this->request = $_POST;
     }
@@ -23,12 +23,12 @@ class Application
     public function run()
     {
         if (!isset($this->request['STRING_TO_CHECK']) || empty($this->request['STRING_TO_CHECK'])) {
-            throw new \Exception('Ничего не введено');
+            throw new \Exception('<span style="color: red">Ничего не введено</span>');
         }
 
         if (strpos($this->request['STRING_TO_CHECK'], $this->openBracket) === false &&
             strpos($this->request['STRING_TO_CHECK'], $this->closeBracket) === false) {
-            throw new \Exception('В введённом тексте отсутсвуют скобки');
+            throw new \Exception('<span style="color: red">В введённом тексте отсутсвуют скобки</span>');
         }
         $this->checkBracketPairs();
     }
@@ -42,7 +42,7 @@ class Application
             if ($singleChar == $this->closeBracket) {
 
                 if ($openBracketsCounter <= 0) {
-                    throw new \Exception('У одной из скобок в тексте отсутствует пара :(');
+                    throw new \Exception('<span style="color: red">У одной из скобок в тексте отсутствует пара :(</span>');
                 }
                 $openBracketsCounter--;
             }
@@ -53,8 +53,8 @@ class Application
         }
 
         if ($openBracketsCounter) {
-            throw new \Exception('У одной из скобок в тексте отсутствует пара :(');
+            throw new \Exception('<span style="color: red">У одной из скобок в тексте отсутствует пара :(</span>');
         }
-        throw new \Exception('Со скобками в тексте всё хорошо :)');
+        throw new \Exception('<span style="color: green">Со скобками в тексте всё хорошо :)</span>');
     }
 }
