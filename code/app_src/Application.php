@@ -4,7 +4,7 @@ namespace App;
 
 class Application
 {
-    private $request;
+    private $stringToCheck;
     private $openBracket = '(';
     private $closeBracket = ')';
 
