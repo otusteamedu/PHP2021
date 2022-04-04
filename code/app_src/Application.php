@@ -11,17 +11,17 @@ class Application
     public function __construct()
     {
         if (!RequestValidator::checkRequestType('POST')) {
-            throw new \Exception('Ошибочный метод запроса');
+            throw new \Exception('ERROR_REQUEST_METHOD');
         }
 
         if (RequestValidator::checkRequestIsEmpty($_POST)) {
-            throw new \Exception('Пустой запрос');
+            throw new \Exception('EMPTY_REQUEST');
         }
 
         if (!empty($_POST['STRING_TO_CHECK'])) {
             $this->stringToCheck = $_POST['STRING_TO_CHECK'];
         } else {
-            throw new \Exception('Ничего не введено :(');
+            throw new \Exception('EMPTY_INPUT');
         }
     }
 
@@ -29,7 +29,7 @@ class Application
     {
         if (strpos($this->stringToCheck, $this->openBracket) === false &&
             strpos($this->stringToCheck, $this->closeBracket) === false) {
-            throw new \Exception('В введённом тексте отсутсвуют скобки :(');
+            throw new \Exception('BRACKETS_MISSING');
         }
         $this->checkBracketPairs();
     }
@@ -43,8 +43,9 @@ class Application
             if ($singleChar == $this->closeBracket) {
 
                 if ($openBracketsCounter <= 0) {
-                    throw new \Exception('У одной из скобок в тексте отсутствует пара :(');
+                    throw new \Exception('WITHOUT_PAIR_BRACKETS');
                 }
+
                 $openBracketsCounter--;
             }
 
@@ -54,8 +55,8 @@ class Application
         }
 
         if ($openBracketsCounter) {
-            throw new \Exception('У одной из скобок в тексте отсутствует пара :(');
+            throw new \Exception('WITHOUT_PAIR_BRACKETS');
         }
-        throw new \Exception('Со скобками в тексте всё хорошо :)');
+        throw new \Exception('BRACKETS_PAIR_OK');
     }
 }
