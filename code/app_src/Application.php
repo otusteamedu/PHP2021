@@ -17,25 +17,26 @@ class Application
         if (RequestValidator::checkRequestIsEmpty($_POST)) {
             throw new \Exception('Пустой запрос');
         }
-        $this->request = $_POST;
+
+        if (!empty($_POST['STRING_TO_CHECK'])) {
+            $this->stringToCheck = $_POST['STRING_TO_CHECK'];
+        } else {
+            throw new \Exception('Ничего не введено :(');
+        }
     }
 
     public function run()
     {
-        if (!isset($this->request['STRING_TO_CHECK']) || empty($this->request['STRING_TO_CHECK'])) {
-            throw new \Exception('Ничего не введено');
-        }
-
-        if (strpos($this->request['STRING_TO_CHECK'], $this->openBracket) === false &&
-            strpos($this->request['STRING_TO_CHECK'], $this->closeBracket) === false) {
-            throw new \Exception('В введённом тексте отсутсвуют скобки');
+        if (strpos($this->stringToCheck, $this->openBracket) === false &&
+            strpos($this->stringToCheck, $this->closeBracket) === false) {
+            throw new \Exception('В введённом тексте отсутсвуют скобки :(');
         }
         $this->checkBracketPairs();
     }
 
     private function checkBracketPairs()
     {
-        $arChars = str_split($this->request['STRING_TO_CHECK']);
+        $arChars = str_split($this->stringToCheck);
         $openBracketsCounter = 0;
 
         foreach ($arChars as $singleChar) {
