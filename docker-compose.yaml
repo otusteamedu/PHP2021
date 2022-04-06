@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    image: ivanboriev/socket-chat
+    container_name: socket-server
+    volumes:
+      - .:/var/www/app
+
+    networks:
+      - chat-network
+
+
+  client:
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    image: ivanboriev/socket-chat
+    container_name: socket-client
+    volumes:
+      - .:/var/www/app
+
+    networks:
+      - chat-network
+
+
+networks:
+  chat-network:
+    driver: bridge
