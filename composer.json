@@ -3,9 +3,7 @@
   "description": "Socket chat",
   "type": "project",
   "autoload": {
-    "files": [
-      "src/helpers.php"
-    ],
+
     "psr-4": {
       "Ivanboriev\\SocketChat\\": "src/"
     }
