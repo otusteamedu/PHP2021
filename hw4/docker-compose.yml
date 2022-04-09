@@ -1,0 +1,101 @@
+version: '3'
+
+services:
+  balancer:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otusapp/nginx
+    container_name: webserver
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./app:/data/otus.local
+    networks:
+      - otus-network
+
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otusapp/nginx
+    container_name: nginx1
+    ports:
+      - 8081:80
+    volumes:
+      - ./app:/data/otus.local
+      - ./nginx/hosts/otus.local.conf:/etc/nginx/sites-enabled/otus.local.conf
+    networks:
+      - otus-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otusapp/nginx
+    container_name: nginx2
+    ports:
+      - 8082:80
+    volumes:
+      - ./app:/data/otus.local
+      - ./nginx/hosts/otus.local.conf:/etc/nginx/sites-enabled/otus.local.conf
+    networks:
+      - otus-network
+
+  php1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: otusapp/php
+    container_name: php1
+    volumes:
+      - ./app:/data/otus.local
+      - ./fpm/config/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - otus-network
+
+  php2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: otusapp/php
+    container_name: php2
+    volumes:
+      - ./app:/data/otus.local
+      - ./fpm/config/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+    networks:
+      - otus-network
+
+  db:
+    image: mysql
+    container_name: db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - otus-network
+
+  memcached1:
+    image: memcached
+    container_name: memcache
+    environment:
+      - SLAVE=memcache_2
+    networks:
+      - otus-network
+
+  memcached2:
+    image: memcached
+    container_name: memcache
+    environment:
+      - SLAVE=memcache_1
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge
