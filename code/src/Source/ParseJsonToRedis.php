@@ -69,20 +69,14 @@ class ParseJsonToRedis
 
         if(file_exists($fileName)){
 
-            $arr = explode("\n",file_get_contents("./file/data.txt"));
-
-            if(isset($arr)) {
-                $resultParse = $this->addToRedis($arr);//return TRUE&&
-            }else{
+            $arr = explode("\n",file_get_contents($fileName));
+            $resultParse = $this->addToRedis($arr);
+            }
+        else{
                 $resultParse = false;
             }
 
-        }else{
-            $resultParse = false;
-        }
-
         return $resultParse;
-
     }
 
     public function run():bool{
