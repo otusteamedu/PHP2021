@@ -1,0 +1,28 @@
+version: "3"
+services:
+  web:
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
