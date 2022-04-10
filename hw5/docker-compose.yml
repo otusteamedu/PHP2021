@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+
+  fmp1:
+    image: fpm1
+    build:
+      context: ./fpm1
+      dockerfile: Dockerfile
+    container_name: container_fpm1
+    volumes:
+      - ./src:/src/appdocker.local
+    networks:
+      - app-network
+    environment:
+      MEMCACHED_SERVER: memcached1
+      MEMCACHED_PORT: 11211
+
+
+  fmp2:
+    image: fpm2
+    build:
+      context: ./fpm2
+      dockerfile: Dockerfile
+    container_name: container_fpm2
+    volumes:
+      - ./src:/src/appdocker.local
+    networks:
+      - app-network
+    environment:
+      MEMCACHED_SERVER: memcached2
+      MEMCACHED_PORT: 11212
+
+
+  memcached1:
+    image: memcached:latest
+    container_name: memcached1
+    ports:
+      - 11211:11211
+    networks:
+      - app-network
+
+  memcached2:
+    image: memcached:latest
+    container_name: memcached2
+    ports:
+      - 11212:11212
+    networks:
+      - app-network
+
+
+  nginx1:
+    image: nginx1
+    build:
+      context: ./nginx1
+      dockerfile: Dockerfile
+    container_name: container_nginx1
+    volumes:
+      - ./src:/src/appdocker.local
+    networks:
+      - app-network
+
+  nginx2:
+     image: nginx2
+     build:
+       context: ./nginx2
+       dockerfile: Dockerfile
+     container_name: container_nginx2
+     volumes:
+       - ./src:/src/appdocker.local
+     networks:
+       - app-network
+
+  nginx_balanicer:
+    image: nginxbalance
+    build:
+      context: ./nginxbalance
+      dockerfile: Dockerfile
+    container_name: container_nginxbalance
+    
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/src/appdocker.local
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
