@@ -1,0 +1,6 @@
+.idea/
+data/sites/vendor/
+mysql/
+nginx/certs/
+.env
+rabbitmq/

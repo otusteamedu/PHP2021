@@ -1,0 +1,49 @@
+version: '3.2'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/hw-9
+    env_file:
+      - .env
+    volumes:
+      - ./data/sites:/data/
+    networks:
+      - app-network
+    restart: always
+
+  nginx:
+    image: nginx:1.13
+    networks:
+      - app-network
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/sites:/data
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/vhosts:/etc/nginx/vhosts
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      - app
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    volumes:
+        - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+        - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+        - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+        - ./rabbitmq/logs:/var/log/rabbitmq/log
+    ports:
+        - '18672:15672'
+        - '56672:5672'
+    networks:
+        - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
