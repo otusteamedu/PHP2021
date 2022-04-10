@@ -1,0 +1,14 @@
+{
+    "name": "ivanboriev/trusted-brackets",
+    "autoload": {
+        "psr-4": {
+            "Ivanboriev\\TrustedBrackets\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ivanboriev"
+        }
+    ],
+    "require": {}
+}
