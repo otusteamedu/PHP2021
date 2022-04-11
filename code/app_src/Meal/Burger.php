@@ -8,7 +8,7 @@ class Burger extends MealBaseClass
 	{
 		parent::__construct();
 		$this->setIngredients([
-			'bun' => 2,
+			new Ingredient('bun', 2),
 		]);
 	}
 }

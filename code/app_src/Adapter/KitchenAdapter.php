@@ -9,12 +9,12 @@ class KitchenAdapter
 	private KitchenService $kitchenService;
 
 	
-	public function __construct($kitchenService)
+	public function __construct(KitchenService $kitchenService)
 	{
 		$this->kitchenService = $kitchenService;
 	}
 	
-	public function cookMeal(MealInterface $meal)
+	public function cookMeal(MealInterface $meal): void
 	{
 		$currentIngredients = $meal->getIngredients();
 		$meal->resetIngredients();
@@ -27,7 +27,7 @@ class KitchenAdapter
 		}
 	}
 	
-	public function utilizeMeal(MealInterface $meal)
+	public function utilizeMeal(MealInterface $meal): void
 	{
 		$this->kitchenService->utilize($meal);
 	}

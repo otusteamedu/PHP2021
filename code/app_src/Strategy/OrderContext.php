@@ -5,6 +5,7 @@ namespace App\Strategy;
 use App\Observer\Customer;
 use App\Adapter\KitchenAdapter;
 use App\Adapter\KitchenService;
+use App\Meal\MealInterface;
 
 class OrderContext {
 	
@@ -16,12 +17,12 @@ class OrderContext {
 		$this->customerObserver = $customer;
     }
 	
-	public function setCookingStrategy(CookingStrategyInterface $strategy)
+	public function setCookingStrategy(CookingStrategyInterface $strategy): void
     {
 		$this->strategy = $strategy;
     }
 
-	public function getOrderedMeal(array $customerIngredients = [])
+	public function getOrderedMeal(array $customerIngredients = []): MealInterface
     {
 		$orderedMeal = $this->strategy->prepareIngredients($customerIngredients, $this->customerObserver);
 		$orderedMeal->setStatus('INGREDIENTS_PREPARED');

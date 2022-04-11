@@ -22,7 +22,10 @@ class BurgerDecorator extends MealDecorator
 	
 	function addBaseIngredients(): void
 	{
-		$this->mealDecorator->ingredients = array_merge($this->mealDecorator->ingredients, self::$baseRecipe);
+		$this->mealDecorator->ingredients = array_merge(
+			$this->mealDecorator->ingredients, 
+			$this->mealDecorator->getAdapter()->createIngredientsArray(self::$baseRecipe)
+		);
 		$this->mealDecorator->setStatus('ADDED_BASE_BURGER_RECIPE_INGREDIENTS');
 	}
 }

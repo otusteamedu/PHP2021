@@ -8,7 +8,7 @@ class Sandwich extends MealBaseClass
 	{
 		parent::__construct();
 		$this->setIngredients([
-			'toast' => 2,
+			new Ingredient('toast', 2),
 		]);
 	}
 }

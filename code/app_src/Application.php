@@ -2,13 +2,9 @@
 
 namespace App;
 
-require 'vendor/autoload.php';
-
 class Application
 {
     private $request;
-    private $storageInterface;
-    private $appHelper;
 
     public function __construct()
     {
@@ -19,12 +15,11 @@ class Application
 		}
     }
 
-    public function run()
+    public function run(): void
 	{
 		$customer = new Observer\Customer();
 		$order = new Strategy\OrderContext($customer);
-		//$_POST['client_ingredients'] = ['lettuce' => 1, 'tomato' => 2, 'additional_cheese' => 2];
-		$m = new Meal\Burger();
+
 		switch ($_POST['meal']) {
 			case 'Burger':
 				$order->setCookingStrategy(new Strategy\BurgerStrategy());
@@ -43,6 +38,6 @@ class Application
 		}
 
 		$meal = $order->getOrderedMeal(isset($_POST['client_ingredients']) ? $_POST['client_ingredients'] : []);
-		print_r($meal);
+		print_r($meal->getIngredients());
     }
 }

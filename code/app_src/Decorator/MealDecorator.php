@@ -3,16 +3,19 @@
 namespace App\Decorator;
 
 use App\Meal\MealBaseClass;
+use App\Meal\IngredientAdapter;
 
 class MealDecorator extends MealBaseClass
 {
 	
 	private MealBaseClass $meal;
 	private SplObjectStorage $observers;
+	private IngredientAdapter $adapter;
 	
 	public function __construct(MealBaseClass $baseMeal)
 	{
 		$this->meal = $baseMeal;
+		$this->adapter = new IngredientAdapter();
 		$this->resetIngredients();
 	}
 
@@ -39,6 +42,11 @@ class MealDecorator extends MealBaseClass
 	public function addIngredients(array $ingredients = []): void
 	{
 		$this->ingredients = array_merge($this->ingredients, $ingredients);
+	}
+	
+	public function getAdapter(): IngredientAdapter
+	{
+		return $this->adapter;
 	}
 
 }

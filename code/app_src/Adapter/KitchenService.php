@@ -27,7 +27,7 @@ class KitchenService
 		return $cookedIngredients;
 	}
 	
-	public function checkMealQuality(MealInterface $meal)
+	public function checkMealQuality(MealInterface $meal): bool
 	{
 		foreach ($meal->getIngredients() as $ingredient => $value) {
 			if (in_array($ingredient, self::$needToBeFried)) {
@@ -38,7 +38,7 @@ class KitchenService
 		return true;
 	}
 	
-	public function utilize(MealInterface $meal)
+	public function utilize(MealInterface $meal): void
 	{
 		$meal->setStatus('UTILIZED');
 	}

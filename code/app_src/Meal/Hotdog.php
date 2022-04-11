@@ -8,7 +8,7 @@ class Hotdog extends MealBaseClass
 	{
 		parent::__construct();
 		$this->setIngredients([
-			'bun' => 1,
+			new Ingredient('bun', 1),
 		]);
 	}
 }
