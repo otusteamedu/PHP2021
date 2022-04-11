@@ -36,6 +36,18 @@ Sort  (cost=2761.45..2765.83 rows=1753 width=63) (actual time=28.905..29.024 row
 -- Удалить индекс --
 DROP INDEX price_index ON films (price);
 
+-- Результат после удаления индекса------
+
+Sort  (cost=2761.45..2765.83 rows=1753 width=63) (actual time=24.834..24.967 rows=1841 loops=1)
+   Sort Key: price
+   Sort Method: quicksort  Memory: 282kB
+   ->  Seq Scan on films  (cost=0.00..2667.00 rows=1753 width=63) (actual time=0.024..23.695 rows=1841 loops=1)
+         Filter: ((price > '300'::numeric) AND (duration <= 95))
+         Rows Removed by Filter: 98159
+ Planning Time: 0.345 ms
+ Execution Time: 24.045 ms
+(8 rows)
+
 --2 запрос
 -- 10 000
  Seq Scan on session  (cost=0.00..189.00 rows=2 width=20) (actual time=0.993..0.994 rows=0 loops=1)
