@@ -6,8 +6,7 @@ use App\Check;
 
 class Application
 {
-    private $request;
-
+    
     public function __construct()
     {
         if (!RequestValidator::checkRequestType('POST')) {
@@ -16,18 +15,17 @@ class Application
         if (RequestValidator::checkRequestIsEmpty($_POST)) {
             throw new \Exception('Empty request');
         }
-        $this->request = $_POST;
     }
 
     public function run()
     {
-        if (!isset($this->request['STRING']) || empty($this->request['STRING'])) {
+        if (!isset($_POST['STRING']) || empty($_POST['STRING'])) {
             throw new \Exception('No string passed');
         }
-        if (strpos($this->request['STRING'], Check::$openBracket) === false ||
-            strpos($this->request['STRING'], Check::$closeBracket ) === false) {
+        if (strpos($_POST['STRING'], Check::$openBracket) === false ||
+            strpos($_POST['STRING'], Check::$closeBracket ) === false) {
             throw new \Exception('No brackets passed in string');
         }
-        Check::checkBracketPairs($this->request['STRING']);
+        Check::checkBracketPairs($_POST['STRING']);
     }
 }

@@ -7,7 +7,7 @@ class Response
     public static function generateResponse($responseText)
     {
         switch($responseText) {
-            case 'Everything is fine':
+            case Check::MESSAGE:
                 header('HTTP/1.0 200 Ok');
                 break;
             default:

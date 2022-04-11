@@ -1,32 +1,27 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
 class Check
 {
+    const MESSAGE = 'Everything is fine';
     static $openBracket = '(';
     static $closeBracket = ')';
 
 
-    static function checkBracketPairs($request)
+    static function checkBracketPairs(string $request) : void
     {
         $arChars = str_split($request);
         $openBracketsCounter = 0;
         foreach($arChars AS $singleChar) {
-            if ($singleChar == self::$closeBracket) {
-                if($openBracketsCounter <= 0) {
-                    throw new \Exception('Brackets not paired');
-                }
-                $openBracketsCounter--;
-            }
-            if ($singleChar == self::$openBracket) {
-                $openBracketsCounter++;
-            }
-        }
-        if ($openBracketsCounter) {
-            throw new \Exception('Brackets not paired');
-        }
-        throw new \Exception('Everything is fine');
-    }
+            if($openBracketsCounter <= 0) throw new \Exception('Brackets not paired');
 
+            if ($singleChar == self::$closeBracket) $openBracketsCounter--;
+            else if ($singleChar == self::$openBracket) $openBracketsCounter++;
+        }
+        if ($openBracketsCounter) throw new \Exception('Brackets not paired');
+
+        throw new \Exception(self::MESSAGE);
+    }
 }
