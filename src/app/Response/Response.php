@@ -6,6 +6,10 @@ use Ivanboriev\TrustedBrackets\Request\Request;
 
 class Response
 {
+    /**
+     * @param $message
+     * @return void
+     */
     public static function error($message)
     {
         header('HTTP/1.0 400 Bad Request');
@@ -20,6 +24,10 @@ class Response
 
     }
 
+    /**
+     * @param $message
+     * @return void
+     */
     public static function success($message)
     {
         header('HTTP/1.0 200 Ok');
@@ -32,11 +40,17 @@ class Response
         }
     }
 
-    private static function isJson()
+    /**
+     * @return bool
+     */
+    private static function isJson(): bool
     {
         return $_SERVER['CONTENT_TYPE'] === 'application/json';
     }
 
+    /**
+     * @return void
+     */
     private static function setJson()
     {
         header('Content-Type: application/json; charset=utf-8');

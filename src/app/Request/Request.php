@@ -4,11 +4,11 @@ namespace Ivanboriev\TrustedBrackets\Request;
 
 class Request
 {
-    private $method;
+    private string $method;
 
-    private static $contentType;
+    private static string $contentType;
 
-    private $payload = [];
+    private array $payload = [];
 
     public function __construct()
     {
@@ -18,6 +18,10 @@ class Request
     }
 
 
+    /**
+     * @param $method
+     * @return array|mixed
+     */
     private static function getPayload($method)
     {
         if ($method === "GET") {
@@ -31,17 +35,26 @@ class Request
         return [];
     }
 
+    /**
+     * @return mixed|string
+     */
     public function method()
     {
         return $this->method;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function payload()
     {
         return $this->payload;
     }
 
-    public function isPost()
+    /**
+     * @return bool
+     */
+    public function isPost(): bool
     {
         return $this->method() === "POST";
     }

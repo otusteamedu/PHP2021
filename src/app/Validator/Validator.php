@@ -2,39 +2,63 @@
 
 namespace Ivanboriev\TrustedBrackets\Validator;
 
+use Ivanboriev\TrustedBrackets\Validator\Rules\Rule;
+
 class Validator
 {
-    public static function required($string, $params = [])
+    private array $rules = [];
+
+    private array $payload = [];
+
+    private array $failedStackMessages = [];
+
+
+    /**
+     * @param array $payload
+     * @param array $haystack
+     * @return void
+     */
+    public function make(array $payload, array $haystack): void
     {
-        return array_key_exists($string, $params);
+        foreach ($haystack as $key => $ruleStack) {
+
+            $this->rules[] = [
+                'key' => $key,
+                'rules' => array_map(function (Rule $rule) use ($payload, $key) {
+                    $rule->configure($key, $payload);
+                    return $rule;
+                }, $ruleStack)
+            ];
+        }
+
+
     }
 
-    public static function isEmpty($param)
-    {
-        return empty($param);
-    }
 
-    public static function onlyChars($needle, $haystack)
+    /**
+     * @return bool
+     */
+    public function fails(): bool
     {
-        foreach (str_split($haystack) as $char) {
-            if (!in_array($char, $needle)) {
-                return false;
+        foreach ($this->rules as $rules) {
+            foreach ($rules['rules'] as $rule) {
+                if (!$rule->apply()) {
+                    $this->failedStackMessages[$rules['key']][] = $rule->message();
+                    return true;
+                }
             }
         }
 
-        return true;
+        return false;
     }
 
-    public static function equals($char1, $char2, $haystack)
+
+    /**
+     * @return string
+     */
+    public function error(): string
     {
-        function counter($needle, $haystack)
-        {
-            return array_reduce(str_split($haystack), function ($carry, $char) use ($needle) {
-                return $char === $needle ? $carry + 1 : $carry;
-            }, 0);
-
-        }
-
-        return counter($char1, $haystack) === counter($char2, $haystack);
+        return !empty($this->failedStackMessages) ? current($this->failedStackMessages)[0] : "";
     }
+
 }

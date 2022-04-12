@@ -2,58 +2,58 @@
 
 namespace Ivanboriev\TrustedBrackets;
 
+
 use Ivanboriev\TrustedBrackets\Exceptions\BadRequestMethodException;
-use Ivanboriev\TrustedBrackets\Exceptions\EmptyPayloadRequestException;
-use Ivanboriev\TrustedBrackets\Exceptions\InvalidCharacterException;
-use Ivanboriev\TrustedBrackets\Exceptions\NotEqualsPairException;
-use Ivanboriev\TrustedBrackets\Exceptions\ParamRequestMissingException;
+use Ivanboriev\TrustedBrackets\Exceptions\InvalidArgumentException;
 use Ivanboriev\TrustedBrackets\Request\Request;
 use Ivanboriev\TrustedBrackets\Response\Response;
+use Ivanboriev\TrustedBrackets\Validator\Rules\EndsWithRule;
+use Ivanboriev\TrustedBrackets\Validator\Rules\EqualsRule;
+use Ivanboriev\TrustedBrackets\Validator\Rules\NotEmptyRule;
+use Ivanboriev\TrustedBrackets\Validator\Rules\OnlyRule;
+use Ivanboriev\TrustedBrackets\Validator\Rules\RequiredRule;
+use Ivanboriev\TrustedBrackets\Validator\Rules\StartsWithRule;
 use Ivanboriev\TrustedBrackets\Validator\Validator;
 
 class App
 {
-    const HANDLE_REQUEST_KEY = 'string';
-    const BRACKETS_CHARS = ['(', ')'];
+    private Request $request;
 
-    private $request;
+    private Validator $validator;
+
 
 
     public function __construct()
     {
         $this->request = new Request;
+
+        $this->validator = new Validator;
     }
 
 
     /**
-     * @throws InvalidCharacterException
      * @throws BadRequestMethodException
-     * @throws NotEqualsPairException
-     * @throws ParamRequestMissingException
-     * @throws EmptyPayloadRequestException
+     * @throws InvalidArgumentException
      */
-    public function run()
+    public function run(): void
     {
         if (!$this->request->isPost()) {
             throw new BadRequestMethodException;
         }
 
-        if (!Validator::required(self::HANDLE_REQUEST_KEY, $this->request->payload())) {
-            throw new ParamRequestMissingException(sprintf("Missing param request: ['%s']", self::HANDLE_REQUEST_KEY));
-        }
+        $this->validator->make($this->request->payload(), [
+            'string' => [
+                new RequiredRule,
+                new NotEmptyRule,
+                new OnlyRule(['(', ')']),
+                new StartsWithRule('('),
+                new EndsWithRule(')'),
+                new EqualsRule('(', ')')
+            ]
+        ]);
 
-        $bracketsString = $this->request->payload()[self::HANDLE_REQUEST_KEY];
-
-        if (Validator::isEmpty($bracketsString)) {
-            throw new EmptyPayloadRequestException;
-        }
-
-        if (!Validator::onlyChars(self::BRACKETS_CHARS, $bracketsString)) {
-            throw new InvalidCharacterException(sprintf("The '%s' contains invalid characters!", self::HANDLE_REQUEST_KEY));
-        }
-
-        if (!Validator::equals(self::BRACKETS_CHARS[0], self::BRACKETS_CHARS[1], $bracketsString)) {
-            throw new NotEqualsPairException;
+        if ($this->validator->fails()) {
+            throw new InvalidArgumentException($this->validator->error());
         }
 
         Response::success("Bracket pair test passed!");

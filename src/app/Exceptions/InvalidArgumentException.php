@@ -2,7 +2,7 @@
 
 namespace Ivanboriev\TrustedBrackets\Exceptions;
 
-class ParamRequestMissingException extends \Exception
+class InvalidArgumentException extends \Exception
 {
 
 }
