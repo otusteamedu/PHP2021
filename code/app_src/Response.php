@@ -45,17 +45,17 @@ class Response
                 break;
 
             case 'EMAIL_OK':
-                return "$email валиден и MX-запись найдена :)";
+                return "Адрес $email валиден и MX-запись найдена :)";
 
                 break;
 
             case 'EMAIL_MX_FAILED':
-                return "MX запись для $email, не найдено :(";
+                return "MX запись для адреса $email, не найдено :(";
 
                 break;
 
             case 'EMAIL_VALID_FAILED':
-                return "$email не прошёл валидацию :(";
+                return "Адрес $email не прошёл валидацию :(";
 
                 break;
 
