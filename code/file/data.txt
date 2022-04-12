@@ -1,0 +1,13 @@
+{"priority":1000,"conditions":{"param1":1},"event":"событие1"}
+{"priority":2000,"conditions":{"param1":2,"param2":2},"event":"событие2"}
+{"priority":3000,"conditions":{"param1":1,"param2":2},"event":"событие3"}
+{"priority":500,"conditions":{"param1":1},"event":"событие4"}
+{"priority":700,"conditions":{"param1":1},"event":"событие5"}
+{"priority":2600,"conditions":{"param1":2,"param2":2},"event":"событие6"}
+{"priority":3200,"conditions":{"param1":1,"param2":2},"event":"событие7"}
+{"priority":200,"conditions":{"param1":1,"param2":2},"event":"событие8"}
+{"priority":300,"conditions":{"param1":1},"event":"событие9"}
+{"priority":400,"conditions":{"param1":1},"event":"событие10"}
+{"priority":1500,"conditions":{"param1":2,"param2":2},"event":"событие11"}
+{"priority":1700,"conditions":{"param1":1,"param2":2},"event":"событие12"}
+{"priority":1900,"conditions":{"param1":1,"param2":2},"event":"событие13"}
