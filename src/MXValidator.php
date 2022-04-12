@@ -8,33 +8,21 @@ class MXValidator
 
     private array $emailsAfterVerification = [];
 
-
-    /**
-     * @param string|array $emails
-     * @return array
-     */
-    public static function validate($emails): array
-    {
-        $validator = new self;
-        $validator->addEmails($emails);
-        return $validator->handle();
-
-    }
-
     /**
      * @param string|array $emails
      * @return self
      */
-    public function addEmails($emails): self
+    public function addEmails($emails): MXValidator
     {
         is_array($emails)
-            ? $this->emailsForVerification = $emails
+            ? $this->emailsForVerification = array_merge($this->emailsForVerification, $emails)
             : $this->emailsForVerification[] = $emails;
 
         return $this;
     }
 
     /**
+     * Return array valid emails
      * @return array
      */
     public function handle(): array
@@ -54,7 +42,7 @@ class MXValidator
 
         }
 
-        return $this->getValidateResult();
+        return $this->validate();
     }
 
     /**
@@ -101,5 +89,16 @@ class MXValidator
     private function getValidateResult(): array
     {
         return $this->emailsAfterVerification;
+    }
+
+    /**
+     * Return list valid emails
+     * @return array
+     */
+    private function validate(): array
+    {
+        return array_keys(array_filter($this->emailsAfterVerification, function ($passed, $email) {
+            return $passed === true;
+        }, ARRAY_FILTER_USE_BOTH));
     }
 }
