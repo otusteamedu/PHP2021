@@ -34,28 +34,33 @@ class Response
 
                 break;
 
+            case 'EMPTY_INPUT':
+                return 'В поле ничего не введено :|';
+
+                break;
+
             case 'DATA_NO_GENERATED':
-                return 'Данные не сгенерированы :|';
+                return 'Данные не сгенерированы o_0';
 
                 break;
 
             case 'EMAIL_OK':
-                return "$email валиден и MX-запись найдена";
+                return "$email валиден и MX-запись найдена :)";
 
                 break;
 
             case 'EMAIL_MX_FAILED':
-                return "MX запись для $email, не найдено";
+                return "MX запись для $email, не найдено :(";
 
                 break;
 
             case 'EMAIL_VALID_FAILED':
-                return "$email не прошёл валидацию";
+                return "$email не прошёл валидацию :(";
 
                 break;
 
             default:
-                return 'Неизвестная ошибка :(';
+                return 'Неизвестная ошибка 0_0';
         }
     }
 }

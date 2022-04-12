@@ -7,17 +7,18 @@ class MailValidator
     private $emailValidRegExp = '/^(([\wА-Яа-я]{1,})@([\wА-Яа-я]{1,}\.)+[A-Za-zА-Яа-я]{2,})$/ui';
     private $emailAddress;
 
-    public function validateEmails($arEmails) {
+    public function validateEmails($arEmails)
+    {
         $arResult = [];
 
         foreach ($arEmails as $email) {
-                $arResult[] = [
-                    'EMAIL' => $email,
-                    'RESULT' => $this->validate($email)
-                ];
+            $arResult[] = [
+                'EMAIL' => $email,
+                'RESULT' => $this->validate($email)
+            ];
         }
 
-        if($arResult == '') {
+        if ($arResult == '') {
             throw new \Exception('DATA_NO_GENERATED');
         }
         Response::generateOkResponse($arResult);
@@ -25,13 +26,13 @@ class MailValidator
 
     public function validate($email)
     {
-        if($email == '') {
-            return;
+        if ($email == '') {
+            return 'EMPTY_INPUT';
         }
 
         $this->emailAddress = $email;
 
-        if($this->validateEmailAddress()) {
+        if ($this->validateEmailAddress()) {
 
             if ($this->checkMXRecord()) {
                 return 'EMAIL_OK';
