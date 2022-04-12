@@ -31,13 +31,12 @@ class Result
             if($valRes===true){
                 $this->resultRequest();
             }else{
-                echo "Проблемы с аналитикой". PHP_EOL;
+                throw new \Exception('Проблемы с аналитикой');
             }
 
         }else{
-            echo "Ошибка подключения". PHP_EOL;
+            throw new \Exception('Ошибка подключения');
         }
-
     }
 
     public function run(): void
