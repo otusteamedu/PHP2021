@@ -1,0 +1,19 @@
+{
+    "name": "otus/domain",
+    "description": "Check domain MX record.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Otus\\Domain\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ivanboriev"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "symfony/var-dumper": "5.4.x-dev"
+    }
+}
