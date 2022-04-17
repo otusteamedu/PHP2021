@@ -11,7 +11,6 @@ class Application
 {
     private $request;
     private $ElasticSearchInterface;
-    private $appHelper;
 
     public function __construct()
     {

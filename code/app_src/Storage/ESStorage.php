@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Storage;
 
 use Elasticsearch\ClientBuilder;
@@ -18,22 +18,22 @@ class ESStorage implements StorageInterface
         $this->client = ClientBuilder::create()->setHosts($this->hosts)->build();
     }
 
-    public function insert($request)
+    public function insert(string $request) : array
     {
         return $this->client->index($this->getRequestBody($request));
     }
 
-    public function delete($request)
+    public function delete(string $request)
     {
         return $this->client->delete($this->getRequestBody($request));
     }
 
-    public function search($arData)
+    public function search(string $arData) : array
     {
         return $this->client->search($arData)['hits']['hits'];
     }
 
-    private function getRequestBody($request)
+    private function getRequestBody(array $request) : array
     {
         switch ($request['index']) {
             case 'youtube_channel':
@@ -48,7 +48,7 @@ class ESStorage implements StorageInterface
         }
     }
 
-    private function makeChannelArray($request)
+    private function makeChannelArray(array $request) : array
     {
         return [
             'index' => $request['index'],
@@ -75,7 +75,7 @@ class ESStorage implements StorageInterface
         ];
     }
 
-    public function getMainFields()
+    public function getMainFields() : array
     {
         return $this->mainFields;
     }

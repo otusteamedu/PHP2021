@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App;
 
@@ -6,12 +7,12 @@ class StatisticsManager
 {
     private $storageInterface;
 
-    public function __construct($storageInterface)
+    public function __construct(string $storageInterface)
     {
         $this->storageInterface = $storageInterface;
     }
 
-    public function getChannelSummary($channelId)
+    public function getChannelSummary(string $channelId) : array
     {
         $arChannelVideos = $this->storageInterface->search(
             [
@@ -39,7 +40,7 @@ class StatisticsManager
         ];
     }
 
-    public function getTopRatedChannels()
+    public function getTopRatedChannels() : array
     {
         $arRate = [];
         $arChannels = $this->storageInterface->search(

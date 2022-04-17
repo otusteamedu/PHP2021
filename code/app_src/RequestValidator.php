@@ -1,20 +1,20 @@
 <?php
-
+declare(strict_types=1);
 namespace App;
 
 class RequestValidator
 {
-    public static function checkRequestType($typeNeeded)
+    public static function checkRequestType(string $typeNeeded) : bool
     {
         return $_SERVER['REQUEST_METHOD'] == $typeNeeded ? true : false;
     }
 
-    public static function checkRequestIsEmpty($request)
+    public static function checkRequestIsEmpty(string $request) : bool
     {
         return empty($request) ? true : false;
     }
 
-    public static function checkMainFields($request, $storageInterface)
+    public static function checkMainFields(string $request, array $storageInterface) : bool
     {
         foreach ($storageInterface->getMainFields() as $field) {
             if (!isset($request[$field]) || empty($request[$field])) {
