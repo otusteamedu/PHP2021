@@ -10,18 +10,18 @@ use Exception;
 class ManufacturerFeedParser implements FeedParserInterface
 {
 	private FileParserInterface $fileParser;
-	
+
 	private TableLogger $logger;
-	
+
 	private array $errors;
-	
+
 	const IBLOCK_CODE_CATALOG_NEW = 'bitrix.catalog';
-	
+
 	public function __construct(TableLogger $logger)
 	{
 		$this->logger = $logger;
 	}
-	
+
 	public function parseFeedToTable(array $arFeed): void
 	{
 		$labelName = "import_{$arFeed['UF_USER_ID']}";
@@ -35,7 +35,7 @@ class ManufacturerFeedParser implements FeedParserInterface
 
 		try {
 			if (isset($this->fileParser)) {
-				$this->fileParser->run($arFeed['UF_USER_ID'], $arFeed['ID'], $arFeed['file_path']);
+				$this->fileParser->run($arFeed['UF_USER_ID'],$arFeed['ID'], $arFeed['file_path']);
 			} else {
 				throw new Exception('Не задан класс парсера файла');
 			}
@@ -54,17 +54,17 @@ class ManufacturerFeedParser implements FeedParserInterface
 		$timeSpent = round($arLabels[$labelName]['time'], 2);
 		$this->logger->addToLog('parse feed', 'success', ['msg' => "Время обработки файла: $timeSpent сек", 'feed_id' => $this->feedId]);
 	}
-	
+
 	public function getFileParser(): FileParserInterface
 	{
 		return $this->fileParser;
 	}
-	
+
 	public function setFileParser(FileParserInterface $fileParser): void
 	{
 		$this->fileParser = $fileParser;
 	}
-	
+
 	public function getErrors(): array
 	{
 		return $this->errors;
