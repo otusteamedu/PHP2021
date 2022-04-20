@@ -4,7 +4,7 @@ namespace App;
 
 class RequestValidator
 {
-    public static function checkRequestType($typeNeeded)
+    public static function checkRequestType(string $typeNeeded): bool
     {
         if ($_SERVER['REQUEST_METHOD'] == $typeNeeded) {
             return true;
@@ -13,7 +13,7 @@ class RequestValidator
         }
     }
 
-    public static function checkRequestIsEmpty($request)
+    public static function checkRequestIsEmpty(array $request): bool
     {
         if (empty($request)) {
             return true;

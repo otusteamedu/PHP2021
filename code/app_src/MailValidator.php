@@ -7,7 +7,7 @@ class MailValidator
     private $emailValidRegExp = '/^(([\wА-Яа-я]{1,})@([\wА-Яа-я]{1,}\.)+[A-Za-zА-Яа-я]{2,})$/ui';
     private $emailAddress;
 
-    public function validateEmails($arEmails)
+    public function validateEmails(array $arEmails)
     {
         $arResult = [];
 
@@ -24,7 +24,7 @@ class MailValidator
         Response::generateOkResponse($arResult);
     }
 
-    public function validate($email)
+    public function validate(string $email): string
     {
         if ($email == '') {
             return 'EMPTY_INPUT';
@@ -49,9 +49,10 @@ class MailValidator
         return preg_match($this->emailValidRegExp, $this->emailAddress);
     }
 
-    private function checkMXRecord()
+    private function checkMXRecord(): bool 
     {
         $arMailAddress = explode('@', $this->emailAddress);
+
         return getmxrr($arMailAddress[1], $hosts);
     }
 }

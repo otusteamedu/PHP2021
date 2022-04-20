@@ -4,7 +4,7 @@ namespace App;
 
 class Response
 {
-    public static function generateOkResponse($arResult)
+    public static function generateOkResponse(array $arResult)
     {
         header('HTTP/1.0 200 Ok');
 
@@ -13,14 +13,14 @@ class Response
         }
     }
 
-    public static function generateBadRequestResponse($errorCode)
+    public static function generateBadRequestResponse(string $errorCode)
     {
         header('HTTP/1.0 400 Bad Request');
 
         echo self::getErrorMessage($errorCode) . PHP_EOL;
     }
 
-    private static function getErrorMessage($errorCode, $email = null)
+    private static function getErrorMessage(string $errorCode, string $email = null): string
     {
         switch ($errorCode) {
 
