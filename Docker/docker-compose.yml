@@ -1,0 +1,97 @@
+version: '3'
+
+services:
+  balancer:
+    container_name: balancer-nginx
+    image: email-app/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - webserver1
+      - webserver2
+    volumes:
+      - ./nginx/hosts/balancer:/etc/nginx/conf.d
+      - phpsocket:/var/run
+    networks:
+      - email-app-network
+
+  webserver1:
+    container_name: nginx1
+    image: email-app/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/hosts/app:/etc/nginx/conf.d
+      - ../www:/var/www/email-app.local
+      - phpsocket:/var/run
+    networks:
+      - email-app-network
+
+  app1:
+    container_name: app1
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: email-app/php
+    volumes:
+      - ../www:/var/www/email-app.local
+      - phpsocket:/var/run
+    networks:
+      - email-app-network
+
+  webserver2:
+    container_name: nginx2
+    image: email-app/nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/hosts/app:/etc/nginx/conf.d
+      - ../www:/var/www/email-app.local
+      - phpsocket:/var/run
+    networks:
+      - email-app-network
+
+  app2:
+    container_name: app2
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: email-app/php
+    volumes:
+      - ../www:/var/www/email-app.local
+      - phpsocket:/var/run
+    networks:
+      - email-app-network
+
+  db:
+    image: mysql:latest
+    container_name: db
+    ports:
+      - ${MYSQL_PORT}-${MYSQL_PORT}
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - email-app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcache
+    ports:
+      - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
+    networks:
+      - email-app-network
+
+networks:
+  email-app-network:
+    driver: bridge
+
+volumes:
+  phpsocket:
