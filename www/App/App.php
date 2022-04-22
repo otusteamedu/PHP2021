@@ -13,9 +13,13 @@ class App
     public function run(): void
     {
         if (count($_POST) > 0) {
-            $request = (new Request($_POST))->all();
+            if (isset($this->request['email']) && !empty($this->request['email'])) {
+                $request = (new Request($_POST))->all();
 
-            (new EmailValidator($request))->run();
+                (new EmailValidator($request))->run();
+            } else {
+                echo 'Email str is empty :(';
+            }
         } else {
             require_once($_SERVER['DOCUMENT_ROOT'] . '/Views/form.php');
         }

@@ -19,13 +19,9 @@ class EmailValidator
 
     public function run()
     {
-        if (isset($this->request['email']) && !empty($this->request['email'])) {
-            $this->email = $this->request['email'];
+        $this->email = $this->request['email'];
 
-            $this->validate();
-        } else {
-            echo 'Email str is empty :(';
-        }
+        $this->validate();
     }
 
     private function validate(): void
