@@ -12,8 +12,8 @@ class App
 
     public function run(): void
     {
-        if (count($_REQUEST) > 0) {
-            $request = (new Request($_REQUEST))->all();
+        if (count($_POST) > 0) {
+            $request = (new Request($_POST))->all();
 
             (new EmailValidator($request))->run();
         } else {
