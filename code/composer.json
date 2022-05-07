@@ -1,0 +1,14 @@
+{
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-sockets": "*",
+    "vmeleshkin/validators": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app_src"
+    }
+  },
+  "minimum-stability": "dev"
+}

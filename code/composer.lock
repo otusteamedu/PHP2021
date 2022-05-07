@@ -1,0 +1,62 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "65b49321a2ff80a0f8efcff8a70a1e1d",
+    "packages": [
+        {
+            "name": "vmeleshkin/validators",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JastaFly/Email-Validator.git",
+                "reference": "01e3fa3a6bf850263ac690281c0109a6366240b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JastaFly/Email-Validator/zipball/01e3fa3a6bf850263ac690281c0109a6366240b4",
+                "reference": "01e3fa3a6bf850263ac690281c0109a6366240b4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "VMeleshkin\\Validators\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Vlad Meleshkin (JastaFly)"
+                }
+            ],
+            "description": "Set different validators",
+            "support": {
+                "issues": "https://github.com/JastaFly/Email-Validator/issues",
+                "source": "https://github.com/JastaFly/Email-Validator/tree/main"
+            },
+            "time": "2022-05-07T20:36:36+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "vmeleshkin/validators": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-sockets": "*"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
