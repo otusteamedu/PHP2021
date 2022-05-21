@@ -2,8 +2,6 @@
 
 namespace App;
 
-
-
 use VMeleshkin\Validators\EmailValidator;
 
 class Application
@@ -23,7 +21,6 @@ class Application
 
     public function run()
     {
-
         $mailValidator = new EmailValidator();
         $validationResult = $mailValidator->validateEmail($this->request['email']);
 
