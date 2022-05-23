@@ -6,5 +6,5 @@ try {
     $app = new App\Application();
     $app->run();
 } catch (Exception $e) {
-    App\Response::generateBadRequestResponse($e->getMessage());
+    echo App\Response::generateBadRequestResponse($e->getMessage());
 }

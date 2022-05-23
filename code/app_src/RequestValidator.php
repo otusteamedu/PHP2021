@@ -15,10 +15,6 @@ class RequestValidator
 
     public static function checkRequestIsEmpty(array $request): bool
     {
-        if (empty($request)) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($request) ? true : false;
     }
 }

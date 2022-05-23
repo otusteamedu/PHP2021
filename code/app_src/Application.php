@@ -12,7 +12,9 @@ class Application
     {
         if (!RequestValidator::checkRequestType('POST')) {
             throw new \Exception('ERROR_REQUEST_METHOD');
-        } elseif (RequestValidator::checkRequestIsEmpty($_POST)) {
+        }
+
+        if (RequestValidator::checkRequestIsEmpty($_POST)) {
             throw new \Exception('EMPTY_REQUEST');
         } else {
             $this->request = $_POST;
@@ -25,7 +27,7 @@ class Application
         $validationResult = $mailValidator->validateEmail($this->request['email']);
 
         if ($validationResult === 'EMAIL_OK') {
-            Response::generateOkResponse($validationResult);
+            echo Response::generateOkResponse($validationResult);
         } else {
             throw new \Exception($validationResult);
         }

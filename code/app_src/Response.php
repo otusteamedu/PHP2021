@@ -8,14 +8,14 @@ class Response
     {
         header('HTTP/1.0 200 Ok');
 
-        echo self::getErrorMessage($code) . '<br>';
+        return self::getErrorMessage($code) . '<br>';
     }
 
     public static function generateBadRequestResponse(string $errorCode)
     {
         header('HTTP/1.0 400 Bad Request');
 
-        echo self::getErrorMessage($errorCode) . PHP_EOL;
+        return self::getErrorMessage($errorCode) . PHP_EOL;
     }
 
     private static function getErrorMessage(string $errorCode): string
