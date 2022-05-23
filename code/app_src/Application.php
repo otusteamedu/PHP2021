@@ -14,7 +14,7 @@ class Application
             throw new \Exception('ERROR_REQUEST_METHOD');
         }
 
-        if (RequestValidator::checkRequestIsEmpty($_POST)) {
+        if (empty($_POST)) {
             throw new \Exception('EMPTY_REQUEST');
         } else {
             $this->request = $_POST;
