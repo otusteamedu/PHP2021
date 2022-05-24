@@ -1,3 +1,8 @@
-# PHP2021
+# Домашняя работа №6 -  Командная разработка
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Выполнил: Мелёшкин В.В.
+
+Класс `EmailValidator` был вынесен во внешний пакет. Добавить его в проект можно при
+помощи команды:
+
+`composer require vmeleshkin/validators`
