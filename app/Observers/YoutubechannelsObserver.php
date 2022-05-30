@@ -38,5 +38,16 @@ class YoutubechannelsObserver
         ];
     }
 
-
+    public function reindex()
+    {
+        foreach (Youtubechannel::cursor() as $youtubechannel)
+        {
+            $this->elasticsearch->index([
+                'index' => $youtubechannel->getSearchIndex(),
+                'type' => $youtubechannel->getSearchType(),
+                'id' => $youtubechannel->getKey(),
+                'body' => $youtubechannel->toSearchArray(),
+            ]);
+        }
+    }
 }

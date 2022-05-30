@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Search;
 
 use App\Models\Youtubechannel;
+use App\Observers\YoutubechannelsObserver;
 use Elasticsearch\Client;
 use Illuminate\Console\Command;
 
@@ -41,16 +42,8 @@ class ReindexYoutubechannel extends Command
     public function handle()
     {
         $this->info('Indexing all youtubechannels. This might take a while...');
-        foreach (Youtubechannel::cursor() as $youtubechannel)
-        {
-            $this->elasticsearch->index([
-                'index' => $youtubechannel->getSearchIndex(),
-                'type' => $youtubechannel->getSearchType(),
-                'id' => $youtubechannel->getKey(),
-                'body' => $youtubechannel->toSearchArray(),
-            ]);
-            $this->output->write('.');
-        }
+        $observer = new YoutubechannelsObserver($this->elasticsearch);
+        $observer->reindex();
         $this->info('\\nDone!');
     }
 }
