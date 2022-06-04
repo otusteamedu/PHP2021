@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: nginx
+      dockerfile: /home/sempom/otus/hw11/nginx/Dockerfile
+    image: otusapp/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./app:/data/otus.local
+    networks:
+      - otus-network
+
+  php:
+    build:
+      context: fpm
+      dockerfile: /home/sempom/otus/hw11/fpm/Dockerfile
+    image: otusapp/php
+    container_name: php
+    volumes:
+      - ./app:/data/otus.local
+    networks:
+      - otus-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/etc/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/data:/data
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge
