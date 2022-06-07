@@ -1,0 +1,13 @@
+{
+  "name": "sempom/otus-hw11",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Src\\": "src/"
+    }
+  },
+  "require": {
+    "php": "~7.4",
+    "predis/predis": "^1.1"
+  }
+}
