@@ -7,7 +7,7 @@ class AnalyticSystem
     private int $param1;
     private int $param2;
 
-    public function __construct($param1, $param2)
+    public function __construct(int $param1,int $param2)
     {
         $this->param1 = $param1;
         $this->param2 = $param2;
@@ -25,32 +25,33 @@ class AnalyticSystem
         $keys[] = "param:1:{$this->param1}";
         $keys[] = "param:2:{$this->param2}";
 
-        echo "param1={$this->param1},param2={$this->param2}". PHP_EOL;
+        $msg = "param1={$this->param1},param2={$this->param2}". PHP_EOL;
 
         foreach ($keys as $key => $value) {
             foreach ($redis->revRangeByScore($value) as $rKey => $rValue) {
-                echo "{$rValue} - приоритет: {$rKey}".PHP_EOL;
+                $msg .= "{$rValue} - приоритет: {$rKey}".PHP_EOL;
                 $eventsName[] = $rValue;
                 $priorities[] = $rKey;
             }
         }
 
-        if (empty($priorities)) echo 'Нет соответсвий'. PHP_EOL;
+        if (empty($priorities)) $msg .= 'Нет соответствий'. PHP_EOL;
         arsort($priorities);
 
-        return $eventsName[key($priorities)];
+        $msg .= $eventsName[key($priorities)] ?: '';
+        return $msg;
     }
 
     /**
-     * @return void
+     * @return string
      */
-    private function resultRequest(): void
+    private function resultRequest()
     {
         $result = $this->findEvent();
         if ($result) {
-            echo "Высший приоритет: {$result}".PHP_EOL;
+            return "Высший приоритет: {$result}".PHP_EOL;
         } else {
-            echo "Ничего нет".PHP_EOL;
+            return "Ничего нет".PHP_EOL;
         }
     }
 
@@ -63,7 +64,7 @@ class AnalyticSystem
         $result = $jsonToRedis->run();
 
         if ($result) {
-            $this->resultRequest();
+            echo $this->resultRequest();
         } else {
             echo 'Ошибка'. PHP_EOL;
         }
