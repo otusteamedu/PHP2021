@@ -11,6 +11,11 @@ class RabbitAdapter implements QueueInterface
 	
 	public function __construct()
     {
-    	$this->connection = new AMQPStreamConnection('rabbitmq', 5672, 'bender', 'bender');
+    	$this->connection = new AMQPStreamConnection(
+    		getenv('RABBITMQ_DEFAULT_NAME'),
+    		getenv('RABBITMQ_DEFAULT_PORT'),
+    		getenv('RABBITMQ_DEFAULT_USER'),
+    		getenv('RABBITMQ_DEFAULT_PASS')
+    	);
 	}
 }

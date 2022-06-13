@@ -6,10 +6,6 @@ use Exception;
 
 class RequestValidator
 {
-	private static array $requiredFields = [
-		'client_id', 'client_email',
-	];
-	
 	public static function validateRequest(array $request): array
 	{
 		if (!self::checkRequestType('POST')) {

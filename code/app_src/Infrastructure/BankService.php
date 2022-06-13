@@ -9,21 +9,42 @@ class BankService implements BankServiceInterface
 {
 	
 	private BankStatement $bankStatement;
+	private array $requiredStatementFields = [
+		 'date_from',
+		 'date_to',
+		 'client_id',
+		 'client_email',
+	];
 	
-	public function setBankStatement(string $userData)
+	public function setBankStatement(string $userData): void
 	{
-		$body = json_decode($userData, true);
+		$statement = json_decode($userData, true);
 		
-        if (is_null($body)) {
-            throw new Exception('Empty user data');
+        if ($this->validateStatementData($statement)) {
+            throw new Exception('Not enough data for request');
         }
 
         $this->bankStatement = new BankStatement(
-        	$body['date_from'],
-        	$body['date_to'],
-        	$body['client_id'],
-        	$body['client_email']
+        	$statement['date_from'],
+        	$statement['date_to'],
+        	$statement['client_id'],
+        	$statement['client_email']
         );
+	}
+
+	public function validateStatementData(array $data): bool
+	{
+		if (is_null($data)) {
+			return false;
+		}
+		
+		foreach ($this->requiredStatementFields as $field){
+			if (!in_array($field, $data)) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	public function getUserData(): array
