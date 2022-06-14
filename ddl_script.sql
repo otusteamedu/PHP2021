@@ -25,19 +25,22 @@ CREATE SEQUENCE public.cinema_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.cinema_id_seq OWNER TO postgres;
+ALTER TABLE public.cinema_id_seq
+    OWNER TO postgres;
 
 SET default_tablespace = '';
 SET default_table_access_method = heap;
 
-CREATE TABLE public.cinema (
-                               cinema_id integer DEFAULT nextval('public.cinema_id_seq'::regclass) NOT NULL,
-                               name character varying(30) NOT NULL,
-                               address character varying(50)
+CREATE TABLE public.cinema
+(
+    cinema_id integer DEFAULT nextval('public.cinema_id_seq'::regclass) NOT NULL,
+    name      character varying(30)                                     NOT NULL,
+    address   character varying(50)
 );
 
 
-ALTER TABLE public.cinema OWNER TO postgres;
+ALTER TABLE public.cinema
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.cinema_hall_id_seq
     START WITH 1
@@ -46,15 +49,18 @@ CREATE SEQUENCE public.cinema_hall_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.cinema_hall_id_seq OWNER TO postgres;
+ALTER TABLE public.cinema_hall_id_seq
+    OWNER TO postgres;
 
-CREATE TABLE public.cinema_hall (
-                                    cinema_hall_id integer DEFAULT nextval('public.cinema_hall_id_seq'::regclass) NOT NULL,
-                                    number integer,
-                                    cinema_id integer
+CREATE TABLE public.cinema_hall
+(
+    cinema_hall_id integer DEFAULT nextval('public.cinema_hall_id_seq'::regclass) NOT NULL,
+    number         integer,
+    cinema_id      integer
 );
 
-ALTER TABLE public.cinema_hall OWNER TO postgres;
+ALTER TABLE public.cinema_hall
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.client_id_seq
     START WITH 1
@@ -63,14 +69,17 @@ CREATE SEQUENCE public.client_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.client_id_seq OWNER TO postgres;
+ALTER TABLE public.client_id_seq
+    OWNER TO postgres;
 
-CREATE TABLE public.client (
-                               client_id integer DEFAULT nextval('public.client_id_seq'::regclass) NOT NULL,
-                               email character varying(30)
+CREATE TABLE public.client
+(
+    client_id integer DEFAULT nextval('public.client_id_seq'::regclass) NOT NULL,
+    email     character varying(30)
 );
 
-ALTER TABLE public.client OWNER TO postgres;
+ALTER TABLE public.client
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.film_id_seq
     START WITH 1
@@ -80,16 +89,19 @@ CREATE SEQUENCE public.film_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.film_id_seq OWNER TO postgres;
+ALTER TABLE public.film_id_seq
+    OWNER TO postgres;
 
-CREATE TABLE public.film (
-                             film_id integer DEFAULT nextval('public.film_id_seq'::regclass) NOT NULL,
-                             name character varying(30) NOT NULL,
-                             duration integer,
-                             age_limit integer
+CREATE TABLE public.film
+(
+    film_id   integer DEFAULT nextval('public.film_id_seq'::regclass) NOT NULL,
+    name      character varying(30)                                   NOT NULL,
+    duration  integer,
+    age_limit integer
 );
 
-ALTER TABLE public.film OWNER TO postgres;
+ALTER TABLE public.film
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.order_id_seq
     START WITH 1
@@ -98,15 +110,18 @@ CREATE SEQUENCE public.order_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.order_id_seq OWNER TO postgres;
+ALTER TABLE public.order_id_seq
+    OWNER TO postgres;
 
-CREATE TABLE public."order" (
-                                order_id integer DEFAULT nextval('public.order_id_seq'::regclass) NOT NULL,
-                                client_id integer NOT NULL,
-                                status public.order_status
+CREATE TABLE public."order"
+(
+    order_id  integer DEFAULT nextval('public.order_id_seq'::regclass) NOT NULL,
+    client_id integer                                                  NOT NULL,
+    status    public.order_status
 );
 
-ALTER TABLE public."order" OWNER TO postgres;
+ALTER TABLE public."order"
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.order_ticket_seq
     START WITH 1
@@ -115,15 +130,18 @@ CREATE SEQUENCE public.order_ticket_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.order_ticket_seq OWNER TO postgres;
+ALTER TABLE public.order_ticket_seq
+    OWNER TO postgres;
 
-CREATE TABLE public.order_to_ticket (
-                                        id integer DEFAULT nextval('public.order_ticket_seq'::regclass) NOT NULL,
-                                        order_id integer NOT NULL,
-                                        ticket_id integer NOT NULL
+CREATE TABLE public.order_to_ticket
+(
+    id        integer DEFAULT nextval('public.order_ticket_seq'::regclass) NOT NULL,
+    order_id  integer                                                      NOT NULL,
+    ticket_id integer                                                      NOT NULL
 );
 
-ALTER TABLE public.order_to_ticket OWNER TO postgres;
+ALTER TABLE public.order_to_ticket
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.seat_id_seq
     START WITH 1
@@ -132,17 +150,20 @@ CREATE SEQUENCE public.seat_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.seat_id_seq OWNER TO postgres;
+ALTER TABLE public.seat_id_seq
+    OWNER TO postgres;
 
-CREATE TABLE public.seat (
-                             seat_id integer DEFAULT nextval('public.seat_id_seq'::regclass) NOT NULL,
-                             "row" integer NOT NULL,
-                             "column" integer NOT NULL,
-                             cinema_hall_id integer NOT NULL,
-                             price smallint
+CREATE TABLE public.seat
+(
+    seat_id        integer DEFAULT nextval('public.seat_id_seq'::regclass) NOT NULL,
+    "row"          integer                                                 NOT NULL,
+    "column"       integer                                                 NOT NULL,
+    cinema_hall_id integer                                                 NOT NULL,
+    price          smallint
 );
 
-ALTER TABLE public.seat OWNER TO postgres;
+ALTER TABLE public.seat
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.session_id_seq
     START WITH 1
@@ -151,16 +172,19 @@ CREATE SEQUENCE public.session_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.session_id_seq OWNER TO postgres;
+ALTER TABLE public.session_id_seq
+    OWNER TO postgres;
 
-CREATE TABLE public.session (
-                                session_id integer DEFAULT nextval('public.session_id_seq'::regclass) NOT NULL,
-                                cinema_hall_id integer NOT NULL,
-                                film_id integer NOT NULL,
-                                session_datetime timestamp with time zone NOT NULL
+CREATE TABLE public.session
+(
+    session_id       integer DEFAULT nextval('public.session_id_seq'::regclass) NOT NULL,
+    cinema_hall_id   integer                                                    NOT NULL,
+    film_id          integer                                                    NOT NULL,
+    session_datetime timestamp with time zone                                   NOT NULL
 );
 
-ALTER TABLE public.session OWNER TO postgres;
+ALTER TABLE public.session
+    OWNER TO postgres;
 
 CREATE SEQUENCE public.ticket_id_seq
     START WITH 1
@@ -169,16 +193,19 @@ CREATE SEQUENCE public.ticket_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.ticket_id_seq OWNER TO postgres;
+ALTER TABLE public.ticket_id_seq
+    OWNER TO postgres;
 
-CREATE TABLE public.ticket (
-                               ticket_id integer DEFAULT nextval('public.ticket_id_seq'::regclass) NOT NULL,
-                               session_id integer NOT NULL,
-                               seat_id integer NOT NULL,
-                               purchase_timestamp timestamp with time zone
+CREATE TABLE public.ticket
+(
+    ticket_id          integer DEFAULT nextval('public.ticket_id_seq'::regclass) NOT NULL,
+    session_id         integer                                                   NOT NULL,
+    seat_id            integer                                                   NOT NULL,
+    purchase_timestamp timestamp with time zone
 );
 
-ALTER TABLE public.ticket OWNER TO postgres;
+ALTER TABLE public.ticket
+    OWNER TO postgres;
 
 COPY public.cinema (cinema_id, name, address) FROM stdin;
 1	Red star\n	Lenin street 51, Penza
@@ -396,28 +423,28 @@ ALTER TABLE ONLY public.ticket
     ADD CONSTRAINT ticket_seat_uni UNIQUE (seat_id);
 
 ALTER TABLE ONLY public.cinema_hall
-    ADD CONSTRAINT cinema_hall_fk FOREIGN KEY (cinema_id) REFERENCES public.cinema(cinema_id) NOT VALID;
+    ADD CONSTRAINT cinema_hall_fk FOREIGN KEY (cinema_id) REFERENCES public.cinema (cinema_id) NOT VALID;
 
 ALTER TABLE ONLY public."order"
-    ADD CONSTRAINT order_client_fk FOREIGN KEY (client_id) REFERENCES public.client(client_id) NOT VALID;
+    ADD CONSTRAINT order_client_fk FOREIGN KEY (client_id) REFERENCES public.client (client_id) NOT VALID;
 
 ALTER TABLE ONLY public.order_to_ticket
-    ADD CONSTRAINT order_fk FOREIGN KEY (order_id) REFERENCES public."order"(order_id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
+    ADD CONSTRAINT order_fk FOREIGN KEY (order_id) REFERENCES public."order" (order_id) ON UPDATE CASCADE ON DELETE CASCADE NOT VALID;
 
 ALTER TABLE ONLY public.seat
-    ADD CONSTRAINT seat_hall_fk FOREIGN KEY (cinema_hall_id) REFERENCES public.cinema_hall(cinema_hall_id);
+    ADD CONSTRAINT seat_hall_fk FOREIGN KEY (cinema_hall_id) REFERENCES public.cinema_hall (cinema_hall_id);
 
 ALTER TABLE ONLY public.session
-    ADD CONSTRAINT session_film_fk FOREIGN KEY (film_id) REFERENCES public.film(film_id) NOT VALID;
+    ADD CONSTRAINT session_film_fk FOREIGN KEY (film_id) REFERENCES public.film (film_id) NOT VALID;
 
 ALTER TABLE ONLY public.session
-    ADD CONSTRAINT session_hall_fk FOREIGN KEY (cinema_hall_id) REFERENCES public.cinema_hall(cinema_hall_id);
+    ADD CONSTRAINT session_hall_fk FOREIGN KEY (cinema_hall_id) REFERENCES public.cinema_hall (cinema_hall_id);
 
 ALTER TABLE ONLY public.order_to_ticket
-    ADD CONSTRAINT ticket_fk FOREIGN KEY (ticket_id) REFERENCES public.ticket(ticket_id) NOT VALID;
+    ADD CONSTRAINT ticket_fk FOREIGN KEY (ticket_id) REFERENCES public.ticket (ticket_id) NOT VALID;
 
 ALTER TABLE ONLY public.ticket
-    ADD CONSTRAINT ticket_seat_fk FOREIGN KEY (seat_id) REFERENCES public.seat(seat_id) NOT VALID;
+    ADD CONSTRAINT ticket_seat_fk FOREIGN KEY (seat_id) REFERENCES public.seat (seat_id) NOT VALID;
 
 ALTER TABLE ONLY public.ticket
-    ADD CONSTRAINT ticket_session_fk FOREIGN KEY (session_id) REFERENCES public.session(session_id) NOT VALID;
+    ADD CONSTRAINT ticket_session_fk FOREIGN KEY (session_id) REFERENCES public.session (session_id) NOT VALID;
