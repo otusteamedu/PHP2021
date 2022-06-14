@@ -25,12 +25,12 @@ class VideosRow
     /**
      * @var int|null
      */
-    private ?int $likes;
+    private ?int $likes = 0;
 
     /**
      * @var int|null
      */
-    private ?int $dislikes;
+    private ?int $dislikes = 0;
 
     /**
      * @var PDO
@@ -62,7 +62,7 @@ class VideosRow
             'INSERT INTO videos (channels_id, name, likes, dislikes) VALUES (?, ?, ?, ?)'
         );
         $this->updateStatement = $PDO->prepare(
-            'UPDATE videos SET channels_id = ?, name = ?, likes = ?, dislikes = ? WHERE id = ?'
+            'UPDATE videos SET channels_id = ?, name = ?, likes = likes + ?, dislikes = dislikes + ? WHERE id = ?'
         );
         $this->deleteStatement = $PDO->prepare(
             'DELETE FROM videos WHERE id = ?'
@@ -151,6 +151,15 @@ class VideosRow
     }
 
     /**
+     * @param int $id
+     * @return void
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @param int $channelsId
      * @return void
      */
@@ -169,20 +178,18 @@ class VideosRow
     }
 
     /**
-     * @param int $likes
      * @return void
      */
-    public function setLikes(int $likes): void
+    public function addLike(): void
     {
-        $this->likes = $likes;
+        $this->likes = 1;
     }
 
     /**
-     * @param int $dislikes
      * @return void
      */
-    public function setDislikes(int $dislikes): void
+    public function addDislikes(): void
     {
-        $this->dislikes = $dislikes;
+        $this->dislikes = 1;
     }
 }
