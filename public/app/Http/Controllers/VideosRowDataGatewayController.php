@@ -18,10 +18,11 @@ class VideosRowDataGatewayController extends Controller
         $PDO = new PDO("mysql:host=$host;port=$port;dbname=$dbname",$username,$password);
 
         $videos = new VideosRow($PDO);
-        $videos->setName('test');
+//        $videos->setName('test1');
         $videos->addLike();
         $videos->addDislikes();
-        $videos->setChannelsId(5);
+//        $videos->setChannelsId(2);
         $videos->setId(1);
+        dd($videos->update(),$videos);
     }
 }

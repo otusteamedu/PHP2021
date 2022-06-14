@@ -15,12 +15,12 @@ class VideosRow
     /**
      * @var int|null
      */
-    private ?int $channelsId;
+    private ?int $channelsId = null;
 
     /**
      * @var string|null
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      * @var int|null
@@ -62,7 +62,7 @@ class VideosRow
             'INSERT INTO videos (channels_id, name, likes, dislikes) VALUES (?, ?, ?, ?)'
         );
         $this->updateStatement = $PDO->prepare(
-            'UPDATE videos SET channels_id = ?, name = ?, likes = likes + ?, dislikes = dislikes + ? WHERE id = ?'
+            'UPDATE videos SET channels_id = ( case when :ChannelsId is not null then :ChannelsId else channels_id end), name = ( case when :Name is not null then :Name else name end), likes = likes + :Likes, dislikes = dislikes + :Dislikes WHERE id = :Id'
         );
         $this->deleteStatement = $PDO->prepare(
             'DELETE FROM videos WHERE id = ?'
@@ -91,11 +91,11 @@ class VideosRow
     public function update(): bool
     {
         return $this->updateStatement->execute([
-           $this->channelsId,
-           $this->name,
-           $this->likes,
-           $this->dislikes,
-           $this->id
+            ':ChannelsId'   => $this->channelsId,
+            ':Name'         => $this->name,
+            ':Likes'        => $this->likes,
+            ':Dislikes'     => $this->dislikes,
+            ':Id'           => $this->id
         ]);
     }
 
