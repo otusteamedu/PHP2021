@@ -1,3 +1,7 @@
-# PHP2021
+# Домашняя работе №7 - Основные понятия баз данных
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Выполнил: Мелёшкин В.В.
+
+**Схема базы данных кинотеатра:**
+
+![Схема базы данных кинотеатра](db_scheme.png)
