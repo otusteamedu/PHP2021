@@ -1,0 +1,128 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    container_name: nginx-balancer
+    image: localapp/nginx-balancer
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+       - nginx-webserver1
+       - nginx-webserver2
+    networks:
+      - app-network
+
+  nginx-webserver1:
+    build:
+      context: ./nginx-webserver
+      dockerfile: Dockerfile
+    container_name: nginx-webserver1
+    image: localapp/nginx-webserver
+    ports:
+      - "8081:80"
+    depends_on:
+      - php1
+      - php2
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  nginx-webserver2:
+    build:
+      context: ./nginx-webserver
+      dockerfile: Dockerfile
+    container_name: nginx-webserver2
+    image: localapp/nginx-webserver
+    ports:
+      - "8082:80"
+    depends_on:
+      - php1
+      - php2
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  php1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php1
+    environment:
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_PORT: ${RABBITMQ_DEFAULT_PORT}
+      RABBITMQ_DEFAULT_NAME: ${RABBITMQ_DEFAULT_NAME}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  php2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php2
+    environment:
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_PORT: ${RABBITMQ_DEFAULT_PORT}
+      RABBITMQ_DEFAULT_NAME: ${RABBITMQ_DEFAULT_NAME}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+    volumes:
+       - ./code:/var/www/otus.local
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - app-network
+    
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server
+    volumes:
+      - ./redis_data:/data
+    networks:
+      - app-network
+      
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger_ui_container
+    ports:
+      - "8083:8080"
+    volumes:
+      - ./doc:/usr/share/nginx/html/doc
+    environment:
+      API_URL: doc/swagger.yaml
+    
+networks:
+  app-network:
+    driver: bridge

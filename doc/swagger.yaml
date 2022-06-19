@@ -1,0 +1,120 @@
+swagger: "2.0"
+info:
+  description: "This is a homework #17"
+  version: "1.0.0"
+  title: "Otus Api"
+  contact:
+    email: "apinyansky@enex.market"
+host: "otus.local"
+basePath: "/api/v1"
+tags:
+- name: "Api"
+schemes:
+- "http"
+paths:
+  /message:
+    post:
+      tags:
+      - "Api"
+      summary: "Add a new message to the queue"
+      description: ""
+      operationId: "addMessage"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "client_id"
+        in: "formData"
+        description: "Client Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "client_email"
+        in: "formData"
+        description: "Client email"
+        required: true
+        type: "string"
+      - name: "date_from"
+        in: "formData"
+        description: "Start date of sentiment period"
+        required: false
+        type: "string"
+      - name: "date_to"
+        in: "formData"
+        description: "End date of sentiment period"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "Message added to queue"
+          schema:
+            $ref: "#/definitions/MsgStatus"
+        "400":
+          description: "Request failed"
+          schema:
+            $ref: "#/definitions/MsgNotFoundStatus"
+          
+  /message/{messageId}:
+    get:
+      tags:
+      - "Api"
+      summary: "Find message by ID"
+      description: "Returns a status of message"
+      operationId: "getMessageStatus"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "messageId"
+        in: "path"
+        description: "ID of message status to return"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful request"
+          schema:
+            $ref: "#/definitions/MsgStatus"
+        "400":
+          description: "Invalid ID supplied"
+          schema:
+            $ref: "#/definitions/MsgNotFoundStatus"
+
+definitions:
+  MsgStatus:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        default: "success"
+      info:
+        type: "string"
+        default: "Message found"
+      msg_id:
+        type: "string"
+        default: "62af864adead2"
+      msg_status:
+        type: "string"
+        description: "Message Status"
+        enum:
+        - "running"
+        - "ended"
+  MsgNotFoundStatus:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        default: "error"
+      info:
+        type: "string"
+        default: "Message not found"
+  FailedRequest:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        default: "error"
+      info:
+        type: "string"
+        default: "Request failed"
+ 
