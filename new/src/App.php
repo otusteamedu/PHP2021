@@ -4,7 +4,6 @@ namespace Src;
 
 class App
 {
-
     public function run(): void
     {
         try {

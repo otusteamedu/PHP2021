@@ -1,7 +1,3 @@
 <?php
-use Src\App;
-
 require_once 'vendor/autoload.php';
-
-$app = new App();
-$app->run();
+require_once __DIR__.'/src/application.php';
