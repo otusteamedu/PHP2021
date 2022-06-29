@@ -1,29 +1,20 @@
 #!/bin/bash
 
-sudo mv ../settings/.env docker/.env
-cd docker
-docker-compose up -d nginx php-fpm
-cd ../
-sudo mv ../settings/.env .env
-sudo composer install
-
-sudo mv ../settings/nginx.host.conf "/etc/nginx/sites-available/$1.conf" -f
-sudo ln -s -f "/etc/nginx/sites-available/$1.conf" /etc/nginx/sites-enabled/otus_local
-systemctl restart nginx
-systemctl restart php:8.0-fpm
-
-isActiveNginx=$(systemctl is-active nginx)
-isActivePhp=$(systemctl is-active php:8.0-fpm)
-while [ "$isActiveNginx" != "active" ]
-do
-    isActiveNginx=$(systemctl is-active nginx);
-done
-
-while [ "$isActivePhp" != "active" ]
-do
-    isActivePhp=$(systemctl is-active activePhp);
-done
-
-cd docker
-docker-compose down
-cd ../
+if [[ "$(docker service ls -q -f name=${2})" ]]
+then
+    echo "Updating API service"
+    sudo composer update
+    docker service update \
+        --env  APP_ENV=prod -d --with-registry-auth \
+        --image "${2}" "${2}-service";
+else
+    echo "Creating API service"
+	sudo mv ../settings/nginx.host.conf "/etc/nginx/sites-available/$1.conf" -f
+	sudo ln -s -f "/etc/nginx/sites-available/$1.conf" /etc/nginx/sites-enabled/test_project_enabled
+	sudo mv ../settings/.env .env
+	sudo composer install
+    docker service create \
+        --env APP_ENV=prod -d --with-registry-auth \
+        -p 5001:80 --replicas 3 \
+        --image "${2}" "${2}-service";
+fi

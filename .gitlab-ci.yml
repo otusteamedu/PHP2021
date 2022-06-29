@@ -18,6 +18,6 @@ deploy:
       rm -rf ./settings/ &&
       git clone git@gitlab.com:TmBombadil/otus18_deploy_settings.git settings &&
       git clone git@gitlab.com:TmBombadil/otus18.git $NEW_APP_DIR &&
-      cd $NEW_APP_DIR &&
-      sh ./install.sh $NEW_APP_DIR &&
+      cd $NEW_APP_DIR && chmod +x deploy.sh &&
+      sh ./deploy.sh $NEW_APP_DIR $IMAGE_NAME:$IMAGE_SHA' &&
       rm -rf ../settings/"
