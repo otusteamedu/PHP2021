@@ -5,8 +5,8 @@ then
     echo "Updating API service"
     sudo composer update
     docker service update \
-        --env  APP_ENV=prod -d --with-registry-auth \
-        --image "${2}" "${2}-service";
+        --env-add APP_ENV=prod -d --with-registry-auth \
+        "${2}";
 else
     echo "Creating API service"
 	sudo mv ../settings/nginx.host.conf "/etc/nginx/sites-available/$1.conf" -f
@@ -16,5 +16,5 @@ else
     docker service create \
         --env APP_ENV=prod -d --with-registry-auth \
         -p 5001:80 --replicas 3 \
-        --image "${2}" "${2}-service";
+        "${2}";
 fi
