@@ -1,3 +1,4 @@
-# PHP2021
+# Домашняя работе №8 - PostgreSQL для разработчика
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+**Схема базы данных фильмов:**
+![Схема базы данных кинотеатра](db_scheme.jpg)
