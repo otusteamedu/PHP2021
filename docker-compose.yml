@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./deploy/fpm
+      dockerfile: Dockerfile
+    image: otus/php
+    container_name: otus-php
+    environment:
+      LOCAL_HOST: ${LOCAL_HOST}
+      RABBITMQ_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      REDIS_PORT: ${REDIS_PORT}
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./deploy/nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus-webserver
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/application.local
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    container_name: otus-rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+
+  redis:
+    image: redis:latest
+    container_name: otus-redis
+    ports:
+      - "6379:${REDIS_PORT}"
+    command: redis-server
+    volumes:
+      - ./rdata:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

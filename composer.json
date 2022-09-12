@@ -1,0 +1,17 @@
+{
+  "type": "package",
+  "require": {
+    "php": ">=7.4",
+    "ext-json": "*",
+    "ext-redis": "*",
+    "php-amqplib/php-amqplib": ">=3.0",
+    "php-di/php-di": "^6.3",
+    "phroute/phroute": "^2.1",
+    "zircote/swagger-php": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  }
+}
