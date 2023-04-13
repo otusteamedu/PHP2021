@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  webserver:
+    build:
+      context: ./webserver
+      dockerfile: Dockerfile
+    container_name: webserver
+    image: localapp/webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www/my-application.local
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php
+    volumes:
+      - ./code:/var/www/my-application.local
+    networks:
+      - app-network
+
+  elastic_search:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+    container_name: elastic_search
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - "discovery.type=single-node"
+    networks:
+      - app-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.3
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://elastic_search:9200"
+    networks:
+      - app-network
+    depends_on:
+      - elastic_search
+
+networks:
+  app-network:
+    driver: bridge

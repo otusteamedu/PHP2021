@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+
+body {
+    background-color: #232222;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    font-family: 'Exo 2';
+    color: white;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 22px;
+    text-align: center;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+main {
+    width: 35%;
+}
+
+input {
+    display: block;
+}
+
+select {
+    display: block;
+}
+
+input {
+    border: 1px solid #FF0000;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 20%;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    border: none;
+    margin-top: 10px;
+}
+
+select {
+    width: 100%;
+    border: 1px solid #FF0000;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    height: 40px;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+option {
+    background-color: #232222;
+    border-radius: 0;
+    font-size: 16px;
+    transition: 0.5s;
+}
+
+label {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+svg {
+    width: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+h2 {
+    font-size: 26px;
+    text-align: center;
+}
+
+ol {
+    padding-left: 0;
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+li {
+    font-size: 18px;
+    padding-bottom: 20px;
+}
+
+ol ol {
+    margin-top: 20px;
+}
+
+ol ol .search-item {
+    padding-bottom: 10px;
+}
+
+.question {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    display: none;
+}
+
+.red-button {
+    background-color: #FF0000;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+    border: 3px solid rgba(0, 0, 0, 0);
+    color: black;
+}
+
+.red-button path {
+    fill: black;
+}
+
+.red-button_active {
+    border: 3px solid #19FF5A;
+}
+
+.red-button:hover {
+    background-color: #19A6FF;
+    color: white;
+}
+
+.red-button:hover path {
+    fill: white;
+}
+
+.red-button__text {
+    margin-left: 10px;
+}
+
+.red-button_link {
+    width: fit-content;
+    margin: 0 auto;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.red-button_link svg {
+    width: 30px;
+    padding-right: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.video-fields {
+    display: none;
+}
+
+.middle-icon {
+    width: 80px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    display: block;
+}
+
+.big-icon {
+    width: 150px;
+    margin: 0 auto;
+    display: block;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.search-item {
+    display: flex;
+    align-items: flex-start;
+    padding-bottom: 20px;
+}
+
+.search-item svg {
+    margin-right: 30px;
+    width: 30px;
+}
+
+.search-item li {
+    padding-bottom: 0;
+}
+
+.search-video {
+    display: flex;
+    margin-top: 10px;
+    margin-left: -20px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.search-video__count {
+    margin-right: 10px;
+}
+
+.search-video__likes {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.search-video__likes svg {
+    margin-left: 15px;
+}
+
+.search-video__name {
+    margin-right: 20px;
+}
+
+.search-video svg {
+    margin-right: 15px;
+}
+
+.delete-item {
+    display: flex;
+}
+
+.search-wrapper li ol svg {
+    margin-right: 30px;
+}
+
+li .search-item {
+    align-items: center;
+}
+
+.delete-wrapper {
+    list-style: none;
+}
+
+.delete-wrapper li li {
+    list-style: none;
+}
+
+.delete-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-wrapper li {
+    width: 100%;
+}
+
+.delete-wrapper ol {
+    margin-right: 0;
+    width: 100%;
+}
+
+li li .delete-group {
+    align-items: center;
+}
+
+.search-item .red-button svg {
+    margin-right: 0;
+}
+
+.search-item .red-button {
+    margin-left: 15px;
+}
