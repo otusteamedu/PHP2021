@@ -1,0 +1,97 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.0 (Debian 16.0-1.pgdg120+1)
+-- Dumped by pg_dump version 16.0 (Debian 16.0-1.pgdg120+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: heroes; Type: TABLE; Schema: public; Owner: batman
+--
+
+CREATE TABLE public.heroes (
+    id bigint NOT NULL,
+    nick_name character varying(50),
+    real_name character varying(50),
+    super_fourse character varying(90)
+);
+
+
+ALTER TABLE public.heroes OWNER TO batman;
+
+--
+-- Name: heroes_id_seq; Type: SEQUENCE; Schema: public; Owner: batman
+--
+
+CREATE SEQUENCE public.heroes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.heroes_id_seq OWNER TO batman;
+
+--
+-- Name: heroes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: batman
+--
+
+ALTER SEQUENCE public.heroes_id_seq OWNED BY public.heroes.id;
+
+
+--
+-- Name: heroes id; Type: DEFAULT; Schema: public; Owner: batman
+--
+
+ALTER TABLE ONLY public.heroes ALTER COLUMN id SET DEFAULT nextval('public.heroes_id_seq'::regclass);
+
+
+--
+-- Data for Name: heroes; Type: TABLE DATA; Schema: public; Owner: batman
+--
+
+COPY public.heroes (id, nick_name, real_name, super_fourse) FROM stdin;
+1	Бэтмен	Брюс	Бабосы
+2	\N	Брюс	Бабосы
+3	\N	Брюс	Бабосы
+4	\N	Брюс	Бабосы
+5	Бэтмен	Брюс	Бабосы
+6	Бэтмен	Брюс	Бабосы
+\.
+
+
+--
+-- Name: heroes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: batman
+--
+
+SELECT pg_catalog.setval('public.heroes_id_seq', 6, true);
+
+
+--
+-- Name: heroes heroes_pkey; Type: CONSTRAINT; Schema: public; Owner: batman
+--
+
+ALTER TABLE ONLY public.heroes
+    ADD CONSTRAINT heroes_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

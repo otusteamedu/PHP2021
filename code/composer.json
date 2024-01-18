@@ -1,0 +1,19 @@
+{
+  "name": "jasta-fly/super-hero-storage",
+  "description": "Application for store information about different super heroes",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "jasta-fly",
+      "email": "zumawuu@gmail.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app_src"
+    }
+  }
+}

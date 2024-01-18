@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+
+body {
+    background-color: #262626;
+    padding-top: 20px;
+    font-family: 'Exo 2';
+    color: #14A8A5;
+    font-size: 18px;
+}
+
+h1 {
+    font-family: 'RocknRoll One';
+    color: #F44336;
+    text-align: center;
+    margin-top: 0;
+    font-size: 26px;
+}
+
+menu {
+    display: flex;
+    justify-content: space-between;
+    width: 45%;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    color: #04FFFA;
+    display: block;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    border: 1px solid #14A8A5;
+    padding-top: 10px;
+    padding-bottom: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-family: 'Exo 2';
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: #205251;
+    font-size: 16px;
+}
+
+form {
+    width: 20%;
+}
+
+header {
+    margin-bottom: 40px;
+}
+
+input[type="submit"] {
+    width: 40%;
+}
+
+input[type="submit"]:hover {
+
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th {
+    border: 1px solid #F44336;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+td {
+    border: 1px solid #F44336;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #F5D94E;
+}
+
+.menu-button {
+    list-style-type: none;
+    font-size: 20px;
+    border: 1px solid #14A8A5;
+    border-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+    text-decoration: none;
+    color: #14A8A5;
+}
+
+.menu-button:hover {
+    color: #F44336;
+    border: 1px solid #F44336;
+    border-radius: 10px;
+    background-color: #F5D94E;
+}
+
+.logo {
+    margin: 0 auto;
+}
+
+.logo svg {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+}
+
+.green_icon {
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+}
+
+.green_icon path {
+    fill: #1DF576;
+}
+
+.success_title {
+    color: #1DF576;
+    font-family: 'Exo 2';
+    margin-top: 15px;
+}
+
+.button {
+    display: block;
+    text-align: center;
+    width: 20%;
+    background-color: #F44336;
+    border: 1px solid #F5D94E;
+    color: #F5D94E;
+    margin: 0 auto;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.5s;
+    margin-top: 25px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    padding-top: 5px;
+}
+
+.button-update {
+    width: 15%;
+}
+
+.button:hover {
+    background-color: #1DF576;
+    border-color: #F44336;
+    color: #F44336;
+}
+
+.button_active {
+    background-color: #F44336;
+    border-color: #F5D94E;
+    color: #F5D94E;
+}
+
+.button_delete {
+    width: 30%;
+}
+
+.update-form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.update-form__block {
+    margin-right: 20px;
+}
+
+.update-form__input {
+    width: auto;
+}
+
+.delete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.delete__link:hover path {
+    fill: #F44336;
+}
+
+.red_icon {
+    width: 25px;
+}
+
+.red_icon path {
+    fill: #D1392E;
+}

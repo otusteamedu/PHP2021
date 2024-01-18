@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  webserver:
+    build:
+      context: ./webserver
+      dockerfile: Dockerfile
+    container_name: webserver
+    image: localapp/webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www/my-application.local
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php
+    volumes:
+      - ./code:/var/www/my-application.local
+    networks:
+      - app-network
+
+  pg_db:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: "super_hero_storage"
+      POSTGRES_USER: "batman"
+      POSTGRES_PASSWORD: "wayne"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+networks:
+  app-network:
+    driver: bridge
