@@ -1,0 +1,19 @@
+{
+  "name": "sempom/hw3",
+  "type": "package",
+  "authors": [
+    {
+      "name": "sempom"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-json": "*",
+    "ext-sockets": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "lib"
+    }
+  }
+}

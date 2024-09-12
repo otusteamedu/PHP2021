@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/server
+    container_name: server_app
+    volumes:
+      - ./code:/data/otus.local
+      - ./socket:/tmp
+    networks:
+      - otus-network
+
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/client
+    container_name: client_app
+    volumes:
+      - ./code:/data/otus.local
+      - ./socket:/tmp
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge
