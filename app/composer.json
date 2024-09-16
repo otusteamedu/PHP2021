@@ -1,0 +1,12 @@
+{
+  "name": "sempom/otus-hw5",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Src\\": "src/"
+    }
+  },
+  "require": {
+    "php": "~7.4"
+  }
+}
