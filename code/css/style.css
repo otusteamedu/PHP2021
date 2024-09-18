@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+
+body {
+    background-color: #181B26;
+    padding-top: 20px;
+    font-family: 'Exo 2';
+    color: #BE2026;
+    font-size: 22px;
+}
+
+header {
+    margin-bottom: 40px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+label {
+    display: block;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+select {
+    font-size: 18px;
+    color: #BE2026;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    border: 1px solid #BE2026;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+}
+
+form {
+    width: 35%;
+}
+
+.checkboxes {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkbox-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+    border: 1px solid #BE2026;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    color: #BE2026;
+}
+
+input::placeholder {
+    color: #5c1d26;
+}
+
+input[type=submit] {
+    color: #BF9C21;
+    background-color: #BE2026;
+    border: none;
+    border-radius: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 7px;
+    padding-top: 7px;
+    margin: 0 auto;
+    display: block;
+    font-size: 18px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.5s;
+    width: 25%;
+}
+
+input[type=submit]:hover {
+    background-color: #2FBF21;
+    color: #BE2026;
+}
+
+h2 {
+    text-align: center;
+}
+
+.logo {
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.ingredients {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.ingredient {
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.ingredient__img {
+    width: 35px;
+    margin-right: 20px;
+}
+
+.ingredient__name {
+    color: #21BF80;
+    transition: 0.5s;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.ingredient__amount {
+    font-size: 15px;
+}
+
+.ingredient__custom {
+    font-size: 15px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    text-align: center;
+    color: #21BF4A;
+    display: block;
+}
+
+.ingredient__name:hover {
+    color: #BE2026;
+}
+
+.order {
+    display: block;
+}
