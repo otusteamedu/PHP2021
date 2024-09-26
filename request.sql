@@ -1,0 +1,1 @@
+SELECT `title_id`, SUM(`price`) AS `summ` FROM `tickets` GROUP BY `title_id` ORDER BY `summ` DESC LIMIT 1;
