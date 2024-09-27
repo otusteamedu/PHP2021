@@ -1,0 +1,23 @@
+{
+    "name": "natallia/chat",
+    "authors": [
+        {
+            "name": "Natallia Kazarynava",
+            "email": "nataphp@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-zip": "*",
+        "monolog/monolog": "*",
+        "symfony/yaml": "^5.0",
+        "vlucas/phpdotenv": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\" : "src/Otus"
+        }
+    }
+}
