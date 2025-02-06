@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  webserver:
+    build:
+      context: ./webserver
+      dockerfile: Dockerfile
+    container_name: webserver
+    image: localapp/webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www/my-application.local
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: localapp/php
+    container_name: php
+    environment:
+      EMAIL_HOST: 'emailhost'
+      EMAIL_USER: 'emaiuser'
+      EMAIL_PASS: 'emailpass'
+      RABBITMQ_DEFAULT_USER: 'mquser'
+      RABBITMQ_DEFAULT_PASS: 'mqpass'
+      RABBITMQ_DEFAULT_PORT: '15672'
+      RABBITMQ_DEFAULT_NAME: 'rabbitmq'
+    volumes:
+      - ./code:/var/www/my-application.local
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: 'mquser'
+      RABBITMQ_DEFAULT_PASS: 'mqpass'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
