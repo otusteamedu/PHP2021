@@ -24,9 +24,9 @@ class ConsumerConsole extends Consumer
             $sendResult = $this->sendBankStatement($statementData);
 
             if ($sendResult) {
-                echo "Банковская выписка отправлена пользователю на почту: {$statementData['email']}";
+                echo "Банковская выписка отправлена пользователю на почту: {$statementData['email']}" . PHP_EOL;
             } else {
-                echo "Ошибка отправики банковской выписки пользователю на почту {$statementData['email']}";
+                echo "Ошибка отправики банковской выписки пользователю на почту {$statementData['email']}" . PHP_EOL;
             }
 
             $this->channel->basic_ack($request->delivery_info['delivery_tag']);
