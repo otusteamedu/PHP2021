@@ -1,0 +1,136 @@
+swagger: "2.0"
+info:
+  description: "Домашняя работа №17"
+  version: "1.0.0"
+  title: "API для домашней работы №17"
+  contact:
+    email: "zumawuu@gmail.com"
+host: "my-application.local"
+basePath: "/api/v1"
+tags:
+  - name: "Api"
+schemes:
+  - "http"
+paths:
+  /statement:
+    post:
+      tags:
+        - "Api"
+      summary: "Добавляет запрос на банковскую выписку в очередь"
+      description: ""
+      operationId: "addStatement"
+      consumes:
+        - "multipart/form-data"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "client_name"
+          in: "formData"
+          description: "Имя клиента"
+          required: true
+          type: "string"
+        - name: "email"
+          in: "formData"
+          description: "Почта клиента"
+          required: true
+          type: "string"
+        - name: "date_from"
+          in: "formData"
+          description: "Дата начала"
+          required: true
+          type: "string"
+        - name: "date_to"
+          in: "formData"
+          description: "Дата окончания"
+          required: false
+          type: "string"
+      responses:
+        "200":
+          description: "Запрос на добавление банковской выписки в очередь"
+          schema:
+            $ref: "#/definitions/StdStatus"
+        "400":
+          description: "При обработке запроса возникла ошибка"
+          schema:
+            $ref: "#/definitions/StdNotFoundStatus"
+
+  /statement/{statementId}:
+    get:
+      tags:
+        - "Api"
+      summary: "Находит банковскую выписку по его ID"
+      description: "Возвращает статус банковской выписки"
+      operationId: "getStatementStatus"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "statementId"
+          in: "path"
+          description: "ID банковской выписки, статус которого требуется вернуть"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Данныйе о статусе банковской выписки успешно возвращены"
+          schema:
+            $ref: "#/definitions/StdStatus"
+        "400":
+          description: "По данному ID ничего найти не удалось"
+          schema:
+            $ref: "#/definitions/StdNotFoundStatus"
+  /get-all-statements:
+    get:
+      tags:
+        - "Api"
+      summary: "Находит все банковыские находящиеся в очереди"
+      description: "Возвращает данные о всех банковских выписка из очереди"
+      operationId: "getStatementStatus"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Данные о банковских выписках, в очереди успешно возвращены"
+          schema:
+            $ref: "#/definitions/StdStatus"
+        "400":
+          description: "Банковские выписки отсутсвуют в очереди"
+          schema:
+            $ref: "#/definitions/StdNotFoundStatus"
+
+definitions:
+  StdStatus:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        default: "success"
+      info:
+        type: "string"
+        default: "Statement foun"
+      stm_id:
+        type: "string"
+        default: "62af864adead2"
+      stm_status:
+        type: "string"
+        description: "Статус банковской выписки"
+        enum:
+          - "running"
+          - "ended"
+  StdNotFoundStatus:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        default: "error"
+      info:
+        type: "string"
+        default: "Statement not found"
+  FailedRequest:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        default: "error"
+      info:
+        type: "string"
+        default: "Request failed"
