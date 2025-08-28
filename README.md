@@ -1,3 +1,7 @@
-# PHP2021
+## Домашняя работа № 18 - Deploy приложений
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Выполнил: Мелёшкин В.В.
+
+В данной домашней работе я при помощи `Gitlab-runner` автоматически развернул приложение, созданное в рамках работы над
+[домашней работой №16](https://github.com/otusteamedu/PHP2021/tree/VMeleshkin/HW-16). Автоматический деплой был
+полностью сделан в файле `.gitlab-ci.yml`.
